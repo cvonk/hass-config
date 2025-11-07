@@ -1,4 +1,8 @@
 .*
+.cloud/
+.ha_run.lock
+.storage/
+.vscode/
 !/.github
 !/.gitignore
 !.HA_VERSION
