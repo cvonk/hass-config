@@ -1,18 +1,23 @@
 .*
 !/.github
+!/.gitignore
 !.HA_VERSION
 backups
-blueprints
+blueprints/
+!blueprints/script/cvonk/
+template/
+image/
+tts/
 deps
+service_account.json
 @eaDir
 
-secrets_template.yaml
 secrets.yaml
 
-custom_components/
+custom_components*/
 www/community/
 www/fonts/
-www/Plex_Recently_Added/
 
 *.code-workspace
 home-assistant.log*
+HOWTO-root
