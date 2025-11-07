@@ -1,7 +1,7 @@
 .*
 .cloud/
 .ha_run.lock
-.storage/
+.storage
 .vscode/
 !/.github
 !/.gitignore
@@ -13,15 +13,12 @@ template/
 image/
 tts/
 deps
-service_account.json
 @eaDir
-
 secrets.yaml
-
 custom_components*/
 www/community/
 www/fonts/
-
 *.code-workspace
 home-assistant.log*
 HOWTO-root
+service_account.json
