@@ -6,12 +6,6 @@
 !/.github
 !/.gitignore
 !.HA_VERSION
-service_account.json
-secrets.yaml
-@eaDir
-*.code-workspace
-home-assistant.log*
-HOWTO-root
 blueprints/
 !blueprints/script/cvonk/
 hidden/
@@ -22,3 +16,11 @@ deps
 custom_components*/
 www/community/
 www/fonts/
+service_account.json
+secrets.yaml
+@eaDir
+*.code-workspace
+home-assistant.log*
+HOWTO-root
+home-assistant_v2.db*
+known_devices.yaml
