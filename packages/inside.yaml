@@ -1,0 +1,81 @@
+automation:
+  - id: "1761521107345"
+    alias: "Notify when inside temperature below 50 °F"
+    description: ""
+    triggers:
+      - trigger: numeric_state
+        entity_id:
+          - sensor.main_floor_temperature
+          - sensor.upstairs_floor_temperature
+        below: 50
+    conditions: []
+    actions:
+      - action: notify.all_devices
+        metadata: {}
+        data:
+          message: Inside temperature dropped below 50 °F
+    mode: single
+
+template:
+  - binary_sensor:
+      - unique_id: inside_main_floor_temp_problem
+        name: "Inside Main Floor Temp Problem"
+        state: >-
+          {% set value = states('sensor.main_floor_temperature') %}
+          {% if value | is_number %}
+          {{    float(value) <= 50.0 }}
+          {% else %}
+          {{     value }}
+          {% endif %}
+
+      - unique_id: inside_upstairs_floor_temp_problem
+        name: "Inside Upstairs Floor Temp Problem"
+        state: >-
+          {% set value = states('sensor.upstairs_floor_temperature') %}
+          {% if value | is_number %}
+          {{    float(value) <= 50.0 }}
+          {% else %}
+          {{     value }}
+          {% endif %}
+
+  - sensor:
+      - unique_id: nr_of_inside_problems
+        name: "Nr of Inside Problems"
+        icon: mdi:alert
+        state: |
+          {{
+            states.binary_sensor | 
+            selectattr('entity_id', 'match', 'binary_sensor\.inside_.*_problem') |
+            selectattr('state', 'eq', 'on') | list | count
+          }}
+
+  - binary_sensor:
+      - unique_id: inside_status
+        name: "Inside Status"
+        icon: mdi:alert
+        device_class: problem
+        state: >-
+          {{
+              states('sensor.nr_of_inside_problems') | int > 0
+          }}
+
+      - unique_id: upstairs_floor_cooling_status
+        name: "Upstairs Floor Cooling Status"
+        state: >-
+          {% set value = state_attr('climate.upstairs_floor', 'hvac_action') %}
+          {% if value != "unavailable" and value != "unknown" %}
+          {{     value == 'cooling' }}
+          {% else %}
+          {{     value }}
+          {%- endif %}
+        icon: >-
+          {% set value = state_attr('climate.upstairs_floor', 'hvac_action') %}
+          {% if value != "unavailable" and value != "unknown" %}
+          {%     if value == 'cooling' %}
+                  mdi:snowflake
+          {%     else %}
+                  mdi:power-on
+          {%     endif %}
+          {%  else %}
+                  mdi:help
+          {%- endif %}

@@ -1,0 +1,102 @@
+#template:
+#  - sensor:
+#      - name: coert_energy
+#        device_class: energy
+#        unit_of_measurement: kWh
+#        state_class: total_increasing
+#        state: '{{ states("sensor.sonoff_s31_6_energy_total") }}'
+
+#sensor:
+#  - unique_id: dryer_energy
+#    name: "Dryer Energy"
+#    platform: integration
+#    source: sensor.dryer_power
+#    unit_prefix: k
+#    unit_time: h
+#    method: trapezoidal
+#    round: 2
+
+template:
+  - binary_sensor:
+      - name: "Utilities Flo Shutoff Problem"
+        state: >-
+          {% set value = states('binary_sensor.flo_shutoff_pending_system_alerts') %}
+          {% if value != 'unavailable' and value != 'unknown' %}
+          {{    value == 'on' }}
+          {% else %}
+          {{     value }}
+          {% endif %}
+
+      - name: "Utilities Eagle 200 Problem"
+        state: >-
+          {% set value = states('sensor.eagle_200_meter_power_demand') %}
+          {% if value != 'unavailable' and value != 'unknown' %}
+          {{    not value }}
+          {% else %}
+          {{     value }}
+          {% endif %}
+
+  - sensor:
+      - name: "Nr of Utilities Problems"
+        icon: mdi:alert
+        state: >-
+          {{
+              states.binary_sensor | 
+              selectattr('entity_id', 'match', 'binary_sensor\.utilities_.*_problem') |
+              selectattr('state', 'eq', 'on') | list | count
+          }}
+
+  - binary_sensor:
+      - name: "Utilities Status"
+        icon: mdi:alert
+        device_class: problem
+        state: >-
+          {{
+              states('sensor.nr_of_utilities_problems') | int > 0
+          }}
+
+      - unique_id: total_power_has_a_value
+        name: "Total Power has a value"
+        state: >-
+          {% set value = states('sensor.current_bill_gas_usage_to_date') %}
+          {{ value != 'unavailable' and value != 'unknown' }}
+
+      - unique_id: flo_shutoff_water_flow_rate_has_a_value
+        name: "Flo Shutoff Water Flow Rate has a value"
+        state: >-
+          {% set value = states('sensor.current_bill_gas_usage_to_date') %}
+          {{ value != 'unavailable' and value != 'unknown' }}
+
+      - unique_id: current_bill_electric_usage_to_date_has_a_value
+        name: "Current Bill Electric Usage to Date has a value"
+        state: >-
+          {% set value = states('sensor.current_bill_gas_usage_to_date') %}
+          {{ value != 'unavailable' and value != 'unknown' }}
+
+      - unique_id: current_bill_gas_usage_to_date_has_a_value
+        name: "Current Bill Gas Usage to Date has a value"
+        state: >-
+          {% set value = states('sensor.current_bill_gas_usage_to_date') %}
+          {{ value != 'unavailable' and value != 'unknown' }}
+
+      - unique_id: flo_shutoff_water_flow_rate_per_hour
+        name: "Flo Shutoff Water Flow Rate per hour"
+        #device_class: volume_flow_rate
+        #unit_of_measurement: "gal/h"
+        state: >-
+          {% set value = states('sensor.flo_shutoff_water_flow_rate') %}
+          {% if value != 'unavailable' and value != 'unknown' %}
+          {{    value | float * 60.0 }}
+          {% else %}
+          {{     value }}
+          {% endif %}
+
+# so that Energy Config recognizes these as energy sensors
+#
+#homeassistant:
+#  customize_glob:
+#    sensor.*_energy:
+#      unit_of_measurement: kWh
+#      device_class: energy
+#      state_class: total_increasing
+#      last_reset: '1970-01-01T00:00:00+00:00'

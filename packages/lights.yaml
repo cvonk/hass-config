@@ -1,0 +1,240 @@
+wemo:
+  discovery: true
+
+light:
+  - platform: decora_wifi # can't be setup through the UI
+    username: !secret decora_uname
+    password: !secret decora_passwd
+
+  - platform: group
+    name: "Outside Group"
+    entities:
+      - light.porch
+      - light.patio
+      - light.pool
+      #- switch.opnpool_aux2_circuit
+
+  - platform: group
+    name: "MBR Group"
+    entities:
+      - light.master_bedroom_dimmer
+      - light.master_bedroom_left
+      - light.master_bedroom_right
+
+  - platform: group
+    name: "Living Room Group"
+    entities:
+      - light.living_room_dimmer
+      #- switch.sonoff_reading_light
+      #- switch.sonoff_floor_lamp
+
+switch:
+  - platform: group
+    name: "Sander"
+    entities:
+      - switch.sander_bedroom
+      - switch.sander_dresser
+
+template:
+  - sensor:
+      - unique_id: dining_room_dimmerpwr # purposely use pwr instead of power
+        name: "Dining Room Dimmer lightpwr"
+        state: >-
+          {% set id = 'light.dining_room_dimmer' %}
+          {% set value = states(id) %}
+          {% set max_power = 5 * 4.0 %}
+          {% set brightness = state_attr(id, 'brightness') %}
+          {% if value != 'unavailable' and value != 'unknown' %}
+          {%     if bool(value) %}
+          {{         bool(value) * float(brightness)/255 * max_power }}
+          {%     else %}
+          {{         0 }}
+          {%     endif %}
+          {% else %}
+          {{     value }}
+          {% endif %}
+
+      - unique_id: family_room_dimmerpwr
+        name: "Family Room Dimmer lightpwr"
+        state: >-
+          {% set id = 'light.family_room_dimmer' %}
+          {% set value = states(id) %}
+          {% set max_power = 7 * 9.0 %}
+          {% set brightness = state_attr(id, 'brightness') %}
+          {% if value != 'unavailable' and value != 'unknown' %}
+          {%     if bool(value) %}
+          {{         bool(value) * float(brightness)/255 * max_power }}
+          {%     else %}
+          {{         0 }}
+          {%     endif %}
+          {% else %}
+          {{     value }}
+          {% endif %}
+
+      - unique_id: living_room_dimmerpwr
+        name: "Living Room Dimmer lightpwr"
+        state: >-
+          {% set id = 'light.living_room_dimmer' %}
+          {% set value = states(id) %}
+          {% set max_power = 2 * 9.0 %}
+          {% set brightness = state_attr(id, 'brightness') %}
+          {% if value != 'unavailable' and value != 'unknown' %}
+          {%     if bool(value) %}
+          {{         bool(value) * float(brightness)/255 * max_power }}
+          {%     else %}
+          {{         0 }}
+          {%     endif %}
+          {% else %}
+          {{     value }}
+          {% endif %}
+
+      - unique_id: master_bedroom_dimmerpwr
+        name: "Master Bedroom Dimmer lightpwr"
+        state: >-
+          {% set id = 'light.master_bedroom_dimmer' %}
+          {% set value = states(id) %}
+          {% set max_power = 2 * 9.0 %}
+          {% set brightness = state_attr(id, 'brightness') %}
+          {% if value != 'unavailable' and value != 'unknown' %}
+          {%     if bool(value) %}
+          {{         bool(value) * float(brightness)/255 * max_power }}
+          {%     else %}
+          {{         0 }}
+          {%     endif %}
+          {% else %}
+          {{     value }}
+          {% endif %}
+
+      - unique_id: master_bedroom_left_lightpwr
+        name: "Master Bedroom Left lightpwr"
+        state: >-
+          {% set id = 'light.master_bedroom_left' %}
+          {% set value = states(id) %}
+          {% set max_power = 1 * 9.0 %}
+          {% if value != 'unavailable' and value != 'unknown' %}
+          {%     if bool(value) %}
+          {{         bool(value) * max_power }}
+          {%     else %}
+          {{         0 }}
+          {%     endif %}
+          {% else %}
+          {{     value }}
+          {% endif %}
+
+      - unique_id: master_bedroom_right_lightpwr
+        name: "Master Bedroom Right lightpwr"
+        state: >-
+          {% set id = 'light.master_bedroom_right' %}
+          {% set value = states(id) %}
+          {% set max_power = 1 * 9.0 %}
+          {% if value != 'unavailable' and value != 'unknown' %}
+          {%     if bool(value) %}
+          {{         bool(value) * max_power }}
+          {%     else %}
+          {{         0 }}
+          {%     endif %}
+          {% else %}
+          {{     value }}
+          {% endif %}
+
+      - unique_id: stairs_dimmer_lightpwr
+        name: "Stairs Dimmer lightpwr"
+        state: >-
+          {% set id = 'light.stairs_dimmer' %}
+          {% set value = states(id) %}
+          {% set max_power = 2 * 9.0 %}
+          {% set brightness = state_attr(id, 'brightness') %}
+          {% if value != 'unavailable' and value != 'unknown' %}
+          {%     if bool(value) %}
+          {{         bool(value) * float(brightness)/255 * max_power }}
+          {%     else %}
+          {{         0 }}
+          {%     endif %}
+          {% else %}
+          {{     value }}
+          {% endif %}
+
+      - unique_id: porch_lightpwr
+        name: "Porch lightpwr"
+        state: >-
+          {% set id = 'light.porch' %}
+          {% set value = states(id) %}
+          {% set max_power = 3 * 9.0 %}
+          {% if value != 'unavailable' and value != 'unknown' %}
+          {%     if bool(value) %}
+          {{         bool(value) * max_power }}
+          {%     else %}
+          {{         0 }}
+          {%     endif %}
+          {% else %}
+          {{     value }}
+          {% endif %}
+
+      - unique_id: patio_lightpwr
+        name: "Patio lightpwr"
+        state: >-
+          {% set id = 'light.patio' %}
+          {% set value = states(id) %}
+          {% set max_power = 2 * 9.0 %}
+          {% if value != 'unavailable' and value != 'unknown' %}
+          {%     if bool(value) %}
+          {{         bool(value) * max_power }}
+          {%     else %}
+          {{         0 }}
+          {%     endif %}
+          {% else %}
+          {{     value }}
+          {% endif %}
+
+      - unique_id: pool_lightpwr
+        name: "Pool lightpwr"
+        state: >-
+          {% set id = 'light.pool' %}
+          {% set value = states(id) %}
+          {% set max_power = 3 * 9.0 %}
+          {% if value != 'unavailable' and value != 'unknown' %}
+          {%     if bool(value) %}
+          {{         bool(value) * max_power }}
+          {%     else %}
+          {{         0 }}
+          {%     endif %}
+          {% else %}
+          {{     value }}
+          {% endif %}
+
+      - unique_id: pool_underwater_lightpwr
+        name: "Pool Underwater lightpwr"
+        state: >-
+          {% set id = 'switch.opnpool_aux2_circuit' %}
+          {% set value = states(id) %}
+          {% set max_power = 1 * 100.0 %}
+          {% if value != 'unavailable' and value != 'unknown' %}
+          {%     if bool(value) %}
+          {{         bool(value) * max_power }}
+          {%     else %}
+          {{         0 }}
+          {%     endif %}
+          {% else %}
+          {{     value }}
+          {% endif %}
+
+google_assistant:
+  entity_config:
+    switch.sonoff_s20_2:
+      name: "Soft light"
+      room: "Office"
+    light.living_room_dimmer:
+      name: "Living light"
+      room: "Living room"
+    switch.sonoff_s20_3:
+      name: "Standing lamp"
+      room: "Living room"
+    switch.sonoff_s20_4:
+      name: "Reading light"
+      room: "Living room"
+    switch.tasmota_2:
+      name: "Christmas tree"
+      room: "Living room"
+    light.dining_room_dimmer:
+      name: "Dining light"
+      room: "Dining room"

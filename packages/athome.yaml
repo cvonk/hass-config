@@ -1,0 +1,103 @@
+homeassistant:
+  customize:
+    person.coert:
+      entity_picture: /local/coert.png
+    device_tracker.iphone:
+      entity_picture: /local/device_tracker.svg
+    person.barrie:
+      entity_picture: /local/barrie.png
+
+person:
+  - name: "Coert"
+    id: "coert"
+    device_trackers:
+      - device_tracker.coert_s_phone
+
+  - name: "Barrie"
+    id: "barrie"
+    device_trackers:
+      - device_tracker.barrie_s_phone
+      - device_tracker.barrie_s_pixel_watch
+      
+#mqtt:
+#  sensor:
+#    - name: coert_last_changed
+#      state_topic: homeassistant/persistence/coert
+#      value_template: >
+#        {{ value | replace(' ', 'T') }}
+#
+#    - name: barrie_last_changed
+#      state_topic: homeassistant/persistence/barrie
+#      value_template: >
+#        {{ value | replace(' ', 'T') }}
+
+#automation:
+#  - alias: person_home
+#    id: "8423590985012"
+#    mode: parallel
+#    trigger:
+#      trigger: state
+#      entity_id:
+#        - person.coert
+#        - person.barrie
+#      from:
+#        - home
+#        - not_home
+#      to:
+#        - home
+#        - not_home
+#    action:
+#      action: mqtt.publish
+#      data:
+#        topic: >
+#          homeassistant/persistence/{{ trigger.to_state.name | lower }}
+#        payload: >
+#          {{ now() }}
+#        retain: true
+
+#scene:
+#  #TODO
+#  - name: home_below_horizon
+#    entities:
+#      light.studio_dator:
+#        state: "on"
+#  - name: home_above_horizon
+#    entities:
+#      light.studio_dator:
+#        state: "on"
+
+#script:
+#  home_arrive:
+#    alias: Hemma
+#    sequence:
+#      - if:
+#          condition: state
+#          entity_id: sun.sun
+#          state: below_horizon
+#        then:
+#          action: scene.turn_on
+#          target:
+#            entity_id: scene.home_below_horizon
+#        else:
+#          action: scene.turn_on
+#          target:
+#            entity_id: scene.home_above_horizon
+#      - delay:
+#          seconds: 4
+#
+#  home_leave:
+#    alias: Stäng allt
+#    sequence:
+#      - action: homeassistant.turn_off
+#        target:
+#          entity_id:
+#            - light.all_group_exclude_hall
+#            - climate.ac
+#            - media_player.sony_bravia_tv
+#            - media_player.samsung
+#            - switch.gosund_fan_switch
+#            - switch.gosund_monitors_switch
+#            - switch.imac
+#            - switch.deltaco_sh_p01_socket
+#      - delay:
+#          seconds: 4

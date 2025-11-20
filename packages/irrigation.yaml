@@ -1,0 +1,21 @@
+template:
+  - sensor:
+      - unique_id: nr_of_irrigation_valves_active
+        name: "Nr of Irrigation Valves Active"
+        icon: mdi:sprinkler-variant
+        state: |
+          {{
+            states.binary_sensor | 
+            selectattr('entity_id', 'match', 'binary_sensor\.outside_.*_problem') |
+            selectattr('state', 'eq', 'on') | list | count | int
+          }}
+
+  - binary_sensor:
+      - unique_id: irrigation_status
+        name: "Irrigation Status"
+        icon: mdi:alert
+        device_class: problem
+        state: >-
+          {{
+              states('sensor.nr_of_irrigation_valves_active') | int > 0
+          }}

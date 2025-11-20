@@ -1,68 +1,71 @@
-homeassistant:
-  name: Hem
-  latitude: !secret homeassistant_latitude
-  longitude: !secret homeassistant_longitude
-  elevation: !secret homeassistant_elevation
-  unit_system: metric
-  temperature_unit: C
-  time_zone: Europe/Stockholm
-  language: sv
-  country: SE
-  currency: SEK
-  packages: !include_dir_named packages
-  customize_domain:
-    automation:
-      initial_state: true
-  allowlist_external_dirs:
-    - /config
-
 default_config:
 
-frontend:
-  extra_module_url:
-    - /hacsfiles/lovelace-card-mod/card-mod.js
-  themes: !include_dir_merge_named themes
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
 
-template: !include sidebar.yaml
-
-lovelace:
-  mode: yaml
-  resources:
-    [
-      { url: /hacsfiles/apexcharts-card/apexcharts-card.js,                         type: module },
-      { url: /hacsfiles/bar-card/bar-card.js,                                       type: module },
-      { url: /hacsfiles/button-card/button-card.js,                                 type: module },
-      { url: /hacsfiles/custom-icons/custom-icons.js,                               type: module },
-      { url: /hacsfiles/kiosk-mode/kiosk-mode.js,                                   type: module },
-      { url: /hacsfiles/lovelace-layout-card/layout-card.js,                        type: module },
-      { url: /hacsfiles/lovelace-more-info-card/more-info-card.js,                  type: module },
-      { url: /hacsfiles/lovelace-mushroom/mushroom.js,                              type: module },
-      { url: /hacsfiles/lovelace-slider-entity-row/slider-entity-row.js,            type: module },
-      { url: /hacsfiles/lovelace-xiaomi-vacuum-map-card/xiaomi-vacuum-map-card.js,  type: module },
-      { url: /hacsfiles/swipe-card/swipe-card.js,                                   type: module },
-      { url: /hacsfiles/tabbed-card/tabbed-card.js,                                 type: module },
-
-      { url: '/local/marked.min.js?v=4.3.0',                                        type: module },
-      { url: '/local/vanilla-tilt.min.js?v=1.8.0',                                  type: module },
-      { url: '/local/browser_mod_icon.js?v=0.5',                                    type: module },
-      { url: '/local/fonts.css?v=2.1',                                              type: css }
-    ]
+homeassistant:
+  packages: !include_dir_named packages
 
 recorder:
   db_url: !secret recorder_db_url
+  purge_keep_days: 365
+  commit_interval: 60
   exclude:
     entity_globs:
       - sensor.browser_*
 
-logger:
-  default: warning
-  logs:
-    homeassistant.components.websocket_api: fatal
-    custom_components.monitor_docker.helpers: error
-    homeassistant.setup: error
+sun:
 
 sensor:
   - platform: time_date
     display_options:
       - time
       - date
+
+# when reinstalling, remember to unlink/link the automation from the Google Home App (on phone)
+# coert / xf64n3EmCdmYYYe1
+google_assistant:
+  project_id: home-assistant-a7bd4
+  service_account: !include service_account.json
+  report_state: true
+  expose_by_default: false
+
+http:
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 10.0.1.1
+
+# Text to speech
+tts:
+  - platform: google_translate
+
+notify:
+  - platform: group
+    name: all_devices
+    services:
+      - action: mobile_app_coert_s_phone
+      - action: mobile_app_pixel_6
+
+frontend:
+  themes: !include_dir_merge_named themes/
+  extra_module_url:
+    - /local/community/lovelace-card-mod/card-mod.js
+
+template: !include sidebar.yaml
+
+lovelace:
+  mode: storage
+  dashboards:
+    lovelace-dashboard:
+      mode: yaml
+      title: "YAML dashboard"
+      icon: mdi:script
+      show_in_sidebar: true
+      filename: lovelace.yaml
+
+logger:
+  default: warning
+  logs:
+    custom_components.cable_modem_monitor: debug

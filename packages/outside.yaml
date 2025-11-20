@@ -1,0 +1,199 @@
+sensor:
+  - unique_id: opnpool_min_air_temp
+    name: "OPNpool Min Air Temperature"
+    platform: statistics
+    state_characteristic: value_min
+    entity_id: sensor.opnpool_air_temp
+    max_age:
+      hours: 24
+
+  - unique_id: opnpool_max_air_temp
+    name: "OPNpool Max Air Temperature"
+    platform: statistics
+    state_characteristic: value_max
+    entity_id: sensor.opnpool_air_temp
+    max_age:
+      hours: 24
+
+homeassistant:
+  customize:
+    sensor.terracehabitat_aqi:
+      friendly_name: "Air Quality Index"
+      icon: mdi:waves
+    sensor.terracehabitat_humidity:
+      friendly_name: "Air Humidity"
+      icon: mdi:water-percent
+    sensor.terracehabitat_pm1:
+      friendly_name: "Air Particles ≤ 1 µm"
+      icon: mdi:waves
+    sensor.terracehabitat_pm2_5:
+      friendly_name: "Air Particles ≤ 2.5 µm"
+      icon: mdi:waves
+    sensor.terracehabitat_pm10:
+      friendly_name: "Air Particles ≤ 10 µm"
+      icon: mdi:waves
+    sensor.terracehabitat_pressure:
+      friendly_name: "Air Pressure"
+      icon: mdi:arrow-collapse-down
+    sensor.terracehabitat_temperature:
+      friendly_name: "Air Temperature"
+      icon: mdi:thermometer
+    sensor.terracehabitat_volatile_organic_compounds_air_quality_index:
+      friendly_name: "Air VOC AQI"
+      icon: mdi:waves
+
+template:
+  - sensor:
+      - unique_id: opnpool_last_air_temp
+        name: "OPNpool Last Air Temp"
+        state: >-
+          {% set value = trigger.to_state.state %}
+          {% if value | is_number %}
+          {{    int(value) }}
+          {% else %}
+          {{     value }}
+          {% endif %}
+        device_class: "temperature"
+        unit_of_measurement: "°F"
+        attributes:
+          source_sensor: "sensor.opnpool_air_temp"
+    trigger:
+      - trigger: state
+        entity_id: sensor.opnpool_air_temp
+        not_to:
+          - "unknown"
+          - "unavailable"
+
+  - sensor:
+      - unique_id: terracehabitat_aqi
+        name: "Air Quality Index"
+        device_class: aqi
+        unit_of_measurement: ""
+        state: >
+          {% macro calcAQI(Cp, Ih, Il, BPh, BPl) -%}
+            {{ (((Ih - Il)/(BPh - BPl)) * (Cp - BPl) + Il)|round }}
+          {%- endmacro %}
+          {% set pm2_5 = states('sensor.terracehabitat_pm2_5') %}
+          {% if (pm2_5 | float(0)) > 1000 %}
+            invalid
+          {% elif (pm2_5 | float(0)) > 350.5 %}
+            {{ calcAQI((pm2_5 | float(0)), 500.0, 401.0, 500.0, 350.5) }}
+          {% elif (pm2_5 | float(0)) > 250.5 %}
+            {{ calcAQI((pm2_5 | float(0)), 400.0, 301.0, 350.4, 250.5) }}
+          {% elif (pm2_5 | float(0)) > 150.5 %}
+            {{ calcAQI((pm2_5 | float(0)), 300.0, 201.0, 250.4, 150.5) }}
+          {% elif (pm2_5 | float(0)) > 55.5 %}
+            {{ calcAQI((pm2_5 | float(0)), 200.0, 151.0, 150.4, 55.5) }}
+          {% elif (pm2_5 | float(0)) > 35.5 %}
+            {{ calcAQI((pm2_5 | float(0)), 150.0, 101.0, 55.4, 35.5) }}
+          {% elif (pm2_5 | float(0)) > 12.1 %}
+            {{ calcAQI((pm2_5 | float(0)), 100.0, 51.0, 35.4, 12.1) }}
+          {% elif (pm2_5 | float(0)) >= 0.0 %}
+            {{ calcAQI((pm2_5 | float(0)), 50.0, 0.0, 12.0, 0.0) }}
+          {% else %}
+            invalid
+          {% endif %}
+
+      - unique_id: terracehabitat_description
+        name: "AQI Description"
+        state: >
+          {% set aqi = states('sensor.terracehabitat_aqi') %}
+          {% if (aqi | float(0)) >= 401.0 %}
+            Very Hazardous
+          {% elif (aqi | float(0)) >= 301.0 %}
+            Hazardous
+          {% elif (aqi | float(0)) >= 201.0 %}
+            Very Unhealthy
+          {% elif (aqi | float(0)) >= 151.0 %}
+            Unhealthy
+          {% elif (aqi | float(0)) >= 101.0 %}
+            Unhealthy for Sensitive Groups
+          {% elif (aqi | float(0)) >= 51.0 %}
+            Moderate
+          {% elif (aqi | float(0)) >= 0.0 %}
+            Good
+          {% else %}
+            undefined
+          {% endif %}
+
+  - binary_sensor:
+      - unique_id: outside_aqi_problem
+        name: "Outside AQI Problem"
+        device_class: problem
+        icon: mdi:alert
+        state: >
+          {% set value = states('sensor.terracehabitat_aqi') %}
+          {% if value | is_number %}
+          {{    float(value) >= 101.0 }}
+          {% else %}
+          {{     value }}
+          {% endif %}
+
+      - unique_id: outside_temp_problem
+        name: "Outside Temp Problem"
+        device_class: problem
+        icon: mdi:alert
+        state: >-
+          {% set value = states('sensor.opnpool_last_air_temp') %}
+          {% if value | is_number %}
+          {{    float(value) <= 32.0 }}
+          {% else %}
+          {{     value }}
+          {% endif %}
+
+      - unique_id: outside_humidity_problem
+        name: "Outside Humidity Problem"
+        device_class: problem
+        icon: mdi:alert
+        state: >-
+          {% set value = states('sensor.terracehabitat_humidity') %}
+          {% if value | is_number %}
+          {{    float(value) >= 90.0 }}
+          {% else %}
+          {{     value }}
+          {% endif %}
+
+  - sensor:
+      - unique_id: nr_of_outside_problems
+        name: "Nr of Outside Problems"
+        icon: mdi:alert
+        state: |
+          {{
+            states.binary_sensor | 
+            selectattr('entity_id', 'match', 'binary_sensor\.outside_.*_problem') |
+            selectattr('state', 'eq', 'on') | list | count
+          }}
+
+  - binary_sensor:
+      - unique_id: outside_status
+        name: "Outside Status"
+        icon: mdi:alert
+        device_class: problem
+        state: >-
+          {{
+              states('sensor.nr_of_outside_problems') | int > 0
+          }}
+
+input_boolean:
+  fake_heater: # fake heater so Google Assistant can read the outside temperature
+    name: fake_heater
+    icon: mdi:toggle-switch-off
+    initial: false
+
+climate:
+  - unique_id: opnpool_outside_air
+    name: "OPNpool Outside_Air"
+    platform: generic_thermostat
+    heater: input_boolean.fake_heater
+    target_sensor: sensor.opnpool_last_air_temp
+    min_temp: 20
+    max_temp: 120
+
+google_assistant:
+  entity_config:
+    climate.opnpool_outside_air:
+      name: temperature
+      room: Outside
+    sensor.terracehabitat_aqi:
+      name: air quality
+      room: Outside

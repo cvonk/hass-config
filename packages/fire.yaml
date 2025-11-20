@@ -1,0 +1,59 @@
+alarm_control_panel:
+  - unique_id: fire_alarm
+    name: Fire Alarm
+    platform: manual
+    code_arm_required: false
+    trigger_time: 0
+    disarm_after_trigger: false
+    arming_time: 0
+    delay_time: 35
+    disarmed:
+      trigger_time: 0
+
+script:
+  toggle_fire_alarm:
+    sequence:
+      - action: >-
+          {% set value = states('alarm_control_panel.fire_alarm')  %}
+          {% if value == 'disarmed' %} 
+          {{     'alarm_control_panel.alarm_arm_home' }}
+          {% else %} 
+          {{     'alarm_control_panel.alarm_disarm' }}
+          {% endif %}
+        metadata: {}
+        data: {}
+        target:
+          entity_id: alarm_control_panel.fire_alarm
+    alias: "Toggle Fire Alarm"
+    description: "Toggle Fire Alarm"
+
+  disarm_fire_alarm:
+    sequence:
+      - action: alarm_control_panel.alarm_disarm
+        metadata: {}
+        data: {}
+        target:
+          entity_id: alarm_control_panel.fire_alarm
+    alias: "Disarm Fire Alarm"
+    description: "Disarm Fire Alarm"
+
+# sensor.fire_status is set in Node Red
+
+template:
+  - sensor:
+      - unique_id: nr_of_fire_problems
+        name: "Nr of Fire Problems"
+        icon: mdi:fire
+        state: |
+          {{
+            states.binary_sensor | 
+            selectattr('entity_id', 'match', 'binary_sensor\.nest_protect_.*_status') |
+            selectattr('state', 'eq', 'on') | list | count | int
+          }}
+
+google_assistant:
+  entity_config:
+    script.disarm_fire_alarm:
+      expose: true
+      name: "Disarm Fire Alarm"
+      room: "Home"

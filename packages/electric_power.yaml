@@ -1,0 +1,150 @@
+# Entities that directly represent Power are named ending in "_power",
+# except for devices that are grouped together.  These individual devices are
+# are named ending "pwr".  E.g. the power of a light ends in"_lightpwr".
+
+# Power consumption of individual devices is measured using Sonoff S31 sockets.
+# These are reflashed with Tasmota firmware, and connected through HA using
+# the Tasmota Integration.
+
+mqtt:
+  sensor:
+    - unique_id: dryer_power
+      name: "Dryer Power"
+      state_topic: "emonesp/W"
+      device_class: "power"
+      unit_of_measurement: W
+      qos: 0
+
+homeassistant:
+  customize:
+      sensor.dining_room_dimmer_lightpwr
+        
+
+template:
+  - sensor:
+      # total house power read from PG&E (using Eagle 200)
+
+      - unique_id: total_power
+        name: "Total Power"
+        device_class: power
+        unit_of_measurement: W
+        state: >-
+          {% set value = states('sensor.eagle_200_meter_power_demand') %}
+          {% if value != 'unavailable' and value != 'unknown' %}
+          {{    value | float * 1000.0 }}
+          {% else %}
+          {{     value }}
+          {% endif %}
+
+      # group individual devices together (each enitty ends in "pwr")
+
+      - unique_id: light_power
+        name: "Light Power"
+        device_class: power
+        unit_of_measurement: "W"
+        state: >-
+          {{
+              states.sensor | 
+              selectattr('entity_id', 'match', 'sensor\..*_lightpwr') |
+              map(attribute='state') | 
+              map('float', 0) | sum
+          }}
+
+      - unique_id: computer_power
+        name: "Computer Power"
+        device_class: power
+        unit_of_measurement: "W"
+        state: >-
+          {{
+              states.sensor | 
+              selectattr('entity_id', 'match', 'sensor\..*_computerpwr') |
+              map(attribute='state') | 
+              map('float', 0) | sum
+          }}
+
+      - unique_id: hvac_power
+        name: "HVAC Power"
+        device_class: power
+        unit_of_measurement: "W"
+        state: >-
+          {{
+              states.sensor | 
+              selectattr('entity_id', 'match', 'sensor\..*_hvacpwr') |
+              map(attribute='state') | 
+              map('float', 0) | sum
+          }}
+
+      - unique_id: fridge_power
+        name: "Fridge Power"
+        device_class: power
+        unit_of_measurement: "W"
+        state: >-
+          {{
+              states.sensor | 
+              selectattr('entity_id', 'match', 'sensor\..*_fridgepwr') |
+              map(attribute='state') | 
+              map('float', 0) | sum
+          }}
+
+      # estimate power power (based on cooling status)
+
+      - unique_id: upstairs_floor_cooling_hvacpwr
+        name: "Upstairs Floor Cooling HVACpwr"
+        device_class: power
+        unit_of_measurement: W
+        state: >-
+          {% set value = states('binary_sensor.upstairs_floor_cooling_status') %}
+          {% if value != 'unavailable' and value != 'unknown' %}
+          {%     if value == "on" %}
+          {{         float(value) * 2700.0 }}
+          {%     else %}
+          {{         0.0 }}
+          {%     endif %}
+          {% else %}
+          {{     value }}
+          {% endif %}
+
+      # estimated idle power
+
+      - unique_id: estimated_idle_power
+        name: "Estimated Idle Power"
+        device_class: power
+        unit_of_measurement: W
+        state: "{{ 150.0 | float(0)}}"
+
+      # total power minus power from classified sources = unknown power
+
+      - unique_id: unknown_power
+        name: "Unknown Power"
+        device_class: power
+        unit_of_measurement: W
+        state: >-
+          {%  set total = states('sensor.total_power') %}
+          {%  set pool = states('sensor.opnpool_pump_power') %}
+          {%  set dryer = states('sensor.dryer_power') %}
+          {%  set hvac = states('sensor.hvac_power') %}
+          {%  set network = states('sensor.sonoff_network_power') %} 
+          {%  set washer = states('sensor.sonoff_washer_power') %}
+          {%  set media = states('sensor.sonoff_media_power') %}
+          {%  set computers = states('sensor.computer_power') %}
+          {%  set fridges = states('sensor.fridge_power') %}
+          {%  set lights = states('sensor.light_power') %}
+          {%  set espresso = states('sensor.sonoff_espresso_machine_power') %}
+          {%  set idle = states('sensor.estimated_idle_power') %}
+          {%  if is_number(total) and 
+                is_number(pool) and is_number(dryer) and 
+                is_number(hvac) and is_number(network) and
+                is_number(washer) and is_number(media) and
+                is_number(computers) and is_number(fridges) and
+                is_number(lights) and is_number(espresso) and is_number(idle)
+          %}
+          {{
+                  float(total) - float(pool) - float(dryer) -
+                  float(hvac) - float(network) -
+                  float(washer) - float(media) -
+                  float(computers) - float(fridges) -
+                  float(lights) - float(espresso) - float(idle)
+          }}
+          {% else %}
+            'unavailable'
+          {% endif %}

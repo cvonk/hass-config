@@ -1,0 +1,16 @@
+automation:
+  - alias: "Automatically refresh browser on lovelace update" # https://community.home-assistant.io/t/how-to-avoid-this-popup-the-lovelace-config-was-updated-would-you-like-to-refresh-refresh/138829/13
+    mode: single
+    max_exceeded: silent
+    trigger:
+      - trigger: event
+        event_type: lovelace_updated
+        event_data: {}
+    condition: []
+    action:
+      - action: browser_mod.refresh
+      - delay: "00:00:01"
+      - action: browser_mod.notification
+        data:
+          message: "Lovelace updated"
+          duration: 1

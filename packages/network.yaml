@@ -1,0 +1,148 @@
+#binary_sensor:
+#  - unique_id: network_ping_rtr
+#    name: "Network Ping rtr"
+#    platform: ping
+#    host: 10.0.1.999
+#    count: 1
+#
+#  - unique_id: network_ping_modem
+#    name: "Network Ping modem"
+#    platform: ping
+#    host: 192.168.100.0
+#    count: 1
+#
+#  - unique_id: network_ping_dns
+#    name: "Network Ping DNS"
+#    platform: ping
+#    host: dns.google
+#    count: 1
+#
+#  - unique_id: network_ping_google
+#    name: "Network Ping google"
+#    platform: ping
+#    host: google.com
+#    count: 1
+
+automation: # work around ping integration restrictions
+  - id: update_ping_rtr
+    alias: "Ping every 3 minutes"
+    trigger:
+      - trigger: time_pattern
+        minutes: "/3"
+    condition: []
+    mode: single
+    action:
+      - action: homeassistant.update_entity
+        target:
+          entity_id:
+            - binary_sensor.ping_rtr
+            - binary_sensor.ping_modem
+            - binary_sensor.ping_dns
+            - binary_sensor.ping_google
+
+template:
+  - binary_sensor:
+      - unique_id: network_ping_rtr_problem
+        name: "Network Ping rtr Problem"
+        icon: mdi:alert
+        device_class: problem
+        state: >-
+          {% set value = states('binary_sensor.ping_rtr') %}
+          {% if value != "unavailable" and value != "unknown" %}
+          {{    bool(value) == false }}
+          {% else %}
+          {{     value }}
+          {% endif %}
+
+      - unique_id: network_ping_modem_problem
+        name: "Network Ping modem Problem"
+        icon: mdi:alert
+        device_class: problem
+        state: >-
+          {% set value = states('binary_sensor.ping_modem') %}
+          {% if value != "unavailable" and value != "unknown" %}
+          {{    bool(value) == false }}
+          {% else %}
+          {{     value }}
+          {% endif %}
+
+      - unique_id: network_ping_dns_problem
+        name: "Network Ping DNS Problem"
+        icon: mdi:alert
+        device_class: problem
+        state: >-
+          {% set value = states('binary_sensor.ping_dns') %}
+          {% if value != "unavailable" and value != "unknown" %}
+          {{    bool(value) == false }}
+          {% else %}
+          {{     value }}
+          {% endif %}
+
+      - unique_id: network_ping_google_problem
+        name: "Network Ping Google Problem"
+        icon: mdi:alert
+        device_class: problem
+        state: >-
+          {% set value = states('binary_sensor.ping_google') %}
+          {% if value != "unavailable" and value != "unknown" %}
+          {{    bool(value) == false }}
+          {% else %}
+          {{     value }}
+          {% endif %}
+
+      - unique_id: network_ups_problem
+        name: "Network UPS Problem"
+        icon: mdi:alert
+        device_class: problem
+        state: >-
+          {% set value = states('sensor.ups_status') %}
+          {% if value != "unavailable" and value != "unknown" %}
+          {{    value != 'Online' }}
+          {% else %}
+          {{     value }}
+          {% endif %}
+
+      - unique_id: network_nas_problem
+        name: "Network NAS Problem"
+        icon: mdi:alert
+        device_class: problem
+        state: >-
+          {% set value = states('sensor.nas_volume_1_status') %}
+          {% if value != "unavailable" and value != "unknown" %}
+          {{    value != 'normal' }}
+          {% else %}
+          {{     value }}
+          {% endif %}
+
+      - unique_id: network_backup_problem
+        name: "Network Backup Problem"
+        icon: mdi:alert
+        device_class: problem
+        state: >-
+          {% set value = states('sensor.backup_volume_1_status') %}
+          {% if value != "unavailable" and value != "unknown" %}
+          {{    value != 'normal' }}
+          {% else %}
+          {{     value }}
+          {% endif %}
+
+  - sensor:
+      - unique_id: nr_of_network_problems
+        name: "Nr of Network Problems"
+        icon: mdi:alert
+        state: >-
+          {{
+              states.binary_sensor | 
+              selectattr('entity_id', 'match', 'binary_sensor\.network_.*_problem') |
+              selectattr('state', 'eq', 'on') | list | count
+          }}
+
+  - binary_sensor:
+      - unique_id: network_status
+        name: "Network Status"
+        icon: mdi:alert
+        device_class: problem
+        state: >-
+          {{
+              states('sensor.nr_of_network_problems') | int > 0
+          }}

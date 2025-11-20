@@ -1,0 +1,110 @@
+# Similar to electric power, entities that directly represent Total Energy are
+# named "_energy", except for devices that are grouped together.  These
+# individual devices are named ending "etl" (Energy TotaL).  E.g. the energy
+# of a light ends in "_lightetl".
+
+sensor:
+  # energy = power integrated over time
+
+  - unique_id: dryer_energy
+    name: "Dryer Energy"
+    platform: integration
+    source: sensor.dryer_power
+    unit_prefix: k
+    round: 2
+    max_sub_interval:
+      minutes: 5
+
+  - unique_id: upstairs_floor_cooling_hvacetl
+    name: "Upstairs Floor Cooling HVACetl"
+    platform: integration
+    source: sensor.upstairs_floor_cooling_hvacpwr
+    unit_prefix: k
+    round: 2
+    max_sub_interval:
+      minutes: 5
+
+  - unique_id: estimated_idle_energy
+    name: "Estimated Idle Energy"
+    platform: integration
+    source: sensor.estimated_idle_power
+    unit_prefix: k
+    round: 2
+    max_sub_interval:
+      minutes: 5
+
+  - unique_id: opnpool_pump_energy
+    name: "OPNpool Pump Energy"
+    platform: integration
+    source: sensor.opnpool_pump_power
+    unit_prefix: k
+    round: 2
+    max_sub_interval:
+      minutes: 5
+
+template:
+  - sensor:
+      # total house energy (read from PG&E using Eagle 200)
+
+      - unique_id: total_energy
+        name: "Total Energy"
+        device_class: energy
+        unit_of_measurement: kWh
+        state_class: total_increasing
+        state: >-
+          {% set value = states('sensor.eagle_200_total_meter_energy_delivered') %}
+          {% if value != 'unavailable' and value != 'unknown' %}
+          {{    value | float }}
+          {% else %}
+          {{     value }}
+          {% endif %}
+
+      # group individual devices together (each enitty ends in "etl")
+
+      - unique_id: light_energy
+        name: "Light Energy"
+        device_class: energy
+        unit_of_measurement: "kWh"
+        state: >-
+          {{
+              states.sensor | 
+              selectattr('entity_id', 'match', 'sensor\..*_lightetl') |
+              map(attribute='state') | 
+              map('float', 0) | sum
+          }}
+
+      - unique_id: computer_energy
+        name: "Computer Energy"
+        device_class: energy
+        unit_of_measurement: "kWh"
+        state: >-
+          {{
+              states.sensor | 
+              selectattr('entity_id', 'match', 'sensor\..*_computeretl') |
+              map(attribute='state') | 
+              map('float', 0) | sum
+          }}
+
+      - unique_id: hvac_energy
+        name: "HVAC Energy"
+        device_class: energy
+        unit_of_measurement: "kWh"
+        state: >-
+          {{
+              states.sensor | 
+              selectattr('entity_id', 'match', 'sensor\..*_hvacetl') |
+              map(attribute='state') | 
+              map('float', 0) | sum
+          }}
+
+      - unique_id: fridge_energy
+        name: "Fridge Energy"
+        device_class: energy
+        unit_of_measurement: "kWh"
+        state: >-
+          {{
+              states.sensor | 
+              selectattr('entity_id', 'match', 'sensor\..*_fridgeetl') |
+              map(attribute='state') | 
+              map('float', 0) | sum
+          }}
