@@ -9,7 +9,7 @@ light:
   - platform: group
     name: "Outside Group"
     entities:
-      - light.porch
+      - light.entry
       - light.patio
       - light.pool
       #- switch.opnpool_aux2_circuit
@@ -25,8 +25,8 @@ light:
     name: "Living Room Group"
     entities:
       - light.living_room_dimmer
-      #- switch.sonoff_reading_light
-      #- switch.sonoff_floor_lamp
+      - light.sonoff_reading_light
+      - light.sonoff_floor_lamp
 
 switch:
   - platform: group
@@ -35,10 +35,32 @@ switch:
       - switch.sander_bedroom
       - switch.sander_dresser
 
+automation:
+  - alias: "Entry Light on motion"
+    description: "https://community.home-assistant.io/t/time-to-leave-the-light-on-after-last-motion-is-detected-problem/762956/8"
+    trigger:
+      - trigger: state
+        entity_id: binary_sensor.aarlo_motion_entry
+        from: "off"
+        to: "on"
+      - trigger: state
+        entity_id: binary_sensor.aarlo_motion_entry
+        from: "on"
+        to: "off"
+        for:
+          minutes: 5
+    condition:
+      - condition: sun
+        after: sunset
+    action:
+      - action: "light.turn_{{ trigger.to_state.state }}"
+        target:
+          entity_id: light.entry
+
 template:
   - sensor:
       - unique_id: dining_room_dimmerpwr # purposely use pwr instead of power
-        name: "Dining Room Dimmer lightpwr"
+        name: "Dining Room Dimmer LightPwr"
         state: >-
           {% set id = 'light.dining_room_dimmer' %}
           {% set value = states(id) %}
@@ -55,7 +77,7 @@ template:
           {% endif %}
 
       - unique_id: family_room_dimmerpwr
-        name: "Family Room Dimmer lightpwr"
+        name: "Family Room Dimmer LightPwr"
         state: >-
           {% set id = 'light.family_room_dimmer' %}
           {% set value = states(id) %}
@@ -72,7 +94,7 @@ template:
           {% endif %}
 
       - unique_id: living_room_dimmerpwr
-        name: "Living Room Dimmer lightpwr"
+        name: "Living Room Dimmer LightPwr"
         state: >-
           {% set id = 'light.living_room_dimmer' %}
           {% set value = states(id) %}
@@ -89,7 +111,7 @@ template:
           {% endif %}
 
       - unique_id: master_bedroom_dimmerpwr
-        name: "Master Bedroom Dimmer lightpwr"
+        name: "Master Bedroom Dimmer LightPwr"
         state: >-
           {% set id = 'light.master_bedroom_dimmer' %}
           {% set value = states(id) %}
@@ -106,7 +128,7 @@ template:
           {% endif %}
 
       - unique_id: master_bedroom_left_lightpwr
-        name: "Master Bedroom Left lightpwr"
+        name: "Master Bedroom Left LightPwr"
         state: >-
           {% set id = 'light.master_bedroom_left' %}
           {% set value = states(id) %}
@@ -122,7 +144,7 @@ template:
           {% endif %}
 
       - unique_id: master_bedroom_right_lightpwr
-        name: "Master Bedroom Right lightpwr"
+        name: "Master Bedroom Right LightPwr"
         state: >-
           {% set id = 'light.master_bedroom_right' %}
           {% set value = states(id) %}
@@ -138,7 +160,7 @@ template:
           {% endif %}
 
       - unique_id: stairs_dimmer_lightpwr
-        name: "Stairs Dimmer lightpwr"
+        name: "Stairs Dimmer LightPwr"
         state: >-
           {% set id = 'light.stairs_dimmer' %}
           {% set value = states(id) %}
@@ -154,10 +176,10 @@ template:
           {{     value }}
           {% endif %}
 
-      - unique_id: porch_lightpwr
-        name: "Porch lightpwr"
+      - unique_id: entry_lightpwr
+        name: "Entry LightPwr"
         state: >-
-          {% set id = 'light.porch' %}
+          {% set id = 'light.entry' %}
           {% set value = states(id) %}
           {% set max_power = 3 * 9.0 %}
           {% if value != 'unavailable' and value != 'unknown' %}
@@ -171,7 +193,7 @@ template:
           {% endif %}
 
       - unique_id: patio_lightpwr
-        name: "Patio lightpwr"
+        name: "Patio LightPwr"
         state: >-
           {% set id = 'light.patio' %}
           {% set value = states(id) %}
@@ -187,7 +209,7 @@ template:
           {% endif %}
 
       - unique_id: pool_lightpwr
-        name: "Pool lightpwr"
+        name: "Pool LightPwr"
         state: >-
           {% set id = 'light.pool' %}
           {% set value = states(id) %}
@@ -203,7 +225,7 @@ template:
           {% endif %}
 
       - unique_id: pool_underwater_lightpwr
-        name: "Pool Underwater lightpwr"
+        name: "Pool Underwater LightPwr"
         state: >-
           {% set id = 'switch.opnpool_aux2_circuit' %}
           {% set value = states(id) %}
@@ -220,9 +242,6 @@ template:
 
 google_assistant:
   entity_config:
-    switch.sonoff_s20_2:
-      name: "Soft light"
-      room: "Office"
     light.living_room_dimmer:
       name: "Living light"
       room: "Living room"

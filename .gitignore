@@ -24,3 +24,12 @@ home-assistant.log*
 HOWTO-root
 home-assistant_v2.db*
 known_devices.yaml
+packages/fire-node-red-flows-copy.json
+tmp.yaml
+themes/Frosted Glass/Frosted Glass Dark Lite.yaml
+themes/Frosted Glass/Frosted Glass Dark.yaml
+themes/Frosted Glass/Frosted Glass.yaml
+themes/Frosted Glass/Frosted Glass Lite.yaml
+themes/Frosted Glass/Frosted Glass Light Lite.yaml
+themes/Frosted Glass/Frosted Glass Light.yaml
+themes/Frosted Glass/frosted-glass-light-background.jpg
