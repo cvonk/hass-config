@@ -1,4 +1,5 @@
 tablet_frosted_glass:
+  # https://github.com/wessamlauf/homeassistant-frosted-glass-themes
   #enable mode
   modes: { dark: { .: . } }
 
