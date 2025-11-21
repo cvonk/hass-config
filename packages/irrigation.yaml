@@ -6,7 +6,7 @@ template:
         state: |
           {{
             states.binary_sensor | 
-            selectattr('entity_id', 'match', 'binary_sensor\.outside_.*_problem') |
+            selectattr('entity_id', 'match', 'binary_sensor\..*_station_running') |
             selectattr('state', 'eq', 'on') | list | count | int
           }}
 
