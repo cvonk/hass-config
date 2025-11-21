@@ -1,0 +1,21 @@
+template:
+  - sensor:
+      - unique_id: nr_of_cameras_active
+        name: "Nr of Cameras Active"
+        icon: mdi:camera
+        state: >-
+          {{
+            states.binary_sensor | 
+            selectattr('entity_id', 'match', 'binary_sensor\.aarlo_motion.*') |
+            selectattr('state', 'eq', 'on') | list | count | int
+          }}
+
+  - binary_sensor:
+      - unique_id: cameras_status
+        name: "Cameras Status"
+        icon: mdi:alert
+        device_class: problem
+        state: >-
+          {{
+              states('sensor.nr_of_cameras_active') | int > 0
+          }}

@@ -1,9 +1,20 @@
-kiosk_mode:
-  admin_settings:
-    hide_header: false
-    hide_sidebar: false
-  hide_header: true
-  hide_sidebar: true
+# A few words to the wise ..
+#  - Use the Visual Code addon in Home Assistant.  It is a blessing.
+#  - However tempting, I didn't split up this file, because it caused problems
+#    with !include files staying cached.
+#  - Some credentials must reside in secrets.yaml what is not included in this
+#    repository
+#  - Remember, browser_mod can be used to print values on the console of the
+#    browser.
+#  - Many thanks to Mattias Persson for sharing his work.  It gave me a head
+#    start in configuring this Dashboard
+
+#kiosk_mode:
+#  admin_settings:
+#    hide_header: false
+#    hide_sidebar: false
+#  hide_header: true
+#  hide_sidebar: true
 
 wallpanel:
   enabled: false
@@ -1258,7 +1269,7 @@ button_card_templates:
             - color: red
     tap_action:
     double_tab_action:
-  
+
   icon_name:
     size: 1.4em
     color: "#9da0a2"
@@ -2518,7 +2529,7 @@ button_card_templates:
           transform: translateX(-50%);
         }
       }
-  
+
   base_updates:
     show_state: true
     show_name: false
@@ -2619,7 +2630,6 @@ button_card_templates:
           <ul>${output}</ul>
         `;
       ]]]
-  
   updates_hass:
     template:
       - base_updates
@@ -2851,6 +2861,49 @@ button_card_templates:
                 rgba(${bar},0.1) 100%)`;
             ]]]
 
+  card_title: # https://ui-lovelace-minimalist.github.io/UI/usage/cards/card_title/
+    tap_action:
+      action: "none"
+    show_icon: false
+    show_label: true
+    show_name: true
+    styles:
+      card:
+        - background-color: "rgba(0,0,0,0)"
+        - box-shadow: "none"
+        - height: "auto"
+        - width: "auto"
+        - margin-top: "6px"
+        - margin-left: "18px"
+        - margin-bottom: "0px"
+        - padding: "6px"
+      grid:
+        - grid-template-areas: "'n' 'l'"
+        - grid-template-columns: "1fr"
+        - grid-template-rows: "min-content min-content"
+      name:
+        - justify-self: "start"
+        - color: var(--ha-card-header-color, var(--primary-text-color))
+        - text-align: var(--ha-stack-title-text-align, start)
+        - font-family: var(--ha-card-header-font-family, inherit)
+        - font-size: var(--ha-card-header-font-size, var(--ha-font-size-2xl))
+        - font-weight: var(--ha-font-weight-normal)
+        - margin-block: 0px
+        - letter-spacing: -0.012em
+        - line-height: var(--ha-line-height-condensed)
+        - width: 100%
+      label:
+        - justify-self: "start"
+        - color: var(--ha-card-header-color, var(--primary-text-color))
+        - text-align: var(--ha-stack-title-text-align, start)
+        - font-family: var(--ha-card-header-font-family, inherit)
+        - font-size: var(--ha-card-header-font-size, var(--ha-font-size-2xl))
+        - font-weight: var(--ha-font-weight-normal)
+        - margin-block: 0px
+        - letter-spacing: -0.012em
+        - line-height: var(--ha-line-height-condensed)
+        - width: 100%
+
 views:
   - title: "Home"
     type: custom:layout-card
@@ -2872,7 +2925,7 @@ views:
         "(max-width: 800px)":
           grid-gap: calc(var(--custom-layout-card-padding) * 0.3)
           grid-template-columns: 0 1fr 0
-          grid-template-rows: 0 repeat(9, fit-content(100%)) 0
+          grid-template-rows: 0 repeat(11, fit-content(100%)) 0
           grid-template-areas: |
             ". .        ."
             ". livingrm ." 
@@ -2882,7 +2935,9 @@ views:
             ". sander   ."
             ". other    ."
             ". athome   ."
+            ". .        ."
             ". footer   ."
+            ". .        ."
             ". sidebar  ."
             ". .        ."
         #portrait
@@ -2903,7 +2958,7 @@ views:
       #extra_styles fix, do not remove
       #also warn if theme is not set
 
-      - name: "Set theme to Tablet in profile"
+      - name: "Set theme to tablet_frosted_glass in user profile"
         type: custom:button-card
         view_layout:
           grid-area: 1 / 2 / 2 / 5
@@ -2958,7 +3013,7 @@ views:
                   --ha-card-backdrop-filter: none !important;
                 }
 
-          - type: button  # hack to create a gap
+          - type: button # hack to create a gap
             show_name: false
             show_icon: false
             entity: sun.sun
@@ -2970,12 +3025,9 @@ views:
                   --ha-card-box-shadow: none !important;
                   --ha-card-backdrop-filter: none !important;
                 }
-                
+
           - entity: weather.pirateweather
             type: custom:weather-chart-card
-            view_layout:
-              grid-area: weather
-              place-self: end
             show_main: false
             show_humidity: false
             show_pressure: false
@@ -3018,25 +3070,21 @@ views:
           - name: "Recessed lights"
             entity: light.living_room_dimmer
             type: custom:button-card
-            template:
-              - light
-              - circle
+            template: light
             icon: mdi:light-recessed
             size: 80%
 
           - name: "Floor lamp"
-            entity: switch.sonoff_floor_lamp
+            entity: light.sonoff_floor_lamp
             type: custom:button-card
-            template:
-              - base
+            template: base
             icon: mdi:floor-lamp
             size: 80%
 
           - name: "Reading light"
-            entity: switch.sonoff_reading_light
+            entity: light.sonoff_reading_light
             type: custom:button-card
-            template:
-              - base
+            template: base
             icon: mdi:book-open
             size: 80%
 
@@ -3054,17 +3102,15 @@ views:
         cards:
           - name: Entry
             type: custom:button-card
-            template:
-              - base
-            entity: light.porchs
+            template: base
+            entity: light.entry
             icon: mdi:coach-lamp
             size: 80%
             show_state: true
 
           - name: Patio
             type: custom:button-card
-            template:
-              - base
+            template: base
             entity: light.patios
             icon: mdi:coach-lamp
             size: 80%
@@ -3073,8 +3119,7 @@ views:
 
           - name: Pool
             type: custom:button-card
-            template:
-              - base
+            template: base
             entity: light.pools
             icon: mdi:coach-lamp
             size: 80%
@@ -3095,19 +3140,16 @@ views:
         cards:
           - name: "Recessed"
             type: custom:button-card
-            template:
-              - circle
-              - light
+            template: light
             entity: light.master_bedroom_dimmer
-            icon: mdi:ceiling-light-multiple
+            icon: mdi:light-recessed
             size: 80%
             show_state: true
             aspect_ratio: 1/1
 
           - name: "Left"
             type: custom:button-card
-            template:
-              - base
+            template: base
             entity: light.master_bedroom_left
             icon: mdi:bed
             size: 80%
@@ -3116,8 +3158,7 @@ views:
 
           - name: "Right"
             type: custom:button-card
-            template:
-              - base
+            template: base
             entity: light.master_bedroom_right
             icon: mdi:bed
             size: 80%
@@ -3141,9 +3182,7 @@ views:
         cards:
           - name: "Family"
             type: custom:button-card
-            template:
-              - circle
-              - light
+            template: light
             entity: light.family_room_dimmer
             icon: mdi:light-recessed
             size: 80%
@@ -3355,7 +3394,6 @@ views:
                                     [[[ return entity.entity_id; ]]]
                               template: icon_only
 
-
       #################################################
       #                                               #
       #                    SANDER                     #
@@ -3370,8 +3408,7 @@ views:
         cards:
           - name: Standing
             type: custom:button-card
-            template:
-              - base
+            template: base
             entity: switch.sander_bedroom
             icon: mdi:floor-lamp-torchiere
             size: 80%
@@ -3380,8 +3417,7 @@ views:
 
           - name: Dresser
             type: custom:button-card
-            template:
-              - base
+            template: base
             entity: switch.sander_dresser
             icon: mdi:light-recessed
             size: 80%
@@ -3402,9 +3438,7 @@ views:
         cards:
           - name: "Dining"
             type: custom:button-card
-            template:
-              - circle
-              - light
+            template: light
             entity: light.dining_room_dimmer
             icon: mdi:chandelier
             size: 80%
@@ -3413,16 +3447,14 @@ views:
 
           - name: "Stairs"
             type: custom:button-card
-            template:
-              - circle
-              - light
+            template: light
             entity: light.stairs_dimmer
             icon: mdi:stairs
             size: 80%
             show_state: true
             aspect_ratio: 1/1
 
-          - name: "TV"
+          - name: "Apt TV"
             type: custom:button-card
             entity: media_player.apartment_tv
             template:
@@ -3524,7 +3556,6 @@ views:
                                   entity_id: >
                                     [[[ return entity.entity_id; ]]]
                               template: icon_only
-
 
       #################################################
       #                                               #
@@ -3764,14 +3795,6 @@ views:
                                         critical: 1
                                         volume: 1
 
-          - name: Close all
-            type: custom:button-card
-            entity: script.home_leave
-            template:
-              - base
-              #- icon_away
-            icon: mdi:hand-wave
-
       #################################################
       #                                               #
       #                    FOOTER                     #
@@ -3781,17 +3804,18 @@ views:
       - type: custom:layout-card
         layout_type: custom:grid-layout
         layout_options:
-          grid-template-columns: repeat(7, 1fr)
-          grid-gap: 1vw # var(--custom-layout-card-padding)
+          # bubble-card pop_up occupies a cell as well, show as 0 width
+          grid-template-columns: 1fr 0 1fr 0 1fr 0 1fr 0 1fr 0 1fr 0 1fr 0 1fr 0
+          grid-gap: 0.5vw # var(--custom-layout-card-padding)
           mediaquery:
             "(max-width: 800px)":
-              grid-template-columns: repeat(3, 1fr)
+              grid-template-columns: 1fr 0 1fr 0 1fr 0
         view_layout:
           grid-area: footer
         cards:
           - name: "Inside"
             entity: sensor.inside_temperature
-            label: >
+            label: >-
               [[[
                 return states['sensor.inside_temperature']?.state;
               ]]]
@@ -3806,77 +3830,72 @@ views:
                   if (id) return parseInt(id.state);
                 ]]]
             tap_action:
-              action: fire-dom-event
-              browser_mod:
-                service: browser_mod.popup
-                data:
-                  title: Inside Climate
-                  style: >
-                    --popup-max-width: calc(385px + 385px + 385px);
-                    --ha-card-border-radius: 0;
-                  content:
-                    type: custom:layout-card
-                    layout_type: custom:grid-layout
-                    layout:
-                      padding: 0 1vw 1vw 1vw
-                      grid-template-columns: repeat(2, 1fr)
-                      grid-gap: var(--custom-layout-card-padding)
-                      mediaquery:
-                        "(max-width: 800px)":
-                          grid-template-columns: repeat(1, 1fr)
-                    #type: grid
-                    #columns: 2
-                    square: false
-                    cards:
-                      - entity: climate.main_floor
-                        type: thermostat
-                        show_current_as_primary: false
-                        features:
-                          - type: climate-hvac-modes
-                          - style: dropdown
-                            type: climate-preset-modes
+              action: navigate
+              navigation_path: "#inside"
 
-                      - entity: climate.upstairs_floor
-                        type: thermostat
-                        features:
-                          - type: climate-hvac-modes
-                          - style: dropdown
-                            type: climate-preset-modes
+          - type: vertical-stack # Inside pop-up
+            cards:
+              - type: custom:bubble-card # this will make the cards below show up (or not)
+                card_type: pop-up
+                hash: "#inside"
+                button_type: name
+                name: "Inside Climate"
+                icon: mdi:home-thermometer-outline
+                bg_blur: "5"
+                shadow_opacity: "20"
+                bg_opacity: "98"
+                width_desktop: 60%
+                show_header: false
 
-                      - entity: fan.air_filter
-                        type: custom:purifier-card
-                        stats:
-                          - entity_id: sensor.air_filter_filter_lifetime
-                            unit: "%"
-                            subtitle: Filter Life
-                          - entity_id: sensor.air_filter_pm2_5
-                            unit: µg/m³
-                            subtitle: PM2.5
-                        shortcuts:
-                          - name: Auto
-                            icon: mdi:brightness-auto
-                            preset_mode: auto
-                          - name: Sleep
-                            icon: mdi:weather-night
-                            preset_mode: sleep
-                          - name: 25%
-                            icon: mdi:circle-slice-2
-                            percentage: 25
-                          - name: 50%
-                            icon: mdi:circle-slice-4
-                            percentage: 50
-                          - name: 75%
-                            icon: mdi:circle-slice-6
-                            percentage: 75
-                          - name: 100%
-                            icon: mdi:circle-slice-8
-                            percentage: 100
-                          - name: Pet
-                            icon: mdi:cat
-                            preset_mode: pet
-                        show_state: true
-                        show_toolbar: true
-                        compact_view: false
+              - type: custom:layout-card
+                layout_type: custom:grid-layout
+                layout:
+                  padding: 0 1vw 1vw 1vw
+                  grid-template-columns: repeat(2, 1fr)
+                  grid-gap: var(--custom-layout-card-padding)
+                  mediaquery:
+                    "(max-width: 1200px)":
+                      grid-template-columns: repeat(1, 1fr)
+                square: false
+                cards:
+                  - entity: climate.main_floor
+                    type: thermostat
+                    show_current_as_primary: false
+                    features:
+                      - type: climate-hvac-modes
+
+                  - entity: climate.upstairs_floor
+                    type: thermostat
+                    features:
+                      - type: climate-hvac-modes
+
+                  - entity: fan.air_filter
+                    type: custom:purifier-card
+                    compact_view: true
+                    show_state: true
+                    show_toolbar: true
+                    shortcuts:
+                      - name: Auto
+                        icon: mdi:brightness-auto
+                        preset_mode: auto
+                      - name: Sleep
+                        icon: mdi:weather-night
+                        preset_mode: sleep
+                      - name: 25%
+                        icon: mdi:circle-slice-2
+                        percentage: 25
+                      - name: 50%
+                        icon: mdi:circle-slice-4
+                        percentage: 50
+                      - name: 75%
+                        icon: mdi:circle-slice-6
+                        percentage: 75
+                      - name: 100%
+                        icon: mdi:circle-slice-8
+                        percentage: 100
+                      - name: Pet
+                        icon: mdi:cat
+                        preset_mode: pet
 
           - name: "Outside"
             entity: sensor.opnpool_last_air_temp
@@ -3891,97 +3910,179 @@ views:
                   if (id) return parseInt(id.state);
                 ]]]
             tap_action:
-              action: fire-dom-event
-              browser_mod:
-                service: browser_mod.popup
-                data:
-                  title: Outside Climate
-                  style: >
-                    --popup-max-width: calc(385px + 385px + 385px);
-                    --ha-card-border-radius: 0;
-                  content:
-                    type: custom:layout-card
+              action: navigate
+              navigation_path: "#outside"
+
+          - type: vertical-stack # Outside pop-up
+            cards:
+              - type: custom:bubble-card # this will make the cards below show up (or not)
+                card_type: pop-up
+                hash: "#outside"
+                button_type: name
+                name: "Outside Climate"
+                icon: mdi:sun-thermometer
+                bg_blur: "5"
+                shadow_opacity: "20"
+                bg_opacity: "98"
+                show_header: false
+
+              - type: custom:layout-card
+                hash: "#outside"
+                layout_type: custom:grid-layout
+                layout:
+                  padding: 0 1vw 1vw 1vw
+                  grid-template-columns: repeat(2, 1fr)
+                  grid-gap: var(--custom-layout-card-padding)
+                  mediaquery:
+                    "(max-width: 800px)":
+                      grid-template-columns: repeat(1, 1fr)
+                cards:
+                  - title: Terrace Drive
+                    type: entities
+                    entities:
+                      - entity: sensor.terracehabitat_temperature
+                        name: Air temp
+                      - entity: sensor.terracehabitat_humidity
+                        icon: mdi:water-percent
+                        name: Humidity
+                      - entity: sensor.terracehabitat_pressure
+                        icon: mdi:arrow-collapse-down
+                        name: Air pressure
+                      - entity: sensor.terracehabitat_pm1
+                        icon: mdi:waves
+                        name: Particles ≤ 1 µm
+                      - entity: sensor.terracehabitat_pm2_5
+                        icon: mdi:waves
+                        name: Particles ≤ 2.5 µm
+                      - entity: sensor.terracehabitat_pm10
+                        icon: mdi:waves
+                        name: Particles ≤ 10 µm
+
+                  - type: grid
+                    columns: 1
+                    square: false
+                    cards:
+                      - name: "Air Quality"
+                        type: custom:mini-graph-card
+                        entities:
+                          - entity: sensor.terracehabitat_aqi
+                        hour24: true
+                        hours_to_show: 720
+                        icon: mdi:waves
+                        line_width: 5
+                        lower_bound: 0
+                        show:
+                          icon: true
+                          icon_adaptive_color: true
+                        smoothing: false
+                        upper_bound: 250
+                        color_thresholds:
+                          - color: "#68e143"
+                            value: 0
+                          - color: "#ffff55"
+                            value: 50
+                          - color: "#ef8533"
+                            value: 100
+                          - color: "#ea3324"
+                            value: 150
+                          - color: "#8c1a4b"
+                            value: 200
+                          - color: "#731425"
+                            value: 300
+
+                      - name: "Backyard temp"
+                        type: custom:mini-graph-card
+                        group_by: date
+                        hour24: true
+                        hours_to_show: 730
+                        lower_bound: 32
+                        upper_bound: 100
+                        smoothing: false
+                        show:
+                          icon: true
+                          icon_adaptive_color: true
+                          legend: false
+                        entities:
+                          - aggregate_func: max
+                            entity: sensor.opnpool_last_air_temp
+                            name: max temp
+                          - aggregate_func: min
+                            entity: sensor.opnpool_last_air_temp
+                            name: min temp
+
+          - name: "Cameras"
+            entity: binary_sensor.cameras_status
+            type: custom:button-card
+            template: footer
+            icon: mdi:camera
+            variables:
+              active_id: "sensor.nr_of_cameeras_active"
+              notify: >-
+                [[[
+                  let id = states['sensor.nr_of_cameras_active'];
+                  if (id) return parseInt(id.state);
+                ]]]
+            tap_action:
+              action: navigate
+              navigation_path: "#camera"
+
+          - type: vertical-stack # Cameras pop-up
+            cards:
+              - type: custom:bubble-card # this will make the cards below show up (or not)
+                card_type: pop-up
+                hash: "#camera"
+                button_type: name
+                name: "Camera"
+                icon: mdi:camera
+                bg_blur: "5"
+                bg_opacity: "98"
+                shadow_opacity: "20"
+                show_header: false
+                width_desktop: 80%
+
+              - type: custom:layout-card
+                layout_type: custom:grid-layout
+                layout:
+                  padding: 0 1vw 1vw 1vw
+                  grid-template-columns: repeat(1, 1fr)
+                  grid-gap: var(--custom-layout-card-padding)
+                cards:
+                  - type: "custom:button-card"
+                    template: card_title
+                    name: "Cameras"
+
+                  - type: custom:layout-card
                     layout_type: custom:grid-layout
                     layout:
                       padding: 0 1vw 1vw 1vw
-                      grid-template-columns: repeat(2, 1fr)
+                      grid-template-columns: repeat(1, 1fr)
                       grid-gap: var(--custom-layout-card-padding)
-                      mediaquery:
-                        "(max-width: 800px)":
-                          grid-template-columns: repeat(1, 1fr)
                     cards:
-                      - title: Terrace Drive
-                        type: entities
+                      - type: "custom:aarlo-glance"
+                        global: active,blended
+                        image_view: direct
+                        image_top: "name,status"
+                        image_bottom: "motion,library,play,snapshot,battery"
+                        image_click: "recordings"
+                        library_sizes: "3,4,2"
                         entities:
-                          - entity: sensor.terracehabitat_temperature
-                            name: Air temp
-                          - entity: sensor.terracehabitat_humidity
-                            icon: mdi:water-percent
-                            name: Humidity
-                          - entity: sensor.terracehabitat_pressure
-                            icon: mdi:arrow-collapse-down
-                            name: Air pressure
-                          - entity: sensor.terracehabitat_pm1
-                            icon: mdi:waves
-                            name: Particles ≤ 1 µm
-                          - entity: sensor.terracehabitat_pm2_5
-                            icon: mdi:waves
-                            name: Particles ≤ 2.5 µm
-                          - entity: sensor.terracehabitat_pm10
-                            icon: mdi:waves
-                            name: Particles ≤ 10 µm
+                          - entity: camera.aarlo_entry
+                            name: "Front door"
+                            #door: binary_sensor.front_door
+                            #door_lock: lock.front_door_lock
 
-                      - type: grid
-                        columns: 1
-                        square: false
-                        cards:
-                          - name: "Air Quality"
-                            type: custom:mini-graph-card
-                            entities:
-                              - entity: sensor.terracehabitat_aqi
-                            hour24: true
-                            hours_to_show: 720
-                            icon: mdi:waves
-                            line_width: 5
-                            lower_bound: 0
-                            show:
-                              icon: true
-                              icon_adaptive_color: true
-                            smoothing: false
-                            upper_bound: 250
-                            color_thresholds:
-                              - color: "#68e143"
-                                value: 0
-                              - color: "#ffff55"
-                                value: 50
-                              - color: "#ef8533"
-                                value: 100
-                              - color: "#ea3324"
-                                value: 150
-                              - color: "#8c1a4b"
-                                value: 200
-                              - color: "#731425"
-                                value: 300
-
-                          - name: "Backyard temp"
-                            type: custom:mini-graph-card
-                            group_by: date
-                            hour24: true
-                            hours_to_show: 730
-                            lower_bound: 32
-                            upper_bound: 100
-                            smoothing: false
-                            show:
-                              icon: true
-                              icon_adaptive_color: true
-                              legend: false
-                            entities:
-                              - aggregate_func: max
-                                entity: sensor.opnpool_last_air_temp
-                                name: max temp
-                              - aggregate_func: min
-                                entity: sensor.opnpool_last_air_temp
-                                name: min temp
+                      - type: "custom:aarlo-glance"
+                        global: active,blended
+                        image_view: direct
+                        image_top: "name,status"
+                        image_bottom: "motion,library,play,snapshot,battery"
+                        image_click: "recordings"
+                        library_sizes: "3,4,2"
+                        entities:
+                          - entity: camera.aarlo_backyard
+                            name: "Back yard"
+                            #door: binary_sensor.back_door
+                            #door_lock: lock.back_door_lock
 
           - name: "Pool"
             entity: sensor.opnpool_last_water_temp
@@ -3995,259 +4096,294 @@ views:
                   if (id) return parseInt(id.state);
                 ]]]
             tap_action:
-              action: fire-dom-event
-              browser_mod:
-                service: browser_mod.popup
-                data:
-                  title: Pool
-                  icon: mdi:pool-thermometer
-                  style: >
-                    --popup-max-width: calc(385px + 385px + 385px);
-                    --popup-max-height: 800px;
-                    --ha-card-border-radius: 0;
-                  content:
-                    type: custom:layout-card
+              action: navigate
+              navigation_path: "#pool"
+
+          - type: vertical-stack # Pool pop-up
+            cards:
+              - type: custom:bubble-card # this will make the cards below show up (or not)
+                card_type: pop-up
+                hash: "#pool"
+                button_type: name
+                name: "Pool control"
+                icon: mdi:pool-thermometer
+                bg_blur: "5"
+                bg_opacity: "98"
+                shadow_opacity: "20"
+                show_header: false
+
+              - type: custom:layout-card
+                layout_type: custom:grid-layout
+                layout:
+                  padding: 0 1vw 1vw 1vw
+                  grid-template-columns: repeat(1, 1fr)
+                  grid-gap: var(--custom-layout-card-padding)
+                cards:
+                  - type: "custom:button-card"
+                    template: card_title
+                    name: "Circuits"
+
+                  - type: custom:layout-card
+                    layout_type: custom:grid-layout
+                    layout:
+                      padding: 0 1vw 1vw 1vw
+                      grid-template-columns: repeat(4, 1fr)
+                      grid-gap: var(--custom-layout-card-padding)
+                      mediaquery:
+                        "(max-width: 800px)":
+                          grid-template-columns: repeat(2, 1fr)
+                    cards:
+                      - type: custom:button-card
+                        template: pool_circuit
+                        icon: mdi:pool
+                        variables:
+                          schedule_entity: sensor.opnpool_pool_sched
+                          pending_entity: input_boolean.opnpool_pool_circuit_pending
+                          loader_script_entity: script.toggle_opnpool_pool_circuit_with_support_for_spinner
+                        entity: switch.opnpool_pool_circuit
+                        name: "Pool"
+                      - type: custom:button-card
+                        template: pool_circuit
+                        icon: mdi:hot-tub
+                        variables:
+                          schedule_entity: sensor.opnpool_spa_sched
+                          pending_entity: input_boolean.opnpool_spa_circuit_pending
+                          loader_script_entity: script.toggle_opnpool_spa_circuit_with_support_for_spinner
+                        entity: switch.opnpool_spa_circuit
+                        name: "Spa"
+                      - type: custom:button-card
+                        template: pool_circuit
+                        icon: mdi:vacuum
+                        variables:
+                          schedule_entity: sensor.opnpool_aux1_sched
+                          pending_entity: input_boolean.opnpool_aux1_circuit_pending
+                          loader_script_entity: script.toggle_opnpool_aux1_circuit_with_support_for_spinner
+                        entity: switch.opnpool_aux1_circuit
+                        name: "Vacuum"
+                      - type: custom:button-card
+                        template: pool_circuit
+                        icon: mdi:lightbulb
+                        variables:
+                          schedule_entity: sensor.opnpool_aux2_sched
+                          pending_entity: input_boolean.opnpool_aux2_circuit_pending
+                          loader_script_entity: script.toggle_opnpool_aux2_circuit_with_support_for_spinner
+                        entity: switch.opnpool_aux2_circuit
+                        name: "Light"
+
+                  - name: "Components"
+                    type: "custom:button-card"
+                    template: card_title
+
+                  - type: custom:layout-card
+                    layout_type: custom:grid-layout
+                    layout:
+                      padding: 0 1vw 1vw 1vw
+                      grid-template-columns: repeat(4, 1fr)
+                      grid-gap: var(--custom-layout-card-padding)
+                      mediaquery:
+                        "(max-width: 800px)":
+                          grid-template-columns: repeat(2, 1fr)
+                    cards:
+                      - type: custom:button-card
+                        template: pool_component
+                        icon: mdi:pump
+                        variables:
+                          info1_entity: sensor.opnpool_pump_mode
+                          info2_entity: sensor.opnpool_pump_estimated_flow
+                          status_entity: sensor.opnpool_pump_status
+                        entity: binary_sensor.opnpool_pump_running
+                        name: "Pump"
+
+                      - type: custom:button-card
+                        template: pool_component
+                        icon: mdi:lotion-plus
+                        variables:
+                          info1_entity: sensor.opnpool_chlor_pct
+                          info2_entity: sensor.opnpool_chlor_salt
+                          status_entity: sensor.opnpool_chlor_status
+                        entity: binary_sensor.opnpool_pump_running
+                        name: "Chlorinator"
+
+                      - type: custom:button-card
+                        template: circle_graph
+                        icon: mdi:pool-thermometer
+                        variables:
+                          graph_color: cornflowerblue
+                        entity: sensor.opnpool_water_temp
+                        name: "Water Temp"
+
+                  - name: "Thermostat"
+                    type: "custom:button-card"
+                    template: card_title
+
+                  - type: custom:layout-card
                     layout_type: custom:grid-layout
                     layout:
                       padding: 0 1vw 1vw 1vw
                       grid-template-columns: repeat(1, 1fr)
                       grid-gap: var(--custom-layout-card-padding)
                     cards:
-                      - type: grid # Pool programs
-                        columns: 4
-                        title: "Circuits"
-                        square: false
-                        cards:
-                          - type: custom:button-card
-                            template: pool_circuit
-                            icon: mdi:pool
-                            variables:
-                              schedule_entity: sensor.opnpool_pool_sched
-                              pending_entity: input_boolean.opnpool_pool_circuit_pending
-                              loader_script_entity: script.toggle_opnpool_pool_circuit_with_support_for_spinner
-                            entity: switch.opnpool_pool_circuit
-                            name: "Pool"
-                          - type: custom:button-card
-                            template: pool_circuit
-                            icon: mdi:hot-tub
-                            variables:
-                              schedule_entity: sensor.opnpool_spa_sched
-                              pending_entity: input_boolean.opnpool_spa_circuit_pending
-                              loader_script_entity: script.toggle_opnpool_spa_circuit_with_support_for_spinner
-                            entity: switch.opnpool_spa_circuit
-                            name: "Spa"
-                          - type: custom:button-card
-                            template: pool_circuit
-                            icon: mdi:vacuum
-                            variables:
-                              schedule_entity: sensor.opnpool_aux1_sched
-                              pending_entity: input_boolean.opnpool_aux1_circuit_pending
-                              loader_script_entity: script.toggle_opnpool_aux1_circuit_with_support_for_spinner
-                            entity: switch.opnpool_aux1_circuit
-                            name: "Vacuum"
-                          - type: custom:button-card
-                            template: pool_circuit
-                            icon: mdi:lightbulb
-                            variables:
-                              schedule_entity: sensor.opnpool_aux2_sched
-                              pending_entity: input_boolean.opnpool_aux2_circuit_pending
-                              loader_script_entity: script.toggle_opnpool_aux2_circuit_with_support_for_spinner
-                            entity: switch.opnpool_aux2_circuit
-                            name: "Light"
-
-                      - type: grid # Pool components
-                        columns: 4
-                        title: "Components"
-                        square: false
-                        cards:
-                          - type: custom:button-card
-                            template: pool_component
-                            icon: mdi:pump
-                            variables:
-                              info1_entity: sensor.opnpool_pump_mode
-                              info2_entity: sensor.opnpool_pump_estimated_flow
-                              status_entity: sensor.opnpool_pump_status
-                            entity: binary_sensor.opnpool_pump_running
-                            name: "Pump"
-
-                          - type: custom:button-card
-                            template: pool_component
-                            icon: mdi:lotion-plus
-                            variables:
-                              info1_entity: sensor.opnpool_chlor_pct
-                              info2_entity: sensor.opnpool_chlor_salt
-                              status_entity: sensor.opnpool_chlor_status
-                            entity: binary_sensor.opnpool_pump_running
-                            name: "Chlorinator"
-
-                          - type: custom:button-card
-                            template: circle_graph
-                            icon: mdi:pool-thermometer
-                            variables:
-                              graph_color: cornflowerblue
-                            entity: sensor.opnpool_water_temp
-                            name: "Water Temp"
-
                       - type: conditional
                         conditions:
                           - entity: switch.opnpool_pool_circuit
-                            state_not: "off"
-                          - entity: switch.opnpool_pool_circuit
-                            state_not: "off"
+                            state: "on"
                         card:
-                          type: grid # Pool components
-                          columns: 2
-                          square: false
-                          cards:
-                            - type: conditional
-                              conditions:
-                                - entity: switch.opnpool_pool_circuit
-                                  state: "on"
-                              card:
-                                type: custom:simple-thermostat
-                                entity: climate.opnpool_pool_heater
-                                header:
-                                  name: Pool heater
-                                  icon: false
-                                hide:
-                                  state: false
-                                  temperature: false
-                                decimals: 0
-                                step_size: 1
-                                step_layout: row
-                                control:
-                                  _headings: false
-                                  preset:
-                                    _name: "Src"
-                                    none:
-                                      icon: mdi:power-standby
-                                      name: Off
-                                    Heater:
-                                      icon: mdi:fire
-                                    Solar:
-                                      icon: mdi:weather-sunny
-                                    SolarPref:
-                                      icon: mdi:refresh-auto
-                                card_mod:
-                                  style: |
-                                    .mode-title {
-                                      font-size: 0 !important;
-                                      padding: 0 !important;
-                                    }
-                                    .mode-item {
-                                      border-radius: 5px !important;
-                                    }
-                                    ha-card {
-                                      box-shadow: none;
-                                    }
-                            - type: conditional
-                              conditions:
-                                - entity: switch.opnpool_spa_circuit
-                                  state: "on"
-                              card:
-                                type: custom:simple-thermostat
-                                entity: climate.opnpool_spa_heater
-                                header:
-                                  name: Spa heater
-                                  icon: false
-                                hide:
-                                  state: false
-                                  temperature: false
-                                decimals: 0
-                                step_size: 1
-                                step_layout: row
-                                control:
-                                  _headings: false
-                                  preset:
-                                    _name: "Src"
-                                    none:
-                                      icon: mdi:power-standby
-                                      name: Off
-                                    Heater:
-                                      icon: mdi:fire
-                                    Solar:
-                                      icon: mdi:weather-sunny
-                                    SolarPref:
-                                      icon: mdi:refresh-auto
-                                card_mod:
-                                  style: |
-                                    .mode-title {
-                                      font-size: 0 !important;
-                                      padding: 0 !important;
-                                    }
-                                    .mode-item {
-                                      border-radius: 5px !important;
-                                    }
-                                    ha-card {
-                                      box-shadow: none;
-                                    }
+                          type: custom:simple-thermostat
+                          entity: climate.opnpool_pool_heater
+                          hide:
+                            state: false
+                            temperature: false
+                          decimals: 0
+                          step_size: 1
+                          step_layout: row
+                          control:
+                            _headings: false
+                            preset:
+                              _name: "Src"
+                              none:
+                                icon: mdi:power-standby
+                                name: Off
+                              Heater:
+                                icon: mdi:fire
+                              Solar:
+                                icon: mdi:weather-sunny
+                              SolarPref:
+                                icon: mdi:refresh-auto
+                          card_mod:
+                            style: |
+                              ha-card {
+                                background-color: rgba(115, 115, 115, 0.25) !important;
+                              }
+                              header {
+                                display: none !important;
+                              }
+                              .body {
+                                padding-bottom: 0 !important;
+                              }
+                              .mode-title {
+                                font-size: 0 !important;
+                                padding: 0 !important;
+                              }
+                              .mode-item {
+                                border-radius: 10px !important;
+                              }
+                      - type: conditional
+                        conditions:
+                          - entity: switch.opnpool_spa_circuit
+                            state: "on"
+                        card:
+                          type: custom:simple-thermostat
+                          entity: climate.opnpool_spa_heater
+                          hide:
+                            state: false
+                            temperature: false
+                          decimals: 0
+                          step_size: 1
+                          step_layout: row
+                          control:
+                            _headings: false
+                            preset:
+                              _name: "Src"
+                              none:
+                                icon: mdi:power-standby
+                                name: Off
+                              Heater:
+                                icon: mdi:fire
+                              Solar:
+                                icon: mdi:weather-sunny
+                              SolarPref:
+                                icon: mdi:refresh-auto
+                          card_mod:
+                            style: |
+                              ha-card {
+                                background-color: rgba(115, 115, 115, 0.25) !important;
+                              }
+                              header {
+                                display: none !important;
+                              }
+                              .body {
+                                padding-bottom: 0 !important;
+                              }
+                              .mode-title {
+                                font-size: 0 !important;
+                                padding: 0 !important;
+                              }
+                              .mode-item {
+                                border-radius: 10px !important;
+                              }
 
-                      - type: grid # Pool chemistry
-                        columns: 1
-                        title: "Last Analysis"
-                        square: false
-                        cards:
-                          - entity: sensor.pool_ph
-                            name: "pH"
-                            type: custom:button-card
-                            template: above_below_bar
-                            variables:
-                              warning_below: 6
-                              warning_above: 9
-                              max_value: 12
+                  - name: "Last Analysis"
+                    type: "custom:button-card"
+                    template: card_title
 
-                          - entity: sensor.pool_ta
-                            name: "Total Alkalinity (pH buffer)"
-                            type: custom:button-card
-                            template: above_below_bar
-                            variables:
-                              warning_below: 80
-                              warning_above: 120
-                              max_value: 200
+                  - type: custom:layout-card
+                    layout_type: custom:grid-layout
+                    layout:
+                      padding: 0 1vw 1vw 1vw
+                      grid-template-columns: repeat(1, 1fr)
+                      grid-gap: var(--custom-layout-card-padding)
+                    cards:
+                      - entity: sensor.pool_ph
+                        name: "pH"
+                        type: custom:button-card
+                        template: above_below_bar
+                        variables:
+                          warning_below: 6
+                          warning_above: 9
+                          max_value: 12
 
-                          - entity: sensor.pool_fc
-                            name: "Free Chlorine"
-                            type: custom:button-card
-                            template: above_below_bar
-                            variables:
-                              warning_below: 3
-                              warning_above: 7
-                              max_value: 10
+                      - entity: sensor.pool_ta
+                        name: "Total Alkalinity (pH buffer)"
+                        type: custom:button-card
+                        template: above_below_bar
+                        variables:
+                          warning_below: 80
+                          warning_above: 120
+                          max_value: 200
 
-                          - entity: sensor.pool_cc
-                            name: "Combined Chlorine"
-                            type: custom:button-card
-                            template: above_below_bar
-                            variables:
-                              warning_below: 0
-                              warning_above: 0.2
-                              max_value: 2
+                      - entity: sensor.pool_fc
+                        name: "Free Chlorine"
+                        type: custom:button-card
+                        template: above_below_bar
+                        variables:
+                          warning_below: 3
+                          warning_above: 7
+                          max_value: 10
 
-                          - entity: sensor.pool_cya
-                            name: "Cyanuric Acid (Chor buffer)"
-                            type: custom:button-card
-                            template: above_below_bar
-                            variables:
-                              warning_below: 70
-                              warning_above: 90
-                              max_value: 160
+                      - entity: sensor.pool_cc
+                        name: "Combined Chlorine"
+                        type: custom:button-card
+                        template: above_below_bar
+                        variables:
+                          warning_below: 0
+                          warning_above: 0.2
+                          max_value: 2
 
-                          - entity: sensor.pool_ch
-                            name: "Calcium Hardness"
-                            type: custom:button-card
-                            template: above_below_bar
-                            variables:
-                              warning_below: 200
-                              warning_above: 650
-                              max_value: 850
+                      - entity: sensor.pool_cya
+                        name: "Cyanuric Acid (Chor buffer)"
+                        type: custom:button-card
+                        template: above_below_bar
+                        variables:
+                          warning_below: 70
+                          warning_above: 90
+                          max_value: 160
 
-                          #- entity: sensor.pool_salt
-                          #  type: custom:button-card
-                          #  template: above_below_bar
-                          #  variables:
-                          #    warning_below: 2700
-                          #    warning_above: 4500
-                          #    max_value: 6000
+                      - entity: sensor.pool_ch
+                        name: "Calcium Hardness"
+                        type: custom:button-card
+                        template: above_below_bar
+                        variables:
+                          warning_below: 200
+                          warning_above: 650
+                          max_value: 850
+
+                      #- entity: sensor.pool_salt
+                      #  type: custom:button-card
+                      #  template: above_below_bar
+                      #  variables:
+                      #    warning_below: 2700
+                      #    warning_above: 4500
+                      #    max_value: 6000
 
           - name: "Irrigation"
             entity: sensor.opensprinkler_water_level
@@ -4262,135 +4398,144 @@ views:
                   if (id) return parseInt(id.state);
                 ]]]
             tap_action:
-              action: fire-dom-event
-              browser_mod:
-                service: browser_mod.popup
-                data:
-                  title: Irrigation
-                  icon: mdi:sprinkler-variant
-                  content:
-                    type: custom:layout-card
+              action: navigate
+              navigation_path: "#irrigation"
+
+          - type: vertical-stack # Irrigation pop-up
+            cards:
+              - type: custom:bubble-card # this will make the cards below show up (or not)
+                card_type: pop-up
+                hash: "#irrigation"
+                button_type: name
+                name: "Irrigation control"
+                icon: mdi:sprinkler-variant
+                bg_blur: "5"
+                shadow_opacity: "20"
+                bg_opacity: "98"
+                show_header: false
+
+              - type: custom:layout-card
+                layout_type: custom:grid-layout
+                layout:
+                  padding: 1vw
+                  grid-template-columns: repeat(1, 1fr)
+                  grid-gap: var(--custom-layout-card-padding)
+                cards:
+                  - type: custom:layout-card # Irrigation zones
                     layout_type: custom:grid-layout
                     layout:
-                      padding: 1vw
-                      grid-template-columns: repeat(1, 1fr)
+                      padding: 0 1vw 1vw 1vw
+                      grid-template-columns: repeat(4, 1fr)
                       grid-gap: var(--custom-layout-card-padding)
+                      mediaquery:
+                        "(max-width: 800px)":
+                          grid-template-columns: repeat(2, 1fr)
                     cards:
-                      - type: custom:layout-card # Irrigation zones
-                        layout_type: custom:grid-layout
-                        layout:
-                          padding: 0 1vw 1vw 1vw
-                          grid-template-columns: repeat(4, 1fr)
-                          grid-gap: var(--custom-layout-card-padding)
-                          mediaquery:
-                            "(max-width: 800px)":
-                              grid-template-columns: repeat(2, 1fr)
-                        cards:
-                          - type: custom:button-card
-                            template:
-                              - irrigation_zone
-                            entity: sensor.dripbox1_station_status
-                            name: "Box #1"
-                          - type: custom:button-card
-                            template:
-                              - irrigation_zone
-                            entity: sensor.dripbox2_station_status
-                            name: "Box #2"
-                          - type: custom:button-card
-                            template:
-                              - irrigation_zone
-                            entity: sensor.dripbox3_grapes_hydr_station_status
-                            name: "Grapes"
-                          - type: custom:button-card
-                            template:
-                              - irrigation_zone
-                            entity: sensor.dripfence1_station_status
-                            name: "Fence Left"
-                          - type: custom:button-card
-                            template:
-                              - irrigation_zone
-                            entity: sensor.dripfence2_station_status
-                            name: "Fence Right"
-                          - type: custom:button-card
-                            template:
-                              - irrigation_zone
-                            entity: sensor.dripcorner_station_status
-                            name: "Fence Corner"
-                          - type: custom:button-card
-                            template:
-                              - irrigation_zone
-                            entity: sensor.dripmaple_station_status
-                            name: "Maple"
-                          - type: custom:button-card
-                            template:
-                              - irrigation_zone
-                            entity: sensor.front1_station_status
-                            name: "Front Street"
-                          - type: custom:button-card
-                            template:
-                              - irrigation_zone
-                            entity: sensor.front2_maple_station_status
-                            name: "Front Maple"
-                          - type: custom:button-card
-                            template:
-                              - irrigation_zone
-                            entity: sensor.pond_house_side_station_status
-                            name: "Pond House"
-                          - type: custom:button-card
-                            template:
-                              - irrigation_zone
-                            entity: sensor.pond2_station_status
-                            name: "Pond/Street"
-                          - type: custom:button-card
-                            template:
-                              - irrigation_zone
-                            entity: sensor.island_station_status
-                            name: "Pond Island"
-                          - type: custom:button-card
-                            template:
-                              - irrigation_zone
-                            entity: sensor.sprinklerlawn1_station_status
-                            name: "Lawn #1"
-                            icon: mdi:sprinkler-variant
-                          - type: custom:button-card
-                            template:
-                              - irrigation_zone
-                            entity: sensor.sprinklerlawn2_station_status
-                            name: "Lawn #2"
-                            icon: mdi:sprinkler-variant
-                          - type: custom:button-card
-                            template:
-                              - irrigation_zone
-                            entity: sensor.sprinklerlawn3_station_status
-                            name: "Lawn #3"
-                            icon: mdi:sprinkler-variant
+                      - type: custom:button-card
+                        template:
+                          - irrigation_zone
+                        entity: sensor.dripbox1_station_status
+                        name: "Box #1"
+                      - type: custom:button-card
+                        template:
+                          - irrigation_zone
+                        entity: sensor.dripbox2_station_status
+                        name: "Box #2"
+                      - type: custom:button-card
+                        template:
+                          - irrigation_zone
+                        entity: sensor.dripbox3_grapes_hydr_station_status
+                        name: "Grapes"
+                      - type: custom:button-card
+                        template:
+                          - irrigation_zone
+                        entity: sensor.dripfence1_station_status
+                        name: "Fence Left"
+                      - type: custom:button-card
+                        template:
+                          - irrigation_zone
+                        entity: sensor.dripfence2_station_status
+                        name: "Fence Right"
+                      - type: custom:button-card
+                        template:
+                          - irrigation_zone
+                        entity: sensor.dripcorner_station_status
+                        name: "Fence Corner"
+                      - type: custom:button-card
+                        template:
+                          - irrigation_zone
+                        entity: sensor.dripmaple_station_status
+                        name: "Maple"
+                      - type: custom:button-card
+                        template:
+                          - irrigation_zone
+                        entity: sensor.front1_station_status
+                        name: "Front Street"
+                      - type: custom:button-card
+                        template:
+                          - irrigation_zone
+                        entity: sensor.front2_maple_station_status
+                        name: "Front Maple"
+                      - type: custom:button-card
+                        template:
+                          - irrigation_zone
+                        entity: sensor.pond_house_side_station_status
+                        name: "Pond House"
+                      - type: custom:button-card
+                        template:
+                          - irrigation_zone
+                        entity: sensor.pond2_station_status
+                        name: "Pond/Street"
+                      - type: custom:button-card
+                        template:
+                          - irrigation_zone
+                        entity: sensor.island_station_status
+                        name: "Pond Island"
+                      - type: custom:button-card
+                        template:
+                          - irrigation_zone
+                        entity: sensor.sprinklerlawn1_station_status
+                        name: "Lawn #1"
+                        icon: mdi:sprinkler-variant
+                      - type: custom:button-card
+                        template:
+                          - irrigation_zone
+                        entity: sensor.sprinklerlawn2_station_status
+                        name: "Lawn #2"
+                        icon: mdi:sprinkler-variant
+                      - type: custom:button-card
+                        template:
+                          - irrigation_zone
+                        entity: sensor.sprinklerlawn3_station_status
+                        name: "Lawn #3"
+                        icon: mdi:sprinkler-variant
 
-                      - type: custom:layout-card # Irrigation zones
-                        layout_type: custom:grid-layout
-                        layout:
-                          padding: 0 1vw 1vw 1vw
-                          grid-template-columns: repeat(4, 1fr)
-                          grid-gap: var(--custom-layout-card-padding)
-                          mediaquery:
-                            "(max-width: 800px)":
-                              grid-template-columns: repeat(2, 1fr)
-                        title: "Programs"
-                        cards:
-                          - entity: switch.lawn_program_enabled
-                            name: "Lawn"
-                            type: custom:button-card
-                            template:
-                              - irrigation_program
-                            variables:
-                              start_time_entity: time.lawn_start_time
+                  - type: custom:layout-card # Irrigation zones
+                    layout_type: custom:grid-layout
+                    layout:
+                      padding: 0 1vw 1vw 1vw
+                      grid-template-columns: repeat(4, 1fr)
+                      grid-gap: var(--custom-layout-card-padding)
+                      mediaquery:
+                        "(max-width: 800px)":
+                          grid-template-columns: repeat(2, 1fr)
+                    title: "Programs"
+                    cards:
+                      - entity: switch.lawn_program_enabled
+                        name: "Lawn"
+                        type: custom:button-card
+                        template:
+                          - irrigation_program
+                        variables:
+                          start_time_entity: time.lawn_start_time
 
-                          - entity: switch.drip_program_enabled
-                            name: "Drip"
-                            type: custom:button-card
-                            template:
-                              - irrigation_program
-                            variables:
-                              start_time_entity: time.drip_start_time
+                      - entity: switch.drip_program_enabled
+                        name: "Drip"
+                        type: custom:button-card
+                        template:
+                          - irrigation_program
+                        variables:
+                          start_time_entity: time.drip_start_time
 
           - name: "Utilities"
             entity: sensor.eagle_200_meter_power_demand
@@ -4405,86 +4550,95 @@ views:
                   if (id) return parseInt(id.state);
                 ]]]
             tap_action:
-              action: fire-dom-event
-              browser_mod:
-                service: browser_mod.popup
-                data:
-                  title: Utilities
-                  icon: mdi:power-plug
-                  content:
-                    type: custom:layout-card
-                    layout_type: custom:grid-layout
-                    layout:
-                      padding: 1vw
-                      grid-template-columns: repeat(1, 1fr)
-                      grid-gap: var(--custom-layout-card-padding)
+              action: navigate
+              navigation_path: "#utilities"
+
+          - type: vertical-stack # Pool pop-up
+            cards:
+              - type: custom:bubble-card # this will make the cards below show up (or not)
+                card_type: pop-up
+                hash: "#utilities"
+                button_type: name
+                name: "Utilities"
+                icon: mdi:power-plug
+                bg_blur: "5"
+                shadow_opacity: "20"
+                bg_opacity: "98"
+                show_header: false
+
+              - type: custom:layout-card
+                layout_type: custom:grid-layout
+                layout:
+                  padding: 1vw
+                  grid-template-columns: repeat(1, 1fr)
+                  grid-gap: var(--custom-layout-card-padding)
+                cards:
+                  - type: custom:auto-entities
+                    card:
+                      type: vertical-stack
+                      title: "Current Electric"
+                    sort:
+                      method: name
+                      ignore_case: true
+                    card_param: cards
+                    filter:
+                      include:
+                        - entity_id: sensor.*_power
+                          options:
+                            type: custom:button-card
+                            template: ts_bar
+                            variables:
+                              max_value: 2000
+                      exclude:
+                        - entity_id: sensor.total_power
+                        - entity_id: sensor.*battery_power
+                        - state: "unavailable"
+
+                  - title: Graphs
+                    type: grid
+                    columns: 1
+                    square: false
                     cards:
-                      - type: custom:auto-entities
-                        card:
-                          type: vertical-stack
-                          title: "Current Electric"
-                        sort:
-                          method: name
-                          ignore_case: true
-                        card_param: cards
-                        filter:
-                          include:
-                            - entity_id: sensor.*_power
-                              options:
-                                type: custom:button-card
-                                template: ts_bar
-                                variables:
-                                  max_value: 2000
-                          exclude:
-                            - entity_id: sensor.total_power
-                            - entity_id: sensor.*battery_power
-                            - state: "unavailable"
+                      - entity: sensor.total_power
+                        type: custom:button-card
+                        template: bubble_card_graph
+                        variables:
+                          card_name: "Electricity"
+                          graph_color: "orange"
 
-                      - title: Graphs
-                        type: grid
-                        columns: 1
-                        square: false
-                        cards:
-                          - entity: sensor.total_power
-                            type: custom:button-card
-                            template: bubble_card_graph
-                            variables:
-                              card_name: "Electricity"
-                              graph_color: "orange"
+                      - entity: sensor.flo_shutoff_water_flow_rate_per_hour
+                        type: custom:button-card
+                        template: bubble_card_graph
+                        variables:
+                          card_name: "Water for house"
+                          graph_color: "cornflowerblue"
+                          card_icon: mdi:water-outline
 
-                          - entity: sensor.flo_shutoff_water_flow_rate_per_hour
-                            type: custom:button-card
-                            template: bubble_card_graph
-                            variables:
-                              card_name: "Water for house"
-                              graph_color: "cornflowerblue"
-                              card_icon: mdi:water-outline
+                      - type: custom:mod-card
+                        style: >
+                          {% set value = states('sensor.current_bill_electricity_usage_to_date') %}
+                          {% if int(value) > 0 %}
+                          {{ "ha-card { display: none; }" }}
+                          {% endif %}                          card:
+                          entity: sensor.current_bill_electric_usage_to_date
+                          type: custom:button-card
+                          template: bubble_card_graph
+                          variables:
+                            card_name: "Electricity to date"
+                            graph_color: "orange"
 
-                          - type: custom:mod-card
-                            style: >
-                              {% set value = states('sensor.current_bill_electricity_usage_to_date') %}
-                              {% if int(value) > 0 %}
-                              {{ "hui-card { display: none; }" }}
-                              {% endif %}                          card:
-                              entity: sensor.current_bill_electric_usage_to_date
-                              type: custom:button-card
-                              template: bubble_card_graph
-                              variables:
-                                card_name: "Electricity to date"
-                                graph_color: "orange"
-
-                          - type: custom:mod-card
-                            style: >
-                              {% set value = states('sensor.current_bill_gas_usage_to_date') %}
-                              {% if int(value) > 0 %}
-                              {{ "hui-card { display: none; }" }}
-                              {% endif %}                          card:
-                              entity: sensor.current_bill_gas_usage_to_date
-                              type: custom:button-card
-                              template: bubble_card_graph
-                              variables:
-                                card_name: "Electricity to date"
-                                graph_color: "orange"
+                      - type: custom:mod-card
+                        style: >
+                          {% set value = states('sensor.current_bill_gas_usage_to_date') %}
+                          {% if int(value) > 0 %}
+                          {{ "ha-card { display: none; }" }}
+                          {% endif %}                          card:
+                          entity: sensor.current_bill_gas_usage_to_date
+                          type: custom:button-card
+                          template: bubble_card_graph
+                          variables:
+                            card_name: "Electricity to date"
+                            graph_color: "orange"
 
           - name: "Network"
             entity: binary_sensor.network_status
@@ -4498,190 +4652,196 @@ views:
                   if (id) return parseInt(id.state);
                 ]]]
             tap_action:
-              action: fire-dom-event
-              browser_mod:
-                service: browser_mod.popup
-                data:
-                  title: Network
-                  icon: mdi:web
-                  style: >
-                    --popup-max-width: calc(385px + 385px + 385px);
-                    --ha-card-border-radius: 0;
-                  content:
-                    type: custom:layout-card
-                    layout_type: custom:vertical-layout
-                    layout:
-                      padding: 1vw
+              action: navigate
+              navigation_path: "#utilities"
+
+          - type: vertical-stack # Network pop-up
+            cards:
+              - type: custom:bubble-card # this will make the cards below show up (or not)
+                card_type: pop-up
+                hash: "#network"
+                button_type: name
+                name: "Network"
+                icon: mdi:web
+                bg_blur: "5"
+                shadow_opacity: "20"
+                bg_opacity: "98"
+                show_header: false
+
+              - type: custom:layout-card
+                layout_type: custom:vertical-layout
+                layout:
+                  padding: 1vw
+                cards:
+                  - title: "Router"
+                    type: grid
+                    columns: 4
+                    square: false
+                    view_layout:
+                      grid-area: router
+                    card_mod:
+                      style: |
+                        ha-card {
+                          border: none !important;
+                        }
                     cards:
-                      - title: "Router"
-                        type: grid
-                        columns: 4
-                        square: false
-                        view_layout:
-                          grid-area: router
-                        card_mod:
-                          style: |
-                            ha-card {
-                              border: none !important;
-                            }
-                        cards:
-                          - type: custom:button-card # LAN in
-                            template: circle_graph
-                            icon: mdi:download
-                            variables:
-                              graph_color: cornflowerblue
-                            entity: sensor.rtr_interface_lan_inbytes_kilobytes_per_second
-                            name: "LAN in"
+                      - type: custom:button-card # LAN in
+                        template: circle_graph
+                        icon: mdi:download
+                        variables:
+                          graph_color: cornflowerblue
+                        entity: sensor.rtr_interface_lan_inbytes_kilobytes_per_second
+                        name: "LAN in"
 
-                          - type: custom:button-card # LAN out
-                            template: circle_graph
-                            icon: mdi:upload
-                            variables:
-                              graph_color: cornflowerblue
-                            entity: sensor.rtr_interface_lan_outbytes_kilobytes_per_second
-                            name: "LAN out"
+                      - type: custom:button-card # LAN out
+                        template: circle_graph
+                        icon: mdi:upload
+                        variables:
+                          graph_color: cornflowerblue
+                        entity: sensor.rtr_interface_lan_outbytes_kilobytes_per_second
+                        name: "LAN out"
 
-                          - type: custom:button-card # WG in
-                            template: circle_graph
-                            icon: mdi:download
-                            variables:
-                              graph_color: cornflowerblue
-                            entity: sensor.rtr_interface_homewg_inbytes_kilobytes_per_second
-                            name: "WG in"
+                      - type: custom:button-card # WG in
+                        template: circle_graph
+                        icon: mdi:download
+                        variables:
+                          graph_color: cornflowerblue
+                        entity: sensor.rtr_interface_homewg_inbytes_kilobytes_per_second
+                        name: "WG in"
 
-                          - type: custom:button-card # WG out
-                            template: circle_graph
-                            icon: mdi:upload
-                            variables:
-                              graph_color: cornflowerblue
-                            entity: sensor.rtr_interface_homewg_outbytes_kilobytes_per_second
-                            name: "WG out"
+                      - type: custom:button-card # WG out
+                        template: circle_graph
+                        icon: mdi:upload
+                        variables:
+                          graph_color: cornflowerblue
+                        entity: sensor.rtr_interface_homewg_outbytes_kilobytes_per_second
+                        name: "WG out"
 
-                          - type: custom:button-card # Guest in
-                            template: circle_graph
-                            icon: mdi:download
-                            variables:
-                              graph_color: cornflowerblue
-                            entity: sensor.rtr_interface_guest_inbytes_kilobytes_per_second
-                            name: "Guest in"
+                      - type: custom:button-card # Guest in
+                        template: circle_graph
+                        icon: mdi:download
+                        variables:
+                          graph_color: cornflowerblue
+                        entity: sensor.rtr_interface_guest_inbytes_kilobytes_per_second
+                        name: "Guest in"
 
-                          - type: custom:button-card # Guest out
-                            template: circle_graph
-                            icon: mdi:upload
-                            variables:
-                              graph_color: cornflowerblue
-                            entity: sensor.rtr_interface_guest_outbytes_kilobytes_per_second
-                            name: "Guest out"
+                      - type: custom:button-card # Guest out
+                        template: circle_graph
+                        icon: mdi:upload
+                        variables:
+                          graph_color: cornflowerblue
+                        entity: sensor.rtr_interface_guest_outbytes_kilobytes_per_second
+                        name: "Guest out"
 
-                          - type: custom:button-card # WAN in
-                            template: circle_graph
-                            icon: mdi:download
-                            variables:
-                              graph_color: cornflowerblue
-                            entity: sensor.rtr_interface_wan_inbytes_kilobytes_per_second
-                            name: "WAN in"
+                      - type: custom:button-card # WAN in
+                        template: circle_graph
+                        icon: mdi:download
+                        variables:
+                          graph_color: cornflowerblue
+                        entity: sensor.rtr_interface_wan_inbytes_kilobytes_per_second
+                        name: "WAN in"
 
-                          - type: custom:button-card # WAN out
-                            template: circle_graph
-                            icon: mdi:upload
-                            variables:
-                              graph_color: cornflowerblue
-                            entity: sensor.rtr_interface_wan_outbytes_kilobytes_per_second
-                            name: "WAN out"
+                      - type: custom:button-card # WAN out
+                        template: circle_graph
+                        icon: mdi:upload
+                        variables:
+                          graph_color: cornflowerblue
+                        entity: sensor.rtr_interface_wan_outbytes_kilobytes_per_second
+                        name: "WAN out"
 
-                      - title: "Ping"
-                        type: grid
-                        columns: 4
-                        square: false
-                        view_layout:
-                          grid-area: ping
-                        card_mod:
-                          style: |
-                            ha-card {
-                              border: none !important;
-                            }
-                        cards:
-                          - type: custom:button-card # Rtr
-                            template: connectivity
-                            variables:
-                              graph_color: cornflowerblue
-                            entity: binary_sensor.ping_rtr
-                            name: "Rtr"
+                  - title: "Ping"
+                    type: grid
+                    columns: 4
+                    square: false
+                    view_layout:
+                      grid-area: ping
+                    card_mod:
+                      style: |
+                        ha-card {
+                          border: none !important;
+                        }
+                    cards:
+                      - type: custom:button-card # Rtr
+                        template: connectivity
+                        variables:
+                          graph_color: cornflowerblue
+                        entity: binary_sensor.ping_rtr
+                        name: "Rtr"
 
-                          - type: custom:button-card # Modem
-                            template: connectivity
-                            variables:
-                              graph_color: cornflowerblue
-                            entity: binary_sensor.ping_modem
-                            name: "Modem"
+                      - type: custom:button-card # Modem
+                        template: connectivity
+                        variables:
+                          graph_color: cornflowerblue
+                        entity: binary_sensor.ping_modem
+                        name: "Modem"
 
-                          - type: custom:button-card # DNS
-                            template: connectivity
-                            variables:
-                              graph_color: cornflowerblue
-                            entity: binary_sensor.ping_dns
-                            name: "DNS"
+                      - type: custom:button-card # DNS
+                        template: connectivity
+                        variables:
+                          graph_color: cornflowerblue
+                        entity: binary_sensor.ping_dns
+                        name: "DNS"
 
-                          - type: custom:button-card # Google
-                            template: connectivity
-                            variables:
-                              graph_color: cornflowerblue
-                            entity: binary_sensor.ping_google
-                            name: "Google"
+                      - type: custom:button-card # Google
+                        template: connectivity
+                        variables:
+                          graph_color: cornflowerblue
+                        entity: binary_sensor.ping_google
+                        name: "Google"
 
-                      - title: "UPS"
-                        type: grid
-                        columns: 1
-                        square: false
-                        view_layout:
-                          grid-area: ups
-                        card_mod:
-                          style: |
-                            ha-card {
-                              border: none !important;
-                            }
-                        cards:
-                          - entity: sensor.ups_battery_charge
-                            name: >
-                              [[[
-                                  return states['sensor.ups_status']?.state;
-                              ]]]
-                            type: custom:button-card
-                            template: above_below_bar
-                            variables:
-                              warning_below: 30
-                              warning_above: 100
-                              max_value: 100
+                  - title: "UPS"
+                    type: grid
+                    columns: 1
+                    square: false
+                    view_layout:
+                      grid-area: ups
+                    card_mod:
+                      style: |
+                        ha-card {
+                          border: none !important;
+                        }
+                    cards:
+                      - entity: sensor.ups_battery_charge
+                        name: >
+                          [[[
+                              return states['sensor.ups_status']?.state;
+                          ]]]
+                        type: custom:button-card
+                        template: above_below_bar
+                        variables:
+                          warning_below: 30
+                          warning_above: 100
+                          max_value: 100
 
-                      - title: "Disk usage"
-                        type: grid
-                        columns: 1
-                        square: false
-                        view_layout:
-                          grid-area: nas
-                        card_mod:
-                          style: |
-                            ha-card {
-                              border: none !important;
-                            }
-                        cards:
-                          - entity: sensor.nas_volume_1_volume_used
-                            name: "NAS"
-                            type: custom:button-card
-                            template: above_below_bar
-                            variables:
-                              warning_below: 0
-                              warning_above: 85
-                              max_value: 100
+                  - title: "Disk usage"
+                    type: grid
+                    columns: 1
+                    square: false
+                    view_layout:
+                      grid-area: nas
+                    card_mod:
+                      style: |
+                        ha-card {
+                          border: none !important;
+                        }
+                    cards:
+                      - entity: sensor.nas_volume_1_volume_used
+                        name: "NAS"
+                        type: custom:button-card
+                        template: above_below_bar
+                        variables:
+                          warning_below: 0
+                          warning_above: 85
+                          max_value: 100
 
-                          - entity: sensor.backup_volume_1_volume_used
-                            name: "Backup"
-                            type: custom:button-card
-                            template: above_below_bar
-                            variables:
-                              warning_below: 0
-                              warning_above: 85
-                              max_value: 100
+                      - entity: sensor.backup_volume_1_volume_used
+                        name: "Backup"
+                        type: custom:button-card
+                        template: above_below_bar
+                        variables:
+                          warning_below: 0
+                          warning_above: 85
+                          max_value: 100
 
           - name: "Fire"
             entity: sensor.fire_status
@@ -4695,176 +4855,191 @@ views:
                   if (id) return parseInt(id.state);
                 ]]]
             tap_action:
-              action: fire-dom-event
-              browser_mod:
-                service: browser_mod.popup
-                data:
-                  title: "Fire Alarm"
-                  icon: mdi:fire
-                  content:
-                    type: custom:layout-card
-                    layout_type: custom:grid-layout
-                    layout:
-                      padding: 1vw
-                      grid-template-columns: repeat(1, 1fr)
-                      grid-gap: var(--custom-layout-card-padding)
-                    cards:
-                      - type: custom:button-card
-                        name: "Fire Alarm"
-                        template: base
-                        aspect_ratio: 2/1
-                        entity: alarm_control_panel.fire_alarm
-                        triggers_update:
-                          - alarm_control_panel.fire_alarm
-                          - sensor.fire_status
-                        label: >
-                          [[[
-                              // workaround not updating https://github.com/thomasloven/hass-browser_mod/issues/981
-                              let template = "[[[ const id = states['sensor.fire_status']; return id?.state ? id.state : ''; ]]]";
-                              return template;
-                          ]]]
-                        show_name: true
-                        show_state: true
-                        show_icon: false
-                        show_label: true
-                        styles:
-                          grid:
-                            - grid-template-areas: |
-                                "icon n"
-                                "icon ."
-                                "icon s"
-                                "icon ."
-                                "icon l"
-                            - grid-template-columns: 30% 1fr
-                            - grid-template-rows: min-content 1vw min-content 1vw min-content
-                            - align-items: start
-                            - will-change: transform
-                          name:
-                            - justify-self: start
-                            - line-height: 121%
-                            - font-size: 30px
-                          state:
-                            - justify-self: start
-                            - line-height: 115%
-                            - font-size: 20px
-                          label:
-                            - justify-self: start
-                            - line-height: 115%
-                            - font-size: 20px
-                          custom_fields:
-                            icon:
-                              - width: 100%
-                              - margin-left: -50%
-                              - margin-top: -1%                  
-                        custom_fields:
-                          icon: >-
-                            <div class="mo-fire">
-                              <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                                viewBox="0 0 125 190" enable-background="new 0 0 125 189.864" xml:space="preserve">
-                                <path class="flame-main" fill="#F36E21" d="M76.553,186.09c0,0-10.178-2.976-15.325-8.226s-9.278-16.82-9.278-16.82s-0.241-6.647-4.136-18.465
-                                  c0,0,3.357,4.969,5.103,9.938c0,0-5.305-21.086,1.712-30.418c7.017-9.333,0.571-35.654-2.25-37.534c0,0,13.07,5.64,19.875,47.54
-                                  c6.806,41.899,16.831,45.301,6.088,53.985"/>
-                                <path class="flame-main one" fill="#F6891F" d="M61.693,122.257c4.117-15.4,12.097-14.487-11.589-60.872c0,0,32.016,10.223,52.601,63.123
-                                  c20.585,52.899-19.848,61.045-19.643,61.582c0.206,0.537-19.401-0.269-14.835-18.532S57.576,137.656,61.693,122.257z"/>
-                                <path class="flame-main two" fill="#FFD04A" d="M81.657,79.192c0,0,11.549,24.845,3.626,40.02c-7.924,15.175-21.126,41.899-0.425,64.998
-                                  C84.858,184.21,125.705,150.905,81.657,79.192z"/>
-                                <path class="flame-main three" fill="#FDBA16" d="M99.92,101.754c0,0-23.208,47.027-12.043,80.072c0,0,32.741-16.073,20.108-45.79
-                                  C95.354,106.319,99.92,114.108,99.92,101.754z"/>
-                                <path class="flame-main four" fill="#F36E21" d="M103.143,105.917c0,0,8.927,30.753-1.043,46.868c-9.969,16.115-14.799,29.041-14.799,29.041
-                                  S134.387,164.603,103.143,105.917z"/>
-                                <path class="flame-main five" fill="#FDBA16" d="M62.049,104.171c0,0-15.645,67.588,10.529,77.655C98.753,191.894,69.033,130.761,62.049,104.171z"/>
-                                <path class="flame" fill="#F36E21" d="M101.011,112.926c0,0,8.973,10.519,4.556,16.543C99.37,129.735,106.752,117.406,101.011,112.926z"/>
-                                <path class="flame one" fill="#F36E21" d="M55.592,126.854c0,0-3.819,13.29,2.699,16.945C64.038,141.48,55.907,132.263,55.592,126.854z"/>
-                                <path class="flame two" fill="#F36E21" d="M54.918,104.595c0,0-3.959,6.109-1.24,8.949C56.93,113.256,52.228,107.329,54.918,104.595z"/>
-                              </svg>
-                            </div>
-                        extra_styles: >
-                          .mo-fire {  // https://codepen.io/deepakkv/pen/EKpYMg
-                            width: 100%;
-                            height: auto;
-                          }
-                          .mo-fire svg {
-                            width: 100%;
-                            height: auto;
-                          }
-                          .flame {
-                            animation-name: flamefly;
-                            animation-duration: 2s;
-                            animation-timing-function: linear;
-                            animation-iteration-count: infinite;
-                            opacity: 0;
-                            transform-origin: 50% 50% 0;
-                          }
-                          .flame.one {
-                            animation-delay: 1s;
-                            animation-duration: 3s;
-                          }
-                          .flame3.two{
-                            animation-duration: 5s;
-                            animation-delay: 1s;
-                          }
+              action: navigate
+              navigation_path: "#fire"
 
-                          .flame-main {
-                            animation-name: flameWobble;
-                            animation-duration: 3s;
-                            animation-timing-function: linear;
-                            animation-iteration-count: infinite;
-                          }
-                          .flame-main.one {
-                            animation-duration: 4s;
-                            animation-delay: 1s;
-                          }
-                          .flame-main.two {
-                            animation-duration: 3s;
-                            animation-delay: 2s;
-                          }
-                          .flame-main.three {
-                            animation-duration: 2.1s;
-                            animation-delay: 3s;
-                          }
-                          .flame-main.four {
-                            animation-duration: 3.2s;
-                            animation-delay: 4s;
-                          }
-                          .flame-main.five {
-                            animation-duration: 2.5s;
-                            animation-delay: 5s;
-                          }
-                          @keyframes flameWobble {
-                            50% {
-                              transform: scale(1,1.2) translate(0, -30px) rotate(-2deg);
-                            }
-                          }
-                          @keyframes flamefly {
-                            0%{
-                              transform: translate(0) rotate(180deg);
-                            }
-                            50% {
-                              opacity: 1;
-                            }
-                            100% {
-                              transform: translate(-20px, -100px) rotate(180deg);
-                              opacity: 0;
-                            }
-                        tap_action:
-                          action: call-service
-                          service: script.toggle_fire_alarm
-                      - type: grid
-                        columns: 1
-                        square: false
-                        cards:
-                          - type: custom:auto-entities
-                            show_empty: false
-                            filter:
-                              include:
-                                - domain: binary_sensor
-                                  entity_id: /nest_protect_.*_status/
-                                  state: "on"
-                                  options:
-                                    icon: mdi:fire
-                                    type: custom:multiple-entity-row
-                                    show_state: true
-                                    secondary_info: last-changed
+          - type: vertical-stack # Fire pop-up
+            cards:
+              - type: custom:bubble-card # this will make the cards below show up (or not)
+                card_type: pop-up
+                hash: "#fire"
+                button_type: name
+                name: "Fire Alarm"
+                icon: mdi:fire
+                bg_blur: "5"
+                shadow_opacity: "20"
+                bg_opacity: "98"
+                trigger:
+                  - condition: state
+                    entity: binary_sensor.fire_problem_exists
+                    state: "on"
+                show_header: false
+
+              - type: custom:layout-card
+                layout_type: custom:grid-layout
+                layout:
+                  padding: 1vw
+                  grid-template-columns: repeat(1, 1fr)
+                  grid-gap: var(--custom-layout-card-padding)
+                cards:
+                  - type: custom:button-card
+                    name: "Fire Alarm"
+                    template: base
+                    aspect_ratio: 2/1
+                    entity: alarm_control_panel.fire_alarm
+                    triggers_update:
+                      - alarm_control_panel.fire_alarm
+                      - sensor.fire_status
+                    label: >-
+                      [[[
+                          const id = states['sensor.fire_status']; 
+                          return id?.state ? id.state : '';
+                          // workaround not updating https://github.com/thomasloven/hass-browser_mod/issues/981
+                          //let template = "[[[ const id = states['sensor.fire_status']; return id?.state ? id.state : ''; ]]]";
+                          //return template;
+                      ]]]
+                    show_name: true
+                    show_state: true
+                    show_icon: false
+                    show_label: true
+                    styles:
+                      grid:
+                        - grid-template-areas: |
+                            "icon n"
+                            "icon ."
+                            "icon s"
+                            "icon ."
+                            "icon l"
+                        - grid-template-columns: 30% 1fr
+                        - grid-template-rows: min-content 1vw min-content 1vw min-content
+                        - align-items: start
+                        - will-change: transform
+                      name:
+                        - justify-self: start
+                        - line-height: 121%
+                        - font-size: 30px
+                      state:
+                        - justify-self: start
+                        - line-height: 115%
+                        - font-size: 20px
+                      label:
+                        - justify-self: start
+                        - line-height: 115%
+                        - font-size: 20px
+                      custom_fields:
+                        icon:
+                          - width: 100%
+                          - margin-left: -50%
+                          - margin-top: -1%
+                    custom_fields:
+                      icon: >-
+                        <div class="mo-fire">
+                          <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                            viewBox="0 0 125 190" enable-background="new 0 0 125 189.864" xml:space="preserve">
+                            <path class="flame-main" fill="#F36E21" d="M76.553,186.09c0,0-10.178-2.976-15.325-8.226s-9.278-16.82-9.278-16.82s-0.241-6.647-4.136-18.465
+                              c0,0,3.357,4.969,5.103,9.938c0,0-5.305-21.086,1.712-30.418c7.017-9.333,0.571-35.654-2.25-37.534c0,0,13.07,5.64,19.875,47.54
+                              c6.806,41.899,16.831,45.301,6.088,53.985"/>
+                            <path class="flame-main one" fill="#F6891F" d="M61.693,122.257c4.117-15.4,12.097-14.487-11.589-60.872c0,0,32.016,10.223,52.601,63.123
+                              c20.585,52.899-19.848,61.045-19.643,61.582c0.206,0.537-19.401-0.269-14.835-18.532S57.576,137.656,61.693,122.257z"/>
+                            <path class="flame-main two" fill="#FFD04A" d="M81.657,79.192c0,0,11.549,24.845,3.626,40.02c-7.924,15.175-21.126,41.899-0.425,64.998
+                              C84.858,184.21,125.705,150.905,81.657,79.192z"/>
+                            <path class="flame-main three" fill="#FDBA16" d="M99.92,101.754c0,0-23.208,47.027-12.043,80.072c0,0,32.741-16.073,20.108-45.79
+                              C95.354,106.319,99.92,114.108,99.92,101.754z"/>
+                            <path class="flame-main four" fill="#F36E21" d="M103.143,105.917c0,0,8.927,30.753-1.043,46.868c-9.969,16.115-14.799,29.041-14.799,29.041
+                              S134.387,164.603,103.143,105.917z"/>
+                            <path class="flame-main five" fill="#FDBA16" d="M62.049,104.171c0,0-15.645,67.588,10.529,77.655C98.753,191.894,69.033,130.761,62.049,104.171z"/>
+                            <path class="flame" fill="#F36E21" d="M101.011,112.926c0,0,8.973,10.519,4.556,16.543C99.37,129.735,106.752,117.406,101.011,112.926z"/>
+                            <path class="flame one" fill="#F36E21" d="M55.592,126.854c0,0-3.819,13.29,2.699,16.945C64.038,141.48,55.907,132.263,55.592,126.854z"/>
+                            <path class="flame two" fill="#F36E21" d="M54.918,104.595c0,0-3.959,6.109-1.24,8.949C56.93,113.256,52.228,107.329,54.918,104.595z"/>
+                          </svg>
+                        </div>
+                    extra_styles: >
+                      .mo-fire {  // https://codepen.io/deepakkv/pen/EKpYMg
+                        width: 100%;
+                        height: auto;
+                      }
+                      .mo-fire svg {
+                        width: 100%;
+                        height: auto;
+                      }
+                      .flame {
+                        animation-name: flamefly;
+                        animation-duration: 2s;
+                        animation-timing-function: linear;
+                        animation-iteration-count: infinite;
+                        opacity: 0;
+                        transform-origin: 50% 50% 0;
+                      }
+                      .flame.one {
+                        animation-delay: 1s;
+                        animation-duration: 3s;
+                      }
+                      .flame3.two{
+                        animation-duration: 5s;
+                        animation-delay: 1s;
+                      }
+
+                      .flame-main {
+                        animation-name: flameWobble;
+                        animation-duration: 3s;
+                        animation-timing-function: linear;
+                        animation-iteration-count: infinite;
+                      }
+                      .flame-main.one {
+                        animation-duration: 4s;
+                        animation-delay: 1s;
+                      }
+                      .flame-main.two {
+                        animation-duration: 3s;
+                        animation-delay: 2s;
+                      }
+                      .flame-main.three {
+                        animation-duration: 2.1s;
+                        animation-delay: 3s;
+                      }
+                      .flame-main.four {
+                        animation-duration: 3.2s;
+                        animation-delay: 4s;
+                      }
+                      .flame-main.five {
+                        animation-duration: 2.5s;
+                        animation-delay: 5s;
+                      }
+                      @keyframes flameWobble {
+                        50% {
+                          transform: scale(1,1.2) translate(0, -30px) rotate(-2deg);
+                        }
+                      }
+                      @keyframes flamefly {
+                        0%{
+                          transform: translate(0) rotate(180deg);
+                        }
+                        50% {
+                          opacity: 1;
+                        }
+                        100% {
+                          transform: translate(-20px, -100px) rotate(180deg);
+                          opacity: 0;
+                        }
+                    tap_action:
+                      action: call-service
+                      service: script.toggle_fire_alarm
+                  - type: grid
+                    columns: 1
+                    square: false
+                    cards:
+                      - type: custom:auto-entities
+                        show_empty: false
+                        filter:
+                          include:
+                            - domain: binary_sensor
+                              entity_id: /nest_protect_.*_status/
+                              state: "on"
+                              options:
+                                icon: mdi:fire
+                                type: custom:multiple-entity-row
+                                show_state: true
+                                secondary_info: last-changed
 
     background:
       opacity: 100
