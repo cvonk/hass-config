@@ -1,5 +1,5 @@
 # A few words to the wise ..
-#  - Use the Visual Code addon in Home Assistant.  It is a blessing.
+#  - Use the Visual Code addon in Home Assistant, and embrase the folding editor.
 #  - However tempting, I didn't split up this file, because it caused problems
 #    with !include files staying cached.
 #  - Some credentials must reside in secrets.yaml what is not included in this
@@ -3100,7 +3100,7 @@ views:
           grid-area: outside
         columns: 3
         cards:
-          - name: Entry
+          - name: "Entry"
             type: custom:button-card
             template: base
             entity: light.entry
@@ -3108,7 +3108,7 @@ views:
             size: 80%
             show_state: true
 
-          - name: Patio
+          - name: "Patio"
             type: custom:button-card
             template: base
             entity: light.patios
@@ -3117,7 +3117,7 @@ views:
             show_state: true
             aspect_ratio: 1/1
 
-          - name: Pool
+          - name: "Pool"
             type: custom:button-card
             template: base
             entity: light.pools
