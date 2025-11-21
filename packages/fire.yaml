@@ -1,12 +1,12 @@
 alarm_control_panel:
   - unique_id: fire_alarm
-    name: Fire Alarm
+    name: "Fire Alarm"
     platform: manual
     code_arm_required: false
-    trigger_time: 0
-    disarm_after_trigger: false
-    arming_time: 0
-    delay_time: 35
+    trigger_time: 120 # alarm fires for 2 minutes
+    disarm_after_trigger: false # stay triggered until manually cleared or times out
+    arming_time: 0 # arm immediately
+    delay_time: 35 # 35 seconds in 'pending' state until alarm is firing
     disarmed:
       trigger_time: 0
 
@@ -50,6 +50,17 @@ template:
             selectattr('entity_id', 'match', 'binary_sensor\.nest_protect_.*_status') |
             selectattr('state', 'eq', 'on') | list | count | int
           }}
+  - binary_sensor:
+      - unique_id: fire_problem_exists
+        name: "Fire Problem Exists"
+        icon: mdi:fire
+        state: >-
+          {% set value = states('sensor.nr_of_fire_problems') %}
+          {% if (value != 'unavailable' and value != 'unknown') %}
+          {{     int(value) > 0 }}
+          {% else %}
+          {{     value }}
+          {% endif %}
 
 google_assistant:
   entity_config:
