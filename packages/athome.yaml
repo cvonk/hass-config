@@ -2,8 +2,6 @@ homeassistant:
   customize:
     person.coert:
       entity_picture: /local/coert.png
-    device_tracker.iphone:
-      entity_picture: /local/device_tracker.svg
     person.barrie:
       entity_picture: /local/barrie.png
 
@@ -18,7 +16,27 @@ person:
     device_trackers:
       - device_tracker.barrie_s_phone
       - device_tracker.barrie_s_pixel_watch
-      
+
+template:
+  - binary_sensor:
+      - unique_id: coert_phone_on_lan
+        name: "Coert Phone on LAN"
+        state: >-
+          {% if states('sensor.coert_phone_wi_fi_connection') == 'Urban Farm' %}
+              home
+          {% else %}
+              not_home
+          {% endif %}
+
+      - unique_id: barrie_phone_on_lan
+        name: "Barrie Phone on LAN"
+        state: >-
+          {% if states('sensor.barrie_phone_wi_fi_connection') == 'Urban Farm' %}
+              home
+          {% else %}
+              not_home
+          {% endif %}
+
 #mqtt:
 #  sensor:
 #    - name: coert_last_changed
