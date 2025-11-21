@@ -40,8 +40,9 @@ Sonoff S31 socket switches also measure power usage
 No longer need to trigger a 'discovery annoucement' by going to each Sonoff device pageiot.vonk/)
   Console >  Command > SetOption19 0
 while you're at it
-  Console >  Command > Timezone -8
-  Console >  Command > TelePeriod 30
+  Console > Command > Timezone -8
+  Console > Command > TelePeriod 30
+  Console > Command > SetOption30	1, to change from switch to light
 
 Remember to calibrate (https://tasmota.github.io/docs/Power-Monitoring-Calibration/)
 note that `CurrentSet` expects milliamps [mA]
