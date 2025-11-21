@@ -46,6 +46,18 @@ template:
               selectattr('state', 'eq', 'on') | list | count
           }}
 
+      - unique_id: flo_shutoff_water_flow_rate_per_hour
+        name: "Flo Shutoff Water Flow Rate per hour"
+        #device_class: volume_flow_rate
+        #unit_of_measurement: "gal/h"
+        state: >-
+          {% set value = states('sensor.flo_shutoff_water_flow_rate') %}
+          {% if value != 'unavailable' and value != 'unknown' %}
+          {{    value | float * 60.0 }}
+          {% else %}
+          {{     value }}
+          {% endif %}
+
   - binary_sensor:
       - name: "Utilities Status"
         icon: mdi:alert
@@ -78,18 +90,6 @@ template:
         state: >-
           {% set value = states('sensor.current_bill_gas_usage_to_date') %}
           {{ value != 'unavailable' and value != 'unknown' }}
-
-      - unique_id: flo_shutoff_water_flow_rate_per_hour
-        name: "Flo Shutoff Water Flow Rate per hour"
-        #device_class: volume_flow_rate
-        #unit_of_measurement: "gal/h"
-        state: >-
-          {% set value = states('sensor.flo_shutoff_water_flow_rate') %}
-          {% if value != 'unavailable' and value != 'unknown' %}
-          {{    value | float * 60.0 }}
-          {% else %}
-          {{     value }}
-          {% endif %}
 
 # so that Energy Config recognizes these as energy sensors
 #
