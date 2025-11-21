@@ -60,7 +60,7 @@ lovelace:
   dashboards:
     lovelace-dashboard:
       mode: yaml
-      title: "YAML dashboard"
+      title: "Dashboard"
       icon: mdi:script
       show_in_sidebar: true
       filename: lovelace.yaml
