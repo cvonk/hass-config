@@ -108,3 +108,13 @@ template:
               map(attribute='state') | 
               map('float', 0) | sum
           }}
+
+# so that Energy Config recognizes these as energy sensors
+# prevent: "Error 'The unit of measurement `kWh` is not valid together with device class `power`' when processing MQTT discovery message topic"
+homeassistant:
+  customize_glob:
+    sensor.*_energy:
+      unit_of_measurement: kWh
+      device_class: energy
+      state_class: total_increasing
+      last_reset: "1970-01-01T00:00:00+00:00"
