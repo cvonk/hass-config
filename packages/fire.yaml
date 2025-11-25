@@ -51,8 +51,8 @@ template:
             selectattr('state', 'eq', 'on') | list | count | int
           }}
   - binary_sensor:
-      - unique_id: fire_problem_exists
-        name: "Fire Problem Exists"
+      - unique_id: fire_problem
+        name: "Fire Problem"
         icon: mdi:fire
         state: >-
           {% set value = states('sensor.nr_of_fire_problems') %}
