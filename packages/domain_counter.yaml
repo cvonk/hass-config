@@ -22,7 +22,7 @@ template:
             {% set exclude = this.attributes | list %}
             {{ states | rejectattr('domain', 'in', exclude) | list | count }}
           inside_climate: >
-            {{ states.climate | selectattr('entity_id', 'match', '^climate\..*_floor.*$') | count }}
+            {{ states.climate | selectattr('entity_id', 'match', '^climate\..*_floor.*$') | list | count }}
 
       #- name: Inside Climate Entities
       #  state: >
