@@ -9,6 +9,7 @@
 blueprints/
 !blueprints/script/cvonk/
 hidden/
+.ssh/
 template/
 image/
 tts/
