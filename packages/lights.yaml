@@ -35,28 +35,6 @@ switch:
       - switch.sander_bedroom
       - switch.sander_dresser
 
-automation:
-  - alias: "Entry Light on motion"
-    description: "https://community.home-assistant.io/t/time-to-leave-the-light-on-after-last-motion-is-detected-problem/762956/8"
-    trigger:
-      - trigger: state
-        entity_id: binary_sensor.aarlo_motion_entry
-        from: "off"
-        to: "on"
-      - trigger: state
-        entity_id: binary_sensor.aarlo_motion_entry
-        from: "on"
-        to: "off"
-        for:
-          minutes: 5
-    condition:
-      - condition: sun
-        after: sunset
-    action:
-      - action: "light.turn_{{ trigger.to_state.state }}"
-        target:
-          entity_id: light.entry
-
 template:
   - sensor:
       - unique_id: dining_room_dimmerpwr # purposely use pwr instead of power
