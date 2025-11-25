@@ -58,7 +58,7 @@ template: !include sidebar.yaml
 lovelace:
   mode: storage
   dashboards:
-    lovelace-dashboard:
+    lovelace-ui:
       mode: yaml
       title: "Dashboard"
       icon: mdi:script
