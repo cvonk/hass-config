@@ -15,11 +15,6 @@ mqtt:
       unit_of_measurement: W
       qos: 0
 
-homeassistant:
-  customize:
-      sensor.dining_room_dimmer_lightpwr
-        
-
 template:
   - sensor:
       # total house power read from PG&E (using Eagle 200)
@@ -92,6 +87,7 @@ template:
         name: "Upstairs Floor Cooling HVACpwr"
         device_class: power
         unit_of_measurement: W
+        state_class: measurement
         state: >-
           {% set value = states('binary_sensor.upstairs_floor_cooling_status') %}
           {% if value != 'unavailable' and value != 'unknown' %}
@@ -101,7 +97,7 @@ template:
           {{         0.0 }}
           {%     endif %}
           {% else %}
-          {{     value }}
+                0
           {% endif %}
 
       # estimated idle power
@@ -146,5 +142,5 @@ template:
                   float(lights) - float(espresso) - float(idle)
           }}
           {% else %}
-            'unavailable'
+            unavailable
           {% endif %}
