@@ -1,21 +1,3 @@
-#template:
-#  - sensor:
-#      - name: coert_energy
-#        device_class: energy
-#        unit_of_measurement: kWh
-#        state_class: total_increasing
-#        state: '{{ states("sensor.sonoff_s31_6_energy_total") }}'
-
-#sensor:
-#  - unique_id: dryer_energy
-#    name: "Dryer Energy"
-#    platform: integration
-#    source: sensor.dryer_power
-#    unit_prefix: k
-#    unit_time: h
-#    method: trapezoidal
-#    round: 2
-
 template:
   - binary_sensor:
       - name: "Utilities Flo Shutoff Problem"
@@ -90,13 +72,3 @@ template:
         state: >-
           {% set value = states('sensor.current_bill_gas_usage_to_date') %}
           {{ value != 'unavailable' and value != 'unknown' }}
-
-# so that Energy Config recognizes these as energy sensors
-#
-#homeassistant:
-#  customize_glob:
-#    sensor.*_energy:
-#      unit_of_measurement: kWh
-#      device_class: energy
-#      state_class: total_increasing
-#      last_reset: '1970-01-01T00:00:00+00:00'
