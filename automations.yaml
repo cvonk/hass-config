@@ -1,1 +1,84 @@
-[]
+- id: '1763962089725'
+  alias: Fire pop-up on fire_problem
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - binary_sensor.fire_problem
+    from:
+    - 'off'
+    to:
+    - 'on'
+  conditions: []
+  actions:
+  - action: system_log.write
+    data:
+      message: Fire pop-up ..
+      level: warning
+      logger: fire_automation
+  - action: browser_mod.popup
+    metadata: {}
+    data:
+      dismissable: true
+      autoclose: false
+      popup_card_id: lovelace-ui/fire_popup
+  - action: system_log.write
+    data:
+      message: Fire pop-up done
+      level: warning
+      logger: fire_automation
+  mode: single
+- id: '1763962512630'
+  alias: Notify when inside temperature below 50 °F
+  description: ''
+  triggers:
+  - trigger: numeric_state
+    entity_id:
+    - sensor.main_floor_temperature
+    - sensor.upstairs_floor_temperature
+    below: 50
+  conditions: []
+  actions:
+  - action: notify.all_devices
+    metadata: {}
+    data:
+      message: Inside temperature dropped below 50 °F
+  mode: single
+- id: '1763962535318'
+  alias: Entry Light on motion
+  description: https://community.home-assistant.io/t/time-to-leave-the-light-on-after-last-motion-is-detected-problem/762956/8
+  triggers:
+  - trigger: state
+    entity_id: binary_sensor.aarlo_motion_entry
+    from: 'off'
+    to: 'on'
+  - trigger: state
+    entity_id: binary_sensor.aarlo_motion_entry
+    from: 'on'
+    to: 'off'
+    for:
+      minutes: 2
+  conditions:
+  - condition: sun
+    after: sunset
+  actions:
+  - action: light.turn_{{ trigger.to_state.state }}
+    target:
+      entity_id: light.entry
+  mode: single
+- id: '1763962564570'
+  alias: Automatically refresh browser on lovelace update
+  description: ''
+  triggers:
+  - trigger: event
+    event_type: lovelace_updated
+    event_data: {}
+  conditions: []
+  actions:
+  - delay: 00:00:01
+  - action: browser_mod.notification
+    data:
+      message: Lovelace updated
+      duration: 1
+  mode: single
+  max_exceeded: silent
