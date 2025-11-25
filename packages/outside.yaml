@@ -68,7 +68,7 @@ template:
       - unique_id: terracehabitat_aqi
         name: "Air Quality Index"
         device_class: aqi
-        unit_of_measurement: ""
+        unit_of_measurement: "no unit of measurement"
         state: >
           {% macro calcAQI(Cp, Ih, Il, BPh, BPl) -%}
             {{ (((Ih - Il)/(BPh - BPl)) * (Cp - BPl) + Il)|round }}
