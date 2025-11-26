@@ -27,15 +27,23 @@ sensor:
 # when reinstalling, remember to unlink/link the automation from the Google Home App (on phone)
 # coert / xf64n3EmCdmYYYe1
 google_assistant:
-  project_id: home-assistant-a7bd4
+  project_id: !secret google_project_id
   service_account: !include service_account.json
   report_state: true
   expose_by_default: false
 
 http:
+  server_port: 8123
+  ssl_certificate: /ssl/fullchain.pem
+  ssl_key: /ssl/privkey.pem
   use_x_forwarded_for: true
   trusted_proxies:
     - 10.0.1.1
+  cors_allowed_origins:
+    - https://google.com
+    - https://www.home-assistant.io
+  ip_ban_enabled: true
+  login_attempts_threshold: 10
 
 # Text to speech
 tts:
