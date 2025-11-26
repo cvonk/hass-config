@@ -15,10 +15,22 @@ wallpanel:
   hide_sidebar: true
   fullscreen: true
   idle_time: 600
+  screensaver_entity: input_boolean.panel_screensaver # switch created in UI
   profiles:
     device.panel_m11:
       enabled: true
+      views: []
       fullscreen: true
+      cards:
+        - entity: weather.pirateweather
+          type: custom:weather-chart-card
+    device.panel_m11_2:
+      enabled: true
+      views: []
+      fullscreen: true
+      cards:
+        - entity: weather.pirateweather
+          type: custom:weather-chart-card
 
 button_card_templates:
   settings:
@@ -3833,34 +3845,133 @@ views:
             type: custom:popup-card
             title: "Inside Climate"
             icon: mdi:home-thermometer-outline
+            size: wide # or fullscreen, narrow, etc.
+            card_mod:
+              style: |
+                ha-dialog > div.content {
+                  background: linear-gradient(to top, rgba(10,10,10, 0.6), rgba(255, 255, 224, 0.3));
+                }
             card:
               type: custom:layout-card
               layout_type: custom:grid-layout
+              square: false
               layout:
                 padding: 0 1vw 1vw 1vw
-                grid-template-columns: repeat(2, 1fr)
+                grid-template-columns: repeat(3, 1fr)
+                grid-template-rows: 0 repeat(2, 1ft)
+                grid-template-areas: |
+                  ".       .          ."
+                  "graphic downstairs upstairs"
+                  "graphic filter     ."
                 grid-gap: var(--custom-layout-card-padding)
+                align-items: start
+                will-change: transform
                 mediaquery:
-                  "(max-width: 1200px)":
+                  "(max-width: 800px)":
                     grid-template-columns: repeat(1, 1fr)
-              square: false
+                    grid-template-areas: |
+                      "downstairs"
+                      "upstairs"
+                      "filter"
+                  "(max-width: 1200px)":
+                    grid-template-columns: repeat(2, 1fr)
+                    grid-template-areas: |
+                      "downstairs upstairs"
+                      "filter     ."
               cards:
+                - type: markdown
+                  view_layout:
+                    grid-area: graphic
+                  content: |-
+                    <img href="background-image" src="/local/deruta_cup.png">
+                    <div href="overlay"></div>
+                  card_mod:
+                    style:
+                      .: >
+                        ha-card {
+                          border-width: 0;
+                          box-shadow: none;
+                          backdrop-filter: none !important;
+                        }
+                      ha-markdown $ ha-markdown-element: >
+                        img {
+                          position: absolute;
+                          bottom: 0;
+                          width: 70%;
+                          left: 50%;
+                          transform: translateX(-50%);                            
+                          height: auto;
+                        }
+                        div {
+                          position: absolute;
+                          bottom: 270px;
+                          left: 33%;
+                          transform: translateX(-50%);                            
+                          font-weight: bold;
+                          text-align: center;
+                          font-size: 30px;
+                        }
+                        div::before {
+                          content: '';
+                          position: absolute;
+                          width: 12px;
+                          height: 40px;
+                          left: -10px;
+                          top: 0;
+                          box-shadow: 35px 9px 2px -3px #b7aba385, 78px 4px 3px -2px #b7aba385, 117px 15px 2px -2px #b7aba385;
+                          animation: steam 3s linear infinite forwards;
+                        }
+                        @keyframes steam {
+                          0% {
+                                transform: translateY(61px);
+                            opacity: 0
+                          }
+                          60% {
+                            opacity: 0.7;
+                          }
+                          100% {
+                            transform: translateY(-31px);
+                            opacity: 0;
+                          }
+                        }
+
                 - entity: climate.main_floor
                   type: thermostat
                   show_current_as_primary: false
                   features:
                     - type: climate-hvac-modes
+                  view_layout:
+                    grid-area: downstairs
+                  card_mod:
+                    style: |
+                      ha-card {
+                          background: var(--secondary-background-color);
+                      }
 
                 - entity: climate.upstairs_floor
                   type: thermostat
                   features:
                     - type: climate-hvac-modes
+                  view_layout:
+                    grid-area: upstairs
+                  card_mod:
+                    style: |
+                      ha-card {
+                          background: var(--secondary-background-color);
+                      }
 
                 - entity: fan.air_filter
                   type: custom:purifier-card
                   compact_view: true
                   show_state: true
                   show_toolbar: true
+                  view_layout:
+                    grid-area: filter
+                  card_mod:
+                    style: |
+                      ha-card {
+                          background: var(--secondary-background-color);
+                      }
                   shortcuts:
                     - name: Auto
                       icon: mdi:brightness-auto
@@ -4971,7 +5082,7 @@ views:
                     action: call-service
                     service: script.toggle_fire_alarm
 
-                - type: grid  # smoke detector status
+                - type: grid # smoke detector status
                   columns: 1
                   square: false
                   cards:
