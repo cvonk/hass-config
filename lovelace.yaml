@@ -3882,7 +3882,7 @@ views:
                       "downstairs upstairs"
                       "filter     ."
               cards:
-                - type: markdown
+                - type: markdown # https://codepen.io/Sneha_P_P/pen/LXWWox
                   view_layout:
                     grid-area: graphic
                   content: |-
@@ -4018,19 +4018,306 @@ views:
             type: custom:popup-card
             title: "Outside Climate"
             icon: mdi:sun-thermometer
+            size: wide # or fullscreen, narrow, etc.
+            card_mod:
+              style: |
+                ha-dialog > div.content {
+                  background: linear-gradient(to top, rgba(124, 252, 0, 0.4), rgba(135, 206, 235, 0.02));
+                }
             card:
               type: custom:layout-card
               layout_type: custom:grid-layout
               layout:
                 padding: 0 1vw 1vw 1vw
-                grid-template-columns: repeat(2, 1fr)
+                grid-template-columns: 20vw repeat(2, 1fr)
+                grid-template-rows: 0 repeat(1, 1ft) 0
+                grid-template-areas: |
+                  ".       .        .        "
+                  "graphic station  aqi_temp "
+                  ".       .        .        "
                 grid-gap: var(--custom-layout-card-padding)
+                align-items: start
+                will-change: transform
                 mediaquery:
                   "(max-width: 800px)":
                     grid-template-columns: repeat(1, 1fr)
+                    grid-template-areas: |
+                      ".        "
+                      "aqi_temp "
+                      "station  "
+                      ".        "
+                  "(max-width: 1200px)":
+                    grid-template-columns: repeat(2, 1fr)
+                    grid-template-areas: |
+                      ".        .        "
+                      "station  aqi_temp "
+                      ".        .        "
               cards:
+                - type: markdown # https://codepen.io/jonslater204/pen/jOmeryV
+                  view_layout:
+                    grid-area: graphic
+                  content: |-
+                    <span>
+                      <div>
+                        <b>
+                          <b>
+                            <b>
+                              <b>
+                                <b>
+                                  <b></b>
+                                  <b></b>
+                                </b>
+                                <b>
+                                  <b></b>
+                                  <b></b>
+                                </b>
+                              </b>
+                              <b>
+                                <b>
+                                  <b></b>
+                                  <b></b>
+                                </b>
+                                <b>
+                                  <b></b>
+                                  <b></b>
+                                </b>
+                              </b>
+                            </b>
+                            <b>
+                              <b>
+                                <b>
+                                  <b></b>
+                                  <b></b>
+                                </b>
+                                <b>
+                                  <b></b>
+                                  <b></b>
+                                </b>
+                              </b>
+                              <b>
+                                <b>
+                                  <b></b>
+                                  <b></b>
+                                </b>
+                                <b>
+                                  <b></b>
+                                  <b></b>
+                                </b>
+                              </b>
+                            </b>
+                          </b>
+                          <b>
+                            <b>
+                              <b>
+                                <b>
+                                  <b></b>
+                                  <b></b>
+                                </b>
+                                <b>
+                                  <b></b>
+                                  <b></b>
+                                </b>
+                              </b>
+                              <b>
+                                <b>
+                                  <b></b>
+                                  <b></b>
+                                </b>
+                                <b>
+                                  <b></b>
+                                  <b></b>
+                                </b>
+                              </b>
+                            </b>
+                            <b>
+                              <b>
+                                <b>
+                                  <b></b>
+                                  <b></b>
+                                </b>
+                                <b>
+                                  <b></b>
+                                  <b></b>
+                                </b>
+                              </b>
+                              <b>
+                                <b>
+                                  <b></b>
+                                  <b></b>
+                                </b>
+                                <b>
+                                  <b></b>
+                                  <b></b>
+                                </b>
+                              </b>
+                            </b>
+                          </b>
+                        </b>
+                        <b>
+                          <b>
+                            <b>
+                              <b>
+                                <b>
+                                  <b></b>
+                                  <b></b>
+                                </b>
+                                <b>
+                                  <b></b>
+                                  <b></b>
+                                </b>
+                              </b>
+                              <b>
+                                <b>
+                                  <b></b>
+                                  <b></b>
+                                </b>
+                                <b>
+                                  <b></b>
+                                  <b></b>
+                                </b>
+                              </b>
+                            </b>
+                            <b>
+                              <b>
+                                <b>
+                                  <b></b>
+                                  <b></b>
+                                </b>
+                                <b>
+                                  <b></b>
+                                  <b></b>
+                                </b>
+                              </b>
+                              <b>
+                                <b>
+                                  <b></b>
+                                  <b></b>
+                                </b>
+                                <b>
+                                  <b></b>
+                                  <b></b>
+                                </b>
+                              </b>
+                            </b>
+                          </b>
+                          <b>
+                            <b>
+                              <b>
+                                <b>
+                                  <b></b>
+                                  <b></b>
+                                </b>
+                                <b>
+                                  <b></b>
+                                  <b></b>
+                                </b>
+                              </b>
+                              <b>
+                                <b>
+                                  <b></b>
+                                  <b></b>
+                                </b>
+                                <b>
+                                  <b></b>
+                                  <b></b>
+                                </b>
+                              </b>
+                            </b>
+                            <b>
+                              <b>
+                                <b>
+                                  <b></b>
+                                  <b></b>
+                                </b>
+                                <b>
+                                  <b></b>
+                                  <b></b>
+                                </b>
+                              </b>
+                              <b>
+                                <b>
+                                  <b></b>
+                                  <b></b>
+                                </b>
+                                <b>
+                                  <b></b>
+                                  <b></b>
+                                </b>
+                              </b>
+                            </b>
+                          </b>
+                        </b>
+                      </div>
+                    <span>
+                  card_mod:
+                    style:
+                      .: >
+                        ha-card {
+                          border-width: 0;
+                          box-shadow: none;
+                          backdrop-filter: none !important;
+                          overflow: hidden;
+                        }
+                        @media screen and (max-width: 1200px) {
+                          ha-card {
+                            display: none;
+                          }
+                        }
+                      ha-markdown $ ha-markdown-element: >
+                        div {
+                          scale: 0.3;
+                          --l-angle: -25deg;
+                          --r-angle: 30deg;
+                          width: 5vmin;
+                          height: 20vmin;
+                          margin: 6vmin auto 0;
+                          background: brown;
+                          border-radius: 2.5vmin;
+                          position: relative;
+                        }
+                        @keyframes wind {
+                          10% {
+                            transform: translateY(-85%) scale(0.75) rotate(var(--angle));
+                          }
+                          40% {
+                            animation-timing-function: ease;
+                            transform: translateY(-85%) scale(0.75) rotate(calc(var(--angle) + 5deg));
+                          }
+                        }
+                        b {
+                          --angle: var(--r-angle);
+                          position: absolute;
+                          width: 100%;
+                          height: 100%;
+                          background: inherit;
+                          border-radius: 2.5vmin;
+                          transform-origin: 50% 100%;
+                          transform: translateY(-85%) scale(0.75) rotate(var(--angle));
+                          animation: wind ease-out 8s infinite;
+                        }
+                        b:first-child {
+                          --angle: var(--l-angle);
+                        }
+                        b:empty::after {
+                          content: "";
+                          position: absolute;
+                          left: -100%;
+                          top: -85%;
+                          width: 300%;
+                          height: 100%;
+                          background: green;
+                          border-radius: 75%;
+                        }
+
                 - title: Terrace Drive
                   type: entities
+                  view_layout:
+                    grid-area: station
+                  card_mod:
+                    style: |
+                      ha-card {
+                          background: var(--secondary-background-color);
+                      }
                   entities:
                     - entity: sensor.terracehabitat_temperature
                       name: Air temp
@@ -4052,6 +4339,8 @@ views:
 
                 - type: grid
                   columns: 1
+                  view_layout:
+                    grid-area: aqi_temp
                   square: false
                   cards:
                     - name: "Air Quality"
@@ -4081,6 +4370,11 @@ views:
                           value: 200
                         - color: "#731425"
                           value: 300
+                      card_mod:
+                        style: |
+                          ha-card {
+                              background: var(--secondary-background-color);
+                          }
 
                     - name: "Backyard temp"
                       type: custom:mini-graph-card
@@ -4101,6 +4395,11 @@ views:
                         - aggregate_func: min
                           entity: sensor.opnpool_last_air_temp
                           name: min temp
+                      card_mod:
+                        style: |
+                          ha-card {
+                              background: var(--secondary-background-color);
+                          }
 
           - name: "Cameras"
             entity: binary_sensor.cameras_status
@@ -4521,7 +4820,7 @@ views:
                       "zones"
                       "programs"
               cards:
-                - type: markdown
+                - type: markdown # https://codepen.io/abehjat/pen/oXMENv
                   view_layout:
                     grid-area: graphic
                   content: |-
@@ -4669,6 +4968,11 @@ views:
                         grid-template-columns: repeat(2, 1fr)
                   view_layout:
                     grid-area: zones
+                  card_mod:
+                    style: |
+                      ha-card {
+                          background: var(--secondary-background-color);
+                      }
                   cards:
                     - type: custom:button-card
                       template:
@@ -4761,6 +5065,11 @@ views:
                         grid-template-columns: repeat(2, 1fr)
                   view_layout:
                     grid-area: programs
+                  card_mod:
+                    style: |
+                      ha-card {
+                          background: var(--secondary-background-color);
+                      }
                   cards:
                     - entity: switch.lawn_program_enabled
                       name: "Lawn"
