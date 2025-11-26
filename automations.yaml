@@ -22,11 +22,11 @@
       dismissable: true
       autoclose: false
       popup_card_id: lovelace-ui/fire_popup
-  - action: system_log.write
-    data:
-      message: Fire pop-up done
-      level: warning
-      logger: fire_automation
+  - action: input_boolean.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id: input_boolean.panel_screensaver
   mode: single
 - id: '1763962512630'
   alias: Notify when inside temperature below 50 °F
