@@ -3896,6 +3896,11 @@ views:
                           box-shadow: none;
                           backdrop-filter: none !important;
                         }
+                        @media screen and (max-width: 1200px) {
+                          ha-card {
+                            display: none;
+                          }
+                        }
                       ha-markdown $ ha-markdown-element: >
                         img {
                           position: absolute;
@@ -4491,19 +4496,94 @@ views:
             type: custom:popup-card
             title: "Pool"
             icon: mdi:pool-thermometer
+            size: wide
+            style: >
+              ha-dialog > div.content {
+                background: linear-gradient(to bottom, rgba(54, 55, 149, 0.15), rgba(0, 92, 151, 0.3));
+              }
+            #style: |
+            #  ha-dialog {
+            #    --mdc-dialog-min-height: 400px !important;
+            #  }
+            #  .content {
+            #    width: auto !important;
+            #  }
             card:
               type: custom:layout-card
               layout_type: custom:grid-layout
               layout:
                 padding: 0 1vw 1vw 1vw
-                grid-template-columns: repeat(1, 1fr)
+                grid-template-columns: 20vw repeat(2, 1fr)
+                grid-template-rows: 0 repeat(3, min-content ) 0
+                grid-template-areas: |
+                  ".       .          .           "
+                  "graphic circuits   circuits    "
+                  "graphic components components  "
+                  "graphic analysis   thermostat  "
+                  ".       .          .           "
                 grid-gap: var(--custom-layout-card-padding)
+                align-items: center
+                will-change: transform
+                mediaquery:
+                  "(max-width: 800px)":
+                    grid-template-columns: repeat(1, 1fr)
+                    grid-template-rows: 0 repeat(4, min-content ) 0
+                    grid-template-areas: |
+                      ".          "
+                      "circuits   "
+                      "components "
+                      "thermostat "
+                      "analysis   "
+                      ".          "
+                  "(max-width: 1200px)":
+                    grid-template-columns: repeat(2, 1fr)
+                    grid-template-rows: 0 repeat(3, min-content ) 0
+                    grid-template-areas: |
+                      ".          .           "
+                      "circuits   circuits    "
+                      "components components  "
+                      "analysis   thermostat  "
+                      ".          .           "
               cards:
-                - type: "custom:button-card"
-                  template: card_title
-                  name: "Circuits"
+                - type: markdown # https://codepen.io/
+                  view_layout:
+                    grid-area: graphic
+                  content: |-
+                    <img src="/local/pool.svg" width="100%">
+                  card_mod:
+                    style:
+                      .: >
+                        ha-card {
+                          border-width: 0;
+                          box-shadow: none;
+                          backdrop-filter: none !important;
+                        }
+                        @media screen and (max-width: 1200px) {
+                          ha-card {
+                            display: none;
+                          }
+                        }
+                      ha-markdown $ ha-markdown-element: >
+                        img {
+                          //background: #005c97;
+                          //background: linear-gradient(to left, #005c97, #363795);
+                          //height: 100%;
+                          //width: 100%;
+                          //display: flex;
+                          //justify-content: center;
+                          //align-items: center;
+                          //font-family: Courier;
+                          //letter-spacing: 6px;
+                          overflow: hidden;
+                          width: 80%;
+                          position: absolute;
+                          top: 50%;
+                          left: 50%;
+                          transform: translate(-50%, -50%);
+                        }
 
-                - type: custom:layout-card
+                - title: "Circuits"
+                  type: custom:layout-card
                   layout_type: custom:grid-layout
                   layout:
                     padding: 0 1vw 1vw 1vw
@@ -4512,49 +4592,55 @@ views:
                     mediaquery:
                       "(max-width: 800px)":
                         grid-template-columns: repeat(2, 1fr)
+                  view_layout:
+                    grid-area: circuits
+                  card_mod:
+                    style: |
+                      hui-grid-card, ha-card {
+                          background: var(--secondary-background-color);
+                      }
                   cards:
-                    - type: custom:button-card
+                    - name: "Pool"
+                      type: custom:button-card
                       template: pool_circuit
+                      entity: switch.opnpool_pool_circuit
                       icon: mdi:pool
                       variables:
                         schedule_entity: sensor.opnpool_pool_sched
                         pending_entity: input_boolean.opnpool_pool_circuit_pending
                         loader_script_entity: script.toggle_opnpool_pool_circuit_with_support_for_spinner
-                      entity: switch.opnpool_pool_circuit
-                      name: "Pool"
-                    - type: custom:button-card
+
+                    - name: "Spa"
+                      type: custom:button-card
                       template: pool_circuit
+                      entity: switch.opnpool_spa_circuit
                       icon: mdi:hot-tub
                       variables:
                         schedule_entity: sensor.opnpool_spa_sched
                         pending_entity: input_boolean.opnpool_spa_circuit_pending
                         loader_script_entity: script.toggle_opnpool_spa_circuit_with_support_for_spinner
-                      entity: switch.opnpool_spa_circuit
-                      name: "Spa"
-                    - type: custom:button-card
+
+                    - name: "Vacuum"
+                      type: custom:button-card
                       template: pool_circuit
+                      entity: switch.opnpool_aux1_circuit
                       icon: mdi:vacuum
                       variables:
                         schedule_entity: sensor.opnpool_aux1_sched
                         pending_entity: input_boolean.opnpool_aux1_circuit_pending
-                        loader_script_entity: script.toggle_opnpool_aux1_circuit_with_support_for_spinner
-                      entity: switch.opnpool_aux1_circuit
-                      name: "Vacuum"
-                    - type: custom:button-card
+
+                    - name: "Light"
+                      type: custom:button-card
                       template: pool_circuit
+                      entity: switch.opnpool_aux2_circuit
                       icon: mdi:lightbulb
                       variables:
                         schedule_entity: sensor.opnpool_aux2_sched
                         pending_entity: input_boolean.opnpool_aux2_circuit_pending
                         loader_script_entity: script.toggle_opnpool_aux2_circuit_with_support_for_spinner
-                      entity: switch.opnpool_aux2_circuit
-                      name: "Light"
 
-                - name: "Components"
-                  type: "custom:button-card"
-                  template: card_title
-
-                - type: custom:layout-card
+                - title: "Components"
+                  type: custom:layout-card
                   layout_type: custom:grid-layout
                   layout:
                     padding: 0 1vw 1vw 1vw
@@ -4563,47 +4649,64 @@ views:
                     mediaquery:
                       "(max-width: 800px)":
                         grid-template-columns: repeat(2, 1fr)
+                  view_layout:
+                    grid-area: components
+                  card_mod:
+                    style: |
+                      ha-card {
+                          background: var(--secondary-background-color);
+                      }
                   cards:
-                    - type: custom:button-card
+                    - name: "Pump"
+                      type: custom:button-card
                       template: pool_component
+                      entity: binary_sensor.opnpool_pump_running
                       icon: mdi:pump
                       variables:
                         info1_entity: sensor.opnpool_pump_mode
                         info2_entity: sensor.opnpool_pump_estimated_flow
                         status_entity: sensor.opnpool_pump_status
-                      entity: binary_sensor.opnpool_pump_running
-                      name: "Pump"
+                      card_mod:
+                        style: |
+                          ha-card {
+                              background: var(--secondary-background-color);
+                          }
 
-                    - type: custom:button-card
+                    - name: "Chlorinator"
+                      type: custom:button-card
                       template: pool_component
+                      entity: binary_sensor.opnpool_pump_running
                       icon: mdi:lotion-plus
                       variables:
                         info1_entity: sensor.opnpool_chlor_pct
                         info2_entity: sensor.opnpool_chlor_salt
                         status_entity: sensor.opnpool_chlor_status
-                      entity: binary_sensor.opnpool_pump_running
-                      name: "Chlorinator"
 
-                    - type: custom:button-card
+                    - name: "Water Temp"
+                      type: custom:button-card
                       template: circle_graph
+                      entity: sensor.opnpool_water_temp
                       icon: mdi:pool-thermometer
                       variables:
                         graph_color: cornflowerblue
-                      entity: sensor.opnpool_water_temp
-                      name: "Water Temp"
 
-                - name: "Thermostat"
-                  type: "custom:button-card"
-                  template: card_title
-
-                - type: custom:layout-card
+                - title: "Thermostat"
+                  type: custom:layout-card
                   layout_type: custom:grid-layout
                   layout:
                     padding: 0 1vw 1vw 1vw
                     grid-template-columns: repeat(1, 1fr)
                     grid-gap: var(--custom-layout-card-padding)
+                  view_layout:
+                    grid-area: thermostat
+                  card_mod:
+                    style: |
+                      ha-card {
+                          background: var(--secondary-background-color);
+                      }
                   cards:
-                    - type: conditional
+                    - name: "Pool Thermostat"
+                      type: conditional
                       conditions:
                         - entity: switch.opnpool_pool_circuit
                           state: "on"
@@ -4647,7 +4750,9 @@ views:
                             .mode-item {
                               border-radius: 10px !important;
                             }
-                    - type: conditional
+
+                    - name: "Spa Thermostat"
+                      type: conditional
                       conditions:
                         - entity: switch.opnpool_spa_circuit
                           state: "on"
@@ -4692,19 +4797,18 @@ views:
                               border-radius: 10px !important;
                             }
 
-                - name: "Last Analysis"
-                  type: "custom:button-card"
-                  template: card_title
-
-                - type: custom:layout-card
+                - title: "Last Analysis"
+                  type: custom:layout-card
                   layout_type: custom:grid-layout
                   layout:
-                    padding: 0 1vw 1vw 1vw
-                    grid-template-columns: repeat(1, 1fr)
-                    grid-gap: var(--custom-layout-card-padding)
+                    padding: 0 1vw 0 1vw
+                    grid-template-columns: 1fr
+                    grid-gap: 1vh
+                  view_layout:
+                    grid-area: analysis
                   cards:
-                    - entity: sensor.pool_ph
-                      name: "pH"
+                    - name: "pH"
+                      entity: sensor.pool_ph
                       type: custom:button-card
                       template: above_below_bar
                       variables:
@@ -4712,8 +4816,8 @@ views:
                         warning_above: 9
                         max_value: 12
 
-                    - entity: sensor.pool_ta
-                      name: "Total Alkalinity (pH buffer)"
+                    - name: "Total Alkalinity (pH buffer)"
+                      entity: sensor.pool_ta
                       type: custom:button-card
                       template: above_below_bar
                       variables:
@@ -4721,8 +4825,8 @@ views:
                         warning_above: 120
                         max_value: 200
 
-                    - entity: sensor.pool_fc
-                      name: "Free Chlorine"
+                    - name: "Free Chlorine"
+                      entity: sensor.pool_fc
                       type: custom:button-card
                       template: above_below_bar
                       variables:
@@ -4730,8 +4834,8 @@ views:
                         warning_above: 7
                         max_value: 10
 
-                    - entity: sensor.pool_cc
-                      name: "Combined Chlorine"
+                    - name: "Combined Chlorine"
+                      entity: sensor.pool_cc
                       type: custom:button-card
                       template: above_below_bar
                       variables:
@@ -4739,8 +4843,8 @@ views:
                         warning_above: 0.2
                         max_value: 2
 
-                    - entity: sensor.pool_cya
-                      name: "Cyanuric Acid (Chor buffer)"
+                    - name: "Cyanuric Acid (Chlor buffer)"
+                      entity: sensor.pool_cya
                       type: custom:button-card
                       template: above_below_bar
                       variables:
@@ -4748,8 +4852,8 @@ views:
                         warning_above: 90
                         max_value: 160
 
-                    - entity: sensor.pool_ch
-                      name: "Calcium Hardness"
+                    - name: "Calcium Hardness"
+                      entity: sensor.pool_ch
                       type: custom:button-card
                       template: above_below_bar
                       variables:
@@ -4757,13 +4861,19 @@ views:
                         warning_above: 650
                         max_value: 850
 
-                    #- entity: sensor.pool_salt
-                    #  type: custom:button-card
-                    #  template: above_below_bar
-                    #  variables:
-                    #    warning_below: 2700
-                    #    warning_above: 4500
-                    #    max_value: 6000
+                    - name: "Salt"
+                      entity: sensor.pool_salt
+                      type: custom:button-card
+                      template: above_below_bar
+                      variables:
+                        warning_below: 2700
+                        warning_above: 4500
+                        max_value: 6000
+                  card_mod:
+                    style: |
+                      ha-card {
+                          background: var(--secondary-background-color);
+                      }
 
           - name: "Irrigation"
             entity: sensor.opensprinkler_water_level
