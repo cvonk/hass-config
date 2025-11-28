@@ -4501,13 +4501,6 @@ views:
               ha-dialog > div.content {
                 background: linear-gradient(to bottom, rgba(54, 55, 149, 0.15), rgba(0, 92, 151, 0.3));
               }
-            #style: |
-            #  ha-dialog {
-            #    --mdc-dialog-min-height: 400px !important;
-            #  }
-            #  .content {
-            #    width: auto !important;
-            #  }
             card:
               type: custom:layout-card
               layout_type: custom:grid-layout
@@ -4545,41 +4538,70 @@ views:
                       "analysis   thermostat  "
                       ".          .           "
               cards:
-                - type: markdown # https://codepen.io/
+                - type: custom:html-card # https://codepen.io/rauldronca/pen/rMYpbe
                   view_layout:
                     grid-area: graphic
                   content: |-
-                    <img src="/local/pool.svg" width="100%">
+                    <div>
+                    <svg class="loading" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 400 120" enable-background="new 0 0 400 120" xml:space="preserve">
+                      <style>
+                      </style>
+                      <defs>
+                        <pattern id="water" width=".25" height="1.1" patternContentUnits="objectBoundingBox">
+                          <path fill="#fff" d="M0.25,1H0c0,0,0-0.659,0-0.916c0.083-0.303,0.158,0.334,0.25,0C0.25,0.327,0.25,1,0.25,1z" />
+                        </pattern>
+                        <text id="text" transform="matrix(1 0 0 1 -8.0684 116.7852)" font-size="161.047">POOL</text>
+                        <mask id="text_mask">
+                          <use x="0" y="0" xlink:href="#text" opacity="1" fill="#3498db" />
+                        </mask>
+                      </defs>
+                      <use x="0" y="0" xlink:href="#text" fill="#3498db" />
+                      <rect class="water-fill" mask="url(#text_mask)" fill="url(#water)" x="-400" y="0" width="1600" height="120" />
+                    </svg>
+                    </div>
                   card_mod:
-                    style:
-                      .: >
+                    style: |
+                      ha-card {
+                        border-width: 0;
+                        box-shadow: none;
+                        backdrop-filter: none !important;
+                      }
+                      @media screen and (max-width: 1200px) {
                         ha-card {
-                          border-width: 0;
-                          box-shadow: none;
-                          backdrop-filter: none !important;
+                          display: none;
                         }
-                        @media screen and (max-width: 1200px) {
-                          ha-card {
-                            display: none;
-                          }
-                        }
-                      ha-markdown $ ha-markdown-element: >
-                        img {
-                          //background: #005c97;
-                          //background: linear-gradient(to left, #005c97, #363795);
-                          //height: 100%;
-                          //width: 100%;
-                          //display: flex;
-                          //justify-content: center;
-                          //align-items: center;
-                          //font-family: Courier;
-                          //letter-spacing: 6px;
+                      }
+                      ha-card $ div div: >
+                        @import "https://fonts.googleapis.com/css?family=Oswald";
+                        . {
+                          align-items: center;
+                          font-family: "Oswald", sans-serif;
+                          letter-spacing: 6px;
+                          overflow: hidden;
                           overflow: hidden;
                           width: 80%;
-                          position: absolute;
-                          top: 50%;
-                          left: 50%;
-                          transform: translate(-50%, -50%);
+                          height: 100%;
+                        }
+                        .water-fill {
+                          animation: wave 2s infinite linear, fill-up 30s infinite ease-out alternate;
+                        }
+                        @keyframes wave {
+                          0% {
+                            x: -400px;
+                          }
+                          100% {
+                            x: 0;
+                          }
+                        }
+                        @keyframes fill-up {
+                          0% {
+                            height: 0;
+                            y: 130px;
+                          }
+                          100% {
+                            height: 160px;
+                            y: -30px;
+                          }
                         }
 
                 - title: "Circuits"
@@ -5220,18 +5242,71 @@ views:
             type: custom:popup-card
             title: "Utilities"
             icon: mdi:power-plug
+            size: wide
+            style: >
+              ha-dialog > div.content {
+                background: linear-gradient(to bottom, rgba(100, 20, 20, 0.15), rgba(100, 20, 20, 0.3));
+              }
             card:
               type: custom:layout-card
               layout_type: custom:grid-layout
               layout:
-                padding: 1vw
-                grid-template-columns: repeat(1, 1fr)
+                padding: 0 1vw 1vw 1vw
+                grid-template-columns: 20vw repeat(2, 1fr)
+                grid-template-rows: 0 repeat(1, min-content ) 0
+                grid-template-areas: |
+                  ".       .          .         "
+                  "graphic electric   graphs    "
+                  ".       .          .         "
                 grid-gap: var(--custom-layout-card-padding)
+                align-items: center
+                will-change: transform
+                mediaquery:
+                  "(max-width: 800px)":
+                    grid-template-columns: repeat(1, 1fr)
+                    grid-template-rows: 0 repeat(2, min-content ) 0
+                    grid-template-areas: |
+                      ".          "
+                      "electric   "
+                      "graphs     "
+                      ".          "
+                  "(max-width: 1200px)":
+                    grid-template-columns: repeat(2, 1fr)
+                    grid-template-rows: 0 repeat(1, min-content ) 0
+                    grid-template-areas: |
+                      ".          .         "
+                      "electric   graphs    "
+                      ".          .         "
               cards:
+                - type: markdown
+                  view_layout:
+                    grid-area: graphic
+                  content: |-
+                    <img src="/local/utilities.png">
+                  card_mod:
+                    style: |
+                      ha-card {
+                        border-width: 0;
+                        box-shadow: none;
+                        backdrop-filter: none !important;
+                      }
+                      @media screen and (max-width: 1200px) {
+                        ha-card {
+                          display: none;
+                        }
+                      }
+                    ha-markdown $ ha-markdown-element: >
+                      img {
+                        width: 100%;
+                        height: auto;
+                      }
+
                 - type: custom:auto-entities
+                  view_layout:
+                    grid-area: electric
                   card:
                     type: vertical-stack
-                    title: "Current Electric"
+                    #title: "Current Electric"
                   sort:
                     method: name
                     ignore_case: true
@@ -5250,9 +5325,17 @@ views:
                       - state: "unavailable"
 
                 - title: Graphs
-                  type: grid
-                  columns: 1
-                  square: false
+                  type: custom:layout-card
+                  layout_type: custom:grid-layout
+                  layout:
+                    padding: 0 1vw 1vw 1vw
+                    grid-template-columns: repeat(1, 1fr)
+                    grid-gap: var(--custom-layout-card-padding)
+                    mediaquery:
+                      "(max-width: 800px)":
+                        grid-template-columns: repeat(2, 1fr)
+                  view_layout:
+                    grid-area: graphs
                   cards:
                     - entity: sensor.total_power
                       type: custom:button-card
