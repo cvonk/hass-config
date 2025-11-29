@@ -41,7 +41,7 @@ button_card_templates:
     variables:
       tilt_enable: true
 
-  base:
+  base: # --------------------------------------------------------------------
     template:
       - settings
       - tilt
@@ -229,7 +229,7 @@ button_card_templates:
         }
       }
 
-  light:
+  light: # -------------------------------------------------------------------
     template:
       - base
       - circle
@@ -398,7 +398,7 @@ button_card_templates:
             }`;
       ]]]
 
-  circle:
+  circle: # ------------------------------------------------------------------
     styles:
       card:
         - --c-stroke-color-on: "#b0b0b0"
@@ -597,7 +597,7 @@ button_card_templates:
               }
           }
         ]]]
-  circle_graph:
+  circle_graph: # ------------------------------------------------------------
     template:
       - base
     variables: graph_color
@@ -632,7 +632,7 @@ button_card_templates:
           backdrop-filter: none !important
         }
 
-  loader:
+  loader: # ------------------------------------------------------------------
     custom_fields:
       loader: >
         <img src="/local/loader.svg" width="100%">
@@ -668,7 +668,7 @@ button_card_templates:
                     : 'invert(1)';
               ]]]
 
-  pool_circuit:
+  pool_circuit: # ------------------------------------------------------------
     template:
       - base
       - loader
@@ -711,7 +711,7 @@ button_card_templates:
                   return "none";
                 }
               ]]]
-  pool_component:
+  pool_component: # ----------------------------------------------------------
     template:
       - base
       - read_only
@@ -764,7 +764,7 @@ button_card_templates:
         return entity.state
       ]]]
 
-  irrigation_program:
+  irrigation_program: # ------------------------------------------------------
     template:
       - base
     variables: start_time_entity
@@ -780,7 +780,7 @@ button_card_templates:
         }
         return entity.state;
       ]]]
-  irrigation_zone:
+  irrigation_zone: # ---------------------------------------------------------
     triggers_update: all
     template:
       - base
@@ -824,7 +824,7 @@ button_card_templates:
         entity_id: >-
           [[[ return entity.entity_id; ]]]
 
-  footer:
+  footer: #-------------------------------------------------------------------
     template:
       - settings
       - tilt
@@ -867,8 +867,7 @@ button_card_templates:
         - grid-template-columns: 1fr
         - grid-template-rows: repeat("2", 1fr)
         - gap: 1.3%
-        - align-items: center
-        - will-change: transform
+          align-items: center # vertically center cards in their grid cells
       name:
         - justify-self: center
         - line-height: 121%
@@ -975,7 +974,7 @@ button_card_templates:
     double_tap_action:
       action: block
 
-  sidebar:
+  sidebar: # -----------------------------------------------------------------
     show_state: false
     show_icon: false
     tap_action:
@@ -1072,7 +1071,7 @@ button_card_templates:
         }
       }
 
-  tilt: # see https://micku7zu.github.io/vanilla-tilt.js/
+  tilt: # see https://micku7zu.github.io/vanilla-tilt.js/ --------------------
     variables:
       tilt_enable: >
         [[[
@@ -1171,7 +1170,7 @@ button_card_templates:
         background-color: rgba(0,0,0,0.9);
       }
 
-  read_only:
+  read_only: # ---------------------------------------------------------------
     card_mod:
       style: |
         ha-card {
@@ -1180,7 +1179,7 @@ button_card_templates:
           backdrop-filter: none !important
         }
 
-  person:
+  person: # ------------------------------------------------------------------
     template:
       - base
       - circle
@@ -1208,7 +1207,7 @@ button_card_templates:
         #- clip-path: circle()
         - pointer-events: none
 
-  climate_base:
+  climate_base: # ------------------------------------------------------------
     show_icon: false
     styles:
       name:
@@ -1217,7 +1216,7 @@ button_card_templates:
         - font-weight: 600
       card:
         - border-radius: 10px'
-  climate_fan_mode:
+  climate_fan_mode: # --------------------------------------------------------
     variables:
       fan_mode: false
     tap_action:
@@ -1238,7 +1237,7 @@ button_card_templates:
             ]]]
     template:
       - climate_base
-  climate_swing_mode:
+  climate_swing_mode: # ------------------------------------------------------
     tap_action:
       action: call-service
       service: climate.set_swing_mode
@@ -1262,7 +1261,7 @@ button_card_templates:
     template:
       - climate_base
 
-  connectivity:
+  connectivity: # ------------------------------------------------------------
     template: base
     state_display: >-
       [[[
@@ -1279,7 +1278,7 @@ button_card_templates:
     tap_action:
     double_tab_action:
 
-  icon_name:
+  icon_name: # ---------------------------------------------------------------
     size: 1.4em
     color: "#9da0a2"
     styles:
@@ -1295,7 +1294,7 @@ button_card_templates:
         - font-weight: 500
         - letter-spacing: 0.03em
         - background: "#FFFFFF10"
-  icon_only:
+  icon_only: # ---------------------------------------------------------------
     show_name: false
     color: "#9da0a2"
     styles:
@@ -2247,7 +2246,7 @@ button_card_templates:
           `;
         ]]]
 
-  base_media:
+  base_media: # --------------------------------------------------------------
     template:
       - settings
     state_display: >
@@ -2311,7 +2310,7 @@ button_card_templates:
                       : '1px 1px 5px rgba(18, 22, 23, 0.9)';
               }
             ]]]
-  media:
+  media: # -------------------------------------------------------------------
     template:
       - base
       - base_media
@@ -2348,7 +2347,7 @@ button_card_templates:
                           : `linear-gradient(0deg, rgba(0,0,0,.8) 0%, rgba(0,0,0,0) 100%), url(${variables.entity_picture})`;
               }
             ]]]
-  conditional_media:
+  conditional_media: # -------------------------------------------------------
     aspect_ratio: 1000/996
     template:
       - base
@@ -2539,7 +2538,7 @@ button_card_templates:
         }
       }
 
-  base_updates:
+  base_updates: # ------------------------------------------------------------
     show_state: true
     show_name: false
     show_icon: false
@@ -2639,7 +2638,7 @@ button_card_templates:
           <ul>${output}</ul>
         `;
       ]]]
-  updates_hass:
+  updates_hass: # ------------------------------------------------------------
     template:
       - base_updates
       - settings
@@ -2678,7 +2677,7 @@ button_card_templates:
             `;
         }
       ]]]
-  updates_hass_icon_name:
+  updates_hass_icon_name: # --------------------------------------------------
     template: icon_name
     icon: mdi:update
     styles:
@@ -2696,7 +2695,7 @@ button_card_templates:
                 ? 'flex'
                 : 'none';
             ]]]
-  updates_icon_name:
+  updates_icon_name: # -------------------------------------------------------
     template: icon_name
     icon: mdi:open-in-new
     styles:
@@ -2708,7 +2707,7 @@ button_card_templates:
                   : '1';
             ]]]
 
-  bubble_card_graph:
+  bubble_card_graph: # -------------------------------------------------------
     show_name: false
     show_state: false
     show_icon: false
@@ -2755,7 +2754,7 @@ button_card_templates:
         - box-shadow: none
         - background: rgba(255,255,255,0.05)
 
-  above_below_bar:
+  above_below_bar: # ---------------------------------------------------------
     variables: # inspired by https://community.home-assistant.io/t/home-assistant-card-replacing-former-bar-card-config
       max_value: 100
       warning_below: 30
@@ -2808,7 +2807,7 @@ button_card_templates:
                 rgba(${barColor}, 0.3) ${pct}%,
                 rgba(${barColor}, 0.1) 100%)`;
             ]]]
-  ts_bar:
+  ts_bar: # ------------------------------------------------------------------
     variables: # inspired by https://community.home-assistant.io/t/home-assistant-card-replacing-former-bar-card-config/743050/30
       max_value: 100
     name: "[[[ return entity.attributes.friendly_name; ]]]"
@@ -2870,8 +2869,8 @@ button_card_templates:
                 rgba(${bar},0.1) 100%)`;
             ]]]
 
-  card_title: # https://ui-lovelace-minimalist.github.io/UI/usage/cards/card_title/
-    tap_action:
+  card_title: # --------------------------------------------------------------
+    tap_action: # https://ui-lovelace-minimalist.github.io/UI/usage/cards/card_title/
       action: "none"
     show_icon: false
     show_label: true
@@ -2930,7 +2929,7 @@ views:
         ". footer   footer    footer  footer   ."
         ". .        .         .       .        ."
       mediaquery:
-        #phone
+        # phone portrait
         "(max-width: 800px)":
           grid-gap: calc(var(--custom-layout-card-padding) * 0.3)
           grid-template-columns: 0 1fr 0
@@ -2949,7 +2948,7 @@ views:
             ". .        ."
             ". sidebar  ."
             ". .        ."
-        #portrait
+        # phone landscape
         "(max-width: 1200px)":
           grid-gap: calc(var(--custom-layout-card-padding) * 0.5)
           grid-template-columns: 0 20% repeat(2, minmax(200px, 1fr)) 0
@@ -3011,7 +3010,7 @@ views:
               padding: 0 !important;
             }
         cards:
-          - entity: sensor.sidebar # content set in sidebar.yaml
+          - entity: sensor.sidebar # content set in sidebar.yaml -------------
             type: custom:button-card
             template: sidebar
             card_mod:
@@ -3022,7 +3021,7 @@ views:
                   --ha-card-backdrop-filter: none !important;
                 }
 
-          - type: button # hack to create a gap
+          - type: button # hack to create a gap ------------------------------
             show_name: false
             show_icon: false
             entity: sun.sun
@@ -3035,7 +3034,7 @@ views:
                   --ha-card-backdrop-filter: none !important;
                 }
 
-          - entity: weather.pirateweather
+          - entity: weather.pirateweather # ----------------------------------
             type: custom:weather-chart-card
             show_main: false
             show_humidity: false
@@ -3813,7 +3812,6 @@ views:
       - type: custom:layout-card
         layout_type: custom:grid-layout
         layout_options:
-          # bubble-card pop_up occupies a cell as well, show as 0 width
           grid-template-columns: repeat(8, 1fr)
           grid-gap: 0.5vw # var(--custom-layout-card-padding)
           mediaquery:
@@ -3822,7 +3820,7 @@ views:
         view_layout:
           grid-area: footer
         cards:
-          - name: "Inside"
+          - name: "Inside" # -------------------------------------------------
             entity: sensor.inside_temperature
             label: >-
               [[[
@@ -3845,7 +3843,7 @@ views:
                 data:
                   popup_card_id: inside_popup
 
-          - popup_card_id: inside_popup
+          - popup_card_id: inside_popup # ------------------------------------
             type: custom:popup-card
             title: "Inside Climate"
             icon: mdi:home-thermometer-outline
@@ -3853,34 +3851,37 @@ views:
             card_mod:
               style: |
                 ha-dialog > div.content {
-                  background: linear-gradient(to top, rgba(255, 255, 224, 0.3), rgba(10,10,10, 0.6));
+                  background-image: linear-gradient(to right, rgba(251, 244, 229, 0.2), rgba(251, 244, 229, 0.1));
                 }
             card:
               type: custom:layout-card
               layout_type: custom:grid-layout
               layout:
-                padding: 0 1vw 1vw 1vw
-                grid-template-columns: repeat(3, 1fr)
-                grid-template-rows: 0 repeat(2, 1ft)
-                grid-template-areas: |
-                  ".       .          .       "
-                  "graphic downstairs upstairs"
-                  "graphic filter     .       "
+                align-items: center
                 grid-gap: var(--custom-layout-card-padding)
-                align-items: start
-                will-change: transform
+                grid-template-columns: 0 repeat(3, 1fr) 0
+                grid-template-rows: 0 repeat(2, min-content) 0
+                grid-template-areas: |
+                  ". .       .          .        ."
+                  ". graphic downstairs upstairs ."
+                  ". graphic filter     .        ."
+                  ". .       .          .        ."
                 mediaquery:
                   "(max-width: 800px)":
-                    grid-template-columns: repeat(1, 1fr)
+                    grid-template-columns: 0 repeat(1, 1fr) 0
                     grid-template-areas: |
-                      "downstairs"
-                      "upstairs"
-                      "filter"
+                      ". .          ."
+                      ". downstairs ."
+                      ". upstairs   ."
+                      ". filter     ."
+                      ". graphic    ."
                   "(max-width: 1200px)":
-                    grid-template-columns: repeat(2, 1fr)
+                    grid-template-columns: 0 repeat(2, 1fr) 0
                     grid-template-areas: |
-                      "downstairs upstairs"
-                      "filter     ."
+                      ". .          .        ."
+                      ". downstairs upstairs ."
+                      ". filter     .        ."
+                      ". graphic    .        ."
               cards:
                 - type: markdown # https://codepen.io/Sneha_P_P/pen/LXWWox
                   view_layout:
@@ -3898,7 +3899,7 @@ views:
                         }
                         @media screen and (max-width: 1200px) {
                           ha-card {
-                            display: none;
+                            display: none; /* hide in last row, so it doesn't create an extra column on the right */
                           }
                         }
                       ha-markdown $ ha-markdown-element: >
@@ -4000,7 +4001,7 @@ views:
                       icon: mdi:circle-slice-8
                       percentage: 100
 
-          - name: "Outside"
+          - name: "Outside" # ------------------------------------------------
             entity: sensor.opnpool_last_air_temp
             type: custom:button-card
             template: footer
@@ -4019,7 +4020,7 @@ views:
                 data:
                   popup_card_id: outside_popup
 
-          - popup_card_id: outside_popup
+          - popup_card_id: outside_popup # -----------------------------------
             type: custom:popup-card
             title: "Outside Climate"
             icon: mdi:sun-thermometer
@@ -4027,36 +4028,34 @@ views:
             card_mod:
               style: |
                 ha-dialog > div.content {
-                  background: linear-gradient(to top, rgba(124, 252, 0, 0.4), rgba(135, 206, 235, 0.02));
+                  background-image: linear-gradient(to right, rgba(42, 126, 25, 0.2), rgba(42, 126, 25, 0.1));
                 }
             card:
               type: custom:layout-card
               layout_type: custom:grid-layout
               layout:
-                padding: 0 1vw 1vw 1vw
-                grid-template-columns: 20vw repeat(2, 1fr)
-                grid-template-rows: 0 repeat(1, 1ft) 0
-                grid-template-areas: |
-                  ".       .        .        "
-                  "graphic station  aqi_temp "
-                  ".       .        .        "
+                align-items: center
                 grid-gap: var(--custom-layout-card-padding)
-                align-items: start
-                will-change: transform
+                grid-template-columns: 0 20vw repeat(2, 1fr) 0
+                grid-template-rows: 0 repeat(1, min-content) 0
+                grid-template-areas: |
+                  ". .       .        .        ."
+                  ". graphic station  aqi_temp ."
+                  ". .       .        .        ."
                 mediaquery:
                   "(max-width: 800px)":
-                    grid-template-columns: repeat(1, 1fr)
+                    grid-template-columns: 0 repeat(1, 1fr) 0
                     grid-template-areas: |
-                      ".        "
-                      "aqi_temp "
-                      "station  "
-                      ".        "
+                      ". .        ."
+                      ". aqi_temp ."
+                      ". station  ."
+                      ". graphic  ."
                   "(max-width: 1200px)":
-                    grid-template-columns: repeat(2, 1fr)
+                    grid-template-columns: 0 repeat(2, 1fr) 0
                     grid-template-areas: |
-                      ".        .        "
-                      "station  aqi_temp "
-                      ".        .        "
+                      ". .        .        ."
+                      ". station  aqi_temp ."
+                      ". graphic  .        ."
               cards:
                 - type: markdown # https://codepen.io/jonslater204/pen/jOmeryV
                   view_layout:
@@ -4265,7 +4264,7 @@ views:
                         }
                         @media screen and (max-width: 1200px) {
                           ha-card {
-                            display: none;
+                            display: none; /* hide in last row, so it doesn't create an extra column on the right */
                           }
                         }
                       ha-markdown $ ha-markdown-element: >
@@ -4406,7 +4405,7 @@ views:
                               background: var(--secondary-background-color);
                           }
 
-          - name: "Cameras"
+          - name: "Cameras" # ------------------------------------------------
             entity: binary_sensor.cameras_status
             type: custom:button-card
             template: footer
@@ -4425,39 +4424,36 @@ views:
                 data:
                   popup_card_id: cameras_popup
 
-          - popup_card_id: cameras_popup
+          - popup_card_id: cameras_popup # -----------------------------------
             type: custom:popup-card
             title: "Outside Cameras"
             icon: mdi:camera
             size: wide
             style: >
               ha-dialog > div.content {
-                background: linear-gradient(to bottom, rgba(20, 20, 100, 0.15), rgba(20, 20, 100, 0.3));
+                background-image: linear-gradient(to right, rgba(20, 20, 100, 0.2), rgba(20, 20, 100, 0.1));
               }
             card:
               type: custom:layout-card
               layout_type: custom:grid-layout
               layout:
-                padding: 0 1vw 1vw 1vw
-                grid-template-columns: 20vw repeat(1, 1fr)
+                align-items: center
+                grid-gap: var(--custom-layout-card-padding)
+                grid-template-columns: 0 1fr 2fr 0
                 grid-template-rows: 0 repeat(2, min-content ) 0
                 grid-template-areas: |
-                  ".       .    "
-                  "graphic front"
-                  "graphic back "
-                  ".       .    "
-                grid-gap: var(--custom-layout-card-padding)
-                align-items: center
-                will-change: transform
+                  ". .       .     ."
+                  ". graphic front ."
+                  ". graphic back  ."
+                  ". .       .     ."
                 mediaquery:
                   "(max-width: 1200px)":
-                    grid-template-columns: repeat(1, 1fr)
-                    grid-template-rows: 0 repeat(2, min-content ) 0
+                    grid-template-columns: 0 1fr 0
                     grid-template-areas: |
-                      ".    "
-                      "front"
-                      "back "
-                      ".    "
+                      ". .       ."
+                      ". front   ."
+                      ". back    ."
+                      ". graphic ."
               cards:
                 - type: markdown
                   view_layout:
@@ -4473,7 +4469,7 @@ views:
                       }
                       @media screen and (max-width: 1200px) {
                         ha-card {
-                          display: none;
+                            display: none; /* hide in last row, so it doesn't create an extra column on the right */
                         }
                       }
                     ha-markdown $ ha-markdown-element: >
@@ -4524,7 +4520,7 @@ views:
                         - entity: camera.aarlo_backyard
                           name: "Back yard"
 
-          - name: "Pool"
+          - name: "Pool" # ---------------------------------------------------
             entity: sensor.opnpool_last_water_temp
             type: custom:button-card
             template: footer
@@ -4542,115 +4538,100 @@ views:
                 data:
                   popup_card_id: pool_popup
 
-          - popup_card_id: pool_popup
+          - popup_card_id: pool_popup # --------------------------------------
             type: custom:popup-card
             title: "Pool"
             icon: mdi:pool-thermometer
             size: wide
             style: >
               ha-dialog > div.content {
-                background: linear-gradient(to bottom, rgba(54, 55, 149, 0.15), rgba(0, 92, 151, 0.3));
+                background-image: linear-gradient(to right, rgba(54, 55, 149, 0.2), rgba(0, 92, 151, 0.1));
               }
             card:
               type: custom:layout-card
               layout_type: custom:grid-layout
               layout:
-                padding: 0 1vw 1vw 1vw
-                grid-template-columns: 20vw repeat(2, 1fr)
-                grid-template-rows: 0 repeat(3, min-content ) 0
-                grid-template-areas: |
-                  ".       .          .           "
-                  "graphic circuits   circuits    "
-                  "graphic components components  "
-                  "graphic analysis   thermostat  "
-                  ".       .          .           "
-                grid-gap: var(--custom-layout-card-padding)
                 align-items: center
-                will-change: transform
+                grid-gap: var(--custom-layout-card-padding)
+                grid-template-columns: 0 20vw repeat(2, 1fr) 0
+                grid-template-rows: 0 repeat(3, min-content) 0
+                grid-template-areas: |
+                  ". .       .          .          ."
+                  ". graphic circuits   circuits   ."
+                  ". graphic components components ."
+                  ". graphic analysis   thermostat ."
+                  ". .       .          .          ."
                 mediaquery:
                   "(max-width: 800px)":
-                    grid-template-columns: repeat(1, 1fr)
+                    grid-template-columns: 0 repeat(1, 1fr) 0
                     grid-template-rows: 0 repeat(4, min-content ) 0
                     grid-template-areas: |
-                      ".          "
-                      "circuits   "
-                      "components "
-                      "thermostat "
-                      "analysis   "
-                      ".          "
+                      ". .          ."
+                      ". circuits   ."
+                      ". components ."
+                      ". thermostat ."
+                      ". analysis   ."
+                      ". graphic    ."
                   "(max-width: 1200px)":
-                    grid-template-columns: repeat(2, 1fr)
+                    grid-template-columns: 0 repeat(2, 1fr) 0
                     grid-template-rows: 0 repeat(3, min-content ) 0
                     grid-template-areas: |
-                      ".          .           "
-                      "circuits   circuits    "
-                      "components components  "
-                      "analysis   thermostat  "
-                      ".          .           "
+                      ". .          .          ."
+                      ". circuits   circuits   ."
+                      ". components components ."
+                      ". analysis   thermostat ."
+                      ". graphic    .          ."
               cards:
-                - type: custom:html-card # https://codepen.io/rauldronca/pen/rMYpbe
+                - type: picture-elements
                   view_layout:
                     grid-area: graphic
-                  content: |-
-                    <div>
-                    <svg class="loading" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 400 120" enable-background="new 0 0 400 120" xml:space="preserve">
-                      <style>
-                      </style>
-                      <defs>
-                        <pattern id="water" width=".25" height="1.1" patternContentUnits="objectBoundingBox">
-                          <path fill="#fff" d="M0.25,1H0c0,0,0-0.659,0-0.916c0.083-0.303,0.158,0.334,0.25,0C0.25,0.327,0.25,1,0.25,1z" />
-                        </pattern>
-                        <text id="text" transform="matrix(1 0 0 1 -8.0684 116.7852)" font-size="161.047">POOL</text>
-                        <mask id="text_mask">
-                          <use x="0" y="0" xlink:href="#text" opacity="1" fill="#3498db" />
-                        </mask>
-                      </defs>
-                      <use x="0" y="0" xlink:href="#text" fill="#3498db" />
-                      <rect class="water-fill" mask="url(#text_mask)" fill="url(#water)" x="-400" y="0" width="1600" height="120" />
-                    </svg>
-                    </div>
+                  image: /local/pool-1.svg
+                  elements:
+                    - type: image
+                      image: /local/pool-2.svg
+                      style:
+                        top: 50%
+                        left: 50%
+                        position: absolute
+                        width: 100%
+                        transform: translate(-50%, -50%)
+                    - type: image
+                      image: /local/pool-3.svg
+                      style:
+                        top: 50%
+                        left: 50%
+                        position: absolute
+                        width: 100%
+                        transform: translate(-50%, -50%)
+                    - type: image
+                      image: /local/pool-4.svg
+                      style:
+                        top: 50%
+                        left: 50%
+                        position: absolute
+                        width: 100%
+                        transform: translate(-50%, -50%)
+                    - type: image
+                      image: /local/pool-5.svg
+                      style:
+                        top: 50%
+                        left: 50%
+                        position: absolute
+                        width: 100%
+                        transform: translate(-50%, -50%)
                   card_mod:
-                    style: |
-                      ha-card {
-                        border-width: 0;
-                        box-shadow: none;
-                        backdrop-filter: none !important;
-                      }
-                      @media screen and (max-width: 1200px) {
+                    style:
+                      .: >
                         ha-card {
-                          display: none;
-                        }
-                      }
-                      ha-card $ div div: >
-                        @import "https://fonts.googleapis.com/css?family=Oswald";
-                        . {
-                          align-items: center;
-                          font-family: "Oswald", sans-serif;
-                          letter-spacing: 6px;
+                          border-width: 0;
+                          box-shadow: none;
+                          backdrop-filter: none !important;
                           overflow: hidden;
-                          overflow: hidden;
-                          width: 80%;
-                          height: 100%;
+                          justify-self: center;  // aligns to the center of the grid area
                         }
-                        .water-fill {
-                          animation: wave 2s infinite linear, fill-up 30s infinite ease-out alternate;
-                        }
-                        @keyframes wave {
-                          0% {
-                            x: -400px;
-                          }
-                          100% {
-                            x: 0;
-                          }
-                        }
-                        @keyframes fill-up {
-                          0% {
-                            height: 0;
-                            y: 130px;
-                          }
-                          100% {
-                            height: 160px;
-                            y: -30px;
+                        @media screen and (max-width: 1200px) {
+                          ha-card {
+                            display: none; /* hide in last row, so it doesn't create an extra column on the right */
                           }
                         }
 
@@ -4947,7 +4928,7 @@ views:
                           background: var(--secondary-background-color);
                       }
 
-          - name: "Irrigation"
+          - name: "Irrigation" # ---------------------------------------------
             entity: sensor.opensprinkler_water_level
             type: custom:button-card
             template: footer
@@ -4966,7 +4947,7 @@ views:
                 data:
                   popup_card_id: irrigation_popup
 
-          - popup_card_id: irrigation_popup
+          - popup_card_id: irrigation_popup # --------------------------------
             type: custom:popup-card
             title: "Irrigation"
             icon: mdi:sprinkler-variant
@@ -4974,33 +4955,29 @@ views:
             card_mod:
               style: |
                 ha-dialog > div.content {
-                  background: linear-gradient(to top, rgba(255, 255, 224, 0.3), rgba(10,10,10, 0.6));
+                  background-image: linear-gradient(to right, rgba(14, 135, 204, 0.2), rgba(14, 135, 204, 0.1));
                 }
             card:
               type: custom:layout-card
               layout_type: custom:grid-layout
               layout:
-                padding: 0 1vw 1vw 1vw
-                grid-template-columns: 20vw 1fr
-                grid-template-rows: 0 repeat(2, 1ft)
-                grid-template-areas: |
-                  ".       .       "
-                  "graphic zones   "
-                  "graphic programs"
+                align-items: center
                 grid-gap: var(--custom-layout-card-padding)
-                align-items: start
-                will-change: transform
+                grid-template-columns: 0 20vw repeat(1, 1fr) 0
+                grid-template-rows: 0 repeat(2, min-content) 0
+                grid-template-areas: |
+                  ". .       .        ."
+                  ". graphic zones    ."
+                  ". graphic programs ."
+                  ". .       .        ."
                 mediaquery:
-                  "(max-width: 800px)":
-                    grid-template-columns: repeat(1, 1fr)
-                    grid-template-areas: |
-                      "zones"
-                      "programs"
                   "(max-width: 1200px)":
-                    grid-template-columns: repeat(1, 1fr)
+                    grid-template-columns: 0 repeat(1, 1fr) 0
                     grid-template-areas: |
-                      "zones"
-                      "programs"
+                      ". .        ."
+                      ". zones    ."
+                      ". programs ."
+                      ". graphic  ."
               cards:
                 - type: markdown # https://codepen.io/abehjat/pen/oXMENv
                   view_layout:
@@ -5019,7 +4996,7 @@ views:
                         }
                         @media screen and (max-width: 1200px) {
                           ha-card {
-                            display: none;
+                            display: none; /* hide in last row, so it doesn't create an extra column on the right */
                           }
                         }
                       ha-markdown $ ha-markdown-element: >
@@ -5269,7 +5246,7 @@ views:
                       variables:
                         start_time_entity: time.drip_start_time
 
-          - name: "Utilities"
+          - name: "Utilities" # ----------------------------------------------
             entity: sensor.eagle_200_meter_power_demand
             type: custom:button-card
             icon: mdi:power-plug
@@ -5288,51 +5265,46 @@ views:
                 data:
                   popup_card_id: utilities_popup
 
-          - popup_card_id: utilities_popup
+          - popup_card_id: utilities_popup # ---------------------------------
             type: custom:popup-card
             title: "Utilities"
             icon: mdi:power-plug
             size: wide
             style: >
               ha-dialog > div.content {
-                background: linear-gradient(to bottom, rgba(100, 20, 20, 0.15), rgba(100, 20, 20, 0.3));
+                background-image: linear-gradient(to right, rgba(100, 20, 20, 0.2), rgba(100, 20, 20, 0.1));
               }
             card:
               type: custom:layout-card
               layout_type: custom:grid-layout
               layout:
-                padding: 0 1vw 1vw 1vw
-                grid-template-columns: 20vw repeat(2, 1fr)
-                grid-template-rows: 0 repeat(1, min-content ) 0
-                grid-template-areas: |
-                  ".       .          .         "
-                  "graphic electric   graphs    "
-                  ".       .          .         "
-                grid-gap: var(--custom-layout-card-padding)
                 align-items: center
-                will-change: transform
+                grid-gap: var(--custom-layout-card-padding)
+                grid-template-columns: 0 20vw repeat(2, 1fr) 0
+                grid-template-rows: 0 repeat(1, min-content) 0
+                grid-template-areas: |
+                  ". .       .          .      ."
+                  ". graphic electric   graphs ."
+                  ". .       .          .      ."
                 mediaquery:
                   "(max-width: 800px)":
-                    grid-template-columns: repeat(1, 1fr)
-                    grid-template-rows: 0 repeat(2, min-content ) 0
+                    grid-template-columns: 0 1fr 0
                     grid-template-areas: |
-                      ".          "
-                      "electric   "
-                      "graphs     "
-                      ".          "
+                      ". .        ."
+                      ". electric ."
+                      ". graphs   ."
+                      ". fraphic  ."
                   "(max-width: 1200px)":
-                    grid-template-columns: repeat(2, 1fr)
-                    grid-template-rows: 0 repeat(1, min-content ) 0
+                    grid-template-columns: 0 repeat(2, 1fr) 0
                     grid-template-areas: |
-                      ".          .         "
-                      "electric   graphs    "
-                      ".          .         "
+                      ". .          .      ."
+                      ". electric   graphs ."
+                      ". graphic    .      ."
               cards:
-                - type: markdown
+                - type: picture
                   view_layout:
                     grid-area: graphic
-                  content: |-
-                    <img src="/local/utilities.png">
+                  image: /local/utilities.png
                   card_mod:
                     style: |
                       ha-card {
@@ -5342,13 +5314,8 @@ views:
                       }
                       @media screen and (max-width: 1200px) {
                         ha-card {
-                          display: none;
+                            display: none; /* hide in last row, so it doesn't create an extra column on the right */
                         }
-                      }
-                    ha-markdown $ ha-markdown-element: >
-                      img {
-                        width: 100%;
-                        height: auto;
                       }
 
                 - type: custom:auto-entities
@@ -5428,7 +5395,7 @@ views:
                           card_name: "Electricity to date"
                           graph_color: "orange"
 
-          - name: "Network"
+          - name: "Network" # ------------------------------------------------
             entity: binary_sensor.network_status
             type: custom:button-card
             template: footer
@@ -5446,55 +5413,50 @@ views:
                 data:
                   popup_card_id: network_popup
 
-          - popup_card_id: network_popup
+          - popup_card_id: network_popup # -----------------------------------
             type: custom:popup-card
             title: "Network Diagnostics"
             icon: mdi:web
             size: wide
             style: >
               ha-dialog > div.content {
-                background: linear-gradient(to bottom, rgba(20, 20, 100, 0.15), rgba(20, 20, 100, 0.3));
+                background-image: linear-gradient(to right, rgba(20, 20, 100, 0.2), rgba(20, 20, 100, 0.1));
               }
             card:
               type: custom:layout-card
               layout_type: custom:grid-layout
               layout:
-                padding: 0 1vw 1vw 1vw
-                grid-template-columns: 20vw repeat(2, 1fr)
-                grid-template-rows: 0 repeat(2, min-content ) 0
-                grid-template-areas: |
-                  ".       .       .           "
-                  "graphic router  ping        "
-                  "graphic ups     diskusage   "
-                  ".       .       .           "
-                grid-gap: var(--custom-layout-card-padding)
                 align-items: center
-                will-change: transform
+                grid-gap: var(--custom-layout-card-padding)
+                grid-template-columns: 0 20vw repeat(2, 1fr) 0
+                grid-template-rows: 0 repeat(2, min-content) 0
+                grid-template-areas: |
+                  ". .       .       .         ."
+                  ". graphic router  ping      ."
+                  ". graphic ups     diskusage ."
+                  ". .       .       .         ."
                 mediaquery:
                   "(max-width: 800px)":
-                    grid-template-columns: repeat(1, 1fr)
-                    grid-template-rows: 0 repeat(4, min-content ) 0
+                    grid-template-columns: 0 repeat(1, 1fr) 0
                     grid-template-areas: |
-                      ".        "
-                      "router   "
-                      "ping     "
-                      "ups      "
-                      "diskusage"
-                      ".        "
+                      ". .         ."
+                      ". router    ."
+                      ". ping      ."
+                      ". ups       ."
+                      ". diskusage ."
+                      ". graphic   ."
                   "(max-width: 1200px)":
-                    grid-template-columns: repeat(2, 1fr)
-                    grid-template-rows: 0 repeat(2, min-content ) 0
+                    grid-template-columns: 0 repeat(2, 1fr) 0
                     grid-template-areas: |
-                      ".       .           "
-                      "router  ping        "
-                      "ups     diskusage   "
-                      ".       .           "
+                      ". .       .         ."
+                      ". router  ping      ."
+                      ". ups     diskusage ."
+                      ". graphic .         ."
               cards:
-                - type: markdown
+                - type: picture
                   view_layout:
                     grid-area: graphic
-                  content: |-
-                    <img src="/local/network.png">
+                  image: /local/network-2.png
                   card_mod:
                     style: |
                       ha-card {
@@ -5504,13 +5466,8 @@ views:
                       }
                       @media screen and (max-width: 1200px) {
                         ha-card {
-                          display: none;
+                          display: none; /* hide in last row, so it doesn't create an extra column on the right */
                         }
-                      }
-                    ha-markdown $ ha-markdown-element: >
-                      img {
-                        width: 100%;
-                        height: auto;
                       }
 
                 - title: "Router"
@@ -5683,7 +5640,7 @@ views:
                         warning_above: 85
                         max_value: 100
 
-          - name: "Fire"
+          - name: "Fire" # ---------------------------------------------------
             entity: sensor.fire_status
             type: custom:button-card
             template: footer
@@ -5701,39 +5658,36 @@ views:
                 data:
                   popup_card_id: fire_popup
 
-          - popup_card_id: fire_popup
+          - popup_card_id: fire_popup # --------------------------------------
             type: custom:popup-card
             title: "Fire Alarm"
             icon: mdi:fire
             #size: wide
             style: >
               ha-dialog > div.content {
-                background: linear-gradient(to bottom, rgba(20, 20, 100, 0.15), rgba(20, 20, 100, 0.3));
+                background-image: linear-gradient(to right, rgba(255, 165, 0, 0.2), rgba(255, 165, 0, 0.1));
               }
             card:
               type: custom:layout-card
               layout_type: custom:grid-layout
               layout:
-                padding: 0 1vw 1vw 1vw
-                grid-template-columns: 1fr 2fr
-                grid-template-rows: 0 repeat(2, min-content ) 0
-                grid-template-areas: |
-                  ".       .              "
-                  "graphic on_off_button  "
-                  "graphic smoke_detectors"
-                  ".       .              "
-                grid-gap: var(--custom-layout-card-padding)
                 align-items: center
-                will-change: transform
+                grid-gap: var(--custom-layout-card-padding)
+                grid-template-columns: 0 1fr 2fr 0
+                grid-template-rows: 0 repeat(2, min-content) 0
+                grid-template-areas: |
+                  ". .       .               ."
+                  ". graphic on_off_button   ."
+                  ". graphic smoke_detectors ."
+                  ". .       .               ."
                 mediaquery:
                   "(max-width: 1200px)":
-                    grid-template-columns: 1fr
-                    grid-template-rows: 0 repeat(2, min-content ) 0
+                    grid-template-columns: 0 repeat(1 1fr) 0
                     grid-template-areas: |
-                      ".              "
-                      "on_off_button  "
-                      "smoke_detectors"
-                      ".              "
+                      ". .               ."
+                      ". on_off_button   ."
+                      ". smoke_detectors ."
+                      ". graphic         ."
               cards:
                 - type: custom:html-card # https://codepen.io/deepakkv/pen/EKpYMg
                   view_layout:
@@ -5768,7 +5722,7 @@ views:
                       }
                       @media screen and (max-width: 1200px) {
                         ha-card {
-                          display: none;
+                          display: none; /* hide in last row, so it doesn't create an extra column on the right */
                         }
                       }
                       ha-card $ div div: >
@@ -5845,7 +5799,7 @@ views:
                   template: base
                   view_layout:
                     grid-area: on_off_button
-                  aspect_ratio: 2/1
+                  aspect_ratio: 1/1
                   entity: alarm_control_panel.fire_alarm
                   triggers_update:
                     - alarm_control_panel.fire_alarm
@@ -5864,6 +5818,7 @@ views:
                     service: script.toggle_fire_alarm
                   styles:
                     grid:
+                      - align-items: start #
                       - grid-template-areas: |
                           "n"
                           "."
@@ -5872,10 +5827,9 @@ views:
                           "l"
                       - grid-template-columns: 1fr
                       - grid-template-rows: min-content 1vw min-content 1vw min-content
-                      - align-items: start
-                      - will-change: transform
+
                     name:
-                      - justify-self: start
+                      - justify-self: start # align to the left in the grid area
                       - line-height: 121%
                       - font-size: 30px
                     state:

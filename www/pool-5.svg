@@ -1,0 +1,72 @@
+<svg data-depth="0.65" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 499.24 505.2">
+  <defs>
+    <style>
+      .Balle-cls-1,
+      .Balle-cls-2,
+      .Balle-cls-3 {
+        fill: none;
+      }
+
+      .Balle-cls-2 {
+        stroke: #fff;
+      }
+
+      .Balle-cls-2,
+      .Balle-cls-3 {
+        stroke-miterlimit: 10;
+        stroke-width: 30px;
+      }
+
+      .Balle-cls-3 {
+        stroke-dasharray: 46.43 37.15;
+        stroke: url(#Balle-radial-gradient);
+      }
+
+      .Balle-cls-4 {
+        clip-path: url(#Balle-clip-path);
+      }
+
+      .Balle-cls-5 {
+        fill: #fff;
+      }
+
+      .Balle-cls-6 {
+        fill: #231f20;
+      }
+
+      .Balle-cls-7 {
+        fill: #c34a91;
+      }
+
+      .Balle-cls-8 {
+        fill: #1375b3;
+      }
+
+      .Balle-cls-9 {
+        fill: #f0d22b;
+      }
+    </style>
+    <radialGradient id="Balle-radial-gradient" cx="128.4" cy="307.81" r="68.24" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff" />
+      <stop offset="0.83" stop-color="#ed1c24" />
+    </radialGradient>
+    <clipPath id="Balle-clip-path">
+      <ellipse class="Balle-cls-1" cx="280.98" cy="89.57" rx="31.09" ry="30.12" transform="translate(-13.61 75.78) rotate(-15)" />
+    </clipPath>
+  </defs>
+  <g id="Balle-Layer_2" data-name="Layer 2">
+    <g id="Balle-Balle">
+      <ellipse class="Balle-cls-2" cx="128.4" cy="307.81" rx="53.39" ry="53.06" />
+      <ellipse class="Balle-cls-3" cx="128.4" cy="307.81" rx="53.39" ry="53.06" />
+      <g class="Balle-cls-4">
+        <ellipse class="Balle-cls-5" cx="280.98" cy="89.09" rx="31.09" ry="30.12" transform="translate(-13.48 75.76) rotate(-15)" />
+        <path class="Balle-cls-6" d="M252,95.42a.59.59,0,0,1,0,.13" />
+        <path class="Balle-cls-7" d="M306,108.3a10.3,10.3,0,0,0,2.09-5.64A26,26,0,0,0,305.38,89a45.19,45.19,0,0,0-4.31-7.32c-.83-1.14-1.71-2.25-2.64-3.32-.46-.53-.94-1.06-1.43-1.57-.29-.31-.8-.55-.75-1a12,12,0,0,1,.41-1.75,3.84,3.84,0,0,0,.08-2,2,2,0,0,1-.14-.64c0-.68,1.2-.5,1.66-.52.73,0,1.47,0,2.21,0a16.55,16.55,0,0,1,4.3.78,13.13,13.13,0,0,1,1.9.79A3.44,3.44,0,0,1,308.81,75a8.73,8.73,0,0,0,.82,1.76,34.19,34.19,0,0,1,1.66,19.78,30.37,30.37,0,0,1-3.72,10Z" />
+        <path class="Balle-cls-8" d="M291.53,67.23a5,5,0,0,0-4.69.8,26.6,26.6,0,0,0-6-3.22,24.55,24.55,0,0,0-8.5-2.19,16.76,16.76,0,0,0-7,.72c-.22.08-.46.14-.69.21l-.07-.17c1.43-.6,2.83-1.32,4.3-1.78a64.7,64.7,0,0,1,7.43-2,34.1,34.1,0,0,1,13.24-.1,1.83,1.83,0,0,1,1.39,1.11A14.13,14.13,0,0,1,291.53,67.23Z" />
+        <path class="Balle-cls-1" d="M251.4,97.05a5.55,5.55,0,0,0-.92,1.71" />
+        <path class="Balle-cls-9" d="M290.62,77.4c-.64,2.9-1.24,5.8-1.89,8.68-.48,2.13-.93,4.27-1.55,6.35-.93,3.21-1.86,6.43-3,9.56-1.22,3.35-2.56,6.67-4.06,9.9a30.06,30.06,0,0,1-5.49,8.6l0,0v.07a5.44,5.44,0,0,0-1-.34c-.91-.32-1.81-.66-2.7-1a60.34,60.34,0,0,1-8.24-4.12,32.73,32.73,0,0,1-8.26-6.83,18.38,18.38,0,0,1-2.52-3.89,10.6,10.6,0,0,1-1.2-5.32,15.29,15.29,0,0,1,1.9-5.32,16.82,16.82,0,0,1,2.11-3,.5.5,0,0,1,.08-.12,38.25,38.25,0,0,1,7.75-7c2.36-1.62,4.84-3.08,7.31-4.52a52.43,52.43,0,0,1,9.63-4.35q2.93-1,5.9-1.87a1.1,1.1,0,0,1,.95.24,9.23,9.23,0,0,0,3.81,3.17A.83.83,0,0,1,290.62,77.4Z" />
+      </g>
+      <rect class="Balle-cls-1" width="499.24" height="505.2" />
+    </g>
+  </g>
+</svg>
