@@ -2,6 +2,7 @@
 #  - Use the Visual Code addon in Home Assistant, and embrase the folding editor.
 #  - However tempting, I didn't split up this file, because it caused problems
 #    with !include files staying cached.
+#  - Use the browser_mod UI to hide the header
 #  - Some credentials must reside in secrets.yaml what is not included in this
 #    repository
 #  - Remember, browser_mod can be used to print values on the console of the
@@ -2914,51 +2915,47 @@ views:
     type: custom:layout-card
     layout_type: custom:grid-layout
     layout:
-      grid-gap: calc(var(--custom-layout-card-padding) * 0.7)
-      grid-template-columns: 0 20% repeat(3, 1fr) 0
-      grid-template-rows: 0 repeat(3, fit-content(100%)) 7.4vw fit-content(100%) 0
+      height: calc(100vh - 2vw - 8px)
+      place-items: stretch stretch
+      place-content: stretch stretch
+      margin: 2vw 2vw 0 2vw
+      grid-gap: 2vw
+      grid-template-columns: 20% repeat(3, 1fr)
+      grid-template-rows: repeat(3, min-content) 1fr min-content # requires browser_mod UI to hide the header
       grid-template-areas: |
-        ". .        .         .       .        ."
-        ". sidebar  livingrm  outside familyrm ."
-        ". sidebar  master    sander  other    ."
-        ". sidebar  athome    .       .        ."
-        ". .        .         .       .        ."
-        ". footer   footer    footer  footer   ."
-        ". .        .         .       .        ."
+        "sidebar  livingrm  outside familyrm"
+        "sidebar  master    sander  other   "
+        "sidebar  athome    .       .       "
+        ".        .         .       .       "
+        "footer   footer    footer  footer  "
       mediaquery:
         # phone portrait
         "(max-width: 800px)":
-          grid-gap: calc(var(--custom-layout-card-padding) * 0.3)
-          grid-template-columns: 0 1fr 0
-          grid-template-rows: 0 repeat(11, fit-content(100%)) 0
+          grid-template-columns: 1fr
+          grid-template-rows: repeat(11, fit-content(100%))
           grid-template-areas: |
-            ". .        ."
-            ". livingrm ." 
-            ". outside  ."
-            ". familyrm ."
-            ". master   ."
-            ". sander   ."
-            ". other    ."
-            ". athome   ."
-            ". .        ."
-            ". footer   ."
-            ". .        ."
-            ". sidebar  ."
-            ". .        ."
+            "livingrm" 
+            "outside "
+            "familyrm"
+            "master  "
+            "sander  "
+            "other   "
+            "athome  "
+            ".       "
+            "footer  "
+            ".       "
+            "sidebar "
         # phone landscape
         "(max-width: 1200px)":
-          grid-gap: calc(var(--custom-layout-card-padding) * 0.5)
-          grid-template-columns: 0 20% repeat(2, minmax(200px, 1fr)) 0
-          grid-template-rows: 0 repeat(4, fit-content(100%)) 0 fit-content(100%) 0fr
+          grid-template-columns: 20% repeat(2, minmax(200px, 1fr))
+          grid-template-rows: repeat(4, fit-content(100%)) 0 fit-content(100%)
           grid-template-areas: |
-            ". .        .         .       ."
-            ". sidebar  livingrm  outside ."
-            ". sidebar  familyrm  master  ."
-            ". sidebar  sander    other   ."
-            ". sidebar  athome    .       ."
-            ". .        .         .       ."
-            ". footer   footer    footer  ."
-            ". .        .           .     ."
+            "sidebar  livingrm  outside"
+            "sidebar  familyrm  master "
+            "sidebar  sander    other  "
+            "sidebar  athome    .      "
+            ".        .         .      "
+            "footer   footer    footer "
     cards:
       #extra_styles fix, do not remove
       #also warn if theme is not set
@@ -2966,7 +2963,7 @@ views:
       - name: "Set theme to tablet_frosted_glass in user profile"
         type: custom:button-card
         view_layout:
-          grid-area: 1 / 2 / 2 / 5
+          grid-area: 1 / 1 / 2 / 4
         tap_action:
           action: navigate
           navigation_path: /profile
@@ -3018,18 +3015,18 @@ views:
                   --ha-card-backdrop-filter: none !important;
                 }
 
-          - type: button # hack to create a gap ------------------------------
-            show_name: false
-            show_icon: false
-            entity: sun.sun
-            card_mod:
-              style: |
-                ha-card {
-                  height: 100px !important;
-                  --ha-card-background: none !important;
-                  --ha-card-box-shadow: none !important;
-                  --ha-card-backdrop-filter: none !important;
-                }
+          #- type: button # hack to create a gap ------------------------------
+          #  show_name: false
+          #  show_icon: false
+          #  entity: sun.sun
+          #  card_mod:
+          #    style: |
+          #      ha-card {
+          #        height: 100px !important;
+          #        --ha-card-background: none !important;
+          #        --ha-card-box-shadow: none !important;
+          #        --ha-card-backdrop-filter: none !important;
+          #      }
 
           - entity: weather.pirateweather # ----------------------------------
             type: custom:weather-chart-card
@@ -3066,32 +3063,44 @@ views:
       #                                               #
       #################################################
 
-      - title: "Living"
-        type: grid
+      - type: custom:mod-card
         view_layout:
           grid-area: livingrm
-        columns: 3
-        cards:
-          - name: "Recessed lights"
-            entity: light.living_room_dimmer
-            type: custom:button-card
-            template: light
-            icon: mdi:light-recessed
-            size: 80%
+        card_mod:
+          style:
+            hui-grid-card:
+              $: |
+                .card-header {
+                  padding: 0 0 1vw 0 !important;
+                  font-size: 2.0vw !important;
+                  line-height: 30px !important;
+                }
+        card:
+          title: "Living room"
+          type: grid
+          columns: 3
+          square: false
+          cards:
+            - name: "Recessed lights"
+              entity: light.living_room_dimmer
+              type: custom:button-card
+              template: light
+              icon: mdi:light-recessed
+              size: 80%
 
-          - name: "Floor lamp"
-            entity: light.sonoff_floor_lamp
-            type: custom:button-card
-            template: base
-            icon: mdi:floor-lamp
-            size: 80%
+            - name: "Floor lamp"
+              entity: light.sonoff_floor_lamp
+              type: custom:button-card
+              template: base
+              icon: mdi:floor-lamp
+              size: 80%
 
-          - name: "Reading light"
-            entity: light.sonoff_reading_light
-            type: custom:button-card
-            template: base
-            icon: mdi:book-open
-            size: 80%
+            - name: "Reading light"
+              entity: light.sonoff_reading_light
+              type: custom:button-card
+              template: base
+              icon: mdi:book-open
+              size: 80%
 
       #################################################
       #                                               #
@@ -3099,37 +3108,49 @@ views:
       #                                               #
       #################################################
 
-      - title: "Outside"
-        type: grid
+      - type: custom:mod-card
         view_layout:
           grid-area: outside
-        columns: 3
-        cards:
-          - name: "Entry"
-            type: custom:button-card
-            template: base
-            entity: light.entry
-            icon: mdi:coach-lamp
-            size: 80%
-            show_state: true
+        card_mod:
+          style:
+            hui-grid-card:
+              $: |
+                .card-header {
+                  padding: 0 0 1vw 0 !important;
+                  font-size: 2.0vw !important;
+                  line-height: 30px !important;
+                }
+        card:
+          title: "Outside"
+          type: grid
+          columns: 3
+          square: false
+          cards:
+            - name: "Entry"
+              type: custom:button-card
+              template: base
+              entity: light.entry
+              icon: mdi:coach-lamp
+              size: 80%
+              show_state: true
 
-          - name: "Patio"
-            type: custom:button-card
-            template: base
-            entity: light.patio
-            icon: mdi:coach-lamp
-            size: 80%
-            show_state: true
-            aspect_ratio: 1/1
+            - name: "Patio"
+              type: custom:button-card
+              template: base
+              entity: light.patio
+              icon: mdi:coach-lamp
+              size: 80%
+              show_state: true
+              aspect_ratio: 1/1
 
-          - name: "Pool"
-            type: custom:button-card
-            template: base
-            entity: light.pool
-            icon: mdi:coach-lamp
-            size: 80%
-            show_state: true
-            aspect_ratio: 1/1
+            - name: "Pool"
+              type: custom:button-card
+              template: base
+              entity: light.pool
+              icon: mdi:coach-lamp
+              size: 80%
+              show_state: true
+              aspect_ratio: 1/1
 
       #################################################
       #                                               #
@@ -3137,41 +3158,53 @@ views:
       #                                               #
       #################################################
 
-      - title: "Master"
-        type: grid
+      - type: custom:mod-card
         view_layout:
           grid-area: master
-        columns: 3
-        cards:
-          - name: "Recessed"
-            type: custom:button-card
-            template: light
-            entity: light.master_bedroom_dimmer
-            icon: mdi:light-recessed
-            size: 80%
-            show_state: true
-            aspect_ratio: 1/1
+        card_mod:
+          style:
+            hui-grid-card:
+              $: |
+                .card-header {
+                  padding: 0 0 1vw 0 !important;
+                  font-size: 2.0vw !important;
+                  line-height: 30px !important;
+                }
+        card:
+          title: "Master bedroom"
+          type: grid
+          columns: 3
+          square: false
+          cards:
+            - name: "Recessed"
+              type: custom:button-card
+              template: light
+              entity: light.master_bedroom_dimmer
+              icon: mdi:light-recessed
+              size: 80%
+              show_state: true
+              aspect_ratio: 1/1
 
-          - name: "Left"
-            type: custom:button-card
-            template: base
-            entity: light.master_bedroom_left
-            icon: mdi:bed
-            size: 80%
-            show_state: true
-            aspect_ratio: 1/1
+            - name: "Left"
+              type: custom:button-card
+              template: base
+              entity: light.master_bedroom_left
+              icon: mdi:bed
+              size: 80%
+              show_state: true
+              aspect_ratio: 1/1
 
-          - name: "Right"
-            type: custom:button-card
-            template: base
-            entity: light.master_bedroom_right
-            icon: mdi:bed
-            size: 80%
-            show_state: true
-            aspect_ratio: 1/1
-            styles:
-              icon:
-                - margin-left: "-30%"
+            - name: "Right"
+              type: custom:button-card
+              template: base
+              entity: light.master_bedroom_right
+              icon: mdi:bed
+              size: 80%
+              show_state: true
+              aspect_ratio: 1/1
+              styles:
+                icon:
+                  - margin-left: "-30%"
 
       #################################################
       #                                               #
@@ -3179,225 +3212,236 @@ views:
       #                                               #
       #################################################
 
-      - title: "Family"
-        type: grid
+      - type: custom:mod-card
         view_layout:
           grid-area: familyrm
-        columns: 3
-        cards:
-          - name: "Family"
-            type: custom:button-card
-            template: light
-            entity: light.family_room_dimmer
-            icon: mdi:light-recessed
-            size: 80%
-            show_state: true
-            aspect_ratio: 1/1
+        card_mod:
+          style:
+            hui-grid-card:
+              $: |
+                .card-header {
+                  padding: 0 0 1vw 0 !important;
+                  font-size: 2.0vw !important;
+                  line-height: 30px !important;
+                }
+        card:
+          title: "Family room"
+          type: grid
+          columns: 3
+          cards:
+            - name: "Family"
+              type: custom:button-card
+              template: light
+              entity: light.family_room_dimmer
+              icon: mdi:light-recessed
+              size: 80%
+              show_state: true
+              aspect_ratio: 1/1
 
-          - name: "TV"
-            type: custom:button-card
-            entity: media_player.family_room_tv
-            template:
-              - base
-              - loader
-            icon: mdi:television
-            size: 80%
-            show_state: true
-            tap_action:
-              action: fire-dom-event
-              browser_mod:
-                service: browser_mod.popup
-                data:
-                  title: "Family Room TV"
-                  content:
-                    type: vertical-stack
-                    cards:
-                      - type: entities
-                        state_color: true
-                        show_header_toggle: false
-                        card_mod:
-                          class: content
-                        entities:
-                          - entity: media_player.family_room_tv
-                            name: Family Room TV
-                            secondary_info: last-changed
+            - name: "TV"
+              type: custom:button-card
+              entity: media_player.family_room_tv
+              template:
+                - base
+                - loader
+              icon: mdi:television
+              size: 80%
+              show_state: true
+              tap_action:
+                action: fire-dom-event
+                browser_mod:
+                  service: browser_mod.popup
+                  data:
+                    title: "Family Room TV"
+                    content:
+                      type: vertical-stack
+                      cards:
+                        - type: entities
+                          state_color: true
+                          show_header_toggle: false
+                          card_mod:
+                            class: content
+                          entities:
+                            - entity: media_player.family_room_tv
+                              name: Family Room TV
+                              secondary_info: last-changed
 
-                          - type: custom:more-info-card
-                            entity: media_player.family_room_tv
-                            card_mod:
-                              style:
-                                # hide everything but ha-select
-                                $: |
-                                  h1 {
-                                    display: none !important;
-                                  }
-                                .: |
-                                  h1, state-card-content {
-                                    display: none;
-                                  }
-                                  .card-content {
-                                    padding: {{ is_state(config.entity, 'off') | iif('0', '1.2em 0 0.5em 0') }};
-                                  }
-                                more-info-media_player$:
+                            - type: custom:more-info-card
+                              entity: media_player.family_room_tv
+                              card_mod:
+                                style:
+                                  # hide everything but ha-select
+                                  $: |
+                                    h1 {
+                                      display: none !important;
+                                    }
                                   .: |
-                                    div.volume, div.controls {
+                                    h1, state-card-content {
                                       display: none;
                                     }
-                                  ha-select$:
-                                    # fix transparent menu background color
-                                    mwc-menu$: |
-                                      mwc-list {
-                                        background: var(--card-background-color);
+                                    .card-content {
+                                      padding: {{ is_state(config.entity, 'off') | iif('0', '1.2em 0 0.5em 0') }};
+                                    }
+                                  more-info-media_player$:
+                                    .: |
+                                      div.volume, div.controls {
+                                        display: none;
                                       }
+                                    ha-select$:
+                                      # fix transparent menu background color
+                                      mwc-menu$: |
+                                        mwc-list {
+                                          background: var(--card-background-color);
+                                        }
 
-                      - type: custom:mod-card
-                        card_mod:
-                          style:
-                            hui-horizontal-stack-card$: |
-                              #root {
-                                justify-content: space-evenly !important;
-                                padding: var(--tablet-popup-button-padding);
-                              }
-                        card:
-                          type: horizontal-stack
-                          cards:
-                            - type: custom:button-card
+                        - type: custom:mod-card
+                          card_mod:
+                            style:
+                              hui-horizontal-stack-card$: |
+                                #root {
+                                  justify-content: space-evenly !important;
+                                  padding: var(--tablet-popup-button-padding);
+                                }
+                          card:
+                            type: horizontal-stack
+                            cards:
+                              - type: custom:button-card
+                                entity: media_player.family_room_tv
+                                icon: mdi:volume-mute
+                                tap_action:
+                                  action: call-service
+                                  service: media_player.volume_mute
+                                  service_data:
+                                    entity_id: >
+                                      [[[ return entity.entity_id; ]]]
+                                    is_volume_muted: >
+                                      [[[ return entity.attributes.is_volume_muted === 'false' ? 'true' : 'false'; ]]]
+                                template: icon_only
+
+                              - type: custom:button-card
+                                entity: media_player.family_room_tv
+                                icon: mdi:volume-minus
+                                tap_action:
+                                  action: call-service
+                                  service: media_player.volume_down
+                                  service_data:
+                                    entity_id: >
+                                      [[[ return entity.entity_id; ]]]
+                                template: icon_only
+
+                              - type: custom:button-card
+                                entity: media_player.family_room_tv
+                                icon: mdi:volume-plus
+                                tap_action:
+                                  action: call-service
+                                  service: media_player.volume_up
+                                  service_data:
+                                    entity_id: >
+                                      [[[ return entity.entity_id; ]]]
+                                template: icon_only
+
+            - name: "Xbox"
+              type: custom:button-card
+              entity: media_player.xboxone
+              template:
+                - base
+                - loader
+              icon: mdi:television
+              size: 80%
+              show_state: true
+              #double_tap_action: !include popup/bedroom_tv2.yaml
+              tap_action:
+                action: fire-dom-event
+                browser_mod:
+                  service: browser_mod.popup
+                  data:
+                    title: "Xbox One"
+                    content:
+                      type: vertical-stack
+                      cards:
+                        - type: entities
+                          state_color: true
+                          show_header_toggle: false
+                          card_mod:
+                            class: content
+                          entities:
+                            - entity: media_player.family_room_tv
+                              name: Family Room TV
+                              secondary_info: last-changed
+
+                            - type: custom:more-info-card
                               entity: media_player.family_room_tv
-                              icon: mdi:volume-mute
-                              tap_action:
-                                action: call-service
-                                service: media_player.volume_mute
-                                service_data:
-                                  entity_id: >
-                                    [[[ return entity.entity_id; ]]]
-                                  is_volume_muted: >
-                                    [[[ return entity.attributes.is_volume_muted === 'false' ? 'true' : 'false'; ]]]
-                              template: icon_only
-
-                            - type: custom:button-card
-                              entity: media_player.family_room_tv
-                              icon: mdi:volume-minus
-                              tap_action:
-                                action: call-service
-                                service: media_player.volume_down
-                                service_data:
-                                  entity_id: >
-                                    [[[ return entity.entity_id; ]]]
-                              template: icon_only
-
-                            - type: custom:button-card
-                              entity: media_player.family_room_tv
-                              icon: mdi:volume-plus
-                              tap_action:
-                                action: call-service
-                                service: media_player.volume_up
-                                service_data:
-                                  entity_id: >
-                                    [[[ return entity.entity_id; ]]]
-                              template: icon_only
-
-          - name: "Xbox"
-            type: custom:button-card
-            entity: media_player.xboxone
-            template:
-              - base
-              - loader
-            icon: mdi:television
-            size: 80%
-            show_state: true
-            #double_tap_action: !include popup/bedroom_tv2.yaml
-            tap_action:
-              action: fire-dom-event
-              browser_mod:
-                service: browser_mod.popup
-                data:
-                  title: "Xbox One"
-                  content:
-                    type: vertical-stack
-                    cards:
-                      - type: entities
-                        state_color: true
-                        show_header_toggle: false
-                        card_mod:
-                          class: content
-                        entities:
-                          - entity: media_player.family_room_tv
-                            name: Family Room TV
-                            secondary_info: last-changed
-
-                          - type: custom:more-info-card
-                            entity: media_player.family_room_tv
-                            card_mod:
-                              style:
-                                # hide everything but ha-select
-                                $: |
-                                  h1 {
-                                    display: none !important;
-                                  }
-                                .: |
-                                  h1, state-card-content {
-                                    display: none;
-                                  }
-                                  .card-content {
-                                    padding: {{ is_state(config.entity, 'off') | iif('0', '1.2em 0 0.5em 0') }};
-                                  }
-                                more-info-media_player$:
+                              card_mod:
+                                style:
+                                  # hide everything but ha-select
+                                  $: |
+                                    h1 {
+                                      display: none !important;
+                                    }
                                   .: |
-                                    div.volume, div.controls {
+                                    h1, state-card-content {
                                       display: none;
                                     }
-                                  ha-select$:
-                                    # fix transparent menu background color
-                                    mwc-menu$: |
-                                      mwc-list {
-                                        background: var(--card-background-color);
+                                    .card-content {
+                                      padding: {{ is_state(config.entity, 'off') | iif('0', '1.2em 0 0.5em 0') }};
+                                    }
+                                  more-info-media_player$:
+                                    .: |
+                                      div.volume, div.controls {
+                                        display: none;
                                       }
+                                    ha-select$:
+                                      # fix transparent menu background color
+                                      mwc-menu$: |
+                                        mwc-list {
+                                          background: var(--card-background-color);
+                                        }
 
-                      - type: custom:mod-card
-                        card_mod:
-                          style:
-                            hui-horizontal-stack-card$: |
-                              #root {
-                                justify-content: space-evenly !important;
-                                padding: var(--tablet-popup-button-padding);
-                              }
-                        card:
-                          type: horizontal-stack
-                          cards:
-                            - type: custom:button-card
-                              entity: media_player.family_room_tv
-                              icon: mdi:volume-mute
-                              tap_action:
-                                action: call-service
-                                service: media_player.volume_mute
-                                service_data:
-                                  entity_id: >
-                                    [[[ return entity.entity_id; ]]]
-                                  is_volume_muted: >
-                                    [[[ return entity.attributes.is_volume_muted === 'false' ? 'true' : 'false'; ]]]
-                              template: icon_only
+                        - type: custom:mod-card
+                          card_mod:
+                            style:
+                              hui-horizontal-stack-card$: |
+                                #root {
+                                  justify-content: space-evenly !important;
+                                  padding: var(--tablet-popup-button-padding);
+                                }
+                          card:
+                            type: horizontal-stack
+                            cards:
+                              - type: custom:button-card
+                                entity: media_player.family_room_tv
+                                icon: mdi:volume-mute
+                                tap_action:
+                                  action: call-service
+                                  service: media_player.volume_mute
+                                  service_data:
+                                    entity_id: >
+                                      [[[ return entity.entity_id; ]]]
+                                    is_volume_muted: >
+                                      [[[ return entity.attributes.is_volume_muted === 'false' ? 'true' : 'false'; ]]]
+                                template: icon_only
 
-                            - type: custom:button-card
-                              entity: media_player.family_room_tv
-                              icon: mdi:volume-minus
-                              tap_action:
-                                action: call-service
-                                service: media_player.volume_down
-                                service_data:
-                                  entity_id: >
-                                    [[[ return entity.entity_id; ]]]
-                              template: icon_only
+                              - type: custom:button-card
+                                entity: media_player.family_room_tv
+                                icon: mdi:volume-minus
+                                tap_action:
+                                  action: call-service
+                                  service: media_player.volume_down
+                                  service_data:
+                                    entity_id: >
+                                      [[[ return entity.entity_id; ]]]
+                                template: icon_only
 
-                            - type: custom:button-card
-                              entity: media_player.family_room_tv
-                              icon: mdi:volume-plus
-                              tap_action:
-                                action: call-service
-                                service: media_player.volume_up
-                                service_data:
-                                  entity_id: >
-                                    [[[ return entity.entity_id; ]]]
-                              template: icon_only
+                              - type: custom:button-card
+                                entity: media_player.family_room_tv
+                                icon: mdi:volume-plus
+                                tap_action:
+                                  action: call-service
+                                  service: media_player.volume_up
+                                  service_data:
+                                    entity_id: >
+                                      [[[ return entity.entity_id; ]]]
+                                template: icon_only
 
       #################################################
       #                                               #
@@ -3405,29 +3449,40 @@ views:
       #                                               #
       #################################################
 
-      - title: "Sander's"
-        type: grid
+      - type: custom:mod-card
         view_layout:
           grid-area: sander
-        columns: 3
-        cards:
-          - name: Standing
-            type: custom:button-card
-            template: base
-            entity: switch.sander_bedroom
-            icon: mdi:floor-lamp-torchiere
-            size: 80%
-            show_state: true
-            aspect_ratio: 1/1
+        card_mod:
+          style:
+            hui-grid-card:
+              $: |
+                .card-header {
+                  padding: 0 0 1vw 0 !important;
+                  font-size: 2.0vw !important;
+                  line-height: 30px !important;
+                }
+        card:
+          title: "Sander's room"
+          type: grid
+          columns: 3
+          cards:
+            - name: Standing
+              type: custom:button-card
+              template: base
+              entity: switch.sander_bedroom
+              icon: mdi:floor-lamp-torchiere
+              size: 80%
+              show_state: true
+              aspect_ratio: 1/1
 
-          - name: Dresser
-            type: custom:button-card
-            template: base
-            entity: switch.sander_dresser
-            icon: mdi:light-recessed
-            size: 80%
-            show_state: true
-            aspect_ratio: 1/1
+            - name: Dresser
+              type: custom:button-card
+              template: base
+              entity: switch.sander_dresser
+              icon: mdi:light-recessed
+              size: 80%
+              show_state: true
+              aspect_ratio: 1/1
 
       #################################################
       #                                               #
@@ -3435,132 +3490,143 @@ views:
       #                                               #
       #################################################
 
-      - title: "Other"
-        type: grid
+      - type: custom:mod-card
         view_layout:
           grid-area: other
-        columns: 3
-        cards:
-          - name: "Dining"
-            type: custom:button-card
-            template: light
-            entity: light.dining_room_dimmer
-            icon: mdi:chandelier
-            size: 80%
-            show_state: true
-            aspect_ratio: 1/1
+        card_mod:
+          style:
+            hui-grid-card:
+              $: |
+                .card-header {
+                  padding: 0 0 1vw 0 !important;
+                  font-size: 2.0vw !important;
+                  line-height: 30px !important;
+                }
+        card:
+          title: "Other"
+          type: grid
+          columns: 3
+          cards:
+            - name: "Dining"
+              type: custom:button-card
+              template: light
+              entity: light.dining_room_dimmer
+              icon: mdi:chandelier
+              size: 80%
+              show_state: true
+              aspect_ratio: 1/1
 
-          - name: "Stairs"
-            type: custom:button-card
-            template: light
-            entity: light.stairs_dimmer
-            icon: mdi:stairs
-            size: 80%
-            show_state: true
-            aspect_ratio: 1/1
+            - name: "Stairs"
+              type: custom:button-card
+              template: light
+              entity: light.stairs_dimmer
+              icon: mdi:stairs
+              size: 80%
+              show_state: true
+              aspect_ratio: 1/1
 
-          - name: "Apt TV"
-            type: custom:button-card
-            entity: media_player.apartment_tv
-            template:
-              - base
-              - loader
-            icon: mdi:television
-            size: 80%
-            show_state: true
-            #double_tap_action: !include popup/bedroom_tv2.yaml
-            tap_action:
-              action: fire-dom-event
-              browser_mod:
-                service: browser_mod.popup
-                data:
-                  title: Apartment TV
-                  content:
-                    type: vertical-stack
-                    cards:
-                      - type: entities
-                        state_color: true
-                        show_header_toggle: false
-                        card_mod:
-                          class: content
-                        entities:
-                          - entity: media_player.family_room_tv
-                            name: Family Room TV
-                            secondary_info: last-changed
+            - name: "Apt TV"
+              type: custom:button-card
+              entity: media_player.apartment_tv
+              template:
+                - base
+                - loader
+              icon: mdi:television
+              size: 80%
+              show_state: true
+              #double_tap_action: !include popup/bedroom_tv2.yaml
+              tap_action:
+                action: fire-dom-event
+                browser_mod:
+                  service: browser_mod.popup
+                  data:
+                    title: Apartment TV
+                    content:
+                      type: vertical-stack
+                      cards:
+                        - type: entities
+                          state_color: true
+                          show_header_toggle: false
+                          card_mod:
+                            class: content
+                          entities:
+                            - entity: media_player.family_room_tv
+                              name: Family Room TV
+                              secondary_info: last-changed
 
-                          - type: custom:more-info-card
-                            entity: media_player.family_room_tv
-                            card_mod:
-                              style:
-                                # hide everything but ha-select
-                                $: |
-                                  h1 {
-                                    display: none !important;
-                                  }
-                                .: |
-                                  h1, state-card-content {
-                                    display: none;
-                                  }
-                                  .card-content {
-                                    padding: {{ is_state(config.entity, 'off') | iif('0', '1.2em 0 0.5em 0') }};
-                                  }
-                                more-info-media_player$:
+                            - type: custom:more-info-card
+                              entity: media_player.family_room_tv
+                              card_mod:
+                                style:
+                                  # hide everything but ha-select
+                                  $: |
+                                    h1 {
+                                      display: none !important;
+                                    }
                                   .: |
-                                    div.volume, div.controls {
+                                    h1, state-card-content {
                                       display: none;
                                     }
-                                  ha-select$:
-                                    # fix transparent menu background color
-                                    mwc-menu$: |
-                                      mwc-list {
-                                        background: var(--card-background-color);
+                                    .card-content {
+                                      padding: {{ is_state(config.entity, 'off') | iif('0', '1.2em 0 0.5em 0') }};
+                                    }
+                                  more-info-media_player$:
+                                    .: |
+                                      div.volume, div.controls {
+                                        display: none;
                                       }
+                                    ha-select$:
+                                      # fix transparent menu background color
+                                      mwc-menu$: |
+                                        mwc-list {
+                                          background: var(--card-background-color);
+                                        }
 
-                      - type: custom:mod-card
-                        card_mod:
-                          style:
-                            hui-horizontal-stack-card$: |
-                              #root {
-                                justify-content: space-evenly !important;
-                                padding: var(--tablet-popup-button-padding);
-                              }
-                        card:
-                          type: horizontal-stack
-                          cards:
-                            - type: custom:button-card
-                              entity: media_player.family_room_tv
-                              icon: mdi:volume-mute
-                              tap_action:
-                                action: call-service
-                                service: media_player.volume_mute
-                                service_data:
-                                  entity_id: >
-                                    [[[ return entity.entity_id; ]]]
-                                  is_volume_muted: >
-                                    [[[ return entity.attributes.is_volume_muted === 'false' ? 'true' : 'false'; ]]]
-                              template: icon_only
+                        - type: custom:mod-card
+                          card_mod:
+                            style:
+                              hui-horizontal-stack-card$: |
+                                #root {
+                                  justify-content: space-evenly !important;
+                                  padding: var(--tablet-popup-button-padding);
+                                }
+                          card:
+                            type: horizontal-stack
+                            cards:
+                              - type: custom:button-card
+                                entity: media_player.family_room_tv
+                                icon: mdi:volume-mute
+                                tap_action:
+                                  action: call-service
+                                  service: media_player.volume_mute
+                                  service_data:
+                                    entity_id: >
+                                      [[[ return entity.entity_id; ]]]
+                                    is_volume_muted: >
+                                      [[[ return entity.attributes.is_volume_muted === 'false' ? 'true' : 'false'; ]]]
+                                template: icon_only
 
-                            - type: custom:button-card
-                              entity: media_player.family_room_tv
-                              icon: mdi:volume-minus
-                              tap_action:
-                                action: call-service
-                                service: media_player.volume_down
-                                service_data:
-                                  entity_id: >
-                                    [[[ return entity.entity_id; ]]]
-                              template: icon_only
+                              - type: custom:button-card
+                                entity: media_player.family_room_tv
+                                icon: mdi:volume-minus
+                                tap_action:
+                                  action: call-service
+                                  service: media_player.volume_down
+                                  service_data:
+                                    entity_id: >
+                                      [[[ return entity.entity_id; ]]]
+                                template: icon_only
 
-                            - type: custom:button-card
-                              entity: media_player.family_room_tv
-                              icon: mdi:volume-plus
-                              tap_action:
-                                action: call-service
-                                service: media_player.volume_up
-                                service_data:
-                                  entity_id: >
-                                    [[[ return entity.entity_id; ]]]
-                              template: icon_only
+                              - type: custom:button-card
+                                entity: media_player.family_room_tv
+                                icon: mdi:volume-plus
+                                tap_action:
+                                  action: call-service
+                                  service: media_player.volume_up
+                                  service_data:
+                                    entity_id: >
+                                      [[[ return entity.entity_id; ]]]
+                                template: icon_only
 
       #################################################
       #                                               #
@@ -3568,237 +3634,248 @@ views:
       #                                               #
       #################################################
 
-      - title: "At home"
-        type: grid
+      - type: custom:mod-card
         view_layout:
           grid-area: athome
-        columns: 3
-        cards:
-          - name: Coert
-            type: custom:button-card
-            template:
-              - person
-            entity: person.coert
-            variables:
-              retain: sensor.coert_last_changed
-            triggers_update:
-              - sensor.coert_last_changed
-            # double_tap_action: !include popup/athome_coert.yaml
-            tap_action:
-              action: fire-dom-event
-              browser_mod:
-                service: browser_mod.popup
-                data:
-                  title: Coert
-                  style:
-                    --popup-max-width: 400px
-                  content:
-                    type: vertical-stack
-                    cards:
-                      - type: entities
-                        card_mod:
-                          class: content
-                        entities:
-                          - entity: person.coert
-                            secondary_info: last-changed
+        card_mod:
+          style:
+            hui-grid-card:
+              $: |
+                .card-header {
+                  padding: 0 0 1vw 0 !important;
+                  font-size: 2.0vw !important;
+                  line-height: 30px !important;
+                }
+        card:
+          title: "At home"
+          type: grid
+          columns: 3
+          cards:
+            - name: Coert
+              type: custom:button-card
+              template:
+                - person
+              entity: person.coert
+              variables:
+                retain: sensor.coert_last_changed
+              triggers_update:
+                - sensor.coert_last_changed
+              # double_tap_action: !include popup/athome_coert.yaml
+              tap_action:
+                action: fire-dom-event
+                browser_mod:
+                  service: browser_mod.popup
+                  data:
+                    title: Coert
+                    style:
+                      --popup-max-width: 400px
+                    content:
+                      type: vertical-stack
+                      cards:
+                        - type: entities
+                          card_mod:
+                            class: content
+                          entities:
+                            - entity: person.coert
+                              secondary_info: last-changed
 
-                      - type: history-graph
-                        card_mod:
-                          style: |
-                            ha-card > div {
-                              padding: 0 2em 1em 1.6em !important;
-                            }
-                        entities:
-                          - entity: person.coert
-
-                      - type: glance
-                        card_mod:
-                          style: |
-                            ha-card > div {
-                              padding: 1em 1.5em 0.2em 1em !important;
-                              box-sizing: content-box;
-                            }
-                        show_state: false
-                        entities:
-                          - entity: device_tracker.coert_phone_unifi
-                            name: Router
-                            icon: mdi:wifi
-                            #card_mod:
-                            #  style: &state |
-                            #    state-badge {
-                            #      color: {{ is_state(config.entity, 'home') | iif('#3182b7', '#3c3f3f') }};
-                            #    }
-
-                          - entity: device_tracker.coert_phone_unifi
-                            name: Bluetooth
-                            icon: mdi:bluetooth
-                            #card_mod:
-                            #  style: *state
-
-                          - entity: device_tracker.coert_phone
-                            name: Position
-                            icon: cil:iphone-modern
-                            #card_mod:
-                            #  style: *state
-
-                      - type: custom:mod-card
-                        card_mod:
-                          style:
-                            hui-horizontal-stack-card$: |
-                              #root {
-                                justify-content: space-evenly !important;
-                                padding: var(--tablet-popup-button-padding);
+                        - type: history-graph
+                          card_mod:
+                            style: |
+                              ha-card > div {
+                                padding: 0 2em 1em 1.6em !important;
                               }
-                        card:
-                          type: horizontal-stack
-                          cards:
-                            - type: custom:button-card
-                              name: Spela upp ljud på iPhone X
-                              icon: mdi:volume-high
-                              template: icon_name
-                              tap_action:
-                                action: call-service
-                                service: notify.mobile_app_iphone
-                                service_data:
-                                  title: Hitta min iPhone
-                                  message: Här är jag
-                                  data:
-                                    push:
-                                      sound:
-                                        name: findmy.wav
-                                        critical: 1
-                                        volume: 1
+                          entities:
+                            - entity: person.coert
 
-                      - type: map
-                        default_zoom: 16
-                        dark_mode: true
-                        entities:
-                          - device_tracker.iphone
-                        card_mod:
-                          style:
-                            .: |
-                              #root {
-                                height: 25em;
-                                padding-bottom: 0 !important;
+                        - type: glance
+                          card_mod:
+                            style: |
+                              ha-card > div {
+                                padding: 1em 1.5em 0.2em 1em !important;
+                                box-sizing: content-box;
                               }
-                              ha-icon-button {
-                                color: var(--primary-color);
-                                zoom: 140%;
-                                margin-left: -0.2em;
-                              }
-                              ha-card {
-                                border-top: 2px solid #1a1a1a;
-                                border-radius: 0;
-                                transition: none;
-                                height: 25em !important;
-                              }
-                            ha-map$: |
-                              #map {
-                                background-color: #191919 !important;
-                              }
-                              .leaflet-control-attribution {
-                                display: none;
-                              }
-                              .leaflet-bar a {
-                                background-color: rgba(115, 123, 124, 0.2) !important;
-                                color: #9da0a2 !important;
-                                backdrop-filter: blur(0.25em);
-                                zoom: 140%;
-                              }
-                              a.leaflet-control-zoom-in {
-                                border-bottom: 1px solid #181818 !important;
-                              }
-                              .leaflet-pane.leaflet-tile-pane {
-                                filter: invert(0.95) grayscale(0.95) contrast(95%);
-                              }
+                          show_state: false
+                          entities:
+                            - entity: device_tracker.coert_phone_unifi
+                              name: Router
+                              icon: mdi:wifi
+                              #card_mod:
+                              #  style: &state |
+                              #    state-badge {
+                              #      color: {{ is_state(config.entity, 'home') | iif('#3182b7', '#3c3f3f') }};
+                              #    }
 
-          - name: Barrie
-            type: custom:button-card
-            template:
-              - person
-            entity: person.barrie
-            variables:
-              retain: sensor.barrie_last_changed
-            triggers_update:
-              - sensor.sanja_last_changed
-            # double_tap_action: !include popup/athome_barrie.yaml
-            tap_action:
-              action: fire-dom-event
-              browser_mod:
-                service: browser_mod.popup
-                data:
-                  title: Barrie
-                  style: |
-                    --popup-max-width: 400px;
-                  content:
-                    type: vertical-stack
-                    cards:
-                      - type: entities
-                        card_mod:
-                          class: content
-                        entities:
-                          - entity: person.barrie
-                            secondary_info: last-changed
+                            - entity: device_tracker.coert_phone_unifi
+                              name: Bluetooth
+                              icon: mdi:bluetooth
+                              #card_mod:
+                              #  style: *state
 
-                      - type: history-graph
-                        card_mod:
-                          style: |
-                            ha-card > div {
-                              padding: 0 2em 1em 1.6em !important;
-                            }
-                        entities:
-                          - entity: person.barrie
+                            - entity: device_tracker.coert_phone
+                              name: Position
+                              icon: cil:iphone-modern
+                              #card_mod:
+                              #  style: *state
 
-                      - type: glance
-                        card_mod:
-                          style: |
-                            ha-card > div {
-                              padding: 1em 1.5em 0.2em 1em !important;
-                            }
-                        show_state: false
-                        entities:
-                          - entity: device_tracker.barrie_phone_unifi
-                            name: Router
-                            icon: mdi:wifi
-                            #card_mod:
-                            #  style: &state |
-                            #    state-badge {
-                            #      color: {{ '#3182b7' if is_state(config.entity, 'home') else '#3c3f3f' }};
-                            #    }
+                        - type: custom:mod-card
+                          card_mod:
+                            style:
+                              hui-horizontal-stack-card$: |
+                                #root {
+                                  justify-content: space-evenly !important;
+                                  padding: var(--tablet-popup-button-padding);
+                                }
+                          card:
+                            type: horizontal-stack
+                            cards:
+                              - type: custom:button-card
+                                name: Spela upp ljud på iPhone X
+                                icon: mdi:volume-high
+                                template: icon_name
+                                tap_action:
+                                  action: call-service
+                                  service: notify.mobile_app_iphone
+                                  service_data:
+                                    title: Hitta min iPhone
+                                    message: Här är jag
+                                    data:
+                                      push:
+                                        sound:
+                                          name: findmy.wav
+                                          critical: 1
+                                          volume: 1
 
-                          - entity: device_tracker.barrie_phone
-                            name: Position
-                            icon: cil:iphone-modern
-                            #card_mod:
-                            #  style: *state
+                        - type: map
+                          default_zoom: 16
+                          dark_mode: true
+                          entities:
+                            - device_tracker.iphone
+                          card_mod:
+                            style:
+                              .: |
+                                #root {
+                                  height: 25em;
+                                  padding-bottom: 0 !important;
+                                }
+                                ha-icon-button {
+                                  color: var(--primary-color);
+                                  zoom: 140%;
+                                  margin-left: -0.2em;
+                                }
+                                ha-card {
+                                  border-top: 2px solid #1a1a1a;
+                                  border-radius: 0;
+                                  transition: none;
+                                  height: 25em !important;
+                                }
+                              ha-map$: |
+                                #map {
+                                  background-color: #191919 !important;
+                                }
+                                .leaflet-control-attribution {
+                                  display: none;
+                                }
+                                .leaflet-bar a {
+                                  background-color: rgba(115, 123, 124, 0.2) !important;
+                                  color: #9da0a2 !important;
+                                  backdrop-filter: blur(0.25em);
+                                  zoom: 140%;
+                                }
+                                a.leaflet-control-zoom-in {
+                                  border-bottom: 1px solid #181818 !important;
+                                }
+                                .leaflet-pane.leaflet-tile-pane {
+                                  filter: invert(0.95) grayscale(0.95) contrast(95%);
+                                }
 
-                      - type: custom:mod-card
-                        card_mod:
-                          style:
-                            hui-horizontal-stack-card$: |
-                              #root {
-                                justify-content: space-evenly !important;
-                                padding: var(--tablet-popup-button-padding);
+            - name: Barrie
+              type: custom:button-card
+              template:
+                - person
+              entity: person.barrie
+              variables:
+                retain: sensor.barrie_last_changed
+              triggers_update:
+                - sensor.sanja_last_changed
+              # double_tap_action: !include popup/athome_barrie.yaml
+              tap_action:
+                action: fire-dom-event
+                browser_mod:
+                  service: browser_mod.popup
+                  data:
+                    title: Barrie
+                    style: |
+                      --popup-max-width: 400px;
+                    content:
+                      type: vertical-stack
+                      cards:
+                        - type: entities
+                          card_mod:
+                            class: content
+                          entities:
+                            - entity: person.barrie
+                              secondary_info: last-changed
+
+                        - type: history-graph
+                          card_mod:
+                            style: |
+                              ha-card > div {
+                                padding: 0 2em 1em 1.6em !important;
                               }
-                        card:
-                          type: horizontal-stack
-                          cards:
-                            - type: custom:button-card
-                              name: Spela upp ljud på iPhone 13
-                              icon: mdi:volume-high
-                              template: icon_name
-                              tap_action:
-                                action: call-service
-                                service: notify.mobile_app_barrie_phone
-                                service_data:
-                                  title: Hitta min iPhone
-                                  message: Här är jag
-                                  data:
-                                    push:
-                                      sound:
-                                        name: findmy.wav
-                                        critical: 1
-                                        volume: 1
+                          entities:
+                            - entity: person.barrie
+
+                        - type: glance
+                          card_mod:
+                            style: |
+                              ha-card > div {
+                                padding: 1em 1.5em 0.2em 1em !important;
+                              }
+                          show_state: false
+                          entities:
+                            - entity: device_tracker.barrie_phone_unifi
+                              name: Router
+                              icon: mdi:wifi
+                              #card_mod:
+                              #  style: &state |
+                              #    state-badge {
+                              #      color: {{ '#3182b7' if is_state(config.entity, 'home') else '#3c3f3f' }};
+                              #    }
+
+                            - entity: device_tracker.barrie_phone
+                              name: Position
+                              icon: cil:iphone-modern
+                              #card_mod:
+                              #  style: *state
+
+                        - type: custom:mod-card
+                          card_mod:
+                            style:
+                              hui-horizontal-stack-card$: |
+                                #root {
+                                  justify-content: space-evenly !important;
+                                  padding: var(--tablet-popup-button-padding);
+                                }
+                          card:
+                            type: horizontal-stack
+                            cards:
+                              - type: custom:button-card
+                                name: Spela upp ljud på iPhone 13
+                                icon: mdi:volume-high
+                                template: icon_name
+                                tap_action:
+                                  action: call-service
+                                  service: notify.mobile_app_barrie_phone
+                                  service_data:
+                                    title: Hitta min iPhone
+                                    message: Här är jag
+                                    data:
+                                      push:
+                                        sound:
+                                          name: findmy.wav
+                                          critical: 1
+                                          volume: 1
 
       #################################################
       #                                               #
@@ -3809,8 +3886,13 @@ views:
       - type: custom:layout-card
         layout_type: custom:grid-layout
         layout_options:
+          align-self: end
+          place-items: center stretch
+          place-content: stretch stretch
+          margin: 0vw
+          grid-gap: 2vw
           grid-template-columns: repeat(8, 1fr)
-          grid-gap: 0.5vw # var(--custom-layout-card-padding)
+          grid-template-rows: repeat(1, min-content)
           mediaquery:
             "(max-width: 800px)":
               grid-template-columns: repeat(2, 1fr)
