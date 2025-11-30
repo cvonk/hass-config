@@ -1010,7 +1010,7 @@ button_card_templates:
       #name {
         //padding: 1vw 2.5vw 0 var(--custom-layout-card-padding);
         white-space: normal;
-        text-align: left;
+        text-align: center;
       }
       .phone {
         font-size: 1.5em;
@@ -2918,21 +2918,21 @@ views:
       height: calc(100vh - 2vw - 8px)
       place-items: stretch stretch
       place-content: stretch stretch
-      margin: 2vw 2vw 0 2vw
+      margin: 2vw 2vw 0 0
       grid-gap: 2vw
-      grid-template-columns: 20% repeat(3, 1fr)
+      grid-template-columns: 25% repeat(3, 1fr)
       grid-template-rows: repeat(3, min-content) 1fr min-content # requires browser_mod UI to hide the header
       grid-template-areas: |
         "sidebar  livingrm  outside familyrm"
         "sidebar  master    sander  other   "
         "sidebar  athome    .       .       "
-        ".        .         .       .       "
+        "sidebar  .         .       .       "
         "footer   footer    footer  footer  "
       mediaquery:
         # phone portrait
         "(max-width: 800px)":
           grid-template-columns: 1fr
-          grid-template-rows: repeat(11, fit-content(100%))
+          grid-template-rows: repeat(7, min-content) 1fr min-content 0
           grid-template-areas: |
             "livingrm" 
             "outside "
@@ -2943,18 +2943,17 @@ views:
             "athome  "
             ".       "
             "footer  "
-            ".       "
             "sidebar "
         # phone landscape
         "(max-width: 1200px)":
-          grid-template-columns: 20% repeat(2, minmax(200px, 1fr))
-          grid-template-rows: repeat(4, fit-content(100%)) 0 fit-content(100%)
+          grid-template-columns: 25% repeat(2, minmax(200px, 1fr))
+          grid-template-rows: repeat(4, min-content) 1fr min-content # requires browser_mod UI to hide the header
           grid-template-areas: |
             "sidebar  livingrm  outside"
             "sidebar  familyrm  master "
             "sidebar  sander    other  "
             "sidebar  athome    .      "
-            ".        .         .      "
+            "sidebar  .         .      "
             "footer   footer    footer "
     cards:
       #extra_styles fix, do not remove
@@ -2963,7 +2962,7 @@ views:
       - name: "Set theme to tablet_frosted_glass in user profile"
         type: custom:button-card
         view_layout:
-          grid-area: 1 / 1 / 2 / 4
+          grid-area: 1 / 1 / 2 / 5
         tap_action:
           action: navigate
           navigation_path: /profile
@@ -2989,24 +2988,35 @@ views:
       #                                               #
       #################################################
 
-      - type: grid
-        columns: 1
-        square: false
+      - type: custom:layout-card
+        layout_type: custom:grid-layout
+        layout:
+          height: 85vh
+          place-items: center center
+          place-content: stretch stretch
+          margin: 0 #2vw
+          grid-gap: 2vw
+          grid-template-columns: 1fr
+          grid-template-rows: min-content 1fr min-content
+          grid-template-areas: |
+            "time"
+            "."
+            "weather"
         view_layout:
           grid-area: sidebar
-        card_mod:
-          style: |
-            ha-card {
-              background: none;
-              box-shadow: none;
-              backdrop-filter: none !important;
-              padding: 12px
-              padding: 0 !important;
-            }
+        style: |
+          ha-card {
+            background: none;
+            box-shadow: none;
+            backdrop-filter: none !important;
+            padding: 0 !important;
+          }
         cards:
           - entity: sensor.sidebar # content set in sidebar.yaml -------------
             type: custom:button-card
             template: sidebar
+            view_layout:
+              grid-area: time
             card_mod:
               style: |
                 ha-card {
@@ -3015,21 +3025,10 @@ views:
                   --ha-card-backdrop-filter: none !important;
                 }
 
-          #- type: button # hack to create a gap ------------------------------
-          #  show_name: false
-          #  show_icon: false
-          #  entity: sun.sun
-          #  card_mod:
-          #    style: |
-          #      ha-card {
-          #        height: 100px !important;
-          #        --ha-card-background: none !important;
-          #        --ha-card-box-shadow: none !important;
-          #        --ha-card-backdrop-filter: none !important;
-          #      }
-
           - entity: weather.pirateweather # ----------------------------------
             type: custom:weather-chart-card
+            view_layout:
+              grid-area: weather
             show_main: false
             show_humidity: false
             show_pressure: false
@@ -3038,7 +3037,7 @@ views:
             show_wind_direction: false
             animated_icons: true
             icon_style: style2
-            icons_size: 20
+            icons_size: 30
             forecast:
               style: style2
               type: daily
@@ -3046,7 +3045,13 @@ views:
               chart_datetime_color: white
             card_mod:
               style: |
+                :host {
+                  width: 85%;
+                }
                 ha-card {
+                  //width: 82%;
+                  padding: 0;
+                  margin: 0;
                   --ha-card-background: none !important;
                   --ha-card-box-shadow: none !important;
                   --ha-card-backdrop-filter: none !important;
@@ -3886,9 +3891,9 @@ views:
       - type: custom:layout-card
         layout_type: custom:grid-layout
         layout_options:
-          align-self: end
           place-items: center stretch
           place-content: stretch stretch
+          padding: 0
           margin: 0vw
           grid-gap: 2vw
           grid-template-columns: repeat(8, 1fr)
