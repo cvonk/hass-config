@@ -1205,7 +1205,7 @@ button_card_templates:
         #- clip-path: circle()
         - pointer-events: none
 
-  climate_base: # ------------------------------------------------------------
+  obsolete_climate_base: # ------------------------------------------------------------
     show_icon: false
     styles:
       name:
@@ -1214,7 +1214,7 @@ button_card_templates:
         - font-weight: 600
       card:
         - border-radius: 10px'
-  climate_fan_mode: # --------------------------------------------------------
+  obsolete_climate_fan_mode: # --------------------------------------------------------
     variables:
       fan_mode: false
     tap_action:
@@ -1235,7 +1235,7 @@ button_card_templates:
             ]]]
     template:
       - climate_base
-  climate_swing_mode: # ------------------------------------------------------
+  obsolete_climate_swing_mode: # ------------------------------------------------------
     tap_action:
       action: call-service
       service: climate.set_swing_mode
@@ -2956,9 +2956,6 @@ views:
             "sidebar  .         .      "
             "footer   footer    footer "
     cards:
-      #extra_styles fix, do not remove
-      #also warn if theme is not set
-
       - name: "Set theme to tablet_frosted_glass in user profile"
         type: custom:button-card
         view_layout:
