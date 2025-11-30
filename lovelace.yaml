@@ -119,14 +119,8 @@ button_card_templates:
 
               this.appendChild(style);
           }
-
-          // duration
           let duration = 800;
-
-          // animate
           this.style.animation = `card_bounce ${duration}ms cubic-bezier(0.22, 1, 0.36, 1)`;
-
-          // reset
           window.setTimeout(() => { this.style.animation = "none"; }, duration + 100)
         ]]]
       action: toggle
@@ -624,6 +618,9 @@ button_card_templates:
                 backdrop-filter: none !important;
                 border-radius: 0px;
               }
+    styles:
+      icon:
+        - color: rgb(157, 160, 162)
     card_mod:
       style: |
         ha-card {
@@ -3857,31 +3854,29 @@ views:
               type: custom:layout-card
               layout_type: custom:grid-layout
               layout:
-                align-items: center
-                grid-gap: var(--custom-layout-card-padding)
-                grid-template-columns: 0 repeat(3, 1fr) 0
-                grid-template-rows: 0 repeat(2, min-content) 0
+                place-items: center stretch
+                place-content: stretch stretch
+                margin: 2vw
+                grid-gap: 2vw
+                grid-template-columns: repeat(3, 1fr)
+                grid-template-rows: repeat(2, min-content)
                 grid-template-areas: |
-                  ". .       .          .        ."
-                  ". graphic downstairs upstairs ."
-                  ". graphic filter     .        ."
-                  ". .       .          .        ."
+                  "graphic downstairs upstairs"
+                  "graphic filter     .       "
                 mediaquery:
                   "(max-width: 800px)":
-                    grid-template-columns: 0 repeat(1, 1fr) 0
+                    grid-template-columns: repeat(1, 1fr)
+                    grid-template-rows: repeat(4, min-content)
                     grid-template-areas: |
-                      ". .          ."
-                      ". downstairs ."
-                      ". upstairs   ."
-                      ". filter     ."
-                      ". graphic    ."
+                      "downstairs"
+                      "upstairs  "
+                      "filter    "
+                      "graphic   "
                   "(max-width: 1200px)":
-                    grid-template-columns: 0 repeat(2, 1fr) 0
+                    grid-template-columns: repeat(2, 1fr)
                     grid-template-areas: |
-                      ". .          .        ."
-                      ". downstairs upstairs ."
-                      ". filter     .        ."
-                      ". graphic    .        ."
+                      "downstairs upstairs"
+                      "filter     graphic"
               cards:
                 - type: markdown # https://codepen.io/Sneha_P_P/pen/LXWWox
                   view_layout:
@@ -4034,28 +4029,28 @@ views:
               type: custom:layout-card
               layout_type: custom:grid-layout
               layout:
-                align-items: center
-                grid-gap: var(--custom-layout-card-padding)
-                grid-template-columns: 0 20vw repeat(2, 1fr) 0
-                grid-template-rows: 0 repeat(1, min-content) 0
+                place-items: center stretch
+                place-content: stretch stretch
+                margin: 2vw
+                grid-gap: 2vw
+                grid-template-columns: 20vw repeat(2, 1fr)
+                grid-template-rows: repeat(1, min-content)
                 grid-template-areas: |
-                  ". .       .        .        ."
-                  ". graphic station  aqi_temp ."
-                  ". .       .        .        ."
+                  "graphic station  aqi_temp"
                 mediaquery:
                   "(max-width: 800px)":
-                    grid-template-columns: 0 repeat(1, 1fr) 0
+                    grid-template-columns: repeat(1, 1fr)
+                    grid-template-rows: repeat(3, min-content)
                     grid-template-areas: |
-                      ". .        ."
-                      ". aqi_temp ."
-                      ". station  ."
-                      ". graphic  ."
+                      "aqi_temp"
+                      "station "
+                      "graphic "
                   "(max-width: 1200px)":
-                    grid-template-columns: 0 repeat(2, 1fr) 0
+                    grid-template-columns: repeat(2, 1fr)
+                    grid-template-rows: repeat(3, min-content)
                     grid-template-areas: |
-                      ". .        .        ."
-                      ". station  aqi_temp ."
-                      ". graphic  .        ."
+                      "station  aqi_temp"
+                      "graphic  .       "
               cards:
                 - type: markdown # https://codepen.io/jonslater204/pen/jOmeryV
                   view_layout:
@@ -4341,11 +4336,13 @@ views:
                       icon: mdi:waves
                       name: Particles ≤ 10 µm
 
-                - type: grid
-                  columns: 1
+                - type: custom:layout-card
+                  layout_type: custom:grid-layout
+                  layout:
+                    grid-gap: 2vw
+                    grid-template-columns: repeat(1, 1fr)
                   view_layout:
                     grid-area: aqi_temp
-                  square: false
                   cards:
                     - name: "Air Quality"
                       type: custom:mini-graph-card
@@ -4437,23 +4434,23 @@ views:
               type: custom:layout-card
               layout_type: custom:grid-layout
               layout:
-                align-items: center
-                grid-gap: var(--custom-layout-card-padding)
-                grid-template-columns: 0 1fr 2fr 0
-                grid-template-rows: 0 repeat(2, min-content ) 0
+                place-items: center stretch
+                place-content: stretch stretch
+                margin: 2vw
+                grid-gap: 2vw
+                grid-template-columns: 1fr repeat(1, 2fr)
+                grid-template-rows: repeat(2, min-content )
                 grid-template-areas: |
-                  ". .       .     ."
-                  ". graphic front ."
-                  ". graphic back  ."
-                  ". .       .     ."
+                  "graphic front"
+                  "graphic back "
                 mediaquery:
                   "(max-width: 1200px)":
-                    grid-template-columns: 0 1fr 0
+                    grid-template-columns: repeat(1, 1fr)
+                    grid-template-rows: repeat(3, min-content )
                     grid-template-areas: |
-                      ". .       ."
-                      ". front   ."
-                      ". back    ."
-                      ". graphic ."
+                      "front  "
+                      "back   "
+                      "graphic"
               cards:
                 - type: markdown
                   view_layout:
@@ -4481,9 +4478,8 @@ views:
                 - type: custom:layout-card
                   layout_type: custom:grid-layout
                   layout:
-                    padding: 0 1vw 1vw 1vw
+                    grid-gap: 2vw
                     grid-template-columns: repeat(1, 1fr)
-                    grid-gap: var(--custom-layout-card-padding)
                   view_layout:
                     grid-area: front
                   cards:
@@ -4503,7 +4499,7 @@ views:
                 - type: custom:layout-card
                   layout_type: custom:grid-layout
                   layout:
-                    padding: 0 1vw 1vw 1vw
+                    grid-gap: 2vw
                     grid-template-columns: repeat(1, 1fr)
                     grid-gap: var(--custom-layout-card-padding)
                   view_layout:
@@ -4550,37 +4546,37 @@ views:
             card:
               type: custom:layout-card
               layout_type: custom:grid-layout
+              # place-items for grid items: 1st value = vertical axis, 2nd value = horizontal axis
+              # place-content: for container: 1st value = vertical axis, 2nd value = horizontal axis
               layout:
-                align-items: center
-                grid-gap: var(--custom-layout-card-padding)
-                grid-template-columns: 0 20vw repeat(2, 1fr) 0
-                grid-template-rows: 0 repeat(3, min-content) 0
+                place-items: center stretch
+                place-content: stretch stretch
+                margin: 2vw
+                grid-gap: 2vw
+                grid-template-columns: 20vw repeat(2, 1fr)
+                grid-template-rows: repeat(3,  min-content)
                 grid-template-areas: |
-                  ". .       .          .          ."
-                  ". graphic circuits   circuits   ."
-                  ". graphic components components ."
-                  ". graphic analysis   thermostat ."
-                  ". .       .          .          ."
+                  "graphic circuits   circuits  "
+                  "graphic components components"
+                  "graphic analysis   thermostat"
                 mediaquery:
                   "(max-width: 800px)":
-                    grid-template-columns: 0 repeat(1, 1fr) 0
-                    grid-template-rows: 0 repeat(4, min-content ) 0
+                    grid-template-columns: repeat(1, 1fr)
+                    grid-template-rows: repeat(5, min-content )
                     grid-template-areas: |
-                      ". .          ."
-                      ". circuits   ."
-                      ". components ."
-                      ". thermostat ."
-                      ". analysis   ."
-                      ". graphic    ."
+                      "circuits  "
+                      "components"
+                      "thermostat"
+                      "analysis  "
+                      "graphic   "
                   "(max-width: 1200px)":
-                    grid-template-columns: 0 repeat(2, 1fr) 0
-                    grid-template-rows: 0 repeat(3, min-content ) 0
+                    grid-template-columns: repeat(2, 1fr)
+                    grid-template-rows: repeat(4, min-content )
                     grid-template-areas: |
-                      ". .          .          ."
-                      ". circuits   circuits   ."
-                      ". components components ."
-                      ". analysis   thermostat ."
-                      ". graphic    .          ."
+                      "circuits   circuits  "
+                      "components components"
+                      "analysis   thermostat"
+                      "graphic    .         "
               cards:
                 - type: picture-elements
                   view_layout:
@@ -4623,11 +4619,11 @@ views:
                     style:
                       .: >
                         ha-card {
+                          place-self: center
                           border-width: 0;
                           box-shadow: none;
                           backdrop-filter: none !important;
                           overflow: hidden;
-                          justify-self: center;  // aligns to the center of the grid area
                         }
                         @media screen and (max-width: 1200px) {
                           ha-card {
@@ -4639,9 +4635,8 @@ views:
                   type: custom:layout-card
                   layout_type: custom:grid-layout
                   layout:
-                    padding: 0 1vw 1vw 1vw
+                    grid-gap: 2vw
                     grid-template-columns: repeat(4, 1fr)
-                    grid-gap: var(--custom-layout-card-padding)
                     mediaquery:
                       "(max-width: 800px)":
                         grid-template-columns: repeat(2, 1fr)
@@ -4696,9 +4691,8 @@ views:
                   type: custom:layout-card
                   layout_type: custom:grid-layout
                   layout:
-                    padding: 0 1vw 1vw 1vw
+                    grid-gap: 2vw
                     grid-template-columns: repeat(4, 1fr)
-                    grid-gap: var(--custom-layout-card-padding)
                     mediaquery:
                       "(max-width: 800px)":
                         grid-template-columns: repeat(2, 1fr)
@@ -4743,13 +4737,20 @@ views:
                       variables:
                         graph_color: cornflowerblue
 
+                    - name: "Air Temp"
+                      type: custom:button-card
+                      template: circle_graph
+                      entity: sensor.opnpool_air_temp
+                      icon: mdi:thermometer
+                      variables:
+                        graph_color: cornflowerblue
+
                 - title: "Thermostat"
                   type: custom:layout-card
                   layout_type: custom:grid-layout
                   layout:
-                    padding: 0 1vw 1vw 1vw
+                    grid-gap: 2vw
                     grid-template-columns: repeat(1, 1fr)
-                    grid-gap: var(--custom-layout-card-padding)
                   view_layout:
                     grid-area: thermostat
                   card_mod:
@@ -4854,9 +4855,8 @@ views:
                   type: custom:layout-card
                   layout_type: custom:grid-layout
                   layout:
-                    padding: 0 1vw 0 1vw
-                    grid-template-columns: 1fr
                     grid-gap: 1vh
+                    grid-template-columns: 1fr
                   view_layout:
                     grid-area: analysis
                   cards:
@@ -4961,23 +4961,23 @@ views:
               type: custom:layout-card
               layout_type: custom:grid-layout
               layout:
-                align-items: center
-                grid-gap: var(--custom-layout-card-padding)
-                grid-template-columns: 0 20vw repeat(1, 1fr) 0
-                grid-template-rows: 0 repeat(2, min-content) 0
+                place-items: center stretch
+                place-content: stretch stretch
+                margin: 2vw
+                grid-gap: 2vw
+                grid-template-columns: 20vw repeat(1, 1fr)
+                grid-template-rows: repeat(2, min-content)
                 grid-template-areas: |
-                  ". .       .        ."
-                  ". graphic zones    ."
-                  ". graphic programs ."
-                  ". .       .        ."
+                  "graphic zones   "
+                  "graphic programs"
                 mediaquery:
                   "(max-width: 1200px)":
-                    grid-template-columns: 0 repeat(1, 1fr) 0
+                    grid-template-columns: repeat(1, 1fr)
+                    grid-template-rows: repeat(3, min-content)
                     grid-template-areas: |
-                      ". .        ."
-                      ". zones    ."
-                      ". programs ."
-                      ". graphic  ."
+                      "zones   "
+                      "programs"
+                      "graphic "
               cards:
                 - type: markdown # https://codepen.io/abehjat/pen/oXMENv
                   view_layout:
@@ -5119,9 +5119,8 @@ views:
                   type: custom:layout-card # Irrigation zones
                   layout_type: custom:grid-layout
                   layout:
-                    padding: 0 1vw 1vw 1vw
+                    grid-gap: 2vw
                     grid-template-columns: repeat(4, 1fr)
-                    grid-gap: var(--custom-layout-card-padding)
                     mediaquery:
                       "(max-width: 800px)":
                         grid-template-columns: repeat(2, 1fr)
@@ -5216,9 +5215,8 @@ views:
                   type: custom:layout-card # Programs
                   layout_type: custom:grid-layout
                   layout:
-                    padding: 0 1vw 1vw 1vw
+                    grid-gap: 2vw
                     grid-template-columns: repeat(4, 1fr)
-                    grid-gap: var(--custom-layout-card-padding)
                     mediaquery:
                       "(max-width: 800px)":
                         grid-template-columns: repeat(2, 1fr)
@@ -5278,28 +5276,28 @@ views:
               type: custom:layout-card
               layout_type: custom:grid-layout
               layout:
-                align-items: center
-                grid-gap: var(--custom-layout-card-padding)
-                grid-template-columns: 0 20vw repeat(2, 1fr) 0
-                grid-template-rows: 0 repeat(1, min-content) 0
+                place-items: center stretch
+                place-content: stretch stretch
+                margin: 2vw
+                grid-gap: 2vw
+                grid-template-columns: 20vw repeat(2, 1fr)
+                grid-template-rows: repeat(1, min-content)
                 grid-template-areas: |
-                  ". .       .          .      ."
-                  ". graphic electric   graphs ."
-                  ". .       .          .      ."
+                  "graphic electric   graphs"
                 mediaquery:
                   "(max-width: 800px)":
-                    grid-template-columns: 0 1fr 0
+                    grid-template-columns: repeat(1, 1fr)
+                    grid-template-rows: repeat(3, min-content)
                     grid-template-areas: |
-                      ". .        ."
-                      ". electric ."
-                      ". graphs   ."
-                      ". fraphic  ."
+                      "electric"
+                      "graphs  "
+                      "graphic "
                   "(max-width: 1200px)":
-                    grid-template-columns: 0 repeat(2, 1fr) 0
+                    grid-template-columns: repeat(2, 1fr)
+                    grid-template-rows: repeat(2, min-content)
                     grid-template-areas: |
-                      ". .          .      ."
-                      ". electric   graphs ."
-                      ". graphic    .      ."
+                      "electric   graphs"
+                      "graphic    .     "
               cards:
                 - type: picture
                   view_layout:
@@ -5345,9 +5343,7 @@ views:
                   type: custom:layout-card
                   layout_type: custom:grid-layout
                   layout:
-                    padding: 0 1vw 1vw 1vw
-                    grid-template-columns: repeat(1, 1fr)
-                    grid-gap: var(--custom-layout-card-padding)
+                    grid-gap: 2vw
                     mediaquery:
                       "(max-width: 800px)":
                         grid-template-columns: repeat(2, 1fr)
@@ -5426,32 +5422,32 @@ views:
               type: custom:layout-card
               layout_type: custom:grid-layout
               layout:
-                align-items: center
-                grid-gap: var(--custom-layout-card-padding)
-                grid-template-columns: 0 20vw repeat(2, 1fr) 0
-                grid-template-rows: 0 repeat(2, min-content) 0
+                place-items: center stretch
+                place-content: stretch stretch
+                margin: 2vw
+                grid-gap: 2vw
+                grid-template-columns: 20vw repeat(2, 1fr)
+                grid-template-rows: repeat(2, min-content)
                 grid-template-areas: |
-                  ". .       .       .         ."
-                  ". graphic router  ping      ."
-                  ". graphic ups     diskusage ."
-                  ". .       .       .         ."
+                  "graphic router  ping     "
+                  "graphic ups     diskusage"
                 mediaquery:
                   "(max-width: 800px)":
-                    grid-template-columns: 0 repeat(1, 1fr) 0
+                    grid-template-columns: repeat(1, 1fr)
+                    grid-template-rows: repeat(5, min-content)
                     grid-template-areas: |
-                      ". .         ."
-                      ". router    ."
-                      ". ping      ."
-                      ". ups       ."
-                      ". diskusage ."
-                      ". graphic   ."
+                      "router   "
+                      "ping     "
+                      "ups      "
+                      "diskusage"
+                      "graphic  "
                   "(max-width: 1200px)":
-                    grid-template-columns: 0 repeat(2, 1fr) 0
+                    grid-template-columns: repeat(2, 1fr)
+                    grid-template-rows: repeat(3, min-content)
                     grid-template-areas: |
-                      ". .       .         ."
-                      ". router  ping      ."
-                      ". ups     diskusage ."
-                      ". graphic .         ."
+                      "router  ping     "
+                      "ups     diskusage"
+                      "graphic .        "
               cards:
                 - type: picture
                   view_layout:
@@ -5671,23 +5667,23 @@ views:
               type: custom:layout-card
               layout_type: custom:grid-layout
               layout:
-                align-items: center
-                grid-gap: var(--custom-layout-card-padding)
-                grid-template-columns: 0 1fr 2fr 0
-                grid-template-rows: 0 repeat(2, min-content) 0
+                place-items: center stretch
+                place-content: stretch stretch
+                margin: 2vw
+                grid-gap: 2vw
+                grid-template-columns: 1fr 2fr
+                grid-template-rows: repeat(2, min-content)
                 grid-template-areas: |
-                  ". .       .               ."
-                  ". graphic on_off_button   ."
-                  ". graphic smoke_detectors ."
-                  ". .       .               ."
+                  "graphic on_off_button  "
+                  "graphic smoke_detectors"
                 mediaquery:
                   "(max-width: 1200px)":
-                    grid-template-columns: 0 repeat(1 1fr) 0
+                    grid-template-columns: repeat(1, 1fr)
+                    grid-template-rows: repeat(3, min-content)
                     grid-template-areas: |
-                      ". .               ."
-                      ". on_off_button   ."
-                      ". smoke_detectors ."
-                      ". graphic         ."
+                      "on_off_button  "
+                      "smoke_detectors"
+                      "graphic        "
               cards:
                 - type: custom:html-card # https://codepen.io/deepakkv/pen/EKpYMg
                   view_layout:
@@ -5841,9 +5837,11 @@ views:
                       - line-height: 115%
                       - font-size: 20px
 
-                - type: grid # smoke detector status
-                  columns: 1
-                  square: false
+                - type: custom:layout-card
+                  layout_type: custom:grid-layout
+                  layout:
+                    grid-gap: 2vw
+                    grid-template-columns: repeat(1, 1fr)
                   view_layout:
                     grid-area: smoke_detectors
                   cards:
