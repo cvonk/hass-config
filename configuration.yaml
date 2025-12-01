@@ -61,8 +61,6 @@ frontend:
   extra_module_url:
     - /local/community/lovelace-card-mod/card-mod.js
 
-template: !include sidebar.yaml
-
 lovelace:
   mode: storage
   dashboards:
