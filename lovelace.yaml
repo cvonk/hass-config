@@ -3055,13 +3055,16 @@ views:
             card_mod:
               style: |
                 ha-card {
+                  width: 80%;
+                  margin: auto;
                   border-width: 0;
                   box-shadow: none;
                   backdrop-filter: none !important;
                 }
                 @media screen and (max-width: 800px) {
                   ha-card {
-                      display: none; /* hide in last row, so it doesn't create an extra column on the right */
+                    height: 0;
+                    display: none; /* hide in last row, so it doesn't create an extra column on the right */
                   }
                 }
 
