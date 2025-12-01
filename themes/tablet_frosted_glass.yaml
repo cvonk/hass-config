@@ -4,7 +4,6 @@ tablet_frosted_glass:
   modes: { dark: { .: . } }
 
   #edited default dark mode
-  #ha-card-box-shadow: none
   ha-card-background: none
 
   # VisionOS theme
@@ -107,10 +106,6 @@ tablet_frosted_glass:
   ha-card-header-background-color: rgba(48,52,52,0.8)
   custom-layout-card-padding: 2vw
 
-  sidebar-time-font-size: 5.2vw
-  sidebar-time-line-height: 4.3vw
-  sidebar-font-size: 1.42vw
-  sidebar-line-height: 2vw
   bar-card-color: "#303435"
 
   #button_card_templates
@@ -161,6 +156,9 @@ tablet_frosted_glass:
       background: url('/local/background.png') !important;
       background-size: cover !important;
     }
+    app-header {
+      display: none;
+    }
 
   card-mod-view-yaml: |
     .: |
@@ -181,7 +179,6 @@ tablet_frosted_glass:
             padding-bottom: 1vw;
           }
         $: |
-          /* default */
           h1 {
             font-size: 2.0vw !important;
             line-height: 0 !important;
@@ -192,21 +189,7 @@ tablet_frosted_glass:
             letter-spacing: normal !important;
             width: 100%;
           }
-          /* portrait */
-          @media screen and (max-width: 1200px) {
-            h1 {
-              font-size: 3.3vw !important;
-              line-height: 1.1vw !important;
-            }
-          }
-          /* phone */
-          @media screen and (max-width: 800px) {
-            h1 {
-              font-size: 5.5vw !important;
-              line-height: 6vw !important;
-              margin: 2vw 0 0 0 !important;
-            }
-          }
+
 
     #################################################
     #                                               #
@@ -228,51 +211,6 @@ tablet_frosted_glass:
               hui-conditional-card {
                 margin: 0 0.15vh 0 0 !important;
               }
-
-    #################################################
-    #                                               #
-    #            SIDEBAR VERTICAL-STACK             #
-    #                                               #
-    #################################################
-
-    grid-layout$hui-vertical-stack-card$: |
-      #root {
-        background-color: rgba(0, 0, 0, 0.06);
-        border-radius: 0;
-        border-right: 0.1vw solid rgba(58, 69, 73, 0.2);
-        min-height: 100vh;
-      }
-      /* phone */
-      @media screen and (max-width: 800px) {
-        #root {
-          background-color: rgba(0,0,0,0);
-          border-right: none;
-          min-height: 100%;
-          margin-left: -0.8%;
-          margin-bottom: -6%;
-        }
-      }
-
-    #################################################
-    #                                               #
-    #             SIDEBAR LAUNDRY TIMER             #
-    #                                               #
-    #################################################
-
-    grid-layout$hui-vertical-stack-card$hui-conditional-card:
-      .: |
-        hui-conditional-card {
-          display: flex;
-          justify-content: center;
-        }
-        /* phone */
-        @media screen and (max-width: 800px) {
-          hui-conditional-card > button-card {
-            zoom: 250%;
-            width: 100%;
-            filter: contrast(85%);
-          }
-        }
 
     #################################################
     #                                               #
