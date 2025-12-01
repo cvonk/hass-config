@@ -3048,15 +3048,22 @@ views:
                     color: #6a7377;
                   }
 
-          - type: custom:gap-card
+          - type: picture
             view_layout:
               grid-area: graphic
-            style: |
-              @media screen and (max-width: 800px) {
+            image: /local/house.png
+            card_mod:
+              style: |
                 ha-card {
-                  display: none; /* hide in last row, so it doesn't create an extra column on the right */
+                  border-width: 0;
+                  box-shadow: none;
+                  backdrop-filter: none !important;
                 }
-              }
+                @media screen and (max-width: 800px) {
+                  ha-card {
+                      display: none; /* hide in last row, so it doesn't create an extra column on the right */
+                  }
+                }
 
           - entity: weather.pirateweather # ----------------------------------
             type: custom:weather-chart-card
