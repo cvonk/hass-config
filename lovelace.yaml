@@ -5153,7 +5153,7 @@ views:
               layout:
                 place-items: center stretch
                 place-content: stretch stretch
-                margin: 2vw
+                margin: 0
                 grid-gap: 2vw
                 grid-template-columns: 20vw repeat(1, 1fr)
                 grid-template-rows: repeat(2, min-content)
@@ -5169,141 +5169,138 @@ views:
                       "programs"
                       "graphic "
               cards:
-                - type: markdown # https://codepen.io/abehjat/pen/oXMENv
+
+
+                - type: custom:button-card
+                  template: graphic
                   view_layout:
                     grid-area: graphic
-                  content: |-
-                    <a href="drip"></a>
-                    <b href="ripple"></b>
-                  card_mod:
-                    style:
-                      .: >
-                        ha-card {
-                          border-width: 0;
-                          box-shadow: none;
-                          backdrop-filter: none !important;
-                          overflow: hidden;
-                        }
-                        @media screen and (max-width: 1200px) {
-                          ha-card {
-                            display: none; /* hide in last row, so it doesn't create an extra column on the right */
-                          }
-                        }
-                      ha-markdown $ ha-markdown-element: >
-                        a, b {
-                          display: block;
-                          margin: 175px auto;
-                        }
-                        a {  /* drip animation */
-                          position: relative;
-                          width: 20px;
-                          height: 20px;
-                          top: -30px;
-                          margin: 0 auto;
-                          background: #FFF;
-                          -moz-border-radius: 20px;
-                          -webkit-border-radius: 20px;
-                          border-radius: 20px;
-                          -moz-animation-name: drip;
-                          -webkit-animation-name: drip;
-                          animation-name: drip;
-                          -moz-animation-timing-function: cubic-bezier(1,0,.91,.19);
-                          -webkit-animation-timing-function: cubic-bezier(1,0,.91,.19);
-                          animation-timing-function: cubic-bezier(1,0,.91,.19);
-                          -moz-animation-duration: 2s;
-                          -webkit-animation-duration: 2s;
-                          animation-duration: 2s;
-                          -moz-animation-iteration-count: infinite;
-                          -webkit-animation-iteration-count: infinite;
-                          animation-iteration-count: infinite;
-                        } 
-                        a:before {  /* drip shape */
-                          content: "";
-                          position: absolute;
-                          width: 0;
-                          height: 0;
-                          top: -22px;
-                          border-left: 10px solid transparent;
-                          border-right: 10px solid transparent;
-                          border-bottom: 30px solid rgba(255,255,255,1);
-                        }
-                        @keyframes drip {
-                          to {
-                            top: 190px;
-                          }
-                        }
-                        b { /* ripple shape and animation */
-                          position: relative;
-                          opacity: 0;
-                          width: 2px;
-                          height: 1px;
-                          top: 0;
-                          border: cornflowerblue 7px solid; // #FFF 7px solid;
-                          -moz-border-radius: 200px / 100px;
-                          -webkit-border-radius: 200px / 100px;
-                          border-radius: 200px / 100px;
-                          -moz-animation-name: ripple;
-                          -webkit-animation-name: ripple;
-                          animation-name: ripple;
-                          -moz-animation-delay: 2s;
-                          -webkit-animation-delay: 2s;
-                          animation-delay: 2s;
-                          -moz-animation-duration: 2s;
-                          -webkit-animation-duration: 2s;
-                          animation-duration: 2s;
-                          -moz-animation-iteration-count: infinite;
-                          -webkit-animation-iteration-count: infinite;
-                          animation-iteration-count: infinite;
-                        } 
-                        @keyframes ripple {
-                          from {
-                            opacity: 1;
-                          }
-                          to {
-                            width: 200px;
-                            height: 100px;
-                            border-width: 1px;
-                            top: -50px;
-                            opacity: 0;
-                          }
-                        } 
-                        b:after { /* ripple-2 shape and animation */
-                          content: "";
-                          position: absolute;
-                          opacity: 0;
-                          top: -5px;
-                          left: -5px;
-                          width: 2px;
-                          height: 1px;
-                          border: cornflowerblue 5px solid; // #FFF 5px solid;
-                          -moz-border-radius: 200px / 100px;
-                          -webkit-border-radius: 200px / 100px;
-                          border-radius: 200px / 100px;
-                          -moz-animation-name: ripple-2;
-                          -webkit-animation-name: ripple-2;
-                          animation-name: ripple-2;
-                          -moz-animation-duration: 2s;
-                          -webkit-animation-duration: 2s;
-                          animation-duration: 2s;
-                          -moz-animation-iteration-count: infinite;
-                          -webkit-animation-iteration-count: infinite;
-                          animation-iteration-count: infinite;
-                        } 
-                        @keyframes ripple-2 {
-                          0% {
-                            opacity: 1;
-                          }
-                          50% {
-                            opacity: 0;
-                          }
-                          100% {
-                            width: 66px;
-                            height: 33px;
-                            border-width: 1px;
-                            top: 40px;
-                            left: 66px;
-                          }
-                        }
+                  custom_fields:
+                    graphic: |
+                      <div class="drip"></div>
+                      <div class="ripple"></div>
+                  extra_styles: |
+                    :host {
+                      justify-self: center;
+                      align-self: start;
+                    }                    
+                    #graphic {
+                      height: 100%;
+                      overflow: hidden;
+                      display: flex;
+                      justify-content: center;                      
+                    }
+                    #graphic .drip:before { /* pointy top */
+                      content: "";
+                      position: absolute;
+                      top: -22px;
+                      left: 0;
+                      width: 0;
+                      height: 0;
+                      border-left: 10px solid transparent;
+                      border-right: 10px solid transparent;
+                      border-bottom: 30px solid rgba(255,255,255,1);
+                    }
+                    #graphic .drip { /* bottom circle */
+                      position: absolute;
+                      left: 50%;
+                      top: -30px;
+                      width: 20px;
+                      height: 20px;
+                      margin: 0 auto;
+                      background: #FFF;
+                      -moz-border-radius: 20px;
+                      -webkit-border-radius: 20px;
+                      border-radius: 20px;
+                      -moz-animation-name: drip;
+                      -webkit-animation-name: drip;
+                      animation-name: drip;
+                      -moz-animation-timing-function: cubic-bezier(.8,0, .91,.66);
+                      -webkit-animation-timing-function: cubic-bezier(.8,0, .91,.66);
+                      animation-timing-function: cubic-bezier(.8,0, .91,.66);
+                      -moz-animation-duration: 2s;
+                      -webkit-animation-duration: 2s;
+                      animation-duration: 2s;
+                      -moz-animation-iteration-count: infinite;
+                      -webkit-animation-iteration-count: infinite;
+                      animation-iteration-count: infinite;
+                    }
+                    @keyframes drip {
+                      from {
+                        transform: translateY(0);
+                      }
+                      to {
+                        transform: translateY(calc(75cqh));
+                      }
+                    }
+                    #graphic .ripple {
+                      position: relative;
+                      top: 0;
+                      left: 0;
+                      transform: translateY(75cqh);
+                      opacity: 0;
+                      width: 22px;
+                      height: 1px;
+                      border: #FFF 7px solid;
+                      -moz-border-radius: 300px / 150px;
+                      -webkit-border-radius: 300px / 150px;
+                      border-radius: 300px / 150px;
+                      -moz-animation-name: ripple-1;
+                      -webkit-animation-name: ripple-1;
+                      animation-name: ripple-1;
+                      -moz-animation-delay: 2s;
+                      -webkit-animation-delay: 2s;
+                      animation-delay: 2s;
+                      -moz-animation-duration: 2s;
+                      -webkit-animation-duration: 2s;
+                      animation-duration: 2s;
+                      -moz-animation-iteration-count: infinite;
+                      -webkit-animation-iteration-count: infinite;
+                      animation-iteration-count: infinite;
+                    }
+                    #graphic .ripple:after {
+                      content: "";
+                      position: absolute;
+                      opacity: 1;
+                      top: -5px;
+                      left: 4px;
+                      width: 2px;
+                      height: 1px;
+                      border: #FFF 5px solid;
+                      -moz-border-radius: 300px / 150px;
+                      -webkit-border-radius: 300px / 150px;
+                      border-radius: 300px / 150px;
+                      -moz-animation-name: ripple-2;
+                      -webkit-animation-name: ripple-2;
+                      animation-name: ripple-2;
+                      -moz-animation-duration: 2s;
+                      -webkit-animation-duration: 2s;
+                      animation-duration: 2s;
+                      -moz-animation-iteration-count: infinite;
+                      -webkit-animation-iteration-count: infinite;
+                      animation-iteration-count: infinite;
+                    }
+                    @keyframes ripple-1 {
+                      from {
+                        opacity: 1;
+                      }
+                      to {
+                        opacity: 0;
+                        width: 200px;
+                        height: 100px;
+                        border-width: 1px;
+                        top: -50px;
+                      }
+                    }
+                    @keyframes ripple-2 {
+                      to {
+                        width: 100px;
+                        height: 50px;
+                        border-width: 1px;
+                        top: 20px;
+                        left: 50px;
+                      }
+                    }
 
                 - title: "Zones"
                   type: custom:layout-card # Irrigation zones
