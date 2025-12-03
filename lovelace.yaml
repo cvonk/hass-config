@@ -4818,30 +4818,12 @@ views:
                             display: none; /* hide in last row, so it doesn't create an extra column on the right */
                           }
                         }
-                      hui-image-element:
-                        $: 
-                          div:
-                            hui-image:
-                                $: |
-                                  #image {
-                                    animation: moveImage 4s infinite alternate;
-                                  }
-                                  @keyframes moveImage {
-                                    from {
-                                      transform: rotate(0);
-                                    }
-                                    50% {
-                                      transform: rotate(-3deg);
-                                    }
-                                    100% {
-                                      transform: rotate(0);
-                                    }
                       hui-image:
                         $: |
-                          #image {
-                            animation: moveImage 4s infinite alternate;
+                          #image { /* water #1 */
+                            animation: move-water-1 4s infinite alternate;
                           }
-                          @keyframes moveImage {
+                          @keyframes move-water-1 {
                             from {
                               transform: rotate(0);
                             }
@@ -4852,6 +4834,69 @@ views:
                               transform: rotate(0);
                             }
                           }                          
+                      hui-image-element:nth-child(2):
+                        $: 
+                          div:
+                            hui-image:
+                                $: |
+                                  #image { /* water #2 */
+                                    animation: move-water-2 4s infinite alternate;
+                                  }
+                                  @keyframes move-water-2 {
+                                    from {
+                                      transform: rotate(0);
+                                    }
+                                    50% {
+                                      transform: rotate(-2deg);
+                                    }
+                                    100% {
+                                      transform: rotate(0);
+                                    }
+                                  }                          
+                      hui-image-element:nth-child(3):
+                        $: 
+                          div:
+                            hui-image:
+                                $: |
+                                  #image { /* girl */
+                                    animation: move-girl 4s infinite alternate;
+                                  }
+                                  @keyframes move-girl {
+                                    from {
+                                      transform: rotate(0);
+                                    }
+                                    50% {
+                                      transform: rotate(-3deg);
+                                    }
+                                    100% {
+                                      transform: rotate(0);
+                                    }
+                      hui-image-element:nth-child(4):
+                        $: 
+                          div:
+                            hui-image:
+                                $: |
+                                  #image { /* sparkles */
+                                    animation: moveImage 4s infinite alternate;
+                                  }
+                      hui-image-element:nth-child(5):
+                        $: 
+                          div:
+                            hui-image:
+                                $: |
+                                  #image { /* floats */
+                                    animation: move-floats 4s infinite alternate;
+                                  }
+                                  @keyframes move-floats {
+                                    from {
+                                      transform: rotate(0);
+                                    }
+                                    50% {
+                                      transform: rotate(-1deg);
+                                    }
+                                    100% {
+                                      transform: rotate(0);
+                                    }
 
                 - title: "Circuits"
                   type: custom:layout-card
