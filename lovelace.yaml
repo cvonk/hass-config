@@ -10,10 +10,17 @@
 #  - Many thanks to Mattias Persson for sharing his work.  It gave me a head
 #    start in configuring this Dashboard
 
+kiosk_mode:
+  admin_settings:
+    hide_header: false
+    hide_sidebar: false
+  user_settings:    
+    - users:
+        - "panel"
+      kiosk: true
+
 wallpanel:
   enabled: false
-  hide_toolbar: true
-  hide_sidebar: true
   fullscreen: true
   idle_time: 600
   screensaver_entity: input_boolean.panel_screensaver # switch created in UI
@@ -1265,6 +1272,25 @@ button_card_templates:
       [[[
           if (entity?.state) {
               return entity.state === 'on' ? 'Connected' : 'Error';
+          }
+          return entity.state;
+      ]]]
+    state:
+      - value: "off"
+        styles:
+          icon:
+            - color: red
+    tap_action:
+    double_tab_action:
+
+  netstat: # ------------------------------------------------------------
+    template: base
+    state_display: >-
+      [[[
+          if (entity?.state) {
+              //return entity.state === 'on' ? 'Connected' : 'Error';
+              //return ['on', 'online'].indexOf(!entity || entity.state) !== -1 ? "Connected" : "Error";
+              return entity.state;
           }
           return entity.state;
       ]]]
@@ -2910,10 +2936,37 @@ button_card_templates:
         - line-height: var(--ha-line-height-condensed)
         - width: 100%
 
+  graphic: # -----------------------------------------------------------------
+    styles:
+      card:
+        - border: none
+        - padding: 0
+          background: transparent
+      grid:
+        - padding: 0
+        - height: calc(100vh - 56px)
+        - grid-template-columns: 1fr
+        - grid-template-rows: 1fr
+        - grid-template-areas: |
+            "graphic"
+      graphic:
+        - margin: 0
+        - padding: 0
+        - justify-self: center # horizontal
+        - align-self: center # vertical
+    extra_styles: |
+      @media screen and (max-width: 1200px) {
+        #graphic {
+          display: none; /* hide in last row, so it doesn't create an extra column on the right */
+        }
+      }
+
 views:
   - title: "Home"
     type: custom:layout-card
     layout_type: custom:grid-layout
+    kiosk_mode:
+      hide_header: false    
     layout:
       height: calc(100vh - 2vw - 8px)
       place-items: stretch stretch
@@ -3086,6 +3139,7 @@ views:
               type: daily
               show_temperature: true
               chart_datetime_color: white
+              show_wind_forecast: false
             card_mod:
               style: |
                 :host {
@@ -4014,58 +4068,56 @@ views:
                       "downstairs upstairs"
                       "filter     graphic"
               cards:
-                - type: markdown # https://codepen.io/Sneha_P_P/pen/LXWWox
+                - type: custom:button-card
+                  template: graphic
                   view_layout:
                     grid-area: graphic
-                  content: |-
-                    <img href="background-image" src="/local/inside.png">
-                    <div href="overlay"></div>
-                  card_mod:
-                    style:
-                      .: >
-                        ha-card {
-                          border-width: 0;
-                          box-shadow: none;
-                          backdrop-filter: none !important;
-                        }
-                        @media screen and (max-width: 1200px) {
-                          ha-card {
-                            display: none; /* hide in last row, so it doesn't create an extra column on the right */
-                          }
-                        }
-                      ha-markdown $ ha-markdown-element: >
-                        div {
-                          position: absolute;
-                          bottom: 360px;
-                          left: 33%;
-                          transform: translateX(-50%);                            
-                          font-weight: bold;
-                          text-align: center;
-                          font-size: 30px;
-                        }
-                        div::before {
-                          content: '';
-                          position: absolute;
-                          width: 12px;
-                          height: 40px;
-                          left: -10px;
-                          top: 0;
-                          box-shadow: 35px 9px 2px -3px #b7aba385, 78px 4px 3px -2px #b7aba385, 117px 15px 2px -2px #b7aba385;
-                          animation: steam 3s linear infinite forwards;
-                        }
-                        @keyframes steam {
-                          0% {
-                                transform: translateY(61px);
-                            opacity: 0
-                          }
-                          60% {
-                            opacity: 0.7;
-                          }
-                          100% {
-                            transform: translateY(-31px);
-                            opacity: 0;
-                          }
-                        }
+                  custom_fields:
+                    graphic: |
+                      <center class="main">
+                        <img src="/local/inside.png">
+                          <div class="coffee"></div>
+                        </img>
+                      </center>                      
+                  extra_styles: |
+                    #graphic img {
+                      width: 80%;
+                      display: flex;
+                    }
+                    #graphic .coffee {
+                      position: absolute;
+                      width: 5%;
+                      height: 10%;
+                      top: 30%;
+                      left: 50%;
+                      transform: translate(-50%, -50%);
+                    }
+                    #graphic .coffee::before {
+                      content: "";
+                      position: absolute;
+                      width: 1cqh;
+                      height: 5cqh;
+                      top: -10cqh;
+                      left: -14cqh;
+                      box-shadow: 8cqh 9px 2px -3px #b7aba385,
+                                  15cqh 4px 3px -2px #b7aba385,
+                                  22cqh 15px 2px -2px #b7aba385;
+                      animation: steam 3s linear infinite forwards;
+                    }
+                    @keyframes steam {
+                      0% {
+                        transform: translateY(25cqh);
+                        opacity: 0;
+                      }
+                      60% {
+                        opacity: 0.7;
+                      }
+                      100% {
+                        transform: translateY(0cqh);
+                        opacity: 0;
+                      }
+                    }
+
 
                 - entity: climate.main_floor
                   type: thermostat
@@ -5725,6 +5777,34 @@ views:
                         graph_color: cornflowerblue
                       entity: binary_sensor.ping_google
                       name: "Google"
+
+                    - type: custom:button-card # Rtr CPU
+                      template: netstat
+                      variables:
+                        graph_color: cornflowerblue
+                      entity: sensor.rtr_cpu_usage
+                      name: "Rtr"
+
+                    - type: custom:button-card # Modem Status
+                      template: netstat
+                      variables:
+                        graph_color: cornflowerblue
+                      entity: sensor.cable_modem_connection_status
+                      name: "Modem"
+
+                    - type: custom:button-card # DNS Ping delay
+                      template: netstat
+                      variables:
+                        graph_color: cornflowerblue
+                      entity: sensor.ping_dns_round_trip_time_average
+                      name: "DNS"
+
+                    - type: custom:button-card # Google Ping delay
+                      template: netstat
+                      variables:
+                        graph_color: cornflowerblue
+                      entity: sensor.ping_google_round_trip_time_average
+                      name: "Google"                      
 
                 - title: "UPS"
                   type: grid

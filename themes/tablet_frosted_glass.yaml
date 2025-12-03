@@ -157,7 +157,7 @@ tablet_frosted_glass:
       background-size: cover !important;
     }
     app-header {
-      display: none;
+      //display: none;
     }
 
   card-mod-view-yaml: |
