@@ -70,6 +70,18 @@ lovelace:
       icon: mdi:script
       show_in_sidebar: true
       filename: lovelace.yaml
+    simple-ui:
+      mode: yaml
+      title: "Dashboard"
+      icon: mdi:script
+      show_in_sidebar: true
+      filename: simple.yaml
+    simple2-ui:
+      mode: yaml
+      title: "Dashboard"
+      icon: mdi:script
+      show_in_sidebar: true
+      filename: simple2.yaml
 
 logger:
   default: warning
