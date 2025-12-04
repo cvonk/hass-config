@@ -4083,6 +4083,11 @@ views:
                     *, *::before, *::after {
                       box-sizing: border-box;
                     }
+                    @media screen and (max-width: 1200px) {
+                      #graphic {
+                        display: none; /* hide in last row, so it doesn't create an extra column on the right */
+                      }                    
+                    }
                     #graphic .wrapper {
                       position: relative;
                     }
@@ -5273,6 +5278,11 @@ views:
                       display: flex;
                       justify-content: center;                      
                     }
+                    @media screen and (max-width: 1200px) {
+                      #graphic {
+                        display: none; /* hide in last row, so it doesn't create an extra column on the right */
+                      }                    
+                    }
                     #graphic .drip:before { /* pointy top */
                       content: "";
                       position: absolute;
@@ -5613,6 +5623,11 @@ views:
                       overflow: hidden;
                       display: flex;
                       justify-content: center;                      
+                    }
+                    @media screen and (max-width: 1200px) {
+                      #graphic {
+                        display: none; /* hide in last row, so it doesn't create an extra column on the right */
+                      }                    
                     }
                     /* width and height include padding/border */
                     *, *::before, *::after {
