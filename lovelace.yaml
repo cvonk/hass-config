@@ -4074,17 +4074,24 @@ views:
                     grid-area: graphic
                   custom_fields:
                     graphic: |
-                      <center class="main">
-                        <img src="/local/inside.png">
-                          <div class="coffee"></div>
-                        </img>
-                      </center>                      
+                      <center class="wrapper">
+                        <img src="https://coertvonk.com/cvonk/inside.png" />
+                        <div class="overlay"></div>
+                      </center>                    
                   extra_styles: |
+                    /* width and height include padding/border */
+                    *, *::before, *::after {
+                      box-sizing: border-box;
+                    }
+                    #graphic .wrapper {
+                      position: relative;
+                    }
                     #graphic img {
-                      width: 80%;
+                      width: 70%;
+                      height: auto;
                       display: flex;
                     }
-                    #graphic .coffee {
+                    #graphic .overlay {
                       position: absolute;
                       width: 5%;
                       height: 10%;
@@ -4092,16 +4099,16 @@ views:
                       left: 50%;
                       transform: translate(-50%, -50%);
                     }
-                    #graphic .coffee::before {
+                    #graphic .overlay::before {
                       content: "";
                       position: absolute;
                       width: 1cqh;
                       height: 5cqh;
-                      top: -10cqh;
-                      left: -14cqh;
-                      box-shadow: 8cqh 9px 2px -3px #b7aba385,
-                                  15cqh 4px 3px -2px #b7aba385,
-                                  22cqh 15px 2px -2px #b7aba385;
+                      top: -17cqh;
+                      left: -25cqw;
+                      box-shadow: 21cqw 2cqh 3px -2px grey,
+                        25cqw 0cqh 3px -2px grey,
+                        29cqw 2cqh 2px -2px grey;
                       animation: steam 3s linear infinite forwards;
                     }
                     @keyframes steam {
@@ -4110,14 +4117,13 @@ views:
                         opacity: 0;
                       }
                       60% {
-                        opacity: 0.7;
+                        opacity: 0.5;
                       }
                       100% {
                         transform: translateY(0cqh);
                         opacity: 0;
                       }
                     }
-
 
                 - entity: climate.main_floor
                   type: thermostat
@@ -5566,22 +5572,212 @@ views:
                       "electric   graphs"
                       "graphic    .     "
               cards:
-                - type: picture
+                - type: custom:button-card
+                  template: graphic
                   view_layout:
                     grid-area: graphic
-                  image: /local/utilities.png
-                  card_mod:
-                    style: |
-                      ha-card {
-                        border-width: 0;
-                        box-shadow: none;
-                        backdrop-filter: none !important;
+                  custom_fields:
+                    graphic: |
+                      <div class="image-wrapper">
+                        <img src="/local/utilities.png" />
+                        <div class="flame-overlay">
+                          <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="40 30 80 160" enable-background="new 0 0 125 189.864" xml:space="preserve">
+                            <path class="flame" fill="white" d="M76.553,186.09c0,0-10.178-2.976-15.325-8.226s-9.278-16.82-9.278-16.82s-0.241-6.647-4.136-18.465
+                            c0,0,3.357,4.969,5.103,9.938c0,0-5.305-21.086,1.712-30.418c7.017-9.333,0.571-35.654-2.25-37.534c0,0,13.07,5.64,19.875,47.54
+                            c6.806,41.899,16.831,45.301,6.088,53.985" />
+                            <path class="flame one" fill="white" d="M61.693,122.257c4.117-15.4,12.097-14.487-11.589-60.872c0,0,32.016,10.223,52.601,63.123
+                            c20.585,52.899-19.848,61.045-19.643,61.582c0.206,0.537-19.401-0.269-14.835-18.532S57.576,137.656,61.693,122.257z" />
+                            <path class="flame two" fill="white" d="M81.657,79.192c0,0,11.549,24.845,3.626,40.02c-7.924,15.175-21.126,41.899-0.425,64.998
+                            C84.858,184.21,125.705,150.905,81.657,79.192z" />
+                            <path class="flame three" fill="white" d="M99.92,101.754c0,0-23.208,47.027-12.043,80.072c0,0,32.741-16.073,20.108-45.79
+                            C95.354,106.319,99.92,114.108,99.92,101.754z" />
+                            <path class="flame four" fill="white" d="M103.143,105.917c0,0,8.927,30.753-1.043,46.868c-9.969,16.115-14.799,29.041-14.799,29.041
+                            S134.387,164.603,103.143,105.917z" />
+                            <path class="flame five" fill="white" d="M62.049,104.171c0,0-15.645,67.588,10.529,77.655C98.753,191.894,69.033,130.761,62.049,104.171z" />
+                          </svg>    
+                        </div>
+                        <div class="bulb-overlay">
+                          <div class="bulb"></div>
+                        </div>
+                        <div class="drip-overlay">
+                          <div class="water-drip"></div>
+                        </div>
+                      </div>                    
+                  extra_styles: |
+                    :host {
+                      justify-self: center;
+                      align-self: start;
+                    }                    
+                    #graphic {
+                      width: 100%;
+                      overflow: hidden;
+                      display: flex;
+                      justify-content: center;                      
+                    }
+                    /* width and height include padding/border */
+                    *, *::before, *::after {
+                      box-sizing: border-box;
+                    }
+                    .image-wrapper {
+                      position: relative;
+                      color: white;
+                    }
+                    .image-wrapper img {
+                      width: 100%;
+                      height: auto;
+                      display: block;
+                    }
+
+                    .flame-overlay {
+                      position: absolute;
+                      top: 30%;
+                      left: 65%;
+                      width: 22%;
+                      height: auto;
+                      scale: 0.8;
+                    }
+
+                    .flame {
+                      animation-name: flame-wobble;
+                      animation-duration: 3s;
+                      animation-timing-function: linear;
+                      animation-iteration-count: infinite;
+                    }
+                    .flame.one {
+                      animation-duration: 4s;
+                      animation-delay: 1s;
+                    }
+                    .flame.two {
+                      animation-duration: 3s;
+                      animation-delay: 2s;
+                    }
+                    .flame.three {
+                      animation-duration: 2.1s;
+                      animation-delay: 3s;
+                    }
+                    .flame.four {
+                      animation-duration: 3.2s;
+                      animation-delay: 4s;
+                    }
+                    .flame.five {
+                      animation-duration: 2.5s;
+                      animation-delay: 5s;
+                    }
+                    @keyframes flame-wobble {
+                      50% {
+                        transform: scale(1,1.2) translate(0, -30px) rotate(-2deg);
                       }
-                      @media screen and (max-width: 1200px) {
-                        ha-card {
-                            display: none; /* hide in last row, so it doesn't create an extra column on the right */
-                        }
+                    }
+                    .bulb-overlay {
+                      position: absolute;
+                      top: 0%;
+                      left: 28%;
+                      width: 36%;
+                      height: 36%;
+                      border-radius: 50%;
+                      overflow: hidden;
+                    }
+                    .bulb {
+                      width: 56%;
+                      aspect-ratio: 1;
+                      position: absolute;
+                      top: 50%;
+                      left: 50%;
+                      transform: translate(-50%, -50%);  
+                      border-radius: 50%;
+                      box-shadow: 0px 0px 50px 3px white;
+                      animation: flash 10s linear infinite;
+                    }
+                    @keyframes flash {
+                      0%,
+                      1.001%,
+                      10%,
+                      11.002%,
+                      40%,
+                      41.001%,
+                      75%,
+                      80%,
+                      82.002%,
+                      83.001%,
+                      83.003% {
+                        background: rgba(255, 255, 255, 0);
+                        box-shadow: 0 0 0 0 transparent;
                       }
+                      1%,
+                      11.001%,
+                      12%,
+                      39.999%,
+                      41%,
+                      75.5%,
+                      75.501%,
+                      81.001%,
+                      82%,
+                      82.001%,
+                      83%,
+                      83.002%,
+                      88% {
+                        background: rgba(255, 255, 255, 0.1);
+                        box-shadow: 0px 0px 30px 3px white;
+                      }
+                    }
+                    .drip-overlay {
+                      position: absolute;
+                      top: 75%;
+                      left: 38%;
+                      height: 5%;
+                      background: red;
+                      scale: 0.63;
+                    }
+                    .water-drip {
+                      margin: 0 auto;
+                      line-height: 0;
+                    }
+                    .water-drip:before { /* pointy top */
+                      content: "";
+                      position: absolute;
+                      top: -22px;
+                      left: 0;
+                      width: 0;
+                      height: 0;
+                      border-left: 10px solid transparent;
+                      border-right: 10px solid transparent;
+                      border-bottom: 30px solid rgba(255,255,255,1);
+                    }
+                    .water-drip { /* bottom circle */
+                      position: absolute;
+                      left: 50%;
+                      top: -30px;
+                      width: 20px;
+                      height: 20px;
+                      margin: 0 auto;
+                      background: #FFF;
+                      -moz-border-radius: 20px;
+                      -webkit-border-radius: 20px;
+                      border-radius: 20px;
+                      -moz-animation-name: water-drip;
+                      -webkit-animation-name: water-drip;
+                      animation-name: water-drip;
+                      -moz-animation-timing-function: cubic-bezier(.8,0, .91,.66);
+                      -webkit-animation-timing-function: cubic-bezier(.8,0, .91,.66);
+                      animation-timing-function: cubic-bezier(.8,0, .91,.66);
+                      -moz-animation-duration: 4s;
+                      -webkit-animation-duration: 4s;
+                      animation-duration: 4s;
+                      -moz-animation-iteration-count: infinite;
+                      -webkit-animation-iteration-count: infinite;
+                      animation-iteration-count: infinite;
+                    } 
+                    @keyframes water-drip {
+                      from {
+                        transform: translateY(0);
+                      }
+                      80% {
+                        transform: translateY(1cqh);
+                      }
+                      to {
+                        transform: translateY(10cqh);
+                      }
+                    }
 
                 - type: custom:auto-entities
                   view_layout:
@@ -5604,6 +5800,7 @@ views:
                     exclude:
                       - entity_id: sensor.total_power
                       - entity_id: sensor.*battery_power
+                      - entity_id: sensor.cable_modem_*_power
                       - state: "unavailable"
 
                 - title: Graphs
@@ -5719,22 +5916,139 @@ views:
                       "ups     diskusage"
                       "graphic .        "
               cards:
-                - type: picture
+                - type: picture-elements
                   view_layout:
                     grid-area: graphic
-                  image: /local/network-2.png
+                  image: /local/network.png
+                  elements:
+                    - type: image
+                      image: /local/network-1.png
+                      style:
+                        top: 50%
+                        left: 50%
+                        position: absolute
+                        width: 100%
+                        transform: translate(-50%, -50%)
+                    - type: image
+                      image: /local/network-2.png
+                      style:
+                        top: 50%
+                        left: 50%
+                        position: absolute
+                        width: 100%
+                        transform: translate(-50%, -50%)
+                    - type: image
+                      image: /local/network-3.png
+                      style:
+                        top: 50%
+                        left: 50%
+                        position: absolute
+                        width: 100%
+                        transform: translate(-50%, -50%)
+                    - type: image
+                      image: /local/network-4.png
+                      style:
+                        top: 50%
+                        left: 50%
+                        position: absolute
+                        width: 100%
+                        transform: translate(-50%, -50%)
                   card_mod:
-                    style: |
-                      ha-card {
-                        border-width: 0;
-                        box-shadow: none;
-                        backdrop-filter: none !important;
-                      }
-                      @media screen and (max-width: 1200px) {
+                    style:
+                      .: >
                         ha-card {
-                          display: none; /* hide in last row, so it doesn't create an extra column on the right */
+                          place-self: center
+                          border-width: 0;
+                          box-shadow: none;
+                          backdrop-filter: none !important;
+                          overflow: hidden;
                         }
-                      }
+                        @media screen and (max-width: 1200px) {
+                          ha-card {
+                            display: none; /* hide in last row, so it doesn't create an extra column on the right */
+                          }
+                        }
+                      hui-image:
+                        $: |
+                          #image { /* base */
+                          }
+                      hui-image-element:nth-child(2):
+                        $: 
+                          div:
+                            hui-image:
+                                $: |
+                                  #image { /* blue */
+                                    animation: blink-blue 2s linear infinite;
+                                  }
+                                  @keyframes blink-blue {
+                                    0% {
+                                      opacity: 0;
+                                    }
+                                    20% {
+                                      opacity: 1;
+                                    }
+                                    80% {
+                                      opacity: 0;
+                                    }
+                                  }                          
+                      hui-image-element:nth-child(3):
+                        $: 
+                          div:
+                            hui-image:
+                                $: |
+                                  #image { /* green */
+                                    animation: blink-green 3s linear infinite;
+                                  }
+                                  @keyframes blink-green {
+                                    0% {
+                                      opacity: 0;
+                                    }
+                                    40% {
+                                      opacity: 1;
+                                    }
+                                    100% {
+                                      opacity: 0;
+                                    }
+                                  }                          
+                      hui-image-element:nth-child(4):
+                        $: 
+                          div:
+                            hui-image:
+                                $: |
+                                  #image { /* red */
+                                    animation: blink-red 5s linear infinite;
+                                  }
+                                  @keyframes blink-red {
+                                    0% {
+                                      opacity: 1;
+                                    }
+                                    10% {
+                                      opacity: 0;
+                                    }
+                                    50% {
+                                      opacity: 1;
+                                    }
+                                  }                          
+                      hui-image-element:nth-child(5):
+                        $: 
+                          div:
+                            hui-image:
+                                $: |
+                                  #image { /* yellow */
+                                    animation: blink-yellow 6s linear infinite;
+                                  }
+                                  @keyframes blink-yellow {
+                                    0% {
+                                      opacity: 1;
+                                    }
+                                    30% {
+                                      opacity: 0;
+                                    }
+                                    80% {
+                                      opacity: 1;
+                                    }
+                                  }                          
+
 
                 - title: "Router"
                   type: grid
