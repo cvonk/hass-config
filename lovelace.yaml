@@ -48,7 +48,6 @@ button_card_templates:
   settings:
     variables:
       tilt_enable: true
-
   base: # --------------------------------------------------------------------
     template:
       - settings
@@ -399,7 +398,6 @@ button_card_templates:
               }
             }`;
       ]]]
-
   circle: # ------------------------------------------------------------------
     styles:
       card:
@@ -580,21 +578,11 @@ button_card_templates:
 
             /* * * * * * * * * * * * * * * * * *
               *                                 *
-              *             CLIMATE             *
+              *             ELSE                *
               *                                 *
               * * * * * * * * * * * * * * * * * */
 
-              else if (domain === 'climate') {
-                  return circle(state, input, unit);
-              }
-
-            /* * * * * * * * * * * * * * * * * *
-              *                                 *
-              *              OTHER              *
-              *                                 *
-              * * * * * * * * * * * * * * * * * */
-
-              else if (variables.state_on) {
+              else {
                   return circle(state, input, unit);
               }
           }
@@ -719,8 +707,9 @@ button_card_templates:
   pool_component: # ----------------------------------------------------------
     template:
       - base
-      - read_only
-    variables: info1_entity
+      - no_shadow
+    variables:
+      info1_entity
       info2_entity
       status_entity
     size: 80%
@@ -796,11 +785,10 @@ button_card_templates:
         [[[ return ['manual', 'program'].indexOf(!entity || entity.state) !== -1; ]]]
       circle_input: >
         [[[ 
-            let value = states['sensor.sprinklerlawn1_station_status'];  // 2BD fix this
-            if (!value) return 10;
-            if (!value.attributes.end_time) return 15;
-            if (value.attributes.end_time === undefined) return 30;
-
+            let value = states['sensor.sprinklerlawn1_station_status'];  # 2BD FIX THIS !!!!!!!!!!!!!!!!!!
+            if (!value || !value.attributes.end_time || value.attributes.end_time === undefined) {
+                return 0;
+            }
             const total_time = (Date.parse(value.attributes.end_time) - Date.parse(value.attributes.start_time)) / 1000;
             const elapsed_time = (Date.now() - Date.parse(value.attributes.start_time)) / 1000;
             const remaining_time = total_time - elapsed_time;
@@ -1078,7 +1066,7 @@ button_card_templates:
         background-color: rgba(0,0,0,0.9);
       }
 
-  read_only: # ---------------------------------------------------------------
+  no_shadow: # ---------------------------------------------------------------
     card_mod:
       style: |
         ha-card {
@@ -1677,6 +1665,7 @@ button_card_templates:
             ]]]
 
   bubble_card_graph: # -------------------------------------------------------
+    template: no_shadow
     show_name: false
     show_state: false
     show_icon: false
@@ -1882,6 +1871,7 @@ button_card_templates:
         - width: 100%
 
   graphic: # -----------------------------------------------------------------
+    template: no_shadow
     styles:
       card:
         - border: none
@@ -2163,11 +2153,6 @@ button_card_templates:
         align-self: center;
         width: 100%;
       }       
-      ha-card {
-        box-shadow: none;
-        background: none;
-        backdrop-filter: none !important
-      }
       @media screen and (max-width: 1200px) {
         #graphic {
           display: none; /* hide in last row, so it doesn't create an extra column on the right */
@@ -3189,25 +3174,40 @@ button_card_templates:
         }
 
   cpu_ram_sd_temp:
+    template: 
+      - base
+      - circle
     variables:
       cpu_id: null
-      ran_id: null
+      ram_id: null
       sd_id: null
-    icon: 'mdi:raspberry-pi'
+      load_id: null
+      state_on: >
+        [[[ return true; ]]]
+      circle_input: >
+        [[[ 
+            let value = states[variables.load_id];
+            if (value) {
+              return Math.round(parseFloat(value.state) * 100);
+            }
+            return value;
+        ]]]
+      circle_input_unit: "%"
     aspect_ratio: 1/1
-    name: "System"
+    show_state: false
     styles:
       card:
-        - background-color: '#000044'
         - border-radius: 10%
         - padding: 10%
-        - color: ivory
         - font-size: 10px
-        - text-shadow: 0px 0px 5px black
         - text-transform: capitalize
+        - color: >-
+            [[[
+              return variables.state_on ? '#4b5254' : '#97989c';
+            ]]]
       grid:
         - grid-template-areas: |
-            "i   temp"
+            "i   circle"
             "n   n   "
             "cpu cpu "
             "ram ram "
@@ -3217,7 +3217,6 @@ button_card_templates:
       name:
         - font-weight: bold
         - font-size: 13px
-        - color: white
         - align-self: middle
         - justify-self: start
         - padding-bottom: 4px
@@ -3226,60 +3225,40 @@ button_card_templates:
         - align-items: start
         - margin: none
       icon:
-        - color: |
-            [[[
-              if (entity.state < 60) return 'lime';
-              if (entity.state >= 60 && entity.state < 80) return 'orange';
-              else return 'red';
-            ]]]
-        - width: 70%
-        - margin-top: -10%
+        - color: 'cornflowerblue'
+        - width: 50%
+        - margin-left: 3%
+        - margin-top: -6%
       custom_fields:
-        temp:
-          - align-self: start
-          - justify-self: end
         cpu:
           - padding-bottom: 2px
           - align-self: middle
           - justify-self: start
-          - --text-color-sensor: '[[[ if (states["sensor.raspi_cpu"].state > 80) return "red"; ]]]'
+          - --text-color-sensor: '[[[ if (states[variables.cpu_id].state > 80) return "red"; ]]]'
         ram:
           - padding-bottom: 2px
           - align-self: middle
           - justify-self: start
-          - --text-color-sensor: '[[[ if (states["sensor.raspi_ram"].state > 80) return "red"; ]]]'
+          - --text-color-sensor: '[[[ if (states[variables.ram_id].state > 80) return "red"; ]]]'
         sd:
           - align-self: middle
           - justify-self: start
-          - --text-color-sensor: '[[[ if (states["sensor.raspi_sd"].state > 80) return "red"; ]]]'
+          - --text-color-sensor: '[[[ if (states[variables.sd_id].state > 80) return "red"; ]]]'
     custom_fields:
-      temp: |
-        [[[
-          return `<ha-icon
-            icon="mdi:thermometer"
-            style="width: 12px; height: 12px; color: yellow;">
-            </ha-icon><span>${entity.state}°C</span>`
-        ]]]
       cpu: |
         [[[
-          return `<ha-icon
-            icon="mdi:server"
-            style="width: 12px; height: 12px; color: deepskyblue;">
-            </ha-icon><span>CPU: <span style="color: var(--text-color-sensor);">${states['sensor.raspi_cpu'].state}%</span></span>`
+          return `<ha-icon icon="mdi:server" style="width: 12px; height: 12px; color: deepskyblue;"></ha-icon>
+          CPU:&nbsp;${states[variables.cpu_id].state}%`
         ]]]
       ram: |
         [[[
-          return `<ha-icon
-            icon="mdi:memory"
-            style="width: 12px; height: 12px; color: deepskyblue;">
-            </ha-icon><span>RAM: <span style="color: var(--text-color-sensor);">${states['sensor.raspi_ram'].state}%</span></span>`
+          return `<ha-icon icon="mdi:memory" style="width: 12px; height: 12px; color: deepskyblue;"></ha-icon>
+          RAM:&nbsp;${states[variables.ram_id].state}%`
         ]]]
       sd: |
         [[[
-          return `<ha-icon
-            icon="mdi:harddisk"
-            style="width: 12px; height: 12px; color: deepskyblue;">
-            </ha-icon><span>SD: <span style="color: var(--text-color-sensor);">${states['sensor.raspi_sd'].state}%</span></span>`
+          return `<ha-icon icon="mdi:harddisk" style="width: 12px; height: 12px; color: deepskyblue;"></ha-icon>
+          SD:&nbsp;${states[variables.sd_id].state}%`
         ]]] 
 
 views:
@@ -3289,7 +3268,7 @@ views:
     kiosk_mode:
       hide_header: false    
     layout:
-      height: calc(100vh - 2vw - 8px - var(--header-height) # 2vw margin, 8px padding
+      height: calc(100vh - 2vw - 8px - var(--header-height)) # 2vw margin, 8px padding
       place-items: stretch stretch
       place-content: stretch stretch
       margin: 2vw 2vw 0 2vw
@@ -5583,10 +5562,14 @@ views:
                       name: "Google"
 
                     - type: custom:button-card # Rtr CPU
-                      template: netstat
+                      template: cpu_ram_sd_temp
                       variables:
-                        graph_color: cornflowerblue
-                      entity: sensor.rtr_cpu_usage
+                        cpu_id: "sensor.rtr_cpu_usage"
+                        ram_id: "sensor.rtr_memory_used_percentage"
+                        sd_id: "sensor.rtr_filesystem_used_percentage_root"
+                        load_id: "sensor.rtr_system_load_average_one_minute"
+                      entity: sensor.rtr_system_load_average_one_minute
+                      icon: mdi:router
                       name: "Rtr"
 
                     - type: custom:button-card # Modem Status

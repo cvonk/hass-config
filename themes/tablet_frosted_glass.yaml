@@ -106,6 +106,8 @@ tablet_frosted_glass:
   ha-card-header-background-color: rgba(48,52,52,0.8)
   custom-layout-card-padding: 2vw
 
+  #layout-height: calc(100vh - 2vw - 8px - var(--header-height))
+
   bar-card-color: "#303435"
 
   #button_card_templates
