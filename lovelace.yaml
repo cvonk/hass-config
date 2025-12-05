@@ -3268,34 +3268,33 @@ views:
     kiosk_mode:
       hide_header: false    
     layout:
-      height: calc(100vh - 2vw - 8px - var(--header-height)) # 2vw margin, 8px padding
+      height: calc(100vh - 2vw - 8px - var(--header-height)) /* 2vw margin, 8px padding */
+      margin: 2vw 2vw 2vw 0 /* when sidebar is hidden, it still uses a cell in the grid */
       place-items: stretch stretch
       place-content: stretch stretch
-      margin: 2vw 2vw 0 2vw
       grid-gap: 2vw
-      grid-template-columns: 25% repeat(3, 1fr)
+      grid-template-columns: 0 25% repeat(3, 1fr)
       grid-template-rows: repeat(3, min-content) 1fr min-content # requires browser_mod UI to hide the header
       grid-template-areas: |
-        "sidebar  livingrm  outside familyrm"
-        "sidebar  master    sander  other   "
-        "sidebar  athome    .       .       "
-        "sidebar  .         .       .       "
-        "footer   footer    footer  footer  "
+        ". sidebar  livingrm  outside familyrm"
+        ". sidebar  master    sander  other   "
+        ". sidebar  athome    .       .       "
+        ". sidebar  .         .       .       "
+        ". footer   footer    footer  footer  "
       mediaquery:
         "(max-width: 800px)":
-          grid-template-columns: 1fr
+          grid-template-columns: 0 1fr
           grid-template-rows: repeat(7, min-content) 1fr min-content 0
           grid-template-areas: |
-            "livingrm" 
-            "outside "
-            "familyrm"
-            "master  "
-            "sander  "
-            "other   "
-            "athome  "
-            ".       "
-            "footer  "
-            "sidebar "
+            "sidebar livingrm" 
+            "sidebar outside "
+            "sidebar familyrm"
+            "sidebar master  "
+            "sidebar sander  "
+            "sidebar other   "
+            "sidebar athome  "
+            "sidebar .       "
+            "footer  footer  "
         "(max-width: 1200px)":
           grid-template-columns: 25% repeat(2, minmax(200px, 1fr))
           grid-template-rows: repeat(4, min-content) 1fr min-content # requires browser_mod UI to hide the header
@@ -4344,28 +4343,27 @@ views:
               type: custom:layout-card
               layout_type: custom:grid-layout
               layout:
-                margin: 2vw
+                margin: 2vw 2vw 2vw 0 /* when sidebar is hidden, it still uses a cell in the grid */
                 grid-gap: 2vw
-                grid-template-columns: 20vw repeat(2, 1fr)
+                grid-template-columns: 0 20vw repeat(2, 1fr)
                 grid-template-rows: repeat(2, min-content)
                 grid-template-areas: |
-                  "graphic downstairs upstairs"
-                  "graphic .          filter "
+                  ". graphic downstairs upstairs"
+                  ". graphic .          filter "
                 mediaquery:
                   "(max-width: 800px)":
-                    grid-template-columns: repeat(1, 1fr)
-                    grid-template-rows: repeat(4, min-content)
+                    grid-template-columns: 0 repeat(1, 1fr)
+                    grid-template-rows: repeat(3, min-content)
                     grid-template-areas: |
-                      "downstairs"
-                      "upstairs  "
-                      "filter    "
-                      "graphic   "
+                      "graphic downstairs"
+                      "graphic upstairs  "
+                      "graphic filter    "
                   "(max-width: 1200px)":
-                    grid-template-columns: repeat(2, 1fr)
+                    grid-template-columns: 0 repeat(2, 1fr)
                     grid-template-rows: repeat(2, min-content)
                     grid-template-areas: |
-                      "downstairs upstairs"
-                      "filter     graphic"
+                      "graphic downstairs upstairs"
+                      "graphic .          filter "
               cards:
                 - type: custom:button-card
                   template: graphic_inside
@@ -4464,28 +4462,26 @@ views:
               type: custom:layout-card
               layout_type: custom:grid-layout
               layout:
+                margin: 2vw 2vw 2vw 0 /* when sidebar is hidden, it still uses a cell in the grid */
                 place-items: center stretch
                 place-content: stretch stretch
-                margin: 2vw
                 grid-gap: 2vw
-                grid-template-columns: 20vw repeat(2, 1fr)
+                grid-template-columns: 0 20vw repeat(2, 1fr)
                 grid-template-rows: repeat(1, min-content)
                 grid-template-areas: |
-                  "graphic station  aqi_temp"
+                  ". graphic station  aqi_temp"
                 mediaquery:
                   "(max-width: 800px)":
-                    grid-template-columns: repeat(1, 1fr)
-                    grid-template-rows: repeat(3, min-content)
+                    grid-template-columns: 0 repeat(1, 1fr)
+                    grid-template-rows: repeat(2, min-content)
                     grid-template-areas: |
-                      "aqi_temp"
-                      "station "
-                      "graphic "
+                      "graphic aqi_temp"
+                      "graphic station "
                   "(max-width: 1200px)":
-                    grid-template-columns: repeat(2, 1fr)
-                    grid-template-rows: repeat(3, min-content)
+                    grid-template-columns: 0 repeat(2, 1fr)
+                    grid-template-rows: repeat(1, min-content)
                     grid-template-areas: |
-                      "station  aqi_temp"
-                      "graphic  .       "
+                      "graphic station  aqi_temp"
               cards:
                 - type: custom:button-card
                   template: graphic_outside
@@ -4622,23 +4618,22 @@ views:
               type: custom:layout-card
               layout_type: custom:grid-layout
               layout:
+                margin: 2vw 2vw 2vw 0 /* when sidebar is hidden, it still uses a cell in the grid */
                 place-items: center stretch
                 place-content: stretch stretch
-                margin: 2vw
                 grid-gap: 2vw
-                grid-template-columns: 1fr repeat(1, 2fr)
+                grid-template-columns: 0 1fr repeat(1, 2fr)
                 grid-template-rows: repeat(2, min-content )
                 grid-template-areas: |
-                  "graphic front"
-                  "graphic back "
+                  ". graphic front"
+                  ". graphic back "
                 mediaquery:
                   "(max-width: 1200px)":
-                    grid-template-columns: repeat(1, 1fr)
-                    grid-template-rows: repeat(3, min-content )
+                    grid-template-columns: 0 repeat(1, 1fr)
+                    grid-template-rows: repeat(2, min-content )
                     grid-template-areas: |
-                      "front  "
-                      "back   "
-                      "graphic"
+                      "graphic front  "
+                      "graphic back   "
               cards:
                 - type: custom:button-card
                   template: graphic_cameras
@@ -4722,34 +4717,32 @@ views:
               # place-items for grid items: 1st value = vertical axis, 2nd value = horizontal axis
               # place-content: for container: 1st value = vertical axis, 2nd value = horizontal axis
               layout:
+                margin: 2vw 2vw 2vw 0 /* when sidebar is hidden, it still uses a cell in the grid */
                 place-items: center stretch
                 place-content: stretch stretch
-                margin: 2vw
                 grid-gap: 2vw
-                grid-template-columns: 20vw repeat(2, 1fr)
+                grid-template-columns: 0 20vw repeat(2, 1fr)
                 grid-template-rows: repeat(3,  min-content)
                 grid-template-areas: |
-                  "graphic circuits   circuits  "
-                  "graphic components components"
-                  "graphic analysis   thermostat"
+                  ". graphic circuits   circuits  "
+                  ". graphic components components"
+                  ". graphic analysis   thermostat"
                 mediaquery:
                   "(max-width: 800px)":
-                    grid-template-columns: repeat(1, 1fr)
-                    grid-template-rows: repeat(5, min-content )
-                    grid-template-areas: |
-                      "circuits  "
-                      "components"
-                      "thermostat"
-                      "analysis  "
-                      "graphic   "
-                  "(max-width: 1200px)":
-                    grid-template-columns: repeat(2, 1fr)
+                    grid-template-columns: 0 repeat(1, 1fr)
                     grid-template-rows: repeat(4, min-content )
                     grid-template-areas: |
-                      "circuits   circuits  "
-                      "components components"
-                      "analysis   thermostat"
-                      "graphic    .         "
+                      "graphic circuits  "
+                      "graphic components"
+                      "graphic thermostat"
+                      "graphic analysis  "
+                  "(max-width: 1200px)":
+                    grid-template-columns: 0 repeat(2, 1fr)
+                    grid-template-rows: repeat(3, min-content )
+                    grid-template-areas: |
+                      "graphic circuits   circuits  "
+                      "graphic components components"
+                      "graphic analysis   thermostat"
               cards:
                 - type: custom:button-card
                   template: graphic_pool
@@ -5088,23 +5081,22 @@ views:
               type: custom:layout-card
               layout_type: custom:grid-layout
               layout:
+                margin: 2vw 2vw 2vw 0 /* when sidebar is hidden, it still uses a cell in the grid */
                 place-items: center stretch
                 place-content: stretch stretch
-                margin: 2vw
                 grid-gap: 2vw
-                grid-template-columns: 20vw repeat(1, 1fr)
+                grid-template-columns: 0 20vw repeat(1, 1fr)
                 grid-template-rows: repeat(2, min-content)
                 grid-template-areas: |
-                  "graphic zones   "
-                  "graphic programs"
+                  ". graphic zones   "
+                  ". graphic programs"
                 mediaquery:
                   "(max-width: 1200px)":
-                    grid-template-columns: repeat(1, 1fr)
-                    grid-template-rows: repeat(3, min-content)
+                    grid-template-columns: 0 repeat(1, 1fr)
+                    grid-template-rows: repeat(2, min-content)
                     grid-template-areas: |
-                      "zones   "
-                      "programs"
-                      "graphic "
+                      "graphic zones   "
+                      "graphic programs"
               cards:
                 - type: custom:button-card
                   template: graphic_irrigation
@@ -5275,28 +5267,26 @@ views:
               type: custom:layout-card
               layout_type: custom:grid-layout
               layout:
+                margin: 2vw 2vw 2vw 0 /* when sidebar is hidden, it still uses a cell in the grid */
                 place-items: center stretch
                 place-content: stretch stretch
-                margin: 2vw
                 grid-gap: 2vw
-                grid-template-columns: 20vw repeat(2, 1fr)
+                grid-template-columns: 0 20vw repeat(2, 1fr)
                 grid-template-rows: repeat(1, min-content)
                 grid-template-areas: |
-                  "graphic electric   graphs"
+                  ". graphic electric   graphs"
                 mediaquery:
                   "(max-width: 800px)":
-                    grid-template-columns: repeat(1, 1fr)
-                    grid-template-rows: repeat(3, min-content)
-                    grid-template-areas: |
-                      "electric"
-                      "graphs  "
-                      "graphic "
-                  "(max-width: 1200px)":
-                    grid-template-columns: repeat(2, 1fr)
+                    grid-template-columns: 0 repeat(1, 1fr)
                     grid-template-rows: repeat(2, min-content)
                     grid-template-areas: |
-                      "electric   graphs"
-                      "graphic    .     "
+                      "graphic electric"
+                      "graphic graphs  "
+                  "(max-width: 1200px)":
+                    grid-template-columns: 0 repeat(2, 1fr)
+                    grid-template-rows: repeat(1, min-content)
+                    grid-template-areas: |
+                      "graphic electric graphs"
               cards:
                 - type: custom:button-card
                   template: graphic_utilities
@@ -5413,32 +5403,30 @@ views:
               type: custom:layout-card
               layout_type: custom:grid-layout
               layout:
+                margin: 2vw 2vw 2vw 0 /* when sidebar is hidden, it still uses a cell in the grid */
                 place-items: center stretch
                 place-content: stretch stretch
-                margin: 2vw
                 grid-gap: 2vw
-                grid-template-columns: 20vw repeat(2, 1fr)
+                grid-template-columns: 0 20vw repeat(2, 1fr)
                 grid-template-rows: repeat(2, min-content)
                 grid-template-areas: |
-                  "graphic router  ping     "
-                  "graphic ups     diskusage"
+                  ". graphic router  ping     "
+                  ". graphic ups     diskusage"
                 mediaquery:
                   "(max-width: 800px)":
-                    grid-template-columns: repeat(1, 1fr)
-                    grid-template-rows: repeat(5, min-content)
+                    grid-template-columns: 0 repeat(1, 1fr)
+                    grid-template-rows: repeat(4, min-content)
                     grid-template-areas: |
-                      "router   "
-                      "ping     "
-                      "ups      "
-                      "diskusage"
-                      "graphic  "
+                      "graphic router   "
+                      "graphic ping     "
+                      "graphic ups      "
+                      "graphic diskusage"
                   "(max-width: 1200px)":
-                    grid-template-columns: repeat(2, 1fr)
-                    grid-template-rows: repeat(3, min-content)
+                    grid-template-columns: 0 repeat(2, 1fr)
+                    grid-template-rows: repeat(2, min-content)
                     grid-template-areas: |
-                      "router  ping     "
-                      "ups     diskusage"
-                      "graphic .        "
+                      "graphic router  ping     "
+                      "graphic ups     diskusage"
               cards:
                 - type: custom:button-card
                   template: graphic_network
@@ -5681,23 +5669,22 @@ views:
               type: custom:layout-card
               layout_type: custom:grid-layout
               layout:
+                margin: 2vw 2vw 2vw 0 /* when sidebar is hidden, it still uses a cell in the grid */
                 place-items: center stretch
                 place-content: stretch stretch
-                margin: 2vw
                 grid-gap: 2vw
-                grid-template-columns: 1fr 2fr
+                grid-template-columns: . 1fr 2fr
                 grid-template-rows: repeat(2, min-content)
                 grid-template-areas: |
-                  "graphic on_off_button  "
-                  "graphic smoke_detectors"
+                  ". graphic on_off_button  "
+                  ". graphic smoke_detectors"
                 mediaquery:
                   "(max-width: 1200px)":
-                    grid-template-columns: repeat(1, 1fr)
-                    grid-template-rows: repeat(3, min-content)
+                    grid-template-columns: 0 repeat(1, 1fr)
+                    grid-template-rows: repeat(2, min-content)
                     grid-template-areas: |
-                      "on_off_button  "
-                      "smoke_detectors"
-                      "graphic        "
+                      "gaphic on_off_button  "
+                      "graphic smoke_detectors"
               cards:
                 - type: custom:button-card
                   template: graphic_fire
