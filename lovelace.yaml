@@ -480,7 +480,11 @@ button_card_templates:
               *                                 *
               * * * * * * * * * * * * * * * * * */
 
-              if (domain === 'light' && state) {
+              if (domain === 'light') {
+
+                  if (!state) {
+                    return '';
+                  }
 
                   // wait 0ms for shadow dom
                   setTimeout(() => {
@@ -3264,12 +3268,13 @@ button_card_templates:
 views:
   - title: "Home"
     type: custom:layout-card
-    layout_type: custom:grid-layout
+    layout_type: grid-layout
     kiosk_mode:
       hide_header: false    
     layout:
-      height: calc(100vh - 2vw - 8px - var(--header-height)) /* 2vw margin, 8px padding */
-      margin: 2vw 2vw 2vw 0 /* when sidebar is hidden, it still uses a cell in the grid */
+      height: calc(100vh - 2vw - var(--header-height)) /* 2vw margin, 8px padding */
+      margin: 2vw 2vw 0 0 /* when sidebar is hidden, it still uses a cell in the grid */
+      padding: 0;
       place-items: stretch stretch
       place-content: stretch stretch
       grid-gap: 2vw
@@ -3336,7 +3341,7 @@ views:
       #################################################
 
       - type: custom:layout-card
-        layout_type: custom:grid-layout
+        layout_type: grid-layout
         layout:
           height: 85vh
           place-items: center center
@@ -3930,108 +3935,14 @@ views:
               show_state: true
               aspect_ratio: 1/1
 
-            - name: "Apt TV"
+            - name: "Tree"
               type: custom:button-card
-              entity: media_player.apartment_tv
-              template:
-                - base
-                - loader
-              icon: mdi:television
+              template: base
+              entity: light.sonoff_christmas_tree
+              icon: mdi:string-lights
               size: 80%
               show_state: true
-              #double_tap_action: !include popup/bedroom_tv2.yaml
-              tap_action:
-                action: fire-dom-event
-                browser_mod:
-                  service: browser_mod.popup
-                  data:
-                    title: Apartment TV
-                    content:
-                      type: vertical-stack
-                      cards:
-                        - type: entities
-                          state_color: true
-                          show_header_toggle: false
-                          card_mod:
-                            class: content
-                          entities:
-                            - entity: media_player.family_room_tv
-                              name: Family Room TV
-                              secondary_info: last-changed
-
-                            - type: custom:more-info-card
-                              entity: media_player.family_room_tv
-                              card_mod:
-                                style:
-                                  # hide everything but ha-select
-                                  $: |
-                                    h1 {
-                                      display: none !important;
-                                    }
-                                  .: |
-                                    h1, state-card-content {
-                                      display: none;
-                                    }
-                                    .card-content {
-                                      padding: {{ is_state(config.entity, 'off') | iif('0', '1.2em 0 0.5em 0') }};
-                                    }
-                                  more-info-media_player$:
-                                    .: |
-                                      div.volume, div.controls {
-                                        display: none;
-                                      }
-                                    ha-select$:
-                                      # fix transparent menu background color
-                                      mwc-menu$: |
-                                        mwc-list {
-                                          background: var(--card-background-color);
-                                        }
-
-                        - type: custom:mod-card
-                          card_mod:
-                            style:
-                              hui-horizontal-stack-card$: |
-                                #root {
-                                  justify-content: space-evenly !important;
-                                  padding: var(--tablet-popup-button-padding);
-                                }
-                          card:
-                            type: horizontal-stack
-                            cards:
-                              - type: custom:button-card
-                                entity: media_player.family_room_tv
-                                icon: mdi:volume-mute
-                                tap_action:
-                                  action: call-service
-                                  service: media_player.volume_mute
-                                  service_data:
-                                    entity_id: >
-                                      [[[ return entity.entity_id; ]]]
-                                    is_volume_muted: >
-                                      [[[ return entity.attributes.is_volume_muted === 'false' ? 'true' : 'false'; ]]]
-                                template: icon_only
-
-                              - type: custom:button-card
-                                entity: media_player.family_room_tv
-                                icon: mdi:volume-minus
-                                tap_action:
-                                  action: call-service
-                                  service: media_player.volume_down
-                                  service_data:
-                                    entity_id: >
-                                      [[[ return entity.entity_id; ]]]
-                                template: icon_only
-
-                              - type: custom:button-card
-                                entity: media_player.family_room_tv
-                                icon: mdi:volume-plus
-                                tap_action:
-                                  action: call-service
-                                  service: media_player.volume_up
-                                  service_data:
-                                    entity_id: >
-                                      [[[ return entity.entity_id; ]]]
-                                template: icon_only
+              aspect_ratio: 1/1
 
       #################################################
       #                                               #
@@ -4289,7 +4200,7 @@ views:
       #################################################
 
       - type: custom:layout-card
-        layout_type: custom:grid-layout
+        layout_type: grid-layout
         layout_options:
           place-items: center stretch
           place-content: center center
@@ -4341,7 +4252,7 @@ views:
               }                    
             card:
               type: custom:layout-card
-              layout_type: custom:grid-layout
+              layout_type: grid-layout
               layout:
                 margin: 2vw 2vw 2vw 0 /* when sidebar is hidden, it still uses a cell in the grid */
                 grid-gap: 2vw
@@ -4460,7 +4371,7 @@ views:
               }                    
             card:
               type: custom:layout-card
-              layout_type: custom:grid-layout
+              layout_type: grid-layout
               layout:
                 margin: 2vw 2vw 2vw 0 /* when sidebar is hidden, it still uses a cell in the grid */
                 place-items: center stretch
@@ -4518,7 +4429,7 @@ views:
                       name: Particles ≤ 10 µm
 
                 - type: custom:layout-card
-                  layout_type: custom:grid-layout
+                  layout_type: grid-layout
                   layout:
                     grid-gap: 2vw
                     grid-template-columns: repeat(1, 1fr)
@@ -4616,7 +4527,7 @@ views:
               }                    
             card:
               type: custom:layout-card
-              layout_type: custom:grid-layout
+              layout_type: grid-layout
               layout:
                 margin: 2vw 2vw 2vw 0 /* when sidebar is hidden, it still uses a cell in the grid */
                 place-items: center stretch
@@ -4641,7 +4552,7 @@ views:
                     grid-area: graphic
 
                 - type: custom:layout-card
-                  layout_type: custom:grid-layout
+                  layout_type: grid-layout
                   layout:
                     grid-gap: 2vw
                     grid-template-columns: repeat(1, 1fr)
@@ -4662,7 +4573,7 @@ views:
                           #door_lock: lock.front_door_lock
 
                 - type: custom:layout-card
-                  layout_type: custom:grid-layout
+                  layout_type: grid-layout
                   layout:
                     grid-gap: 2vw
                     grid-template-columns: repeat(1, 1fr)
@@ -4713,7 +4624,7 @@ views:
               }                    
             card:
               type: custom:layout-card
-              layout_type: custom:grid-layout
+              layout_type: grid-layout
               # place-items for grid items: 1st value = vertical axis, 2nd value = horizontal axis
               # place-content: for container: 1st value = vertical axis, 2nd value = horizontal axis
               layout:
@@ -4751,7 +4662,7 @@ views:
 
                 - title: "Circuits"
                   type: custom:layout-card
-                  layout_type: custom:grid-layout
+                  layout_type: grid-layout
                   layout:
                     grid-gap: 2vw
                     grid-template-columns: repeat(4, 1fr)
@@ -4807,7 +4718,7 @@ views:
 
                 - title: "Components"
                   type: custom:layout-card
-                  layout_type: custom:grid-layout
+                  layout_type: grid-layout
                   layout:
                     grid-gap: 2vw
                     grid-template-columns: repeat(4, 1fr)
@@ -4865,7 +4776,7 @@ views:
 
                 - title: "Thermostat"
                   type: custom:layout-card
-                  layout_type: custom:grid-layout
+                  layout_type: grid-layout
                   layout:
                     grid-gap: 2vw
                     grid-template-columns: repeat(1, 1fr)
@@ -4971,7 +4882,7 @@ views:
 
                 - title: "Last Analysis"
                   type: custom:layout-card
-                  layout_type: custom:grid-layout
+                  layout_type: grid-layout
                   layout:
                     grid-gap: 1vh
                     grid-template-columns: 1fr
@@ -5079,7 +4990,7 @@ views:
               }                    
             card:
               type: custom:layout-card
-              layout_type: custom:grid-layout
+              layout_type: grid-layout
               layout:
                 margin: 2vw 2vw 2vw 0 /* when sidebar is hidden, it still uses a cell in the grid */
                 place-items: center stretch
@@ -5105,7 +5016,7 @@ views:
 
                 - title: "Zones"
                   type: custom:layout-card # Irrigation zones
-                  layout_type: custom:grid-layout
+                  layout_type: grid-layout
                   layout:
                     grid-gap: 2vw
                     grid-template-columns: repeat(4, 1fr)
@@ -5201,7 +5112,7 @@ views:
 
                 - title: "Programs"
                   type: custom:layout-card # Programs
-                  layout_type: custom:grid-layout
+                  layout_type: grid-layout
                   layout:
                     grid-gap: 2vw
                     grid-template-columns: repeat(4, 1fr)
@@ -5265,7 +5176,7 @@ views:
               }                    
             card:
               type: custom:layout-card
-              layout_type: custom:grid-layout
+              layout_type: grid-layout
               layout:
                 margin: 2vw 2vw 2vw 0 /* when sidebar is hidden, it still uses a cell in the grid */
                 place-items: center stretch
@@ -5319,7 +5230,7 @@ views:
 
                 - title: Graphs
                   type: custom:layout-card
-                  layout_type: custom:grid-layout
+                  layout_type: grid-layout
                   layout:
                     grid-gap: 2vw
                     mediaquery:
@@ -5401,7 +5312,7 @@ views:
               }                    
             card:
               type: custom:layout-card
-              layout_type: custom:grid-layout
+              layout_type: grid-layout
               layout:
                 margin: 2vw 2vw 2vw 0 /* when sidebar is hidden, it still uses a cell in the grid */
                 place-items: center stretch
@@ -5667,7 +5578,7 @@ views:
               }                    
             card:
               type: custom:layout-card
-              layout_type: custom:grid-layout
+              layout_type: grid-layout
               layout:
                 margin: 2vw 2vw 2vw 0 /* when sidebar is hidden, it still uses a cell in the grid */
                 place-items: center stretch
@@ -5739,7 +5650,7 @@ views:
                       - font-size: 20px
 
                 - type: custom:layout-card
-                  layout_type: custom:grid-layout
+                  layout_type: grid-layout
                   layout:
                     grid-gap: 2vw
                     grid-template-columns: repeat(1, 1fr)

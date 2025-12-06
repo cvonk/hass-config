@@ -223,13 +223,13 @@ google_assistant:
     light.living_room_dimmer:
       name: "Living light"
       room: "Living room"
-    switch.sonoff_s20_3:
+    switch.sonoff_standing_lamp:
       name: "Standing lamp"
       room: "Living room"
-    switch.sonoff_s20_4:
+    switch.sonoff_reading_light:
       name: "Reading light"
       room: "Living room"
-    switch.tasmota_2:
+    light.sonoff_christmas_tree:
       name: "Christmas tree"
       room: "Living room"
     light.dining_room_dimmer:
