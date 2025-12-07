@@ -44,6 +44,179 @@ wallpanel:
         - entity: weather.pirateweather
           type: custom:weather-chart-card
 
+navbar-templates:
+  main_menu:
+    desktop:
+      show_labels: true
+      position: bottom
+    layout:
+      auto_padding:
+        enabled: false
+    routes:
+      - label: Home
+        url: /lovelace-ui/Default
+        #icon: mdi:home
+        image: /local/home_assistant_logo.svg
+        selected_color: "white"
+
+      - label: Inside
+        url: /lovelace-ui/inside
+        icon: mdi:home-thermometer-outline
+        badge:
+            show: >-
+              [[[
+                let id = states['sensor.nr_of_inside_problems'];
+                if (id) return parseInt(id.state) > 0;
+                return 0;
+              ]]]
+            count: >-
+              [[[
+                let id = states['sensor.nr_of_inside_problems'];
+                if (id) return parseInt(id.state);
+                return 0;
+              ]]]
+        selected_color: "#007aff"
+
+      - label: Outside
+        url: /lovelace-ui/outside
+        icon: mdi:sun-thermometer
+        badge:
+            show: >-
+              [[[
+                let id = states['sensor.nr_of_outside_problems'];
+                if (id) return parseInt(id.state) > 0;
+                return 0;
+              ]]]
+            count: >-
+              [[[
+                let id = states['sensor.nr_of_outside_problems'];
+                if (id) return parseInt(id.state);
+                return 0;
+              ]]]
+        selected_color: "#4cd964"
+
+      - label: Network
+        url: /lovelace-ui/network
+        icon: mdi:web
+        badge:
+            show: >-
+              [[[
+                let id = states['sensor.nr_of_network_problems'];
+                if (id) return parseInt(id.state) > 0;
+                return 0;
+              ]]]
+            count: >-
+              [[[
+                let id = states['sensor.nr_of_network_problems'];
+                if (id) return parseInt(id.state);
+                return 0;
+              ]]]
+        selected_color: "#ff9500"
+
+      - label: Fire
+        url: /lovelace-ui/fire
+        icon: mdi:fire
+        badge:
+            show: >-
+              [[[
+                let id = states['sensor.nr_of_fire_problems'];
+                if (id) return parseInt(id.state) > 0;
+                return 0;
+              ]]]
+            count: >-
+              [[[
+                let id = states['sensor.nr_of_fire_problems'];
+                if (id) return parseInt(id.state);
+                return 0;
+              ]]]
+        selected_color: "#ff3b30"
+
+      - label: Pool
+        url: /lovelace-ui/pool
+        icon: mdi:pool-thermometer
+        badge:
+            show: >-
+              [[[
+                let id = states['sensor.nr_of_pool_problems'];
+                if (id) return parseInt(id.state) > 0;
+                return 0;
+              ]]]
+            count: >-
+              [[[
+                let id = states['sensor.nr_of_pool_problems'];
+                if (id) return parseInt(id.state);
+                return 0;
+              ]]]
+        selected_color: "#ff9500"
+
+      - label: Cameras
+        url: /lovelace-ui/cameras
+        icon: mdi:camera
+        badge:
+            show: >-
+              [[[
+                let id = states['sensor.nr_of_cameras_active'];
+                if (id) return parseInt(id.state) > 0;
+                return 0;
+              ]]]
+            count: >-
+              [[[
+                let id = states['sensor.nr_of_cameras_active'];
+                if (id) return parseInt(id.state);
+                return 0;
+              ]]]
+        selected_color: "#4cd964"
+        selected: true  # hardcoded to true for demo purposes
+        # background-image: linear-gradient(to right, rgba(20, 20, 100, 0.2), rgba(20, 20, 100, 0.1));
+
+      - label: Irrigation
+        url: /lovelace-ui/irrigation
+        icon: mdi:sprinkler-variant
+        badge:
+            show: >-
+              [[[
+                let id = states['sensor.nr_of_irrigation_valves_active"'];
+                if (id) return parseInt(id.state) > 0;
+                return 0;
+              ]]]
+            count: >-
+              [[[
+                let id = states['sensor.nr_of_irrigation_valves_active"'];
+                if (id) return parseInt(id.state);
+                return 0;
+              ]]]
+        selected_color: "#007aff"
+
+      - label: Utilities
+        url: /lovelace-ui/utilities
+        icon: mdi:power-plug
+        badge:
+            show: >-
+              [[[
+                let id = states['sensor.nr_of_utilities_problems'];
+                if (id) return parseInt(id.state) > 0;
+                return 0;
+              ]]]
+            count: >-
+              [[[
+                let id = states['sensor.nr_of_utilities_problems'];
+                if (id) return parseInt(id.state);
+                return 0;
+              ]]]
+        selected_color: "#5956d6"
+
+    styles: |
+      .navbar-card {
+        background: rgba(255,255,255,0.5);
+        --navbar-border-radius: 36px;
+        backdrop-filter: blur(33px);
+        '-webkit-backdrop-filter': blur(33px) !important; !important;
+        border: none;
+      }
+      .button {
+        border-radius: 22px;
+      }
+
 button_card_templates:
   settings:
     variables:
@@ -2212,23 +2385,8 @@ button_card_templates:
     custom_fields:
       graphic: |
         <div class="wrapper">
-          <div class="drip">
-            <svg fill="#000000" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  viewBox="0 0 37.607 37.607" xml:space="preserve">
-            <g>
-              <path d="M31.833,24.579c0,7.187-5.846,13.028-13.029,13.028S5.775,31.764,5.775,24.579c0-6.237,9.105-20.617,10.932-23.437 C17.167,0.43,17.957,0,18.806,0s1.638,0.43,2.099,1.142C22.728,3.962,31.833,18.342,31.833,24.579z"/>
-            </g>
-            </svg>          
-          </div>
-          <div class="ripple">
-            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 90 112.5" enable-background="new 0 0 90 90" xml:space="preserve">
-              <path d="M60.885,48.563c0,0-0.238,0.076-0.654,0.208c-0.211,0.066-0.465,0.146-0.754,0.237c-0.291,0.093-0.621,0.194-0.986,0.284  c-0.365,0.095-0.762,0.198-1.18,0.307c-0.418,0.118-0.865,0.199-1.328,0.295c-0.461,0.094-0.939,0.19-1.426,0.289  c-0.488,0.079-0.984,0.16-1.48,0.239c-0.248,0.042-0.498,0.083-0.746,0.125c-0.25,0.031-0.5,0.063-0.748,0.096  c-0.488,0.063-0.971,0.12-1.438,0.161c-0.467,0.036-0.92,0.065-1.35,0.074c-0.436-0.001-0.846-0.019-1.227-0.039  c-1.52-0.07-2.519-0.245-2.519-0.245c-0.024-0.005-0.042-0.027-0.037-0.052c0.003-0.02,0.018-0.032,0.035-0.037l0.002-0.001  c0,0,1-0.227,2.48-0.376c0.371-0.042,0.771-0.075,1.195-0.109c0.426-0.058,0.879-0.104,1.346-0.141  c0.467-0.033,0.953-0.055,1.445-0.068c0.242-0.009,0.504-0.014,0.732-0.029c0.246-0.022,0.494-0.045,0.742-0.067  c0.494-0.045,0.99-0.092,1.479-0.138c0.484-0.065,0.963-0.128,1.426-0.191c0.463-0.061,0.91-0.12,1.33-0.198  c0.422-0.07,0.82-0.139,1.189-0.202c0.369-0.057,0.705-0.131,1.002-0.197c0.299-0.065,0.559-0.121,0.773-0.168  c0.428-0.09,0.674-0.142,0.674-0.142c0.023-0.006,0.047,0.011,0.051,0.034C60.92,48.533,60.906,48.557,60.885,48.563z" />
-              <path d="M45.049,31.563c0,0,0.522-0.005,1.435-0.015c0.457,0.007,1.014-0.001,1.65,0.02c0.635,0.011,1.354,0.043,2.137,0.081  c0.393,0.025,0.799,0.052,1.221,0.079c0.422,0.036,0.857,0.073,1.307,0.111c0.895,0.089,1.838,0.202,2.809,0.351  c0.973,0.142,1.971,0.327,2.984,0.539c1.01,0.212,2.031,0.473,3.041,0.767c1.014,0.29,2.012,0.641,2.979,1.029  c0.971,0.389,1.9,0.848,2.76,1.376c0.85,0.538,1.631,1.157,2.25,1.878c0.316,0.353,0.578,0.744,0.801,1.139  c0.104,0.203,0.193,0.411,0.275,0.615c0.059,0.216,0.146,0.416,0.174,0.63c0.037,0.211,0.078,0.417,0.074,0.624l0.002,0.152  l0.002,0.076l0.002,0.037v0.02l-0.002,0.03v0.009c-0.012,0.091-0.02,0.18-0.031,0.269c-0.014,0.091-0.014,0.171-0.039,0.268  c-0.021,0.095-0.045,0.188-0.066,0.28c-0.039,0.189-0.109,0.348-0.174,0.504c-0.27,0.621-0.611,1.094-0.938,1.431  c-0.15,0.18-0.313,0.312-0.441,0.438c-0.127,0.127-0.25,0.22-0.348,0.295c-0.193,0.152-0.299,0.232-0.299,0.232  c-0.018,0.016-0.047,0.011-0.063-0.008c-0.014-0.017-0.012-0.041,0.002-0.058l0.002-0.003c0,0,0.088-0.096,0.25-0.278  c0.164-0.179,0.398-0.447,0.65-0.815c0.061-0.093,0.127-0.19,0.193-0.293c0.059-0.107,0.119-0.22,0.182-0.337  c0.07-0.112,0.119-0.24,0.172-0.371c0.057-0.129,0.113-0.263,0.146-0.41c0.039-0.144,0.088-0.291,0.102-0.438  c0.012-0.072,0.023-0.148,0.037-0.223c0.014-0.072,0.008-0.17,0.012-0.257c0.002-0.089,0.004-0.18,0.006-0.271l0.002-0.009  c-0.004,0.042-0.002,0.007-0.004,0.014l-0.002-0.015l-0.002-0.032l-0.008-0.063l-0.016-0.126c-0.01-0.169-0.057-0.338-0.1-0.51  c-0.18-0.687-0.617-1.359-1.195-1.97c-0.586-0.608-1.307-1.166-2.107-1.67c-0.795-0.516-1.676-0.97-2.592-1.395  c-0.916-0.421-1.879-0.793-2.861-1.115c-3.93-1.298-8.072-1.902-11.172-2.217c-0.777-0.072-1.492-0.133-2.125-0.171  c-0.633-0.049-1.186-0.064-1.641-0.091c-0.912-0.029-1.433-0.046-1.433-0.046c-0.024,0-0.044-0.021-0.043-0.046  C45.007,31.583,45.026,31.563,45.049,31.563z" />
-              <path d="M36.973,50.112c0,0-0.114-0.013-0.327-0.035c-0.211-0.024-0.524-0.052-0.921-0.103c-0.397-0.046-0.879-0.11-1.43-0.189  c-0.551-0.081-1.172-0.182-1.848-0.305c-1.349-0.252-2.92-0.589-4.564-1.11c-1.643-0.517-3.375-1.182-4.983-2.135  c-0.803-0.475-1.577-1.022-2.249-1.69c-0.339-0.329-0.648-0.695-0.903-1.1c-0.261-0.397-0.467-0.838-0.594-1.301  c-0.118-0.456-0.177-0.956-0.121-1.393c0.002-0.095,0.028-0.224,0.048-0.341c0.023-0.117,0.039-0.241,0.076-0.344  c0.033-0.107,0.066-0.214,0.099-0.319c0.04-0.103,0.085-0.201,0.127-0.301c0.346-0.796,0.883-1.396,1.4-1.884  c0.525-0.486,1.056-0.857,1.541-1.151c0.243-0.147,0.476-0.274,0.69-0.391c0.22-0.107,0.419-0.209,0.604-0.292  c0.369-0.165,0.657-0.292,0.861-0.364c0.202-0.076,0.309-0.117,0.309-0.117c0.023-0.009,0.049,0.003,0.058,0.026  c0.008,0.021-0.002,0.043-0.02,0.055c0,0-0.096,0.061-0.278,0.176c-0.182,0.113-0.447,0.278-0.778,0.498  c-0.647,0.451-1.594,1.094-2.481,2.063c-0.223,0.239-0.431,0.506-0.623,0.793c-0.103,0.139-0.18,0.294-0.273,0.442  c-0.069,0.159-0.164,0.312-0.215,0.48c-0.029,0.083-0.063,0.166-0.09,0.25c-0.022,0.085-0.044,0.171-0.066,0.257  c-0.029,0.088-0.032,0.167-0.047,0.25c-0.012,0.083-0.032,0.155-0.032,0.267c-0.033,0.382,0.012,0.733,0.108,1.101  c0.089,0.365,0.243,0.728,0.456,1.07c0.209,0.344,0.455,0.681,0.747,0.992c0.568,0.634,1.277,1.176,2.021,1.662  c1.501,0.966,3.174,1.683,4.771,2.25c0.8,0.284,1.586,0.523,2.336,0.738c0.749,0.22,1.465,0.397,2.128,0.558  c0.665,0.153,1.276,0.283,1.821,0.391c0.545,0.106,1.021,0.193,1.414,0.259c0.392,0.07,0.703,0.112,0.914,0.147  c0.212,0.034,0.325,0.051,0.325,0.051c0.025,0.004,0.04,0.026,0.038,0.051C37.018,50.098,36.997,50.115,36.973,50.112z" />
-              <path d="M60.063,53.498c0,0-0.236,0.053-0.678,0.15c-0.439,0.097-1.086,0.246-1.91,0.418c-0.834,0.141-1.842,0.32-3.01,0.504  c-0.582,0.077-1.201,0.159-1.854,0.245c-0.654,0.082-1.35,0.133-2.07,0.205c-1.447,0.122-3.014,0.224-4.676,0.255  c-0.833,0.031-1.687,0.024-2.555,0.026c-0.875-0.009-1.768-0.032-2.673-0.076c-1.813-0.085-3.686-0.222-5.579-0.46  c-1.893-0.235-3.807-0.551-5.704-0.96c-1.896-0.418-3.772-0.934-5.583-1.56c-1.813-0.618-3.545-1.395-5.145-2.298  c-0.792-0.464-1.563-0.944-2.254-1.506c-0.696-0.556-1.347-1.146-1.882-1.82c-0.538-0.667-0.982-1.395-1.254-2.168  c-0.058-0.199-0.127-0.391-0.172-0.586c-0.036-0.199-0.07-0.396-0.105-0.592c-0.014-0.197-0.021-0.395-0.03-0.588l-0.003-0.072  c0-0.018-0.003-0.011-0.001-0.05l0.003-0.034l0.009-0.137l0.02-0.272c0.166-1.554,0.991-2.726,1.778-3.605  c0.817-0.874,1.649-1.495,2.352-1.964c0.704-0.473,1.294-0.78,1.693-0.992c0.404-0.203,0.619-0.311,0.619-0.311  s-0.207,0.123-0.595,0.353c-0.385,0.236-0.942,0.593-1.617,1.091c-0.67,0.5-1.458,1.156-2.202,2.041  c-0.362,0.448-0.713,0.952-0.99,1.526c-0.277,0.568-0.482,1.222-0.528,1.888c-0.128,1.401,0.495,2.843,1.534,4.046  c0.512,0.612,1.143,1.154,1.819,1.665c0.674,0.513,1.418,0.972,2.191,1.403c1.557,0.854,3.265,1.563,5.04,2.168  c1.776,0.604,3.624,1.099,5.492,1.503c1.866,0.413,3.754,0.734,5.624,0.977c1.869,0.24,3.717,0.424,5.51,0.533  c0.897,0.06,1.779,0.088,2.64,0.126c0.871,0.021,1.716,0.051,2.54,0.041c0.826-0.004,1.628,0.008,2.402-0.023  c0.775-0.028,1.527-0.023,2.244-0.076c0.717-0.042,1.406-0.074,2.063-0.121c0.656-0.053,1.279-0.103,1.863-0.149  c1.16-0.121,2.176-0.248,3.012-0.345c0.832-0.135,1.488-0.228,1.936-0.295C59.824,53.535,60.063,53.498,60.063,53.498z" />
-              <path d="M67.578,33.843c0,0,0.111,0.036,0.322,0.104c0.207,0.072,0.518,0.161,0.902,0.304c0.385,0.149,0.859,0.313,1.383,0.552  c0.264,0.114,0.545,0.235,0.834,0.38c0.291,0.141,0.596,0.291,0.904,0.468c0.156,0.087,0.316,0.174,0.479,0.265  c0.16,0.093,0.318,0.196,0.482,0.296c0.332,0.196,0.652,0.438,0.988,0.676c0.652,0.5,1.322,1.07,1.91,1.776  c0.578,0.709,1.102,1.544,1.365,2.51c0.059,0.243,0.105,0.491,0.152,0.738l0.027,0.379l0.014,0.188l0.006,0.096l0.002,0.011  l-0.004,0.044v0.021l-0.004,0.045c-0.02,0.234-0.027,0.462-0.055,0.703c-0.055,0.258-0.109,0.52-0.17,0.775  c-0.301,0.974-0.854,1.828-1.479,2.557c-0.301,0.381-0.66,0.692-0.996,1.018c-0.365,0.288-0.707,0.602-1.084,0.849  c-0.184,0.13-0.365,0.259-0.545,0.387c-0.186,0.117-0.373,0.23-0.557,0.342c-0.365,0.229-0.74,0.422-1.1,0.614  c-0.723,0.379-1.426,0.695-2.086,0.955c-0.65,0.281-1.273,0.473-1.813,0.665c-0.549,0.169-1.027,0.315-1.424,0.425  c-0.797,0.204-1.254,0.312-1.254,0.312s0.436-0.18,1.197-0.48c0.377-0.159,0.834-0.354,1.359-0.575  c0.258-0.119,0.531-0.245,0.822-0.38c0.291-0.129,0.59-0.274,0.9-0.433c0.313-0.157,0.641-0.313,0.965-0.501  c0.324-0.185,0.674-0.355,1.006-0.569c0.34-0.206,0.693-0.411,1.029-0.652c0.172-0.115,0.346-0.234,0.52-0.352  c0.17-0.128,0.338-0.256,0.508-0.386c0.354-0.247,0.66-0.553,0.996-0.835c0.299-0.316,0.627-0.612,0.896-0.958  c0.563-0.672,1.035-1.434,1.283-2.26l0.143-0.594c0.031-0.22,0.041-0.463,0.063-0.692l0.002-0.044l0.004-0.021  c0,0.01,0.002-0.041-0.002,0.021v-0.01l-0.006-0.079l-0.008-0.158l-0.02-0.317c-0.039-0.208-0.074-0.417-0.121-0.623  c-0.221-0.819-0.635-1.581-1.146-2.244c-0.521-0.66-1.113-1.236-1.711-1.747c-0.307-0.247-0.604-0.49-0.908-0.704  c-0.152-0.11-0.299-0.221-0.447-0.323c-0.15-0.1-0.297-0.197-0.441-0.293c-0.287-0.197-0.578-0.361-0.848-0.527  c-0.268-0.17-0.533-0.316-0.781-0.454c-0.494-0.281-0.938-0.501-1.299-0.693C68,34.051,67.578,33.843,67.578,33.843z" />
-              <path d="M28.015,60.604c0,0-0.183-0.033-0.528-0.098c-0.344-0.063-0.849-0.153-1.49-0.286c-0.642-0.128-1.417-0.298-2.304-0.509  c-0.887-0.209-1.883-0.467-2.961-0.778c-1.077-0.317-2.24-0.678-3.45-1.124c-1.21-0.44-2.469-0.963-3.739-1.571  c-1.27-0.61-2.552-1.313-3.791-2.138c-1.232-0.832-2.427-1.782-3.463-2.91c-1.032-1.124-1.922-2.435-2.395-3.913  C3.658,46.543,3.505,45.776,3.5,45.01l-0.003-0.072L3.496,44.92l0.001-0.042l0.002-0.034l0.006-0.135l0.014-0.269l0.014-0.267  l0.007-0.134l0.022-0.145c0.066-0.38,0.108-0.773,0.226-1.118c0.414-1.426,1.157-2.667,2.014-3.673  c0.855-1.016,1.801-1.829,2.708-2.515c0.231-0.166,0.457-0.329,0.678-0.488c0.223-0.156,0.452-0.29,0.669-0.43  c0.432-0.285,0.861-0.518,1.261-0.747c0.801-0.446,1.518-0.8,2.122-1.059c0.596-0.274,1.077-0.462,1.404-0.589  c0.326-0.128,0.5-0.196,0.5-0.196c0.023-0.009,0.049,0.002,0.059,0.026c0.008,0.021-0.001,0.045-0.021,0.055l-0.002,0.001  c0,0-0.164,0.088-0.472,0.255c-0.307,0.17-0.766,0.395-1.327,0.728c-0.282,0.163-0.598,0.336-0.928,0.547  c-0.331,0.209-0.703,0.412-1.074,0.669c-0.375,0.251-0.779,0.51-1.179,0.817c-0.201,0.152-0.415,0.298-0.62,0.464  c-0.206,0.166-0.417,0.334-0.631,0.507c-0.84,0.71-1.709,1.526-2.48,2.5c-0.762,0.974-1.442,2.103-1.788,3.377  c-0.113,0.316-0.145,0.629-0.213,0.946l-0.022,0.12l-0.009,0.133L4.42,44.495l-0.018,0.268l-0.009,0.134L4.392,44.93  c0-0.006-0.001,0.037,0-0.01v0.016L4.394,45c-0.003,0.678,0.108,1.361,0.302,2.029c0.385,1.343,1.172,2.59,2.124,3.686  c0.961,1.095,2.097,2.043,3.28,2.88c1.19,0.833,2.435,1.552,3.672,2.182c1.239,0.631,2.475,1.166,3.661,1.643  c1.186,0.478,2.33,0.869,3.391,1.217c1.063,0.342,2.047,0.629,2.924,0.864c0.877,0.236,1.646,0.428,2.281,0.573  c0.634,0.152,1.137,0.258,1.479,0.331c0.342,0.073,0.525,0.113,0.525,0.113c0.024,0.006,0.04,0.03,0.034,0.054  C28.062,60.594,28.038,60.609,28.015,60.604z" />
-              <path d="M40.121,27.815c0,0,1.699-0.053,4.673-0.146c0.75-0.014,1.567-0.001,2.468,0.002c0.896,0.027,1.867,0.035,2.904,0.093  c2.072,0.092,4.408,0.259,6.945,0.569c2.535,0.308,5.273,0.747,8.131,1.405c1.43,0.317,2.885,0.714,4.359,1.154  c1.471,0.46,2.965,0.964,4.449,1.572c1.48,0.611,2.961,1.302,4.402,2.119c1.438,0.817,2.84,1.758,4.109,2.894  c0.316,0.287,0.635,0.57,0.924,0.889c0.146,0.156,0.297,0.308,0.441,0.469l0.408,0.5c0.287,0.324,0.508,0.702,0.76,1.055  c0.119,0.183,0.217,0.378,0.328,0.568c0.105,0.19,0.215,0.379,0.295,0.585l0.262,0.605c0.076,0.208,0.133,0.421,0.201,0.631  c0.031,0.105,0.066,0.211,0.096,0.317l0.061,0.328c0.037,0.218,0.092,0.435,0.111,0.654l0.045,0.667l0.01,0.166l-0.008,0.18  l-0.018,0.319c0,0.414-0.109,0.876-0.184,1.323c-0.432,1.729-1.365,3.29-2.543,4.563c-1.17,1.289-2.529,2.363-3.949,3.294  c-2.854,1.857-5.939,3.17-8.98,4.198c-3.053,1.006-6.076,1.736-8.971,2.244c-2.893,0.514-5.65,0.841-8.203,1.042  c-2.553,0.206-4.9,0.253-6.977,0.263c-0.52-0.004-1.023-0.006-1.507-0.008c-0.485-0.017-0.954-0.032-1.403-0.049  c-0.896-0.038-1.719-0.073-2.462-0.105c-0.187-0.008-0.367-0.017-0.543-0.024c-0.175-0.016-0.347-0.029-0.511-0.045  c-0.331-0.028-0.642-0.056-0.93-0.081c-0.577-0.051-1.067-0.094-1.465-0.13c-0.794-0.073-1.218-0.112-1.218-0.112  c-0.024-0.002-0.042-0.024-0.04-0.049c0.002-0.023,0.022-0.041,0.046-0.041h0.002c0,0,0.424,0.017,1.221,0.047  c0.396,0.016,0.887,0.035,1.464,0.059c0.288,0.014,0.598,0.026,0.928,0.041c0.165,0.006,0.335,0.014,0.51,0.021  c0.176,0,0.358,0.001,0.542,0.001c0.745,0,1.568,0,2.465,0c0.447,0.001,0.912,0.002,1.395,0.005c0.482-0.014,0.982-0.026,1.498-0.04  c2.066-0.065,4.395-0.214,6.924-0.458c2.527-0.245,5.258-0.618,8.109-1.178c0.355-0.071,0.715-0.143,1.076-0.213  c0.359-0.08,0.721-0.16,1.084-0.241c0.73-0.149,1.461-0.34,2.201-0.517c1.473-0.385,2.977-0.799,4.471-1.313  c2.998-0.99,6.029-2.263,8.82-4.022c1.387-0.884,2.707-1.904,3.83-3.112c1.133-1.193,2.008-2.637,2.424-4.206  c0.064-0.392,0.172-0.758,0.176-1.199l0.021-0.318l0.01-0.139l-0.01-0.15l-0.033-0.606c-0.016-0.201-0.064-0.4-0.096-0.6  l-0.053-0.299l-0.086-0.293c-0.059-0.193-0.111-0.39-0.178-0.582l-0.236-0.563c-0.072-0.191-0.176-0.369-0.273-0.548  c-0.102-0.178-0.189-0.363-0.301-0.535c-0.234-0.335-0.438-0.693-0.709-1.004l-0.385-0.481c-0.135-0.154-0.279-0.301-0.42-0.452  c-0.27-0.309-0.576-0.585-0.879-0.865c-1.215-1.109-2.576-2.044-3.98-2.86c-1.406-0.816-2.859-1.512-4.318-2.13  c-1.461-0.615-2.936-1.129-4.389-1.6c-0.732-0.218-1.451-0.45-2.176-0.638c-0.361-0.098-0.719-0.195-1.074-0.292  c-0.359-0.088-0.715-0.177-1.068-0.264c-2.83-0.691-5.551-1.166-8.074-1.504c-2.521-0.343-4.85-0.541-6.916-0.659  c-1.033-0.072-2-0.092-2.896-0.131c-0.895-0.015-1.722-0.04-2.46-0.035c-2.975,0.054-4.674,0.085-4.674,0.085  c-0.024,0-0.046-0.019-0.046-0.044C40.077,27.836,40.096,27.815,40.121,27.815z" />
-            </svg>
+          <div class="main">
+            <img src="/local/cameras.png" />
           </div>
         </div>
     extra_styles: |
@@ -2253,46 +2411,12 @@ button_card_templates:
         width: 100%;
         height: auto;
       }
-      .drip { /* bottom circle */
+      .overlay {
         position: absolute;
-        left: 50%;
-        top: -30px;
-        width: 20px;
-        height: 20px;
-        animation-name: drip;
-        animation-timing-function: cubic-bezier(.8,0, .91,.66);
-        animation-duration: 2s;
-        animation-iteration-count: infinite;
+        bottom: 0;
+        left: 0;
       }
-      .ripple {
-        animation-name: ripple-1;
-        animation-delay: 2s;
-        animation-duration: 2s;
-        animation-iteration-count: infinite;
-      }
-      @keyframes drip {
-        from { transform: translateY(0); }
-        to { transform: translateY(calc(75cqh)); }
-      }
-      @keyframes ripple-1 {
-        from { opacity: 1; }
-        to {
-          opacity: 0;
-          width: 200px;
-          height: 100px;
-          border-width: 1px;
-          top: -50px;
-        }
-      }
-      @keyframes ripple-2 {
-        to {
-          width: 100px;
-          height: 50px;
-          border-width: 1px;
-          top: 20px;
-          left: 50px;
-        }
-      }
+
   graphic_pool: # ------------------------------------------------------------
     template: graphic
     custom_fields:
@@ -3071,8 +3195,7 @@ button_card_templates:
         }
       }                          
   graphic_fire: # ------------------------------------------------------------
-    view_layout:
-      grid-area: graphic
+    template: graphic
     custom_fields:
       graphic: |
         <div class="mo-fire">
@@ -3267,6 +3390,7 @@ button_card_templates:
 
 views:
   - title: "Home"
+    path: Default
     type: custom:layout-card
     layout_type: grid-layout
     kiosk_mode:
@@ -3275,21 +3399,20 @@ views:
       height: calc(100vh - 2vw - var(--header-height)) /* 2vw margin, 8px padding */
       margin: 2vw 2vw 0 0 /* when sidebar is hidden, it still uses a cell in the grid */
       padding: 0;
-      place-items: stretch stretch
-      place-content: stretch stretch
+      //place-items: stretch stretch
+      //place-content: stretch stretch
       grid-gap: 2vw
       grid-template-columns: 0 25% repeat(3, 1fr)
-      grid-template-rows: repeat(3, min-content) 1fr min-content # requires browser_mod UI to hide the header
+      grid-template-rows: repeat(3, 1fr) 100px
       grid-template-areas: |
         ". sidebar  livingrm  outside familyrm"
         ". sidebar  master    sander  other   "
         ". sidebar  athome    .       .       "
-        ". sidebar  .         .       .       "
         ". footer   footer    footer  footer  "
       mediaquery:
         "(max-width: 800px)":
           grid-template-columns: 0 1fr
-          grid-template-rows: repeat(7, min-content) 1fr min-content 0
+          grid-template-rows: repeat(7, min-content) min-content
           grid-template-areas: |
             "sidebar livingrm" 
             "sidebar outside "
@@ -3298,17 +3421,15 @@ views:
             "sidebar sander  "
             "sidebar other   "
             "sidebar athome  "
-            "sidebar .       "
             "footer  footer  "
         "(max-width: 1200px)":
           grid-template-columns: 25% repeat(2, minmax(200px, 1fr))
-          grid-template-rows: repeat(4, min-content) 1fr min-content # requires browser_mod UI to hide the header
+          grid-template-rows: repeat(4, min-content) 15vh
           grid-template-areas: |
             "sidebar  livingrm  outside"
             "sidebar  familyrm  master "
             "sidebar  sander    other  "
             "sidebar  athome    .      "
-            "sidebar  .         .      "
             "footer   footer    footer "
     cards:
       - name: "Set theme to tablet_frosted_glass in user profile"
@@ -4195,1488 +4316,1316 @@ views:
 
       #################################################
       #                                               #
-      #                    FOOTER                     #
+      #                   NAVBAR                      #
       #                                               #
       #################################################
 
+      - type: custom:navbar-card
+        template: main_menu
+
+  #################################################
+  #                                               #
+  #                  INSIDE                       #
+  #                                               #
+  #################################################
+
+  - title: "Inside"
+    path: inside
+    icon: mdi:home-thermometer-outline
+    background: linear-gradient(to right, rgba(251, 244, 229, 0.2), rgba(251, 244, 229, 0.1)), url(/local/photo-1478760329108-5c3ed9d495a0.jpg)
+
+    type: custom:layout-card
+    layout_type: grid-layout
+    layout:
+      margin: 2vw 2vw 2vw 0 /* when sidebar is hidden, it still uses a cell in the grid */
+      grid-gap: 2vw
+      grid-template-columns: 0 20vw repeat(2, 1fr)
+      grid-template-rows: repeat(2, min-content)
+      grid-template-areas: |
+        ". graphic downstairs upstairs"
+        ". graphic .          filter "
+      mediaquery:
+        "(max-width: 800px)":
+          grid-template-columns: 0 repeat(1, 1fr)
+          grid-template-rows: repeat(3, min-content)
+          grid-template-areas: |
+            "graphic downstairs"
+            "graphic upstairs  "
+            "graphic filter    "
+        "(max-width: 1200px)":
+          grid-template-columns: 0 repeat(2, 1fr)
+          grid-template-rows: repeat(2, min-content)
+          grid-template-areas: |
+            "graphic downstairs upstairs"
+            "graphic .          filter "
+    cards:
+      - type: custom:navbar-card
+        template: main_menu
+
+      - type: custom:button-card
+        template: graphic_inside
+        view_layout:
+          grid-area: graphic
+
+      - entity: climate.main_floor
+        type: thermostat
+        show_current_as_primary: false
+        features:
+          - type: climate-hvac-modes
+        view_layout:
+          grid-area: downstairs
+        card_mod:
+          style: |
+            ha-card {
+                background: var(--secondary-background-color);
+            }
+
+      - entity: climate.upstairs_floor
+        type: thermostat
+        features:
+          - type: climate-hvac-modes
+        view_layout:
+          grid-area: upstairs
+        card_mod:
+          style: |
+            ha-card {
+                background: var(--secondary-background-color);
+            }
+
+      - entity: fan.air_filter
+        type: custom:purifier-card
+        compact_view: true
+        show_state: true
+        show_toolbar: true
+        view_layout:
+          grid-area: filter
+        card_mod:
+          style: |
+            ha-card {
+                background: var(--secondary-background-color);
+            }
+        shortcuts:
+          - name: Auto
+            icon: mdi:brightness-auto
+            preset_mode: auto
+          - name: Sleep
+            icon: mdi:weather-night
+            preset_mode: sleep
+          - name: 25%
+            icon: mdi:circle-slice-2
+            percentage: 25
+          - name: 50%
+            icon: mdi:circle-slice-4
+            percentage: 50
+          - name: 75%
+            icon: mdi:circle-slice-6
+            percentage: 75
+          - name: 100%
+            icon: mdi:circle-slice-8
+            percentage: 100
+
+  #################################################
+  #                                               #
+  #                 OUTSIDE                       #
+  #                                               #
+  #################################################
+
+  - title: "Outside"
+    path: outside
+    icon: mdi:sun-thermometer
+    type: custom:layout-card
+    layout_type: grid-layout
+    layout:
+      margin: 2vw 2vw 2vw 0 /* when sidebar is hidden, it still uses a cell in the grid */
+      place-items: center stretch
+      place-content: stretch stretch
+      grid-gap: 2vw
+      grid-template-columns: 0 20vw repeat(2, 1fr)
+      grid-template-rows: repeat(1, min-content)
+      grid-template-areas: |
+        ". graphic station  aqi_temp"
+      mediaquery:
+        "(max-width: 800px)":
+          grid-template-columns: 0 repeat(1, 1fr)
+          grid-template-rows: repeat(2, min-content)
+          grid-template-areas: |
+            "graphic aqi_temp"
+            "graphic station "
+        "(max-width: 1200px)":
+          grid-template-columns: 0 repeat(2, 1fr)
+          grid-template-rows: repeat(1, min-content)
+          grid-template-areas: |
+            "graphic station  aqi_temp"
+    cards:
+      - type: custom:navbar-card
+        template: main_menu
+
+      - type: custom:button-card
+        template: graphic_outside
+        view_layout:
+          grid-area: graphic
+
+      - title: Terrace Drive
+        type: entities
+        view_layout:
+          grid-area: station
+        card_mod:
+          style: |
+            ha-card {
+                background: var(--secondary-background-color);
+            }
+        entities:
+          - entity: sensor.terracehabitat_temperature
+            name: Air temp
+          - entity: sensor.terracehabitat_humidity
+            icon: mdi:water-percent
+            name: Humidity
+          - entity: sensor.terracehabitat_pressure
+            icon: mdi:arrow-collapse-down
+            name: Air pressure
+          - entity: sensor.terracehabitat_pm1
+            icon: mdi:waves
+            name: Particles ≤ 1 µm
+          - entity: sensor.terracehabitat_pm2_5
+            icon: mdi:waves
+            name: Particles ≤ 2.5 µm
+          - entity: sensor.terracehabitat_pm10
+            icon: mdi:waves
+            name: Particles ≤ 10 µm
+
       - type: custom:layout-card
         layout_type: grid-layout
-        layout_options:
-          place-items: center stretch
-          place-content: center center
-          padding: 0
-          margin: 0vw
+        layout:
           grid-gap: 2vw
-          grid-template-columns: repeat(8, 1fr)
-          grid-template-rows: repeat(1, min-content)
+          grid-template-columns: repeat(1, 1fr)
+        view_layout:
+          grid-area: aqi_temp
+        cards:
+          - name: "Air Quality"
+            type: custom:mini-graph-card
+            entities:
+              - entity: sensor.terracehabitat_aqi
+            hour24: true
+            hours_to_show: 720
+            icon: mdi:waves
+            line_width: 5
+            lower_bound: 0
+            show:
+              icon: true
+              icon_adaptive_color: true
+            smoothing: false
+            upper_bound: 250
+            color_thresholds:
+              - color: "#68e143"
+                value: 0
+              - color: "#ffff55"
+                value: 50
+              - color: "#ef8533"
+                value: 100
+              - color: "#ea3324"
+                value: 150
+              - color: "#8c1a4b"
+                value: 200
+              - color: "#731425"
+                value: 300
+            card_mod:
+              style: |
+                ha-card {
+                    background: var(--secondary-background-color);
+                }
+
+          - name: "Backyard temp"
+            type: custom:mini-graph-card
+            group_by: date
+            hour24: true
+            hours_to_show: 730
+            lower_bound: 32
+            upper_bound: 100
+            smoothing: false
+            show:
+              icon: true
+              icon_adaptive_color: true
+              legend: false
+            entities:
+              - aggregate_func: max
+                entity: sensor.opnpool_last_air_temp
+                name: max temp
+              - aggregate_func: min
+                entity: sensor.opnpool_last_air_temp
+                name: min temp
+            card_mod:
+              style: |
+                ha-card {
+                    background: var(--secondary-background-color);
+                }
+
+  #################################################
+  #                                               #
+  #                 CAMERAS                       #
+  #                                               #
+  #################################################
+
+  - title: "Cameras"
+    path: cameras
+    icon: mdi:camera
+    type: custom:layout-card
+    layout_type: grid-layout
+    layout:
+      margin: 2vw 2vw 2vw 0 /* when sidebar is hidden, it still uses a cell in the grid */
+      place-items: center stretch
+      place-content: stretch stretch
+      grid-gap: 2vw
+      grid-template-columns: 0 1fr repeat(1, 2fr)
+      grid-template-rows: repeat(2, min-content )
+      grid-template-areas: |
+        ". graphic front"
+        ". graphic back "
+      mediaquery:
+        "(max-width: 1200px)":
+          grid-template-columns: 0 repeat(1, 1fr)
+          grid-template-rows: repeat(2, min-content )
+          grid-template-areas: |
+            "graphic front  "
+            "graphic back   "
+    cards:
+      - type: custom:navbar-card
+        template: main_menu
+
+      - type: custom:button-card
+        template: graphic_cameras
+        view_layout:
+          grid-area: graphic
+
+      - type: custom:layout-card
+        layout_type: grid-layout
+        layout:
+          grid-gap: 2vw
+          grid-template-columns: repeat(1, 1fr)
+        view_layout:
+          grid-area: front
+        cards:
+          - type: "custom:aarlo-glance"
+            global: active,blended
+            image_view: direct
+            image_top: "name,status"
+            image_bottom: "motion,library,play,snapshot,battery"
+            image_click: "recordings"
+            library_sizes: "3,4,2"
+            entities:
+              - entity: camera.aarlo_entry
+                name: "Front door"
+                #door: binary_sensor.front_door
+                #door_lock: lock.front_door_lock
+
+      - type: custom:layout-card
+        layout_type: grid-layout
+        layout:
+          grid-gap: 2vw
+          grid-template-columns: repeat(1, 1fr)
+          grid-gap: var(--custom-layout-card-padding)
+        view_layout:
+          grid-area: back
+        cards:
+          - type: "custom:aarlo-glance"
+            global: active,blended
+            image_view: direct
+            image_top: "name,status"
+            image_bottom: "motion,library,play,snapshot,battery"
+            image_click: "recordings"
+            library_sizes: "3,4,2"
+            entities:
+              - entity: camera.aarlo_backyard
+                name: "Back yard"
+
+  #################################################
+  #                                               #
+  #                   POOL                        #
+  #                                               #
+  #################################################
+
+  - title: "Pool"
+    path: pool
+    icon: mdi:pool-thermometer
+    type: custom:layout-card
+    layout_type: grid-layout
+    # place-items for grid items: 1st value = vertical axis, 2nd value = horizontal axis
+    # place-content: for container: 1st value = vertical axis, 2nd value = horizontal axis
+    layout:
+      margin: 2vw 2vw 2vw 0 /* when sidebar is hidden, it still uses a cell in the grid */
+      place-items: center stretch
+      place-content: stretch stretch
+      grid-gap: 2vw
+      grid-template-columns: 0 20vw repeat(2, 1fr)
+      grid-template-rows: repeat(3,  min-content)
+      grid-template-areas: |
+        ". graphic circuits   circuits  "
+        ". graphic components components"
+        ". graphic analysis   thermostat"
+      mediaquery:
+        "(max-width: 800px)":
+          grid-template-columns: 0 repeat(1, 1fr)
+          grid-template-rows: repeat(4, min-content )
+          grid-template-areas: |
+            "graphic circuits  "
+            "graphic components"
+            "graphic thermostat"
+            "graphic analysis  "
+        "(max-width: 1200px)":
+          grid-template-columns: 0 repeat(2, 1fr)
+          grid-template-rows: repeat(3, min-content )
+          grid-template-areas: |
+            "graphic circuits   circuits  "
+            "graphic components components"
+            "graphic analysis   thermostat"
+    cards:
+      - type: custom:navbar-card
+        template: main_menu
+
+      - type: custom:button-card
+        template: graphic_pool
+        view_layout:
+          grid-area: graphic
+
+      - title: "Circuits"
+        type: custom:layout-card
+        layout_type: grid-layout
+        layout:
+          grid-gap: 2vw
+          grid-template-columns: repeat(4, 1fr)
           mediaquery:
             "(max-width: 800px)":
               grid-template-columns: repeat(2, 1fr)
         view_layout:
-          grid-area: footer
+          grid-area: circuits
+        card_mod:
+          style: |
+            hui-grid-card, ha-card {
+                background: var(--secondary-background-color);
+            }
         cards:
-          - name: "Inside" # -------------------------------------------------
-            entity: sensor.inside_temperature
-            label: >-
+          - name: "Pool"
+            type: custom:button-card
+            template: pool_circuit
+            entity: switch.opnpool_pool_circuit
+            icon: mdi:pool
+            variables:
+              schedule_entity: sensor.opnpool_pool_sched
+              pending_entity: input_boolean.opnpool_pool_circuit_pending
+              loader_script_entity: script.toggle_opnpool_pool_circuit_with_support_for_spinner
+
+          - name: "Spa"
+            type: custom:button-card
+            template: pool_circuit
+            entity: switch.opnpool_spa_circuit
+            icon: mdi:hot-tub
+            variables:
+              schedule_entity: sensor.opnpool_spa_sched
+              pending_entity: input_boolean.opnpool_spa_circuit_pending
+              loader_script_entity: script.toggle_opnpool_spa_circuit_with_support_for_spinner
+
+          - name: "Vacuum"
+            type: custom:button-card
+            template: pool_circuit
+            entity: switch.opnpool_aux1_circuit
+            icon: mdi:vacuum
+            variables:
+              schedule_entity: sensor.opnpool_aux1_sched
+              pending_entity: input_boolean.opnpool_aux1_circuit_pending
+
+          - name: "Light"
+            type: custom:button-card
+            template: pool_circuit
+            entity: switch.opnpool_aux2_circuit
+            icon: mdi:lightbulb
+            variables:
+              schedule_entity: sensor.opnpool_aux2_sched
+              pending_entity: input_boolean.opnpool_aux2_circuit_pending
+              loader_script_entity: script.toggle_opnpool_aux2_circuit_with_support_for_spinner
+
+      - title: "Components"
+        type: custom:layout-card
+        layout_type: grid-layout
+        layout:
+          grid-gap: 2vw
+          grid-template-columns: repeat(4, 1fr)
+          mediaquery:
+            "(max-width: 800px)":
+              grid-template-columns: repeat(2, 1fr)
+        view_layout:
+          grid-area: components
+        card_mod:
+          style: |
+            ha-card {
+                background: var(--secondary-background-color);
+            }
+        cards:
+          - name: "Pump"
+            type: custom:button-card
+            template: pool_component
+            entity: binary_sensor.opnpool_pump_running
+            icon: mdi:pump
+            variables:
+              info1_entity: sensor.opnpool_pump_mode
+              info2_entity: sensor.opnpool_pump_estimated_flow
+              status_entity: sensor.opnpool_pump_status
+            card_mod:
+              style: |
+                ha-card {
+                    background: var(--secondary-background-color);
+                }
+
+          - name: "Chlorinator"
+            type: custom:button-card
+            template: pool_component
+            entity: binary_sensor.opnpool_pump_running
+            icon: mdi:lotion-plus
+            variables:
+              info1_entity: sensor.opnpool_chlor_pct
+              info2_entity: sensor.opnpool_chlor_salt
+              status_entity: sensor.opnpool_chlor_status
+
+          - name: "Water Temp"
+            type: custom:button-card
+            template: circle_graph
+            entity: sensor.opnpool_water_temp
+            icon: mdi:pool-thermometer
+            variables:
+              graph_color: cornflowerblue
+
+          - name: "Air Temp"
+            type: custom:button-card
+            template: circle_graph
+            entity: sensor.opnpool_air_temp
+            icon: mdi:thermometer
+            variables:
+              graph_color: cornflowerblue
+
+      - title: "Thermostat"
+        type: custom:layout-card
+        layout_type: grid-layout
+        layout:
+          grid-gap: 2vw
+          grid-template-columns: repeat(1, 1fr)
+        view_layout:
+          grid-area: thermostat
+        card_mod:
+          style: |
+            ha-card {
+                background: var(--secondary-background-color);
+            }
+        cards:
+          - name: "Pool Thermostat"
+            type: conditional
+            conditions:
+              - entity: switch.opnpool_pool_circuit
+                state: "on"
+            card:
+              type: custom:simple-thermostat
+              entity: climate.opnpool_pool_heater
+              hide:
+                state: false
+                temperature: false
+              decimals: 0
+              step_size: 1
+              step_layout: row
+              control:
+                _headings: false
+                preset:
+                  _name: "Src"
+                  none:
+                    icon: mdi:power-standby
+                    name: Off
+                  Heater:
+                    icon: mdi:fire
+                  Solar:
+                    icon: mdi:weather-sunny
+                  SolarPref:
+                    icon: mdi:refresh-auto
+              card_mod:
+                style: |
+                  ha-card {
+                    background-color: rgba(115, 115, 115, 0.25) !important;
+                  }
+                  header {
+                    display: none !important;
+                  }
+                  .body {
+                    padding-bottom: 0 !important;
+                  }
+                  .mode-title {
+                    font-size: 0 !important;
+                    padding: 0 !important;
+                  }
+                  .mode-item {
+                    border-radius: 10px !important;
+                  }
+
+          - name: "Spa Thermostat"
+            type: conditional
+            conditions:
+              - entity: switch.opnpool_spa_circuit
+                state: "on"
+            card:
+              type: custom:simple-thermostat
+              entity: climate.opnpool_spa_heater
+              hide:
+                state: false
+                temperature: false
+              decimals: 0
+              step_size: 1
+              step_layout: row
+              control:
+                _headings: false
+                preset:
+                  _name: "Src"
+                  none:
+                    icon: mdi:power-standby
+                    name: Off
+                  Heater:
+                    icon: mdi:fire
+                  Solar:
+                    icon: mdi:weather-sunny
+                  SolarPref:
+                    icon: mdi:refresh-auto
+              card_mod:
+                style: |
+                  ha-card {
+                    background-color: rgba(115, 115, 115, 0.25) !important;
+                  }
+                  header {
+                    display: none !important;
+                  }
+                  .body {
+                    padding-bottom: 0 !important;
+                  }
+                  .mode-title {
+                    font-size: 0 !important;
+                    padding: 0 !important;
+                  }
+                  .mode-item {
+                    border-radius: 10px !important;
+                  }
+
+      - title: "Last Analysis"
+        type: custom:layout-card
+        layout_type: grid-layout
+        layout:
+          grid-gap: 1vh
+          grid-template-columns: 1fr
+        view_layout:
+          grid-area: analysis
+        cards:
+          - name: "pH"
+            entity: sensor.pool_ph
+            type: custom:button-card
+            template: above_below_bar
+            variables:
+              warning_below: 6
+              warning_above: 9
+              max_value: 12
+
+          - name: "Total Alkalinity (pH buffer)"
+            entity: sensor.pool_ta
+            type: custom:button-card
+            template: above_below_bar
+            variables:
+              warning_below: 80
+              warning_above: 120
+              max_value: 200
+
+          - name: "Free Chlorine"
+            entity: sensor.pool_fc
+            type: custom:button-card
+            template: above_below_bar
+            variables:
+              warning_below: 3
+              warning_above: 7
+              max_value: 10
+
+          - name: "Combined Chlorine"
+            entity: sensor.pool_cc
+            type: custom:button-card
+            template: above_below_bar
+            variables:
+              warning_below: 0
+              warning_above: 0.2
+              max_value: 2
+
+          - name: "Cyanuric Acid (Chlor buffer)"
+            entity: sensor.pool_cya
+            type: custom:button-card
+            template: above_below_bar
+            variables:
+              warning_below: 70
+              warning_above: 90
+              max_value: 160
+
+          - name: "Calcium Hardness"
+            entity: sensor.pool_ch
+            type: custom:button-card
+            template: above_below_bar
+            variables:
+              warning_below: 200
+              warning_above: 650
+              max_value: 850
+
+          - name: "Salt"
+            entity: sensor.pool_salt
+            type: custom:button-card
+            template: above_below_bar
+            variables:
+              warning_below: 2700
+              warning_above: 4500
+              max_value: 6000
+        card_mod:
+          style: |
+            ha-card {
+                background: var(--secondary-background-color);
+            }
+
+  #################################################
+  #                                               #
+  #                IRRIGATION                     #
+  #                                               #
+  #################################################
+
+  - title: "Irrigation"
+    path: irrigation
+    icon: mdi:sprinkler-variant
+    type: custom:layout-card
+    layout_type: grid-layout
+    layout:
+      margin: 2vw 2vw 2vw 0 /* when sidebar is hidden, it still uses a cell in the grid */
+      place-items: center stretch
+      place-content: stretch stretch
+      grid-gap: 2vw
+      grid-template-columns: 0 20vw repeat(1, 1fr)
+      grid-template-rows: repeat(2, min-content)
+      grid-template-areas: |
+        ". graphic zones   "
+        ". graphic programs"
+      mediaquery:
+        "(max-width: 1200px)":
+          grid-template-columns: 0 repeat(1, 1fr)
+          grid-template-rows: repeat(2, min-content)
+          grid-template-areas: |
+            "graphic zones   "
+            "graphic programs"
+    cards:
+      - type: custom:navbar-card
+        template: main_menu
+
+      - type: custom:button-card
+        template: graphic_irrigation
+        view_layout:
+          grid-area: graphic
+
+      - title: "Zones"
+        type: custom:layout-card # Irrigation zones
+        layout_type: grid-layout
+        layout:
+          grid-gap: 2vw
+          grid-template-columns: repeat(4, 1fr)
+          mediaquery:
+            "(max-width: 800px)":
+              grid-template-columns: repeat(2, 1fr)
+        view_layout:
+          grid-area: zones
+        card_mod:
+          style: |
+            ha-card {
+                background: var(--secondary-background-color);
+            }
+        cards:
+          - type: custom:button-card
+            template:
+              - irrigation_zone
+            entity: sensor.dripbox1_station_status
+            name: "Box #1"
+          - type: custom:button-card
+            template:
+              - irrigation_zone
+            entity: sensor.dripbox2_station_status
+            name: "Box #2"
+          - type: custom:button-card
+            template:
+              - irrigation_zone
+            entity: sensor.dripbox3_grapes_hydr_station_status
+            name: "Grapes"
+          - type: custom:button-card
+            template:
+              - irrigation_zone
+            entity: sensor.dripfence1_station_status
+            name: "Fence Left"
+          - type: custom:button-card
+            template:
+              - irrigation_zone
+            entity: sensor.dripfence2_station_status
+            name: "Fence Right"
+          - type: custom:button-card
+            template:
+              - irrigation_zone
+            entity: sensor.dripcorner_station_status
+            name: "Fence Corner"
+          - type: custom:button-card
+            template:
+              - irrigation_zone
+            entity: sensor.dripmaple_station_status
+            name: "Maple"
+          - type: custom:button-card
+            template:
+              - irrigation_zone
+            entity: sensor.front1_station_status
+            name: "Front Street"
+          - type: custom:button-card
+            template:
+              - irrigation_zone
+            entity: sensor.front2_maple_station_status
+            name: "Front Maple"
+          - type: custom:button-card
+            template:
+              - irrigation_zone
+            entity: sensor.pond_house_side_station_status
+            name: "Pond House"
+          - type: custom:button-card
+            template:
+              - irrigation_zone
+            entity: sensor.pond2_station_status
+            name: "Pond/Street"
+          - type: custom:button-card
+            template:
+              - irrigation_zone
+            entity: sensor.island_station_status
+            name: "Pond Island"
+          - type: custom:button-card
+            template:
+              - irrigation_zone
+            entity: sensor.sprinklerlawn1_station_status
+            name: "Lawn #1"
+            icon: mdi:sprinkler-variant
+          - type: custom:button-card
+            template:
+              - irrigation_zone
+            entity: sensor.sprinklerlawn2_station_status
+            name: "Lawn #2"
+            icon: mdi:sprinkler-variant
+          - type: custom:button-card
+            template:
+              - irrigation_zone
+            entity: sensor.sprinklerlawn3_station_status
+            name: "Lawn #3"
+            icon: mdi:sprinkler-variant
+
+      - title: "Programs"
+        type: custom:layout-card # Programs
+        layout_type: grid-layout
+        layout:
+          grid-gap: 2vw
+          grid-template-columns: repeat(4, 1fr)
+          mediaquery:
+            "(max-width: 800px)":
+              grid-template-columns: repeat(2, 1fr)
+        view_layout:
+          grid-area: programs
+        card_mod:
+          style: |
+            ha-card {
+                background: var(--secondary-background-color);
+            }
+        cards:
+          - entity: switch.lawn_program_enabled
+            name: "Lawn"
+            type: custom:button-card
+            template:
+              - irrigation_program
+            variables:
+              start_time_entity: time.lawn_start_time
+
+          - entity: switch.drip_program_enabled
+            name: "Drip"
+            type: custom:button-card
+            template:
+              - irrigation_program
+            variables:
+              start_time_entity: time.drip_start_time
+
+  #################################################
+  #                                               #
+  #                 UTILITIES                     #
+  #                                               #
+  #################################################
+
+  - title: "Utilities"
+    path: utilities
+    icon: mdi:power-plug
+    type: custom:layout-card
+    layout_type: grid-layout
+    layout:
+      margin: 2vw 2vw 2vw 0 /* when sidebar is hidden, it still uses a cell in the grid */
+      place-items: center stretch
+      place-content: stretch stretch
+      grid-gap: 2vw
+      grid-template-columns: 0 20vw repeat(2, 1fr)
+      grid-template-rows: repeat(1, min-content)
+      grid-template-areas: |
+        ". graphic electric   graphs"
+      mediaquery:
+        "(max-width: 800px)":
+          grid-template-columns: 0 repeat(1, 1fr)
+          grid-template-rows: repeat(2, min-content)
+          grid-template-areas: |
+            "graphic electric"
+            "graphic graphs  "
+        "(max-width: 1200px)":
+          grid-template-columns: 0 repeat(2, 1fr)
+          grid-template-rows: repeat(1, min-content)
+          grid-template-areas: |
+            "graphic electric graphs"
+    cards:
+      - type: custom:navbar-card
+        template: main_menu
+
+      - type: custom:button-card
+        template: graphic_utilities
+        view_layout:
+            grid-area: graphic
+
+      - type: custom:auto-entities
+        view_layout:
+          grid-area: electric
+        card:
+          type: vertical-stack
+          #title: "Current Electric"
+        sort:
+          method: name
+          ignore_case: true
+        card_param: cards
+        filter:
+          include:
+            - entity_id: sensor.*_power
+              options:
+                type: custom:button-card
+                template: ts_bar
+                variables:
+                  max_value: 2000
+          exclude:
+            - entity_id: sensor.total_power
+            - entity_id: sensor.*battery_power
+            - entity_id: sensor.cable_modem_*_power
+            - state: "unavailable"
+
+      - title: Graphs
+        type: custom:layout-card
+        layout_type: grid-layout
+        layout:
+          grid-gap: 2vw
+          mediaquery:
+            "(max-width: 800px)":
+              grid-template-columns: repeat(2, 1fr)
+        view_layout:
+          grid-area: graphs
+        cards:
+          - entity: sensor.total_power
+            type: custom:button-card
+            template: bubble_card_graph
+            variables:
+              card_name: "Electricity"
+              graph_color: "orange"
+
+          - entity: sensor.flo_shutoff_water_flow_rate_per_hour
+            type: custom:button-card
+            template: bubble_card_graph
+            variables:
+              card_name: "Water for house"
+              graph_color: "cornflowerblue"
+              card_icon: mdi:water-outline
+
+          - type: custom:mod-card
+            style: >
+              {% set value = states('sensor.current_bill_electricity_usage_to_date') %}
+              {% if int(value) > 0 %}
+              {{ "ha-card { display: none; }" }}
+              {% endif %}                          card:
+              entity: sensor.current_bill_electric_usage_to_date
+              type: custom:button-card
+              template: bubble_card_graph
+              variables:
+                card_name: "Electricity to date"
+                graph_color: "orange"
+
+          - type: custom:mod-card
+            style: >
+              {% set value = states('sensor.current_bill_gas_usage_to_date') %}
+              {% if int(value) > 0 %}
+              {{ "ha-card { display: none; }" }}
+              {% endif %}                          card:
+              entity: sensor.current_bill_gas_usage_to_date
+              type: custom:button-card
+              template: bubble_card_graph
+              variables:
+                card_name: "Electricity to date"
+                graph_color: "orange"
+
+  #################################################
+  #                                               #
+  #                  NETWORK                      #
+  #                                               #
+  #################################################
+
+  - title: "Network"
+    path: network
+    icon: mdi:web
+    type: custom:layout-card
+    layout_type: grid-layout
+    layout:
+      margin: 2vw 2vw 2vw 0 /* when sidebar is hidden, it still uses a cell in the grid */
+      place-items: center stretch
+      place-content: stretch stretch
+      grid-gap: 2vw
+      grid-template-columns: 0 20vw repeat(2, 1fr)
+      grid-template-rows: repeat(2, min-content)
+      grid-template-areas: |
+        ". graphic router  ping     "
+        ". graphic ups     diskusage"
+      mediaquery:
+        "(max-width: 800px)":
+          grid-template-columns: 0 repeat(1, 1fr)
+          grid-template-rows: repeat(4, min-content)
+          grid-template-areas: |
+            "graphic router   "
+            "graphic ping     "
+            "graphic ups      "
+            "graphic diskusage"
+        "(max-width: 1200px)":
+          grid-template-columns: 0 repeat(2, 1fr)
+          grid-template-rows: repeat(2, min-content)
+          grid-template-areas: |
+            "graphic router  ping     "
+            "graphic ups     diskusage"
+    cards:
+      - type: custom:navbar-card
+        template: main_menu
+
+      - type: custom:button-card
+        template: graphic_network
+        view_layout:
+          grid-area: graphic
+
+      - title: "Router"
+        type: grid
+        columns: 4
+        square: false
+        view_layout:
+          grid-area: router
+        card_mod:
+          style: |
+            ha-card {
+              border: none !important;
+            }
+        cards:
+          - type: custom:button-card # LAN in
+            template: circle_graph
+            icon: mdi:download
+            variables:
+              graph_color: cornflowerblue
+            entity: sensor.rtr_interface_lan_inbytes_kilobytes_per_second
+            name: "LAN in"
+
+          - type: custom:button-card # LAN out
+            template: circle_graph
+            icon: mdi:upload
+            variables:
+              graph_color: cornflowerblue
+            entity: sensor.rtr_interface_lan_outbytes_kilobytes_per_second
+            name: "LAN out"
+
+          - type: custom:button-card # WG in
+            template: circle_graph
+            icon: mdi:download
+            variables:
+              graph_color: cornflowerblue
+            entity: sensor.rtr_interface_homewg_inbytes_kilobytes_per_second
+            name: "WG in"
+
+          - type: custom:button-card # WG out
+            template: circle_graph
+            icon: mdi:upload
+            variables:
+              graph_color: cornflowerblue
+            entity: sensor.rtr_interface_homewg_outbytes_kilobytes_per_second
+            name: "WG out"
+
+          - type: custom:button-card # Guest in
+            template: circle_graph
+            icon: mdi:download
+            variables:
+              graph_color: cornflowerblue
+            entity: sensor.rtr_interface_guest_inbytes_kilobytes_per_second
+            name: "Guest in"
+
+          - type: custom:button-card # Guest out
+            template: circle_graph
+            icon: mdi:upload
+            variables:
+              graph_color: cornflowerblue
+            entity: sensor.rtr_interface_guest_outbytes_kilobytes_per_second
+            name: "Guest out"
+
+          - type: custom:button-card # WAN in
+            template: circle_graph
+            icon: mdi:download
+            variables:
+              graph_color: cornflowerblue
+            entity: sensor.rtr_interface_wan_inbytes_kilobytes_per_second
+            name: "WAN in"
+
+          - type: custom:button-card # WAN out
+            template: circle_graph
+            icon: mdi:upload
+            variables:
+              graph_color: cornflowerblue
+            entity: sensor.rtr_interface_wan_outbytes_kilobytes_per_second
+            name: "WAN out"
+
+      - title: "Ping"
+        type: grid
+        columns: 4
+        square: false
+        view_layout:
+          grid-area: ping
+        card_mod:
+          style: |
+            ha-card {
+              border: none !important;
+            }
+        cards:
+          - type: custom:button-card # Rtr
+            template: connectivity
+            variables:
+              graph_color: cornflowerblue
+            entity: binary_sensor.ping_rtr
+            name: "Rtr"
+
+          - type: custom:button-card # Modem
+            template: connectivity
+            variables:
+              graph_color: cornflowerblue
+            entity: binary_sensor.ping_modem
+            name: "Modem"
+
+          - type: custom:button-card # DNS
+            template: connectivity
+            variables:
+              graph_color: cornflowerblue
+            entity: binary_sensor.ping_dns
+            name: "DNS"
+
+          - type: custom:button-card # Google
+            template: connectivity
+            variables:
+              graph_color: cornflowerblue
+            entity: binary_sensor.ping_google
+            name: "Google"
+
+          - type: custom:button-card # Rtr CPU
+            template: cpu_ram_sd_temp
+            variables:
+              cpu_id: "sensor.rtr_cpu_usage"
+              ram_id: "sensor.rtr_memory_used_percentage"
+              sd_id: "sensor.rtr_filesystem_used_percentage_root"
+              load_id: "sensor.rtr_system_load_average_one_minute"
+            entity: sensor.rtr_system_load_average_one_minute
+            icon: mdi:router
+            name: "Rtr"
+
+          - type: custom:button-card # Modem Status
+            template: netstat
+            variables:
+              graph_color: cornflowerblue
+            entity: sensor.cable_modem_connection_status
+            name: "Modem"
+
+          - type: custom:button-card # DNS Ping delay
+            template: netstat
+            variables:
+              graph_color: cornflowerblue
+            entity: sensor.ping_dns_round_trip_time_average
+            name: "DNS"
+
+          - type: custom:button-card # Google Ping delay
+            template: netstat
+            variables:
+              graph_color: cornflowerblue
+            entity: sensor.ping_google_round_trip_time_average
+            name: "Google"                      
+
+      - title: "UPS"
+        type: grid
+        columns: 1
+        square: false
+        view_layout:
+          grid-area: ups
+        card_mod:
+          style: |
+            ha-card {
+              border: none !important;
+            }
+        cards:
+          - entity: sensor.ups_battery_charge
+            name: >
               [[[
-                return states['sensor.inside_temperature']?.state;
+                  return states['sensor.ups_status']?.state;
               ]]]
             type: custom:button-card
-            template: footer
-            icon: mdi:home-thermometer-outline
+            template: above_below_bar
             variables:
-              active_id: sensor.nr_of_inside_problems
-              notify: >-
-                [[[
-                  let id = states['sensor.nr_of_inside_problems'];
-                  if (id) return parseInt(id.state);
-                ]]]
-            tap_action:
-              action: fire-dom-event
-              browser_mod:
-                service: browser_mod.popup
-                data:
-                  popup_card_id: inside_popup
+              warning_below: 30
+              warning_above: 100
+              max_value: 100
 
-          - popup_card_id: inside_popup # ------------------------------------
-            type: custom:popup-card
-            title: "Inside Climate"
-            icon: mdi:home-thermometer-outline
-            size: wide # or fullscreen, normal, narrow, etc.
-            style: |
-              ha-dialog > div.content {
-                background-image: linear-gradient(to right, rgba(251, 244, 229, 0.2), rgba(251, 244, 229, 0.1));
-              }
-              ha-dialog ha-dialog-header {
-                background-color: rgba(251, 244, 229, 0.3);
-              }                    
-            card:
-              type: custom:layout-card
-              layout_type: grid-layout
-              layout:
-                margin: 2vw 2vw 2vw 0 /* when sidebar is hidden, it still uses a cell in the grid */
-                grid-gap: 2vw
-                grid-template-columns: 0 20vw repeat(2, 1fr)
-                grid-template-rows: repeat(2, min-content)
-                grid-template-areas: |
-                  ". graphic downstairs upstairs"
-                  ". graphic .          filter "
-                mediaquery:
-                  "(max-width: 800px)":
-                    grid-template-columns: 0 repeat(1, 1fr)
-                    grid-template-rows: repeat(3, min-content)
-                    grid-template-areas: |
-                      "graphic downstairs"
-                      "graphic upstairs  "
-                      "graphic filter    "
-                  "(max-width: 1200px)":
-                    grid-template-columns: 0 repeat(2, 1fr)
-                    grid-template-rows: repeat(2, min-content)
-                    grid-template-areas: |
-                      "graphic downstairs upstairs"
-                      "graphic .          filter "
-              cards:
-                - type: custom:button-card
-                  template: graphic_inside
-                  view_layout:
-                    grid-area: graphic
-
-                - entity: climate.main_floor
-                  type: thermostat
-                  show_current_as_primary: false
-                  features:
-                    - type: climate-hvac-modes
-                  view_layout:
-                    grid-area: downstairs
-                  card_mod:
-                    style: |
-                      ha-card {
-                          background: var(--secondary-background-color);
-                      }
-
-                - entity: climate.upstairs_floor
-                  type: thermostat
-                  features:
-                    - type: climate-hvac-modes
-                  view_layout:
-                    grid-area: upstairs
-                  card_mod:
-                    style: |
-                      ha-card {
-                          background: var(--secondary-background-color);
-                      }
-
-                - entity: fan.air_filter
-                  type: custom:purifier-card
-                  compact_view: true
-                  show_state: true
-                  show_toolbar: true
-                  view_layout:
-                    grid-area: filter
-                  card_mod:
-                    style: |
-                      ha-card {
-                          background: var(--secondary-background-color);
-                      }
-                  shortcuts:
-                    - name: Auto
-                      icon: mdi:brightness-auto
-                      preset_mode: auto
-                    - name: Sleep
-                      icon: mdi:weather-night
-                      preset_mode: sleep
-                    - name: 25%
-                      icon: mdi:circle-slice-2
-                      percentage: 25
-                    - name: 50%
-                      icon: mdi:circle-slice-4
-                      percentage: 50
-                    - name: 75%
-                      icon: mdi:circle-slice-6
-                      percentage: 75
-                    - name: 100%
-                      icon: mdi:circle-slice-8
-                      percentage: 100
-
-          - name: "Outside" # ------------------------------------------------
-            entity: sensor.opnpool_last_air_temp
+      - title: "Disk usage"
+        type: grid
+        columns: 1
+        square: false
+        view_layout:
+          grid-area: diskusage
+        card_mod:
+          style: |
+            ha-card {
+              border: none !important;
+            }
+        cards:
+          - entity: sensor.nas_volume_1_volume_used
+            name: "NAS"
             type: custom:button-card
-            template: footer
-            icon: mdi:sun-thermometer
+            template: above_below_bar
             variables:
-              active_id: "sensor.nr_of_outside_problems"
-              notify: >-
-                [[[
-                  let id = states['sensor.nr_of_outside_problems'];
-                  if (id) return parseInt(id.state);
-                ]]]
-            tap_action:
-              action: fire-dom-event
-              browser_mod:
-                service: browser_mod.popup
-                data:
-                  popup_card_id: outside_popup
+              warning_below: 0
+              warning_above: 85
+              max_value: 100
 
-          - popup_card_id: outside_popup # -----------------------------------
-            type: custom:popup-card
-            title: "Outside Climate"
-            icon: mdi:sun-thermometer
-            size: wide # or fullscreen, narrow, etc.
-            style: |
-              ha-dialog > div.content {
-                background-image: linear-gradient(to right, rgba(42, 126, 25, 0.2), rgba(42, 126, 25, 0.1));
-              }
-              ha-dialog ha-dialog-header {
-                background-color: rgba(42, 126, 25, 0.3);
-              }                    
-            card:
-              type: custom:layout-card
-              layout_type: grid-layout
-              layout:
-                margin: 2vw 2vw 2vw 0 /* when sidebar is hidden, it still uses a cell in the grid */
-                place-items: center stretch
-                place-content: stretch stretch
-                grid-gap: 2vw
-                grid-template-columns: 0 20vw repeat(2, 1fr)
-                grid-template-rows: repeat(1, min-content)
-                grid-template-areas: |
-                  ". graphic station  aqi_temp"
-                mediaquery:
-                  "(max-width: 800px)":
-                    grid-template-columns: 0 repeat(1, 1fr)
-                    grid-template-rows: repeat(2, min-content)
-                    grid-template-areas: |
-                      "graphic aqi_temp"
-                      "graphic station "
-                  "(max-width: 1200px)":
-                    grid-template-columns: 0 repeat(2, 1fr)
-                    grid-template-rows: repeat(1, min-content)
-                    grid-template-areas: |
-                      "graphic station  aqi_temp"
-              cards:
-                - type: custom:button-card
-                  template: graphic_outside
-                  view_layout:
-                    grid-area: graphic
-
-
-                - title: Terrace Drive
-                  type: entities
-                  view_layout:
-                    grid-area: station
-                  card_mod:
-                    style: |
-                      ha-card {
-                          background: var(--secondary-background-color);
-                      }
-                  entities:
-                    - entity: sensor.terracehabitat_temperature
-                      name: Air temp
-                    - entity: sensor.terracehabitat_humidity
-                      icon: mdi:water-percent
-                      name: Humidity
-                    - entity: sensor.terracehabitat_pressure
-                      icon: mdi:arrow-collapse-down
-                      name: Air pressure
-                    - entity: sensor.terracehabitat_pm1
-                      icon: mdi:waves
-                      name: Particles ≤ 1 µm
-                    - entity: sensor.terracehabitat_pm2_5
-                      icon: mdi:waves
-                      name: Particles ≤ 2.5 µm
-                    - entity: sensor.terracehabitat_pm10
-                      icon: mdi:waves
-                      name: Particles ≤ 10 µm
-
-                - type: custom:layout-card
-                  layout_type: grid-layout
-                  layout:
-                    grid-gap: 2vw
-                    grid-template-columns: repeat(1, 1fr)
-                  view_layout:
-                    grid-area: aqi_temp
-                  cards:
-                    - name: "Air Quality"
-                      type: custom:mini-graph-card
-                      entities:
-                        - entity: sensor.terracehabitat_aqi
-                      hour24: true
-                      hours_to_show: 720
-                      icon: mdi:waves
-                      line_width: 5
-                      lower_bound: 0
-                      show:
-                        icon: true
-                        icon_adaptive_color: true
-                      smoothing: false
-                      upper_bound: 250
-                      color_thresholds:
-                        - color: "#68e143"
-                          value: 0
-                        - color: "#ffff55"
-                          value: 50
-                        - color: "#ef8533"
-                          value: 100
-                        - color: "#ea3324"
-                          value: 150
-                        - color: "#8c1a4b"
-                          value: 200
-                        - color: "#731425"
-                          value: 300
-                      card_mod:
-                        style: |
-                          ha-card {
-                              background: var(--secondary-background-color);
-                          }
-
-                    - name: "Backyard temp"
-                      type: custom:mini-graph-card
-                      group_by: date
-                      hour24: true
-                      hours_to_show: 730
-                      lower_bound: 32
-                      upper_bound: 100
-                      smoothing: false
-                      show:
-                        icon: true
-                        icon_adaptive_color: true
-                        legend: false
-                      entities:
-                        - aggregate_func: max
-                          entity: sensor.opnpool_last_air_temp
-                          name: max temp
-                        - aggregate_func: min
-                          entity: sensor.opnpool_last_air_temp
-                          name: min temp
-                      card_mod:
-                        style: |
-                          ha-card {
-                              background: var(--secondary-background-color);
-                          }
-
-          - name: "Cameras" # ------------------------------------------------
-            entity: binary_sensor.cameras_status
+          - entity: sensor.backup_volume_1_volume_used
+            name: "Backup"
             type: custom:button-card
-            template: footer
-            icon: mdi:camera
+            template: above_below_bar
             variables:
-              active_id: "sensor.nr_of_cameeras_active"
-              notify: >-
-                [[[
-                  let id = states['sensor.nr_of_cameras_active'];
-                  if (id) return parseInt(id.state);
-                ]]]
-            tap_action:
-              action: fire-dom-event
-              browser_mod:
-                service: browser_mod.popup
-                data:
-                  popup_card_id: cameras_popup
+              warning_below: 0
+              warning_above: 85
+              max_value: 100
 
-          - popup_card_id: cameras_popup # -----------------------------------
-            type: custom:popup-card
-            title: "Outside Cameras"
-            icon: mdi:camera
-            size: wide
-            style: >
-              ha-dialog > div.content {
-                background-image: linear-gradient(to right, rgba(20, 20, 100, 0.2), rgba(20, 20, 100, 0.1));
-              }
-              ha-dialog ha-dialog-header {
-                background-color: rgba(20, 20, 100, 0.3);
-              }                    
-            card:
-              type: custom:layout-card
-              layout_type: grid-layout
-              layout:
-                margin: 2vw 2vw 2vw 0 /* when sidebar is hidden, it still uses a cell in the grid */
-                place-items: center stretch
-                place-content: stretch stretch
-                grid-gap: 2vw
-                grid-template-columns: 0 1fr repeat(1, 2fr)
-                grid-template-rows: repeat(2, min-content )
-                grid-template-areas: |
-                  ". graphic front"
-                  ". graphic back "
-                mediaquery:
-                  "(max-width: 1200px)":
-                    grid-template-columns: 0 repeat(1, 1fr)
-                    grid-template-rows: repeat(2, min-content )
-                    grid-template-areas: |
-                      "graphic front  "
-                      "graphic back   "
-              cards:
-                - type: custom:button-card
-                  template: graphic_cameras
-                  view_layout:
-                    grid-area: graphic
+  #################################################
+  #                                               #
+  #                   FIRE                        #
+  #                                               #
+  #################################################
 
-                - type: custom:layout-card
-                  layout_type: grid-layout
-                  layout:
-                    grid-gap: 2vw
-                    grid-template-columns: repeat(1, 1fr)
-                  view_layout:
-                    grid-area: front
-                  cards:
-                    - type: "custom:aarlo-glance"
-                      global: active,blended
-                      image_view: direct
-                      image_top: "name,status"
-                      image_bottom: "motion,library,play,snapshot,battery"
-                      image_click: "recordings"
-                      library_sizes: "3,4,2"
-                      entities:
-                        - entity: camera.aarlo_entry
-                          name: "Front door"
-                          #door: binary_sensor.front_door
-                          #door_lock: lock.front_door_lock
+  - title: "Fire"
+    path: fire
+    icon: mdi:fire
+    type: custom:layout-card
+    layout_type: grid-layout
+    layout:
+      margin: 2vw 2vw 2vw 0 /* when sidebar is hidden, it still uses a cell in the grid */
+      place-items: center stretch
+      place-content: stretch stretch
+      grid-gap: 2vw
+      grid-template-columns: 0 20vw 30vw
+      grid-template-rows: repeat(2, min-content)
+      grid-template-areas: |
+        ". graphic on_off_button  "
+        ". graphic smoke_detectors"
+      mediaquery:
+        "(max-width: 1200px)":
+          grid-template-columns: 0 repeat(1, 1fr)
+          grid-template-rows: repeat(2, min-content)
+          grid-template-areas: |
+            "gaphic on_off_button  "
+            "graphic smoke_detectors"
+    cards:
+      - type: custom:navbar-card
+        template: main_menu
 
-                - type: custom:layout-card
-                  layout_type: grid-layout
-                  layout:
-                    grid-gap: 2vw
-                    grid-template-columns: repeat(1, 1fr)
-                    grid-gap: var(--custom-layout-card-padding)
-                  view_layout:
-                    grid-area: back
-                  cards:
-                    - type: "custom:aarlo-glance"
-                      global: active,blended
-                      image_view: direct
-                      image_top: "name,status"
-                      image_bottom: "motion,library,play,snapshot,battery"
-                      image_click: "recordings"
-                      library_sizes: "3,4,2"
-                      entities:
-                        - entity: camera.aarlo_backyard
-                          name: "Back yard"
+      - type: custom:button-card
+        template: graphic_fire
+        view_layout:
+          grid-area: graphic
 
-          - name: "Pool" # ---------------------------------------------------
-            entity: sensor.opnpool_last_water_temp
-            type: custom:button-card
-            template: footer
-            variables:
-              active_id: "sensor.nr_of_pool_circuits_active"
-              notify: >-
-                [[[
-                  let id = states['sensor.nr_of_pool_problems'];
-                  if (id) return parseInt(id.state);
-                ]]]
-            tap_action:
-              action: fire-dom-event
-              browser_mod:
-                service: browser_mod.popup
-                data:
-                  popup_card_id: pool_popup
+      - type: custom:button-card
+        name: "Fire Alarm"
+        template: base
+        view_layout:
+          grid-area: on_off_button
+        aspect_ratio: 1/1
+        entity: alarm_control_panel.fire_alarm
+        triggers_update:
+          - alarm_control_panel.fire_alarm
+          - sensor.fire_status
+        label: >-
+          [[[
+              const id = states['sensor.fire_status']; 
+              return id?.state ? id.state : '';
+              // workaround not updating https://github.com/thomasloven/hass-browser_mod/issues/981
+              //let template = "[[[ const id = states['sensor.fire_status']; return id?.state ? id.state : ''; ]]]";
+              //return template;
+          ]]]
+        show_label: true
+        tap_action:
+          action: call-service
+          service: script.toggle_fire_alarm
+        styles:
+          grid:
+            - align-items: start #
+            - grid-template-areas: |
+                "n"
+                "."
+                "s"
+                "."
+                "l"
+            - grid-template-columns: 1fr
+            - grid-template-rows: min-content 1vw min-content 1vw min-content
 
-          - popup_card_id: pool_popup # --------------------------------------
-            type: custom:popup-card
-            title: "Pool"
-            icon: mdi:pool-thermometer
-            size: wide
-            style: >
-              ha-dialog > div.content {
-                background-image: linear-gradient(to right, rgba(54, 55, 149, 0.2), rgba(0, 92, 151, 0.1));
-              }
-              ha-dialog ha-dialog-header {
-                background-color: rgba(0, 92, 151, 0.3);
-              }                    
-            card:
-              type: custom:layout-card
-              layout_type: grid-layout
-              # place-items for grid items: 1st value = vertical axis, 2nd value = horizontal axis
-              # place-content: for container: 1st value = vertical axis, 2nd value = horizontal axis
-              layout:
-                margin: 2vw 2vw 2vw 0 /* when sidebar is hidden, it still uses a cell in the grid */
-                place-items: center stretch
-                place-content: stretch stretch
-                grid-gap: 2vw
-                grid-template-columns: 0 20vw repeat(2, 1fr)
-                grid-template-rows: repeat(3,  min-content)
-                grid-template-areas: |
-                  ". graphic circuits   circuits  "
-                  ". graphic components components"
-                  ". graphic analysis   thermostat"
-                mediaquery:
-                  "(max-width: 800px)":
-                    grid-template-columns: 0 repeat(1, 1fr)
-                    grid-template-rows: repeat(4, min-content )
-                    grid-template-areas: |
-                      "graphic circuits  "
-                      "graphic components"
-                      "graphic thermostat"
-                      "graphic analysis  "
-                  "(max-width: 1200px)":
-                    grid-template-columns: 0 repeat(2, 1fr)
-                    grid-template-rows: repeat(3, min-content )
-                    grid-template-areas: |
-                      "graphic circuits   circuits  "
-                      "graphic components components"
-                      "graphic analysis   thermostat"
-              cards:
-                - type: custom:button-card
-                  template: graphic_pool
-                  view_layout:
-                    grid-area: graphic
+          name:
+            - justify-self: start # align to the left in the grid area
+            - line-height: 121%
+            - font-size: 30px
+          state:
+            - justify-self: start
+            - line-height: 115%
+            - font-size: 20px
+          label:
+            - justify-self: start
+            - line-height: 115%
+            - font-size: 20px
 
-                - title: "Circuits"
-                  type: custom:layout-card
-                  layout_type: grid-layout
-                  layout:
-                    grid-gap: 2vw
-                    grid-template-columns: repeat(4, 1fr)
-                    mediaquery:
-                      "(max-width: 800px)":
-                        grid-template-columns: repeat(2, 1fr)
-                  view_layout:
-                    grid-area: circuits
-                  card_mod:
-                    style: |
-                      hui-grid-card, ha-card {
-                          background: var(--secondary-background-color);
-                      }
-                  cards:
-                    - name: "Pool"
-                      type: custom:button-card
-                      template: pool_circuit
-                      entity: switch.opnpool_pool_circuit
-                      icon: mdi:pool
-                      variables:
-                        schedule_entity: sensor.opnpool_pool_sched
-                        pending_entity: input_boolean.opnpool_pool_circuit_pending
-                        loader_script_entity: script.toggle_opnpool_pool_circuit_with_support_for_spinner
+      - type: custom:layout-card
+        layout_type: grid-layout
+        layout:
+          grid-gap: 2vw
+          grid-template-columns: repeat(1, 1fr)
+        view_layout:
+          grid-area: smoke_detectors
+        cards:
+          - type: custom:auto-entities
+            show_empty: false
+            filter:
+              include:
+                - domain: binary_sensor
+                  entity_id: /nest_protect_.*_status/
+                  state: "on"
+                  options:
+                    icon: mdi:fire
+                    type: custom:multiple-entity-row
+                    show_state: true
+                    secondary_info: last-changed
 
-                    - name: "Spa"
-                      type: custom:button-card
-                      template: pool_circuit
-                      entity: switch.opnpool_spa_circuit
-                      icon: mdi:hot-tub
-                      variables:
-                        schedule_entity: sensor.opnpool_spa_sched
-                        pending_entity: input_boolean.opnpool_spa_circuit_pending
-                        loader_script_entity: script.toggle_opnpool_spa_circuit_with_support_for_spinner
+background:
+  opacity: 100
+  alignment: center
+  size: cover
+  repeat: repeat
+  attachment: fixed
+  #image: /api/image/serve/33e5f7514c86d628e8141caada05bc6f/original
+  image: /local/photo-1478760329108-5c3ed9d495a0.jpg
 
-                    - name: "Vacuum"
-                      type: custom:button-card
-                      template: pool_circuit
-                      entity: switch.opnpool_aux1_circuit
-                      icon: mdi:vacuum
-                      variables:
-                        schedule_entity: sensor.opnpool_aux1_sched
-                        pending_entity: input_boolean.opnpool_aux1_circuit_pending
-
-                    - name: "Light"
-                      type: custom:button-card
-                      template: pool_circuit
-                      entity: switch.opnpool_aux2_circuit
-                      icon: mdi:lightbulb
-                      variables:
-                        schedule_entity: sensor.opnpool_aux2_sched
-                        pending_entity: input_boolean.opnpool_aux2_circuit_pending
-                        loader_script_entity: script.toggle_opnpool_aux2_circuit_with_support_for_spinner
-
-                - title: "Components"
-                  type: custom:layout-card
-                  layout_type: grid-layout
-                  layout:
-                    grid-gap: 2vw
-                    grid-template-columns: repeat(4, 1fr)
-                    mediaquery:
-                      "(max-width: 800px)":
-                        grid-template-columns: repeat(2, 1fr)
-                  view_layout:
-                    grid-area: components
-                  card_mod:
-                    style: |
-                      ha-card {
-                          background: var(--secondary-background-color);
-                      }
-                  cards:
-                    - name: "Pump"
-                      type: custom:button-card
-                      template: pool_component
-                      entity: binary_sensor.opnpool_pump_running
-                      icon: mdi:pump
-                      variables:
-                        info1_entity: sensor.opnpool_pump_mode
-                        info2_entity: sensor.opnpool_pump_estimated_flow
-                        status_entity: sensor.opnpool_pump_status
-                      card_mod:
-                        style: |
-                          ha-card {
-                              background: var(--secondary-background-color);
-                          }
-
-                    - name: "Chlorinator"
-                      type: custom:button-card
-                      template: pool_component
-                      entity: binary_sensor.opnpool_pump_running
-                      icon: mdi:lotion-plus
-                      variables:
-                        info1_entity: sensor.opnpool_chlor_pct
-                        info2_entity: sensor.opnpool_chlor_salt
-                        status_entity: sensor.opnpool_chlor_status
-
-                    - name: "Water Temp"
-                      type: custom:button-card
-                      template: circle_graph
-                      entity: sensor.opnpool_water_temp
-                      icon: mdi:pool-thermometer
-                      variables:
-                        graph_color: cornflowerblue
-
-                    - name: "Air Temp"
-                      type: custom:button-card
-                      template: circle_graph
-                      entity: sensor.opnpool_air_temp
-                      icon: mdi:thermometer
-                      variables:
-                        graph_color: cornflowerblue
-
-                - title: "Thermostat"
-                  type: custom:layout-card
-                  layout_type: grid-layout
-                  layout:
-                    grid-gap: 2vw
-                    grid-template-columns: repeat(1, 1fr)
-                  view_layout:
-                    grid-area: thermostat
-                  card_mod:
-                    style: |
-                      ha-card {
-                          background: var(--secondary-background-color);
-                      }
-                  cards:
-                    - name: "Pool Thermostat"
-                      type: conditional
-                      conditions:
-                        - entity: switch.opnpool_pool_circuit
-                          state: "on"
-                      card:
-                        type: custom:simple-thermostat
-                        entity: climate.opnpool_pool_heater
-                        hide:
-                          state: false
-                          temperature: false
-                        decimals: 0
-                        step_size: 1
-                        step_layout: row
-                        control:
-                          _headings: false
-                          preset:
-                            _name: "Src"
-                            none:
-                              icon: mdi:power-standby
-                              name: Off
-                            Heater:
-                              icon: mdi:fire
-                            Solar:
-                              icon: mdi:weather-sunny
-                            SolarPref:
-                              icon: mdi:refresh-auto
-                        card_mod:
-                          style: |
-                            ha-card {
-                              background-color: rgba(115, 115, 115, 0.25) !important;
-                            }
-                            header {
-                              display: none !important;
-                            }
-                            .body {
-                              padding-bottom: 0 !important;
-                            }
-                            .mode-title {
-                              font-size: 0 !important;
-                              padding: 0 !important;
-                            }
-                            .mode-item {
-                              border-radius: 10px !important;
-                            }
-
-                    - name: "Spa Thermostat"
-                      type: conditional
-                      conditions:
-                        - entity: switch.opnpool_spa_circuit
-                          state: "on"
-                      card:
-                        type: custom:simple-thermostat
-                        entity: climate.opnpool_spa_heater
-                        hide:
-                          state: false
-                          temperature: false
-                        decimals: 0
-                        step_size: 1
-                        step_layout: row
-                        control:
-                          _headings: false
-                          preset:
-                            _name: "Src"
-                            none:
-                              icon: mdi:power-standby
-                              name: Off
-                            Heater:
-                              icon: mdi:fire
-                            Solar:
-                              icon: mdi:weather-sunny
-                            SolarPref:
-                              icon: mdi:refresh-auto
-                        card_mod:
-                          style: |
-                            ha-card {
-                              background-color: rgba(115, 115, 115, 0.25) !important;
-                            }
-                            header {
-                              display: none !important;
-                            }
-                            .body {
-                              padding-bottom: 0 !important;
-                            }
-                            .mode-title {
-                              font-size: 0 !important;
-                              padding: 0 !important;
-                            }
-                            .mode-item {
-                              border-radius: 10px !important;
-                            }
-
-                - title: "Last Analysis"
-                  type: custom:layout-card
-                  layout_type: grid-layout
-                  layout:
-                    grid-gap: 1vh
-                    grid-template-columns: 1fr
-                  view_layout:
-                    grid-area: analysis
-                  cards:
-                    - name: "pH"
-                      entity: sensor.pool_ph
-                      type: custom:button-card
-                      template: above_below_bar
-                      variables:
-                        warning_below: 6
-                        warning_above: 9
-                        max_value: 12
-
-                    - name: "Total Alkalinity (pH buffer)"
-                      entity: sensor.pool_ta
-                      type: custom:button-card
-                      template: above_below_bar
-                      variables:
-                        warning_below: 80
-                        warning_above: 120
-                        max_value: 200
-
-                    - name: "Free Chlorine"
-                      entity: sensor.pool_fc
-                      type: custom:button-card
-                      template: above_below_bar
-                      variables:
-                        warning_below: 3
-                        warning_above: 7
-                        max_value: 10
-
-                    - name: "Combined Chlorine"
-                      entity: sensor.pool_cc
-                      type: custom:button-card
-                      template: above_below_bar
-                      variables:
-                        warning_below: 0
-                        warning_above: 0.2
-                        max_value: 2
-
-                    - name: "Cyanuric Acid (Chlor buffer)"
-                      entity: sensor.pool_cya
-                      type: custom:button-card
-                      template: above_below_bar
-                      variables:
-                        warning_below: 70
-                        warning_above: 90
-                        max_value: 160
-
-                    - name: "Calcium Hardness"
-                      entity: sensor.pool_ch
-                      type: custom:button-card
-                      template: above_below_bar
-                      variables:
-                        warning_below: 200
-                        warning_above: 650
-                        max_value: 850
-
-                    - name: "Salt"
-                      entity: sensor.pool_salt
-                      type: custom:button-card
-                      template: above_below_bar
-                      variables:
-                        warning_below: 2700
-                        warning_above: 4500
-                        max_value: 6000
-                  card_mod:
-                    style: |
-                      ha-card {
-                          background: var(--secondary-background-color);
-                      }
-
-          - name: "Irrigation" # ---------------------------------------------
-            entity: sensor.opensprinkler_water_level
-            type: custom:button-card
-            template: footer
-            icon: mdi:sprinkler-variant
-            variables:
-              active_id: "sensor.nr_of_irrigation_valves_active"
-              notify: >-
-                [[[
-                  let id = states['sensor.nr_of_irrigation_valves_active'];
-                  if (id) return parseInt(id.state);
-                ]]]
-            tap_action:
-              action: fire-dom-event
-              browser_mod:
-                service: browser_mod.popup
-                data:
-                  popup_card_id: irrigation_popup
-
-          - popup_card_id: irrigation_popup # --------------------------------
-            type: custom:popup-card
-            title: "Irrigation"
-            icon: mdi:sprinkler-variant
-            size: wide
-            style: |
-              ha-dialog > div.content {
-                background-image: linear-gradient(to right, rgba(14, 135, 204, 0.2), rgba(14, 135, 204, 0.1));
-              }
-              ha-dialog ha-dialog-header {
-                background-color: rgba(14, 135, 204, 0.3);
-              }                    
-            card:
-              type: custom:layout-card
-              layout_type: grid-layout
-              layout:
-                margin: 2vw 2vw 2vw 0 /* when sidebar is hidden, it still uses a cell in the grid */
-                place-items: center stretch
-                place-content: stretch stretch
-                grid-gap: 2vw
-                grid-template-columns: 0 20vw repeat(1, 1fr)
-                grid-template-rows: repeat(2, min-content)
-                grid-template-areas: |
-                  ". graphic zones   "
-                  ". graphic programs"
-                mediaquery:
-                  "(max-width: 1200px)":
-                    grid-template-columns: 0 repeat(1, 1fr)
-                    grid-template-rows: repeat(2, min-content)
-                    grid-template-areas: |
-                      "graphic zones   "
-                      "graphic programs"
-              cards:
-                - type: custom:button-card
-                  template: graphic_irrigation
-                  view_layout:
-                    grid-area: graphic
-
-                - title: "Zones"
-                  type: custom:layout-card # Irrigation zones
-                  layout_type: grid-layout
-                  layout:
-                    grid-gap: 2vw
-                    grid-template-columns: repeat(4, 1fr)
-                    mediaquery:
-                      "(max-width: 800px)":
-                        grid-template-columns: repeat(2, 1fr)
-                  view_layout:
-                    grid-area: zones
-                  card_mod:
-                    style: |
-                      ha-card {
-                          background: var(--secondary-background-color);
-                      }
-                  cards:
-                    - type: custom:button-card
-                      template:
-                        - irrigation_zone
-                      entity: sensor.dripbox1_station_status
-                      name: "Box #1"
-                    - type: custom:button-card
-                      template:
-                        - irrigation_zone
-                      entity: sensor.dripbox2_station_status
-                      name: "Box #2"
-                    - type: custom:button-card
-                      template:
-                        - irrigation_zone
-                      entity: sensor.dripbox3_grapes_hydr_station_status
-                      name: "Grapes"
-                    - type: custom:button-card
-                      template:
-                        - irrigation_zone
-                      entity: sensor.dripfence1_station_status
-                      name: "Fence Left"
-                    - type: custom:button-card
-                      template:
-                        - irrigation_zone
-                      entity: sensor.dripfence2_station_status
-                      name: "Fence Right"
-                    - type: custom:button-card
-                      template:
-                        - irrigation_zone
-                      entity: sensor.dripcorner_station_status
-                      name: "Fence Corner"
-                    - type: custom:button-card
-                      template:
-                        - irrigation_zone
-                      entity: sensor.dripmaple_station_status
-                      name: "Maple"
-                    - type: custom:button-card
-                      template:
-                        - irrigation_zone
-                      entity: sensor.front1_station_status
-                      name: "Front Street"
-                    - type: custom:button-card
-                      template:
-                        - irrigation_zone
-                      entity: sensor.front2_maple_station_status
-                      name: "Front Maple"
-                    - type: custom:button-card
-                      template:
-                        - irrigation_zone
-                      entity: sensor.pond_house_side_station_status
-                      name: "Pond House"
-                    - type: custom:button-card
-                      template:
-                        - irrigation_zone
-                      entity: sensor.pond2_station_status
-                      name: "Pond/Street"
-                    - type: custom:button-card
-                      template:
-                        - irrigation_zone
-                      entity: sensor.island_station_status
-                      name: "Pond Island"
-                    - type: custom:button-card
-                      template:
-                        - irrigation_zone
-                      entity: sensor.sprinklerlawn1_station_status
-                      name: "Lawn #1"
-                      icon: mdi:sprinkler-variant
-                    - type: custom:button-card
-                      template:
-                        - irrigation_zone
-                      entity: sensor.sprinklerlawn2_station_status
-                      name: "Lawn #2"
-                      icon: mdi:sprinkler-variant
-                    - type: custom:button-card
-                      template:
-                        - irrigation_zone
-                      entity: sensor.sprinklerlawn3_station_status
-                      name: "Lawn #3"
-                      icon: mdi:sprinkler-variant
-
-                - title: "Programs"
-                  type: custom:layout-card # Programs
-                  layout_type: grid-layout
-                  layout:
-                    grid-gap: 2vw
-                    grid-template-columns: repeat(4, 1fr)
-                    mediaquery:
-                      "(max-width: 800px)":
-                        grid-template-columns: repeat(2, 1fr)
-                  view_layout:
-                    grid-area: programs
-                  card_mod:
-                    style: |
-                      ha-card {
-                          background: var(--secondary-background-color);
-                      }
-                  cards:
-                    - entity: switch.lawn_program_enabled
-                      name: "Lawn"
-                      type: custom:button-card
-                      template:
-                        - irrigation_program
-                      variables:
-                        start_time_entity: time.lawn_start_time
-
-                    - entity: switch.drip_program_enabled
-                      name: "Drip"
-                      type: custom:button-card
-                      template:
-                        - irrigation_program
-                      variables:
-                        start_time_entity: time.drip_start_time
-
-          - name: "Utilities" # ----------------------------------------------
-            entity: sensor.eagle_200_meter_power_demand
-            type: custom:button-card
-            icon: mdi:power-plug
-            template: footer
-            variables:
-              active_id: "sensor.nr_of_utilities_problems"
-              notify: >-
-                [[[
-                  let id = states['sensor.nr_of_utilities_problems'];
-                  if (id) return parseInt(id.state);
-                ]]]
-            tap_action:
-              action: fire-dom-event
-              browser_mod:
-                service: browser_mod.popup
-                data:
-                  popup_card_id: utilities_popup
-
-          - popup_card_id: utilities_popup # ---------------------------------
-            type: custom:popup-card
-            title: "Utilities"
-            icon: mdi:power-plug
-            size: wide
-            style: >
-              ha-dialog > div.content {
-                background-image: linear-gradient(to right, rgba(100, 20, 20, 0.2), rgba(100, 20, 20, 0.1));
-              }
-              ha-dialog ha-dialog-header {
-                background-color: rgba(100, 20, 20, 0.3);
-              }                    
-            card:
-              type: custom:layout-card
-              layout_type: grid-layout
-              layout:
-                margin: 2vw 2vw 2vw 0 /* when sidebar is hidden, it still uses a cell in the grid */
-                place-items: center stretch
-                place-content: stretch stretch
-                grid-gap: 2vw
-                grid-template-columns: 0 20vw repeat(2, 1fr)
-                grid-template-rows: repeat(1, min-content)
-                grid-template-areas: |
-                  ". graphic electric   graphs"
-                mediaquery:
-                  "(max-width: 800px)":
-                    grid-template-columns: 0 repeat(1, 1fr)
-                    grid-template-rows: repeat(2, min-content)
-                    grid-template-areas: |
-                      "graphic electric"
-                      "graphic graphs  "
-                  "(max-width: 1200px)":
-                    grid-template-columns: 0 repeat(2, 1fr)
-                    grid-template-rows: repeat(1, min-content)
-                    grid-template-areas: |
-                      "graphic electric graphs"
-              cards:
-                - type: custom:button-card
-                  template: graphic_utilities
-                  view_layout:
-                      grid-area: graphic
-
-                - type: custom:auto-entities
-                  view_layout:
-                    grid-area: electric
-                  card:
-                    type: vertical-stack
-                    #title: "Current Electric"
-                  sort:
-                    method: name
-                    ignore_case: true
-                  card_param: cards
-                  filter:
-                    include:
-                      - entity_id: sensor.*_power
-                        options:
-                          type: custom:button-card
-                          template: ts_bar
-                          variables:
-                            max_value: 2000
-                    exclude:
-                      - entity_id: sensor.total_power
-                      - entity_id: sensor.*battery_power
-                      - entity_id: sensor.cable_modem_*_power
-                      - state: "unavailable"
-
-                - title: Graphs
-                  type: custom:layout-card
-                  layout_type: grid-layout
-                  layout:
-                    grid-gap: 2vw
-                    mediaquery:
-                      "(max-width: 800px)":
-                        grid-template-columns: repeat(2, 1fr)
-                  view_layout:
-                    grid-area: graphs
-                  cards:
-                    - entity: sensor.total_power
-                      type: custom:button-card
-                      template: bubble_card_graph
-                      variables:
-                        card_name: "Electricity"
-                        graph_color: "orange"
-
-                    - entity: sensor.flo_shutoff_water_flow_rate_per_hour
-                      type: custom:button-card
-                      template: bubble_card_graph
-                      variables:
-                        card_name: "Water for house"
-                        graph_color: "cornflowerblue"
-                        card_icon: mdi:water-outline
-
-                    - type: custom:mod-card
-                      style: >
-                        {% set value = states('sensor.current_bill_electricity_usage_to_date') %}
-                        {% if int(value) > 0 %}
-                        {{ "ha-card { display: none; }" }}
-                        {% endif %}                          card:
-                        entity: sensor.current_bill_electric_usage_to_date
-                        type: custom:button-card
-                        template: bubble_card_graph
-                        variables:
-                          card_name: "Electricity to date"
-                          graph_color: "orange"
-
-                    - type: custom:mod-card
-                      style: >
-                        {% set value = states('sensor.current_bill_gas_usage_to_date') %}
-                        {% if int(value) > 0 %}
-                        {{ "ha-card { display: none; }" }}
-                        {% endif %}                          card:
-                        entity: sensor.current_bill_gas_usage_to_date
-                        type: custom:button-card
-                        template: bubble_card_graph
-                        variables:
-                          card_name: "Electricity to date"
-                          graph_color: "orange"
-
-          - name: "Network" # ------------------------------------------------
-            entity: binary_sensor.network_status
-            type: custom:button-card
-            template: footer
-            variables:
-              active_id: "sensor.nr_of_network_problems"
-              notify: >-
-                [[[
-                  let id = states['sensor.nr_of_network_problems'];
-                  if (id) return parseInt(id.state);
-                ]]]
-            tap_action:
-              action: fire-dom-event
-              browser_mod:
-                service: browser_mod.popup
-                data:
-                  popup_card_id: network_popup
-
-          - popup_card_id: network_popup # -----------------------------------
-            type: custom:popup-card
-            title: "Network Diagnostics"
-            icon: mdi:web
-            size: wide
-            style: >
-              ha-dialog > div.content {
-                background-image: linear-gradient(to right, rgba(20, 20, 100, 0.2), rgba(20, 20, 100, 0.1));
-              }
-              ha-dialog ha-dialog-header {
-                background-color: rgba(20, 20, 100, 0.3);
-              }                    
-            card:
-              type: custom:layout-card
-              layout_type: grid-layout
-              layout:
-                margin: 2vw 2vw 2vw 0 /* when sidebar is hidden, it still uses a cell in the grid */
-                place-items: center stretch
-                place-content: stretch stretch
-                grid-gap: 2vw
-                grid-template-columns: 0 20vw repeat(2, 1fr)
-                grid-template-rows: repeat(2, min-content)
-                grid-template-areas: |
-                  ". graphic router  ping     "
-                  ". graphic ups     diskusage"
-                mediaquery:
-                  "(max-width: 800px)":
-                    grid-template-columns: 0 repeat(1, 1fr)
-                    grid-template-rows: repeat(4, min-content)
-                    grid-template-areas: |
-                      "graphic router   "
-                      "graphic ping     "
-                      "graphic ups      "
-                      "graphic diskusage"
-                  "(max-width: 1200px)":
-                    grid-template-columns: 0 repeat(2, 1fr)
-                    grid-template-rows: repeat(2, min-content)
-                    grid-template-areas: |
-                      "graphic router  ping     "
-                      "graphic ups     diskusage"
-              cards:
-                - type: custom:button-card
-                  template: graphic_network
-                  view_layout:
-                    grid-area: graphic
-
-                - title: "Router"
-                  type: grid
-                  columns: 4
-                  square: false
-                  view_layout:
-                    grid-area: router
-                  card_mod:
-                    style: |
-                      ha-card {
-                        border: none !important;
-                      }
-                  cards:
-                    - type: custom:button-card # LAN in
-                      template: circle_graph
-                      icon: mdi:download
-                      variables:
-                        graph_color: cornflowerblue
-                      entity: sensor.rtr_interface_lan_inbytes_kilobytes_per_second
-                      name: "LAN in"
-
-                    - type: custom:button-card # LAN out
-                      template: circle_graph
-                      icon: mdi:upload
-                      variables:
-                        graph_color: cornflowerblue
-                      entity: sensor.rtr_interface_lan_outbytes_kilobytes_per_second
-                      name: "LAN out"
-
-                    - type: custom:button-card # WG in
-                      template: circle_graph
-                      icon: mdi:download
-                      variables:
-                        graph_color: cornflowerblue
-                      entity: sensor.rtr_interface_homewg_inbytes_kilobytes_per_second
-                      name: "WG in"
-
-                    - type: custom:button-card # WG out
-                      template: circle_graph
-                      icon: mdi:upload
-                      variables:
-                        graph_color: cornflowerblue
-                      entity: sensor.rtr_interface_homewg_outbytes_kilobytes_per_second
-                      name: "WG out"
-
-                    - type: custom:button-card # Guest in
-                      template: circle_graph
-                      icon: mdi:download
-                      variables:
-                        graph_color: cornflowerblue
-                      entity: sensor.rtr_interface_guest_inbytes_kilobytes_per_second
-                      name: "Guest in"
-
-                    - type: custom:button-card # Guest out
-                      template: circle_graph
-                      icon: mdi:upload
-                      variables:
-                        graph_color: cornflowerblue
-                      entity: sensor.rtr_interface_guest_outbytes_kilobytes_per_second
-                      name: "Guest out"
-
-                    - type: custom:button-card # WAN in
-                      template: circle_graph
-                      icon: mdi:download
-                      variables:
-                        graph_color: cornflowerblue
-                      entity: sensor.rtr_interface_wan_inbytes_kilobytes_per_second
-                      name: "WAN in"
-
-                    - type: custom:button-card # WAN out
-                      template: circle_graph
-                      icon: mdi:upload
-                      variables:
-                        graph_color: cornflowerblue
-                      entity: sensor.rtr_interface_wan_outbytes_kilobytes_per_second
-                      name: "WAN out"
-
-                - title: "Ping"
-                  type: grid
-                  columns: 4
-                  square: false
-                  view_layout:
-                    grid-area: ping
-                  card_mod:
-                    style: |
-                      ha-card {
-                        border: none !important;
-                      }
-                  cards:
-                    - type: custom:button-card # Rtr
-                      template: connectivity
-                      variables:
-                        graph_color: cornflowerblue
-                      entity: binary_sensor.ping_rtr
-                      name: "Rtr"
-
-                    - type: custom:button-card # Modem
-                      template: connectivity
-                      variables:
-                        graph_color: cornflowerblue
-                      entity: binary_sensor.ping_modem
-                      name: "Modem"
-
-                    - type: custom:button-card # DNS
-                      template: connectivity
-                      variables:
-                        graph_color: cornflowerblue
-                      entity: binary_sensor.ping_dns
-                      name: "DNS"
-
-                    - type: custom:button-card # Google
-                      template: connectivity
-                      variables:
-                        graph_color: cornflowerblue
-                      entity: binary_sensor.ping_google
-                      name: "Google"
-
-                    - type: custom:button-card # Rtr CPU
-                      template: cpu_ram_sd_temp
-                      variables:
-                        cpu_id: "sensor.rtr_cpu_usage"
-                        ram_id: "sensor.rtr_memory_used_percentage"
-                        sd_id: "sensor.rtr_filesystem_used_percentage_root"
-                        load_id: "sensor.rtr_system_load_average_one_minute"
-                      entity: sensor.rtr_system_load_average_one_minute
-                      icon: mdi:router
-                      name: "Rtr"
-
-                    - type: custom:button-card # Modem Status
-                      template: netstat
-                      variables:
-                        graph_color: cornflowerblue
-                      entity: sensor.cable_modem_connection_status
-                      name: "Modem"
-
-                    - type: custom:button-card # DNS Ping delay
-                      template: netstat
-                      variables:
-                        graph_color: cornflowerblue
-                      entity: sensor.ping_dns_round_trip_time_average
-                      name: "DNS"
-
-                    - type: custom:button-card # Google Ping delay
-                      template: netstat
-                      variables:
-                        graph_color: cornflowerblue
-                      entity: sensor.ping_google_round_trip_time_average
-                      name: "Google"                      
-
-                - title: "UPS"
-                  type: grid
-                  columns: 1
-                  square: false
-                  view_layout:
-                    grid-area: ups
-                  card_mod:
-                    style: |
-                      ha-card {
-                        border: none !important;
-                      }
-                  cards:
-                    - entity: sensor.ups_battery_charge
-                      name: >
-                        [[[
-                            return states['sensor.ups_status']?.state;
-                        ]]]
-                      type: custom:button-card
-                      template: above_below_bar
-                      variables:
-                        warning_below: 30
-                        warning_above: 100
-                        max_value: 100
-
-                - title: "Disk usage"
-                  type: grid
-                  columns: 1
-                  square: false
-                  view_layout:
-                    grid-area: diskusage
-                  card_mod:
-                    style: |
-                      ha-card {
-                        border: none !important;
-                      }
-                  cards:
-                    - entity: sensor.nas_volume_1_volume_used
-                      name: "NAS"
-                      type: custom:button-card
-                      template: above_below_bar
-                      variables:
-                        warning_below: 0
-                        warning_above: 85
-                        max_value: 100
-
-                    - entity: sensor.backup_volume_1_volume_used
-                      name: "Backup"
-                      type: custom:button-card
-                      template: above_below_bar
-                      variables:
-                        warning_below: 0
-                        warning_above: 85
-                        max_value: 100
-
-          - name: "Fire" # ---------------------------------------------------
-            entity: sensor.fire_status
-            type: custom:button-card
-            template: footer
-            variables:
-              active_id: sensor.nr_of_fire_problems
-              notify: >-
-                [[[
-                  let id = states['sensor.nr_of_fire_problems'];
-                  if (id) return parseInt(id.state);
-                ]]]
-            tap_action:
-              action: fire-dom-event
-              browser_mod:
-                service: browser_mod.popup
-                data:
-                  popup_card_id: fire_popup
-
-          - popup_card_id: fire_popup # --------------------------------------
-            type: custom:popup-card
-            title: "Fire Alarm"
-            icon: mdi:fire
-            #size: wide
-            style: >
-              ha-dialog > div.content {
-                background-image: linear-gradient(to right, rgba(255, 165, 0, 0.2), rgba(255, 165, 0, 0.1));
-              }
-              ha-dialog ha-dialog-header {
-                background-color: rgba(255, 165, 0, 0.3);
-              }                    
-            card:
-              type: custom:layout-card
-              layout_type: grid-layout
-              layout:
-                margin: 2vw 2vw 2vw 0 /* when sidebar is hidden, it still uses a cell in the grid */
-                place-items: center stretch
-                place-content: stretch stretch
-                grid-gap: 2vw
-                grid-template-columns: . 1fr 2fr
-                grid-template-rows: repeat(2, min-content)
-                grid-template-areas: |
-                  ". graphic on_off_button  "
-                  ". graphic smoke_detectors"
-                mediaquery:
-                  "(max-width: 1200px)":
-                    grid-template-columns: 0 repeat(1, 1fr)
-                    grid-template-rows: repeat(2, min-content)
-                    grid-template-areas: |
-                      "gaphic on_off_button  "
-                      "graphic smoke_detectors"
-              cards:
-                - type: custom:button-card
-                  template: graphic_fire
-                  view_layout:
-                    grid-area: graphic
-
-                - type: custom:button-card
-                  name: "Fire Alarm"
-                  template: base
-                  view_layout:
-                    grid-area: on_off_button
-                  aspect_ratio: 1/1
-                  entity: alarm_control_panel.fire_alarm
-                  triggers_update:
-                    - alarm_control_panel.fire_alarm
-                    - sensor.fire_status
-                  label: >-
-                    [[[
-                        const id = states['sensor.fire_status']; 
-                        return id?.state ? id.state : '';
-                        // workaround not updating https://github.com/thomasloven/hass-browser_mod/issues/981
-                        //let template = "[[[ const id = states['sensor.fire_status']; return id?.state ? id.state : ''; ]]]";
-                        //return template;
-                    ]]]
-                  show_label: true
-                  tap_action:
-                    action: call-service
-                    service: script.toggle_fire_alarm
-                  styles:
-                    grid:
-                      - align-items: start #
-                      - grid-template-areas: |
-                          "n"
-                          "."
-                          "s"
-                          "."
-                          "l"
-                      - grid-template-columns: 1fr
-                      - grid-template-rows: min-content 1vw min-content 1vw min-content
-
-                    name:
-                      - justify-self: start # align to the left in the grid area
-                      - line-height: 121%
-                      - font-size: 30px
-                    state:
-                      - justify-self: start
-                      - line-height: 115%
-                      - font-size: 20px
-                    label:
-                      - justify-self: start
-                      - line-height: 115%
-                      - font-size: 20px
-
-                - type: custom:layout-card
-                  layout_type: grid-layout
-                  layout:
-                    grid-gap: 2vw
-                    grid-template-columns: repeat(1, 1fr)
-                  view_layout:
-                    grid-area: smoke_detectors
-                  cards:
-                    - type: custom:auto-entities
-                      show_empty: false
-                      filter:
-                        include:
-                          - domain: binary_sensor
-                            entity_id: /nest_protect_.*_status/
-                            state: "on"
-                            options:
-                              icon: mdi:fire
-                              type: custom:multiple-entity-row
-                              show_state: true
-                              secondary_info: last-changed
-
-    background:
-      opacity: 100
-      alignment: center
-      size: cover
-      repeat: repeat
-      attachment: fixed
-      image: /api/image/serve/33e5f7514c86d628e8141caada05bc6f/original
-
-    theme: Frosted Glass Dashboard Theme
-    path: Default
+theme: Frosted Glass Dashboard Theme
+path: Default
