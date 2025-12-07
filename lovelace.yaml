@@ -55,8 +55,8 @@ navbar-templates:
     routes:
       - label: Home
         url: /lovelace-ui/Default
-        #icon: mdi:home
-        image: /local/home_assistant_logo.svg
+        icon: mdi:home
+        #image: /local/home_assistant_logo.svg
         selected_color: "white"
 
       - label: Inside
@@ -166,8 +166,6 @@ navbar-templates:
                 return 0;
               ]]]
         selected_color: "#4cd964"
-        selected: true  # hardcoded to true for demo purposes
-        # background-image: linear-gradient(to right, rgba(20, 20, 100, 0.2), rgba(20, 20, 100, 0.1));
 
       - label: Irrigation
         url: /lovelace-ui/irrigation
@@ -755,6 +753,22 @@ button_card_templates:
 
             /* * * * * * * * * * * * * * * * * *
               *                                 *
+              *             SENSOR              *
+              *                                 *
+              * * * * * * * * * * * * * * * * * */
+
+              else if (domain === 'sensor') {
+
+                  // don't show if irrigation valve set to manual
+                  if (entity.entity_id.endsWith('_station_status') && (entity.state === 'manual')) {
+                      return '';
+                  }
+                  return circle(state, input, unit);
+
+              }
+
+            /* * * * * * * * * * * * * * * * * *
+              *                                 *
               *             ELSE                *
               *                                 *
               * * * * * * * * * * * * * * * * * */
@@ -962,9 +976,9 @@ button_card_templates:
         [[[ return ['manual', 'program'].indexOf(!entity || entity.state) !== -1; ]]]
       circle_input: >
         [[[ 
-            let value = states['sensor.sprinklerlawn1_station_status'];  # 2BD FIX THIS !!!!!!!!!!!!!!!!!!
-            if (!value || !value.attributes.end_time || value.attributes.end_time === undefined) {
-                return 0;
+            let value = entity;
+            if (!entity || !entity.attributes.start_time || !entity.attributes.end_time) {
+              return -1;
             }
             const total_time = (Date.parse(value.attributes.end_time) - Date.parse(value.attributes.start_time)) / 1000;
             const elapsed_time = (Date.now() - Date.parse(value.attributes.start_time)) / 1000;
@@ -994,7 +1008,7 @@ button_card_templates:
         entity_id: >-
           [[[ return entity.entity_id; ]]]
 
-  footer: #-------------------------------------------------------------------
+  obsolete_footer: #-------------------------------------------------------------------
     template:
       - settings
       - tilt
@@ -1380,7 +1394,7 @@ button_card_templates:
         - height: 3.7em
         - background: "#FFFFFF10"
 
-  base_media: # --------------------------------------------------------------
+  obsolete_base_media: # --------------------------------------------------------------
     template:
       - settings
     state_display: >
@@ -1444,7 +1458,7 @@ button_card_templates:
                       : '1px 1px 5px rgba(18, 22, 23, 0.9)';
               }
             ]]]
-  media: # -------------------------------------------------------------------
+  obsolete_media: # -------------------------------------------------------------------
     template:
       - base
       - base_media
@@ -1481,7 +1495,7 @@ button_card_templates:
                           : `linear-gradient(0deg, rgba(0,0,0,.8) 0%, rgba(0,0,0,0) 100%), url(${variables.entity_picture})`;
               }
             ]]]
-  conditional_media: # -------------------------------------------------------
+  obsolete_conditional_media: # -------------------------------------------------------
     aspect_ratio: 1000/996
     template:
       - base
@@ -3408,11 +3422,11 @@ views:
         ". sidebar  livingrm  outside familyrm"
         ". sidebar  master    sander  other   "
         ". sidebar  athome    .       .       "
-        ". footer   footer    footer  footer  "
+        ". .        .         .       .       "
       mediaquery:
         "(max-width: 800px)":
           grid-template-columns: 0 1fr
-          grid-template-rows: repeat(7, min-content) min-content
+          grid-template-rows: repeat(7, min-content) 100px
           grid-template-areas: |
             "sidebar livingrm" 
             "sidebar outside "
@@ -3421,16 +3435,16 @@ views:
             "sidebar sander  "
             "sidebar other   "
             "sidebar athome  "
-            "footer  footer  "
+            ".       .       "
         "(max-width: 1200px)":
           grid-template-columns: 25% repeat(2, minmax(200px, 1fr))
-          grid-template-rows: repeat(4, min-content) 15vh
+          grid-template-rows: repeat(4, min-content) 100px
           grid-template-areas: |
             "sidebar  livingrm  outside"
             "sidebar  familyrm  master "
             "sidebar  sander    other  "
             "sidebar  athome    .      "
-            "footer   footer    footer "
+            ".        .         .      "
     cards:
       - name: "Set theme to tablet_frosted_glass in user profile"
         type: custom:button-card
@@ -4332,7 +4346,7 @@ views:
   - title: "Inside"
     path: inside
     icon: mdi:home-thermometer-outline
-    background: linear-gradient(to right, rgba(251, 244, 229, 0.2), rgba(251, 244, 229, 0.1)), url(/local/photo-1478760329108-5c3ed9d495a0.jpg)
+    background: linear-gradient(to right, rgba(0, 122, 255, 0.2), rgba(0, 122, 255, 0.1)), url(/local/bg.jpg)
 
     type: custom:layout-card
     layout_type: grid-layout
@@ -4340,24 +4354,27 @@ views:
       margin: 2vw 2vw 2vw 0 /* when sidebar is hidden, it still uses a cell in the grid */
       grid-gap: 2vw
       grid-template-columns: 0 20vw repeat(2, 1fr)
-      grid-template-rows: repeat(2, min-content)
+      grid-template-rows: repeat(2, min-content) 70px
       grid-template-areas: |
         ". graphic downstairs upstairs"
         ". graphic .          filter "
+        ". .       .          .      "
       mediaquery:
         "(max-width: 800px)":
           grid-template-columns: 0 repeat(1, 1fr)
-          grid-template-rows: repeat(3, min-content)
+          grid-template-rows: repeat(3, min-content) 70px
           grid-template-areas: |
             "graphic downstairs"
             "graphic upstairs  "
             "graphic filter    "
+            ".       .         "
         "(max-width: 1200px)":
           grid-template-columns: 0 repeat(2, 1fr)
-          grid-template-rows: repeat(2, min-content)
+          grid-template-rows: repeat(2, min-content) 70px
           grid-template-areas: |
             "graphic downstairs upstairs"
             "graphic .          filter "
+            ".       .          ."
     cards:
       - type: custom:navbar-card
         template: main_menu
@@ -4433,6 +4450,7 @@ views:
   - title: "Outside"
     path: outside
     icon: mdi:sun-thermometer
+    background: linear-gradient(to right, rgba(76, 217, 100, 0.2), rgba(76, 217, 100, 0.1)), url(/local/bg.jpg)
     type: custom:layout-card
     layout_type: grid-layout
     layout:
@@ -4441,21 +4459,24 @@ views:
       place-content: stretch stretch
       grid-gap: 2vw
       grid-template-columns: 0 20vw repeat(2, 1fr)
-      grid-template-rows: repeat(1, min-content)
+      grid-template-rows: repeat(1, min-content) 70px
       grid-template-areas: |
         ". graphic station  aqi_temp"
+        ". .       .        .       "
       mediaquery:
         "(max-width: 800px)":
           grid-template-columns: 0 repeat(1, 1fr)
-          grid-template-rows: repeat(2, min-content)
+          grid-template-rows: repeat(2, min-content) 70px
           grid-template-areas: |
             "graphic aqi_temp"
             "graphic station "
+            ".       .       "
         "(max-width: 1200px)":
           grid-template-columns: 0 repeat(2, 1fr)
-          grid-template-rows: repeat(1, min-content)
+          grid-template-rows: repeat(1, min-content) 70px
           grid-template-areas: |
             "graphic station  aqi_temp"
+            ".       .        .       "
     cards:
       - type: custom:navbar-card
         template: main_menu
@@ -4568,6 +4589,7 @@ views:
   - title: "Cameras"
     path: cameras
     icon: mdi:camera
+    background: linear-gradient(to right, rgba(76, 217, 100, 0.2), rgba(76, 217, 100, 0.1)), url(/local/bg.jpg)
     type: custom:layout-card
     layout_type: grid-layout
     layout:
@@ -4576,17 +4598,19 @@ views:
       place-content: stretch stretch
       grid-gap: 2vw
       grid-template-columns: 0 1fr repeat(1, 2fr)
-      grid-template-rows: repeat(2, min-content )
+      grid-template-rows: repeat(2, min-content ) 70px
       grid-template-areas: |
         ". graphic front"
         ". graphic back "
+        ". .       .    "
       mediaquery:
         "(max-width: 1200px)":
           grid-template-columns: 0 repeat(1, 1fr)
-          grid-template-rows: repeat(2, min-content )
+          grid-template-rows: repeat(2, min-content ) 70px
           grid-template-areas: |
             "graphic front  "
             "graphic back   "
+            ".       .      "
     cards:
       - type: custom:navbar-card
         template: main_menu
@@ -4646,6 +4670,7 @@ views:
   - title: "Pool"
     path: pool
     icon: mdi:pool-thermometer
+    background: linear-gradient(to right, rgba(255, 149, 0, 0.2), rgba(255, 149, 0, 0.1)), url(/local/bg.jpg)
     type: custom:layout-card
     layout_type: grid-layout
     # place-items for grid items: 1st value = vertical axis, 2nd value = horizontal axis
@@ -4656,27 +4681,30 @@ views:
       place-content: stretch stretch
       grid-gap: 2vw
       grid-template-columns: 0 20vw repeat(2, 1fr)
-      grid-template-rows: repeat(3,  min-content)
+      grid-template-rows: repeat(3,  min-content) 70px
       grid-template-areas: |
         ". graphic circuits   circuits  "
         ". graphic components components"
         ". graphic analysis   thermostat"
+        ". .       .          .         "
       mediaquery:
         "(max-width: 800px)":
           grid-template-columns: 0 repeat(1, 1fr)
-          grid-template-rows: repeat(4, min-content )
+          grid-template-rows: repeat(4, min-content ) 70px
           grid-template-areas: |
             "graphic circuits  "
             "graphic components"
             "graphic thermostat"
             "graphic analysis  "
+            ".       .         "
         "(max-width: 1200px)":
           grid-template-columns: 0 repeat(2, 1fr)
-          grid-template-rows: repeat(3, min-content )
+          grid-template-rows: repeat(3, min-content ) 70px
           grid-template-areas: |
             "graphic circuits   circuits  "
             "graphic components components"
             "graphic analysis   thermostat"
+            ".       .          .         "
     cards:
       - type: custom:navbar-card
         template: main_menu
@@ -4992,6 +5020,7 @@ views:
   - title: "Irrigation"
     path: irrigation
     icon: mdi:sprinkler-variant
+    background: linear-gradient(to right, rgba(0, 122, 255, 0.2), rgba(0, 122, 255, 0.1)), url(/local/bg.jpg)
     type: custom:layout-card
     layout_type: grid-layout
     layout:
@@ -5000,17 +5029,19 @@ views:
       place-content: stretch stretch
       grid-gap: 2vw
       grid-template-columns: 0 20vw repeat(1, 1fr)
-      grid-template-rows: repeat(2, min-content)
+      grid-template-rows: repeat(2, min-content) 70px
       grid-template-areas: |
         ". graphic zones   "
         ". graphic programs"
+        ". .       .       "
       mediaquery:
         "(max-width: 1200px)":
-          grid-template-columns: 0 repeat(1, 1fr)
+          grid-template-columns: 0 repeat(1, 1fr) 70px
           grid-template-rows: repeat(2, min-content)
           grid-template-areas: |
             "graphic zones   "
             "graphic programs"
+            ".       .       "
     cards:
       - type: custom:navbar-card
         template: main_menu
@@ -5037,84 +5068,83 @@ views:
                 background: var(--secondary-background-color);
             }
         cards:
-          - type: custom:button-card
-            template:
-              - irrigation_zone
+          - name: "Box #1"
+            type: custom:button-card
+            template: irrigation_zone
             entity: sensor.dripbox1_station_status
-            name: "Box #1"
-          - type: custom:button-card
-            template:
-              - irrigation_zone
+
+          - name: "Box #2"
+            type: custom:button-card
+            template: irrigation_zone
             entity: sensor.dripbox2_station_status
-            name: "Box #2"
-          - type: custom:button-card
-            template:
-              - irrigation_zone
+
+          - name: "Grapes"
+            type: custom:button-card
+            template: irrigation_zone
             entity: sensor.dripbox3_grapes_hydr_station_status
-            name: "Grapes"
-          - type: custom:button-card
-            template:
-              - irrigation_zone
+
+          - name: "Fence Left"
+            type: custom:button-card
+            template: irrigation_zone
             entity: sensor.dripfence1_station_status
-            name: "Fence Left"
-          - type: custom:button-card
-            template:
-              - irrigation_zone
+            
+          - name: "Fence Right"
+            type: custom:button-card
+            template: irrigation_zone
             entity: sensor.dripfence2_station_status
-            name: "Fence Right"
-          - type: custom:button-card
-            template:
-              - irrigation_zone
+            
+          - name: "Fence Corner"
+            type: custom:button-card
+            template: irrigation_zone
             entity: sensor.dripcorner_station_status
-            name: "Fence Corner"
-          - type: custom:button-card
-            template:
-              - irrigation_zone
+            
+          - name: "Maple"
+            type: custom:button-card
+            template: irrigation_zone
             entity: sensor.dripmaple_station_status
-            name: "Maple"
-          - type: custom:button-card
-            template:
-              - irrigation_zone
+            
+          - name: "Front Street"
+            type: custom:button-card
+            template: irrigation_zone
             entity: sensor.front1_station_status
-            name: "Front Street"
-          - type: custom:button-card
-            template:
-              - irrigation_zone
+            
+          - name: "Front Maple"
+            type: custom:button-card
+            template: irrigation_zone
             entity: sensor.front2_maple_station_status
-            name: "Front Maple"
-          - type: custom:button-card
-            template:
-              - irrigation_zone
+            
+          - name: "Pond House"
+            type: custom:button-card
+            template: irrigation_zone
             entity: sensor.pond_house_side_station_status
-            name: "Pond House"
-          - type: custom:button-card
-            template:
-              - irrigation_zone
+            
+          - name: "Pond/Street"
+            type: custom:button-card
+            template: irrigation_zone
             entity: sensor.pond2_station_status
-            name: "Pond/Street"
-          - type: custom:button-card
-            template:
-              - irrigation_zone
+            
+          - name: "Pond Island"
+            type: custom:button-card
+            template: irrigation_zone
             entity: sensor.island_station_status
-            name: "Pond Island"
-          - type: custom:button-card
-            template:
-              - irrigation_zone
+            
+          - name: "Lawn #1"
+            type: custom:button-card
+            template: irrigation_zone
             entity: sensor.sprinklerlawn1_station_status
-            name: "Lawn #1"
             icon: mdi:sprinkler-variant
-          - type: custom:button-card
-            template:
-              - irrigation_zone
+            
+          - name: "Lawn #2"
+            icon: mdi:sprinkler-variant
+            type: custom:button-card
+            template: irrigation_zone
             entity: sensor.sprinklerlawn2_station_status
-            name: "Lawn #2"
-            icon: mdi:sprinkler-variant
-          - type: custom:button-card
-            template:
-              - irrigation_zone
+
+          - name: "Lawn #3"
+            type: custom:button-card
+            template: irrigation_zone
             entity: sensor.sprinklerlawn3_station_status
-            name: "Lawn #3"
-            icon: mdi:sprinkler-variant
+            icon: mdi:sprinkler-variant            
 
       - title: "Programs"
         type: custom:layout-card # Programs
@@ -5133,19 +5163,17 @@ views:
                 background: var(--secondary-background-color);
             }
         cards:
-          - entity: switch.lawn_program_enabled
-            name: "Lawn"
+          - name: "Lawn"
+            entity: switch.lawn_program_enabled
             type: custom:button-card
-            template:
-              - irrigation_program
+            template: irrigation_program
             variables:
               start_time_entity: time.lawn_start_time
 
-          - entity: switch.drip_program_enabled
-            name: "Drip"
+          - name: "Drip"
+            entity: switch.drip_program_enabled
             type: custom:button-card
-            template:
-              - irrigation_program
+            template: irrigation_program
             variables:
               start_time_entity: time.drip_start_time
 
@@ -5158,6 +5186,7 @@ views:
   - title: "Utilities"
     path: utilities
     icon: mdi:power-plug
+    background: linear-gradient(to right, rgba(89, 86, 214, 0.2), rgba(89, 86, 214, 0.1)), url(/local/bg.jpg)
     type: custom:layout-card
     layout_type: grid-layout
     layout:
@@ -5166,21 +5195,24 @@ views:
       place-content: stretch stretch
       grid-gap: 2vw
       grid-template-columns: 0 20vw repeat(2, 1fr)
-      grid-template-rows: repeat(1, min-content)
+      grid-template-rows: repeat(1, min-content) 70px
       grid-template-areas: |
-        ". graphic electric   graphs"
+        ". graphic electric graphs"
+        ". .       .        .     "
       mediaquery:
         "(max-width: 800px)":
           grid-template-columns: 0 repeat(1, 1fr)
-          grid-template-rows: repeat(2, min-content)
+          grid-template-rows: repeat(2, min-content) 70px
           grid-template-areas: |
             "graphic electric"
             "graphic graphs  "
+            ".       .       "
         "(max-width: 1200px)":
           grid-template-columns: 0 repeat(2, 1fr)
-          grid-template-rows: repeat(1, min-content)
+          grid-template-rows: repeat(1, min-content) 70px
           grid-template-areas: |
             "graphic electric graphs"
+            ".       .        .     "
     cards:
       - type: custom:navbar-card
         template: main_menu
@@ -5275,6 +5307,7 @@ views:
   - title: "Network"
     path: network
     icon: mdi:web
+    background: linear-gradient(to right, rgba(255, 149, 0, 0.2), rgba(255, 149, 0, 0.1)), url(/local/bg.jpg)
     type: custom:layout-card
     layout_type: grid-layout
     layout:
@@ -5283,25 +5316,28 @@ views:
       place-content: stretch stretch
       grid-gap: 2vw
       grid-template-columns: 0 20vw repeat(2, 1fr)
-      grid-template-rows: repeat(2, min-content)
+      grid-template-rows: repeat(2, min-content) 70px
       grid-template-areas: |
         ". graphic router  ping     "
         ". graphic ups     diskusage"
+        ". .       .       .        "
       mediaquery:
         "(max-width: 800px)":
           grid-template-columns: 0 repeat(1, 1fr)
-          grid-template-rows: repeat(4, min-content)
+          grid-template-rows: repeat(4, min-content) 70px
           grid-template-areas: |
             "graphic router   "
             "graphic ping     "
             "graphic ups      "
             "graphic diskusage"
+            ".       .        "
         "(max-width: 1200px)":
           grid-template-columns: 0 repeat(2, 1fr)
-          grid-template-rows: repeat(2, min-content)
+          grid-template-rows: repeat(2, min-content) 70px
           grid-template-areas: |
             "graphic router  ping     "
             "graphic ups     diskusage"
+            ".       .       .        "
     cards:
       - type: custom:navbar-card
         template: main_menu
@@ -5522,6 +5558,7 @@ views:
   - title: "Fire"
     path: fire
     icon: mdi:fire
+    background: linear-gradient(to right, rgba(255, 59, 48, 0.2), rgba(255, 59, 48, 0.1)), url(/local/bg.jpg)
     type: custom:layout-card
     layout_type: grid-layout
     layout:
@@ -5530,17 +5567,19 @@ views:
       place-content: stretch stretch
       grid-gap: 2vw
       grid-template-columns: 0 20vw 30vw
-      grid-template-rows: repeat(2, min-content)
+      grid-template-rows: repeat(2, min-content) 70px
       grid-template-areas: |
         ". graphic on_off_button  "
         ". graphic smoke_detectors"
+        ". .       .              "
       mediaquery:
         "(max-width: 1200px)":
           grid-template-columns: 0 repeat(1, 1fr)
-          grid-template-rows: repeat(2, min-content)
+          grid-template-rows: repeat(2, min-content) 70px
           grid-template-areas: |
-            "gaphic on_off_button  "
+            "graphic on_off_button  "
             "graphic smoke_detectors"
+            ".       .              "
     cards:
       - type: custom:navbar-card
         template: main_menu
@@ -5625,7 +5664,7 @@ background:
   repeat: repeat
   attachment: fixed
   #image: /api/image/serve/33e5f7514c86d628e8141caada05bc6f/original
-  image: /local/photo-1478760329108-5c3ed9d495a0.jpg
+  image: /local/bg.jpg
 
 theme: Frosted Glass Dashboard Theme
 path: Default
