@@ -153,9 +153,10 @@ tablet_frosted_glass:
 
   card-mod-theme: tablet
 
+  #    background: url('/local/background.png') !important;
+
   card-mod-root: |
     #view {
-      background: url('/local/background.png') !important;
       background-size: cover !important;
     }
     app-header {
