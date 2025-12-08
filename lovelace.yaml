@@ -55,10 +55,8 @@ navbar-templates:
     routes:
       - label: Home
         url: /lovelace-ui/Default
-        icon: mdi:home
         image: /local/hass_logo_not_selected.svg
         image_selected: /local/hass_logo_selected.svg
-        selected_color: "#007aff"
 
       - label: Inside
         url: /lovelace-ui/inside
@@ -206,7 +204,10 @@ navbar-templates:
 
     styles: |
       .navbar-card {
+        --navbar-primary-color: #007aff;
         background: rgba(255,255,255,0.3);
+      }
+      .button.active {
       }
 
 button_card_templates:
@@ -2432,7 +2433,6 @@ button_card_templates:
         bottom: 0;
         left: 0;
       }
-
   graphic_pool: # ------------------------------------------------------------
     template: graphic
     custom_fields:
@@ -2958,10 +2958,11 @@ button_card_templates:
     extra_styles: |
       :host {
         justify-self: center;
-        align-self: start;
+        align-self: center;
       }                    
       #graphic {
         width: 100%;
+        height: auto;
         overflow: hidden;
         display: flex;
         justify-content: center;                      
@@ -3061,7 +3062,7 @@ button_card_templates:
         left: 38%;
         height: 5%;
         background: red;
-        scale: 0.63;
+        scale: 0.5;
       }
       .water-drip {
         margin: 0 auto;
@@ -3445,7 +3446,7 @@ views:
             "sidebar other   "
             "sidebar athome  "
             ".       .       "
-        "(max-width: 1200px)":
+        "(max-width: 1500px)":
           grid-template-columns: 25% repeat(2, minmax(200px, 1fr))
           grid-template-rows: repeat(4, min-content) 100px
           grid-template-areas: |
