@@ -56,8 +56,9 @@ navbar-templates:
       - label: Home
         url: /lovelace-ui/Default
         icon: mdi:home
-        #image: /local/home_assistant_logo.svg
-        selected_color: "white"
+        image: /local/hass_logo_not_selected.svg
+        image_selected: /local/hass_logo_selected.svg
+        selected_color: "#007aff"
 
       - label: Inside
         url: /lovelace-ui/inside
@@ -93,7 +94,7 @@ navbar-templates:
                 if (id) return parseInt(id.state);
                 return 0;
               ]]]
-        selected_color: "#4cd964"
+        selected_color: "#007aff"
 
       - label: Network
         url: /lovelace-ui/network
@@ -111,7 +112,7 @@ navbar-templates:
                 if (id) return parseInt(id.state);
                 return 0;
               ]]]
-        selected_color: "#ff9500"
+        selected_color: "#007aff"
 
       - label: Fire
         url: /lovelace-ui/fire
@@ -129,7 +130,7 @@ navbar-templates:
                 if (id) return parseInt(id.state);
                 return 0;
               ]]]
-        selected_color: "#ff3b30"
+        selected_color: "#007aff"
 
       - label: Pool
         url: /lovelace-ui/pool
@@ -147,7 +148,7 @@ navbar-templates:
                 if (id) return parseInt(id.state);
                 return 0;
               ]]]
-        selected_color: "#ff9500"
+        selected_color: "#007aff"
 
       - label: Cameras
         url: /lovelace-ui/cameras
@@ -165,7 +166,7 @@ navbar-templates:
                 if (id) return parseInt(id.state);
                 return 0;
               ]]]
-        selected_color: "#4cd964"
+        selected_color: "#007aff"
 
       - label: Irrigation
         url: /lovelace-ui/irrigation
@@ -201,18 +202,11 @@ navbar-templates:
                 if (id) return parseInt(id.state);
                 return 0;
               ]]]
-        selected_color: "#5956d6"
+        selected_color: "#007aff"
 
     styles: |
       .navbar-card {
-        background: rgba(255,255,255,0.5);
-        --navbar-border-radius: 36px;
-        backdrop-filter: blur(33px);
-        '-webkit-backdrop-filter': blur(33px) !important; !important;
-        border: none;
-      }
-      .button {
-        border-radius: 22px;
+        background: rgba(255,255,255,0.3);
       }
 
 button_card_templates:
@@ -352,8 +346,8 @@ button_card_templates:
         - margin-left: "-28%"
         - width: "80%"
       card:
-        - border-radius: var(--button-card-border-radius)
-        - border-width: 0
+        - --button-card-border-radius: "var(--ha-card-border-radius, var(--ha-border-radius-lg))"
+        - --button-card-border-width: 0
         - -webkit-tap-highlight-color: rgba(0,0,0,0)
         - transition: none
         - --mdc-ripple-color: >-
@@ -760,7 +754,7 @@ button_card_templates:
               else if (domain === 'sensor') {
 
                   // don't show if irrigation valve set to manual
-                  if (entity.entity_id.endsWith('_station_status') && (entity.state === 'manual')) {
+                  if (entity.entity_id.endsWith('_station_status') && (entity.state !== 'program')) {
                       return '';
                   }
                   return circle(state, input, unit);
@@ -2080,6 +2074,14 @@ button_card_templates:
         - padding: 0
         - justify-self: center # horizontal
         - align-self: center # vertical
+    extra_styles: |
+      #card, #card::before {
+        border: none;
+        box-shadow: none;
+        backdrop-filter: none;
+        background: transparent;
+      }
+
   graphic_inside: # ----------------------------------------------------------
     template: graphic
     custom_fields:
@@ -3405,6 +3407,13 @@ button_card_templates:
 views:
   - title: "Home"
     path: Default
+    icon: mdi:home
+    #background: linear-gradient(to right, rgba(0, 122, 255, 0.2), rgba(0, 122, 255, 0.1)), url(/local/macos26-tahoe-dark-6k.png)
+    background:
+      #image: /local/tahoe_dark.jpg
+      image: /local/bg-2.jpg
+      size: cover
+      alignment: center 
     type: custom:layout-card
     layout_type: grid-layout
     kiosk_mode:
@@ -3457,7 +3466,7 @@ views:
           card:
             - display: >
                 [[[
-                  return (hass.themes.theme === 'tablet') || (hass.themes.theme === 'tablet_frosted_glass')
+                  return (hass.themes.theme === 'tablet') || (hass.themes.theme === 'tablet_frosted_glass') || (hass.themes.theme === 'Frosted Glass cvonk')
                       ? 'none'
                       : 'initial';
                 ]]]
@@ -3511,10 +3520,11 @@ views:
             card_mod:
               style:
                 .: >
-                  ha-card {
+                  ha-card, ha-card::before {
                     border-width: 0;
                     box-shadow: none;
-                    backdrop-filter: none !important;
+                    backdrop-filter: none;
+                    background: transparent;
                   }
                   @media screen and (max-width: 800px) {
                     ha-card {
@@ -3537,7 +3547,7 @@ views:
                     font-size: 1.42vw;
                     line-height: 2vw;
                     letter-spacing: 0.07vw;
-                    color: #6a7377;
+                    color: rgba(255, 255, 255, 0.8); // #6a7377;
                   }
 
           - type: picture
@@ -3551,7 +3561,8 @@ views:
                   margin: auto;
                   border-width: 0;
                   box-shadow: none;
-                  backdrop-filter: none !important;
+                  backdrop-filter: none;
+                  background: transparent;
                 }
                 @media screen and (max-width: 800px) {
                   ha-card {
@@ -3580,27 +3591,30 @@ views:
               chart_datetime_color: white
               show_wind_forecast: false
             card_mod:
-              style: |
-                :host {
-                  width: 85%;
-                }
-                ha-card {
-                  padding: 0;
-                  margin: 0;
-                  --ha-card-background: none !important;
-                  --ha-card-box-shadow: none !important;
-                  --ha-card-backdrop-filter: none !important;
-                }
-                @media screen and (max-width: 800px) {
-                  ha-card {
-                    display: none; /* hide in last row, so it doesn't create an extra column on the right */
+              style:
+                .: >
+                  :host {
+                    width: 85%;
+                    overflow: hidden;
                   }
-                }
-                ha-card > .card {
-                  padding-left: 0px !important;
-                  padding-right: 0px !important;
-                  padding-bottom: 20px !important;
-                }
+                  ha-card, ha-card::before {
+                    padding: 0;
+                    margin: 0;
+                    border-width: 0;
+                    box-shadow: none;
+                    backdrop-filter: none;
+                    background: transparent;
+                  }
+                  @media screen and (max-width: 800px) {
+                    ha-card {
+                      display: none; /* hide in last row, so it doesn't create an extra column on the right */
+                    }
+                  }
+                  ha-card > .card {
+                    padding-left: 0px !important;
+                    padding-right: 0px !important;
+                    padding-bottom: 20px !important;
+                  }
 
       #################################################
       #                                               #
@@ -3613,12 +3627,23 @@ views:
           grid-area: livingrm
         card_mod:
           style:
-            hui-grid-card:
+            .: |
+              ha-card, ha-card::before {
+                border-radius: 0; 
+                border-width: 0;
+                box-shadow: none;
+                backdrop-filter: none;
+                background: transparent;
+              }              
+            hui-grid-card:  
               $: |
                 .card-header {
-                  padding: 0 0 1vw 0 !important;
-                  font-size: 2.0vw !important;
+                  padding: 0 1vw !important;
+                  font-size: max(2.0vw, 12pt) !important;
                   line-height: 30px !important;
+                }
+                #root {
+                  padding: 1vw 1vw 1vw 1vw !important;
                 }
         card:
           title: "Living room"
@@ -3658,12 +3683,23 @@ views:
           grid-area: outside
         card_mod:
           style:
-            hui-grid-card:
+            .: |
+              ha-card, ha-card::before {
+                border-radius: 0; 
+                border-width: 0;
+                box-shadow: none;
+                backdrop-filter: none;
+                background: transparent;
+              }              
+            hui-grid-card:  
               $: |
                 .card-header {
-                  padding: 0 0 1vw 0 !important;
-                  font-size: 2.0vw !important;
+                  padding: 0 1vw !important;
+                  font-size: max(2.0vw, 12pt) !important;
                   line-height: 30px !important;
+                }
+                #root {
+                  padding: 1vw 1vw 1vw 1vw !important;
                 }
         card:
           title: "Outside"
@@ -3708,12 +3744,23 @@ views:
           grid-area: master
         card_mod:
           style:
-            hui-grid-card:
+            .: |
+              ha-card, ha-card::before {
+                border-radius: 0; 
+                border-width: 0;
+                box-shadow: none;
+                backdrop-filter: none;
+                background: transparent;
+              }              
+            hui-grid-card:  
               $: |
                 .card-header {
-                  padding: 0 0 1vw 0 !important;
-                  font-size: 2.0vw !important;
+                  padding: 0 1vw !important;
+                  font-size: max(2.0vw, 12pt) !important;
                   line-height: 30px !important;
+                }
+                #root {
+                  padding: 1vw 1vw 1vw 1vw !important;
                 }
         card:
           title: "Master bedroom"
@@ -3762,12 +3809,23 @@ views:
           grid-area: familyrm
         card_mod:
           style:
-            hui-grid-card:
+            .: |
+              ha-card, ha-card::before {
+                border-radius: 0; 
+                border-width: 0;
+                box-shadow: none;
+                backdrop-filter: none;
+                background: transparent;
+              }              
+            hui-grid-card:  
               $: |
                 .card-header {
-                  padding: 0 0 1vw 0 !important;
-                  font-size: 2.0vw !important;
+                  padding: 0 1vw !important;
+                  font-size: max(2.0vw, 12pt) !important;
                   line-height: 30px !important;
+                }
+                #root {
+                  padding: 1vw 1vw 1vw 1vw !important;
                 }
         card:
           title: "Family room"
@@ -3999,12 +4057,23 @@ views:
           grid-area: sander
         card_mod:
           style:
-            hui-grid-card:
+            .: |
+              ha-card, ha-card::before {
+                border-radius: 0; 
+                border-width: 0;
+                box-shadow: none;
+                backdrop-filter: none;
+                background: transparent;
+              }              
+            hui-grid-card:  
               $: |
                 .card-header {
-                  padding: 0 0 1vw 0 !important;
-                  font-size: 2.0vw !important;
+                  padding: 0 1vw !important;
+                  font-size: max(2.0vw, 12pt) !important;
                   line-height: 30px !important;
+                }
+                #root {
+                  padding: 1vw 1vw 1vw 1vw !important;
                 }
         card:
           title: "Sander's room"
@@ -4040,12 +4109,23 @@ views:
           grid-area: other
         card_mod:
           style:
-            hui-grid-card:
+            .: |
+              ha-card, ha-card::before {
+                border-radius: 0; 
+                border-width: 0;
+                box-shadow: none;
+                backdrop-filter: none;
+                background: transparent;
+              }              
+            hui-grid-card:  
               $: |
                 .card-header {
-                  padding: 0 0 1vw 0 !important;
-                  font-size: 2.0vw !important;
+                  padding: 0 1vw !important;
+                  font-size: max(2.0vw, 12pt) !important;
                   line-height: 30px !important;
+                }
+                #root {
+                  padding: 1vw 1vw 1vw 1vw !important;
                 }
         card:
           title: "Other"
@@ -4090,12 +4170,23 @@ views:
           grid-area: athome
         card_mod:
           style:
-            hui-grid-card:
+            .: |
+              ha-card, ha-card::before {
+                border-radius: 0; 
+                border-width: 0;
+                box-shadow: none;
+                backdrop-filter: none;
+                background: transparent;
+              }              
+            hui-grid-card:  
               $: |
                 .card-header {
-                  padding: 0 0 1vw 0 !important;
-                  font-size: 2.0vw !important;
+                  padding: 0 1vw !important;
+                  font-size: max(2.0vw, 12pt) !important;
                   line-height: 30px !important;
+                }
+                #root {
+                  padding: 1vw 1vw 1vw 1vw !important;
                 }
         card:
           title: "At home"
