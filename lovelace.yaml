@@ -2402,9 +2402,10 @@ button_card_templates:
     custom_fields:
       graphic: |
         <div class="wrapper">
-          <div class="main">
-            <img src="/local/cameras.png" />
-          </div>
+          <div class="overlay spot"></div>
+          <img class="overlay eyes" src="/local/cameras-eyes.png"></img>
+          <img class="overlay eyelids" src="/local/cameras-eyelids.png"></img>
+          <img class="main body" src="/local/cameras-body.png"></img>
         </div>
     extra_styles: |
       *, *::before, *::after {
@@ -2419,9 +2420,7 @@ button_card_templates:
           display: none; /* hide in last row, so it doesn't create an extra column on the right */
         }                    
       }
-      #graphic {
-        border: 0;
-        margin: 0;
+      .wrapper {
         position: relative;
       }
       img {
@@ -2430,8 +2429,38 @@ button_card_templates:
       }
       .overlay {
         position: absolute;
-        bottom: 0;
-        left: 0;
+        width: 100%;
+        height: auto;
+        top: 0%;
+        bottom: 0%;
+      }
+      .overlay.eyelids {
+        top: 7%;
+        animation: eyelids 500ms infinite, delay-animation 10s linear infinite;
+        animation-delay: 3s;
+      }
+      .overlay.spot {
+        height: 100%;
+        background: #F7F5C5;
+      }
+      .main.body,
+      .overlay.spot {
+        animation: spotlight 25s infinite;
+      }
+      @keyframes spotlight {
+        0% { clip-path: ellipse(30% 30% at 42% 45%); }
+        50% { clip-path: ellipse(32% 32% at 60% 50%); }
+        100% { clip-path: ellipse(30% 30% at 42% 45%); }
+      }
+      @keyframes eyelids {
+        0% { top: 7%; }
+        50% { top: 11%; }
+        100% { top: 7%; }
+      }
+      @keyframes delay-animation {
+        0% { visibility: visible; }
+        5% { visibility: hidden; }
+        100% { visibility: hidden; }
       }
   graphic_pool: # ------------------------------------------------------------
     template: graphic
@@ -3409,12 +3438,12 @@ views:
   - title: "Home"
     path: Default
     icon: mdi:home
-    #background: linear-gradient(to right, rgba(0, 122, 255, 0.2), rgba(0, 122, 255, 0.1)), url(/local/macos26-tahoe-dark-6k.png)
-    background:
-      #image: /local/tahoe_dark.jpg
-      image: /local/bg-2.jpg
-      size: cover
-      alignment: center 
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1)), url(/local/bg.jpg)
+    # background:
+    # background:
+    #   image: /local/bg-2.jpg
+    #   size: cover
+    #   alignment: center 
     type: custom:layout-card
     layout_type: grid-layout
     kiosk_mode:
@@ -4438,7 +4467,7 @@ views:
   - title: "Inside"
     path: inside
     icon: mdi:home-thermometer-outline
-    background: linear-gradient(to right, rgba(0, 122, 255, 0.2), rgba(0, 122, 255, 0.1)), url(/local/bg.jpg)
+    background: linear-gradient(to right, rgba(232, 176, 53, 0.2), rgba(232, 176, 53, 0.1)), url(/local/bg.jpg)
 
     type: custom:layout-card
     layout_type: grid-layout
@@ -4681,7 +4710,7 @@ views:
   - title: "Cameras"
     path: cameras
     icon: mdi:camera
-    background: linear-gradient(to right, rgba(76, 217, 100, 0.2), rgba(76, 217, 100, 0.1)), url(/local/bg.jpg)
+    background: linear-gradient(to right, rgba(247, 245, 197, 0.2), rgba(247, 245, 197, 0.1)), url(/local/bg.jpg)
     type: custom:layout-card
     layout_type: grid-layout
     layout:
