@@ -14,7 +14,7 @@ kiosk_mode:
   admin_settings:
     hide_header: false
     hide_sidebar: false
-  user_settings:    
+  user_settings:
     - users:
         - "panel"
       kiosk: true
@@ -62,144 +62,144 @@ navbar-templates:
         url: /lovelace-ui/inside
         icon: mdi:home-thermometer-outline
         badge:
-            show: >-
-              [[[
-                let id = states['sensor.nr_of_inside_problems'];
-                if (id) return parseInt(id.state) > 0;
-                return 0;
-              ]]]
-            count: >-
-              [[[
-                let id = states['sensor.nr_of_inside_problems'];
-                if (id) return parseInt(id.state);
-                return 0;
-              ]]]
+          show: >-
+            [[[
+              let id = states['sensor.nr_of_inside_problems'];
+              if (id) return parseInt(id.state) > 0;
+              return 0;
+            ]]]
+          count: >-
+            [[[
+              let id = states['sensor.nr_of_inside_problems'];
+              if (id) return parseInt(id.state);
+              return 0;
+            ]]]
         selected_color: "#007aff"
 
       - label: Outside
         url: /lovelace-ui/outside
         icon: mdi:sun-thermometer
         badge:
-            show: >-
-              [[[
-                let id = states['sensor.nr_of_outside_problems'];
-                if (id) return parseInt(id.state) > 0;
-                return 0;
-              ]]]
-            count: >-
-              [[[
-                let id = states['sensor.nr_of_outside_problems'];
-                if (id) return parseInt(id.state);
-                return 0;
-              ]]]
+          show: >-
+            [[[
+              let id = states['sensor.nr_of_outside_problems'];
+              if (id) return parseInt(id.state) > 0;
+              return 0;
+            ]]]
+          count: >-
+            [[[
+              let id = states['sensor.nr_of_outside_problems'];
+              if (id) return parseInt(id.state);
+              return 0;
+            ]]]
         selected_color: "#007aff"
 
       - label: Network
         url: /lovelace-ui/network
         icon: mdi:web
         badge:
-            show: >-
-              [[[
-                let id = states['sensor.nr_of_network_problems'];
-                if (id) return parseInt(id.state) > 0;
-                return 0;
-              ]]]
-            count: >-
-              [[[
-                let id = states['sensor.nr_of_network_problems'];
-                if (id) return parseInt(id.state);
-                return 0;
-              ]]]
+          show: >-
+            [[[
+              let id = states['sensor.nr_of_network_problems'];
+              if (id) return parseInt(id.state) > 0;
+              return 0;
+            ]]]
+          count: >-
+            [[[
+              let id = states['sensor.nr_of_network_problems'];
+              if (id) return parseInt(id.state);
+              return 0;
+            ]]]
         selected_color: "#007aff"
 
       - label: Fire
         url: /lovelace-ui/fire
         icon: mdi:fire
         badge:
-            show: >-
-              [[[
-                let id = states['sensor.nr_of_fire_problems'];
-                if (id) return parseInt(id.state) > 0;
-                return 0;
-              ]]]
-            count: >-
-              [[[
-                let id = states['sensor.nr_of_fire_problems'];
-                if (id) return parseInt(id.state);
-                return 0;
-              ]]]
+          show: >-
+            [[[
+              let id = states['sensor.nr_of_fire_problems'];
+              if (id) return parseInt(id.state) > 0;
+              return 0;
+            ]]]
+          count: >-
+            [[[
+              let id = states['sensor.nr_of_fire_problems'];
+              if (id) return parseInt(id.state);
+              return 0;
+            ]]]
         selected_color: "#007aff"
 
       - label: Pool
         url: /lovelace-ui/pool
         icon: mdi:pool-thermometer
         badge:
-            show: >-
-              [[[
-                let id = states['sensor.nr_of_pool_problems'];
-                if (id) return parseInt(id.state) > 0;
-                return 0;
-              ]]]
-            count: >-
-              [[[
-                let id = states['sensor.nr_of_pool_problems'];
-                if (id) return parseInt(id.state);
-                return 0;
-              ]]]
+          show: >-
+            [[[
+              let id = states['sensor.nr_of_pool_problems'];
+              if (id) return parseInt(id.state) > 0;
+              return 0;
+            ]]]
+          count: >-
+            [[[
+              let id = states['sensor.nr_of_pool_problems'];
+              if (id) return parseInt(id.state);
+              return 0;
+            ]]]
         selected_color: "#007aff"
 
       - label: Cameras
         url: /lovelace-ui/cameras
         icon: mdi:camera
         badge:
-            show: >-
-              [[[
-                let id = states['sensor.nr_of_cameras_active'];
-                if (id) return parseInt(id.state) > 0;
-                return 0;
-              ]]]
-            count: >-
-              [[[
-                let id = states['sensor.nr_of_cameras_active'];
-                if (id) return parseInt(id.state);
-                return 0;
-              ]]]
+          show: >-
+            [[[
+              let id = states['sensor.nr_of_cameras_active'];
+              if (id) return parseInt(id.state) > 0;
+              return 0;
+            ]]]
+          count: >-
+            [[[
+              let id = states['sensor.nr_of_cameras_active'];
+              if (id) return parseInt(id.state);
+              return 0;
+            ]]]
         selected_color: "#007aff"
 
       - label: Irrigation
         url: /lovelace-ui/irrigation
         icon: mdi:sprinkler-variant
         badge:
-            show: >-
-              [[[
-                let id = states['sensor.nr_of_irrigation_valves_active"'];
-                if (id) return parseInt(id.state) > 0;
-                return 0;
-              ]]]
-            count: >-
-              [[[
-                let id = states['sensor.nr_of_irrigation_valves_active"'];
-                if (id) return parseInt(id.state);
-                return 0;
-              ]]]
+          show: >-
+            [[[
+              let id = states['sensor.nr_of_irrigation_valves_active"'];
+              if (id) return parseInt(id.state) > 0;
+              return 0;
+            ]]]
+          count: >-
+            [[[
+              let id = states['sensor.nr_of_irrigation_valves_active"'];
+              if (id) return parseInt(id.state);
+              return 0;
+            ]]]
         selected_color: "#007aff"
 
       - label: Utilities
         url: /lovelace-ui/utilities
         icon: mdi:power-plug
         badge:
-            show: >-
-              [[[
-                let id = states['sensor.nr_of_utilities_problems'];
-                if (id) return parseInt(id.state) > 0;
-                return 0;
-              ]]]
-            count: >-
-              [[[
-                let id = states['sensor.nr_of_utilities_problems'];
-                if (id) return parseInt(id.state);
-                return 0;
-              ]]]
+          show: >-
+            [[[
+              let id = states['sensor.nr_of_utilities_problems'];
+              if (id) return parseInt(id.state) > 0;
+              return 0;
+            ]]]
+          count: >-
+            [[[
+              let id = states['sensor.nr_of_utilities_problems'];
+              if (id) return parseInt(id.state);
+              return 0;
+            ]]]
         selected_color: "#007aff"
 
     styles: |
@@ -900,8 +900,7 @@ button_card_templates:
     template:
       - base
       - no_shadow
-    variables:
-      info1_entity
+    variables: info1_entity
       info2_entity
       status_entity
     size: 80%
@@ -1957,6 +1956,10 @@ button_card_templates:
                 rgba(${barColor}, 0.3) ${pct}%,
                 rgba(${barColor}, 0.1) 100%)`;
             ]]]
+    extra_styles: |
+      :host {
+        grid-column: span 3;
+      }
   ts_bar: # ------------------------------------------------------------------
     variables: # inspired by https://community.home-assistant.io/t/home-assistant-card-replacing-former-bar-card-config/743050/30
       max_value: 100
@@ -2018,6 +2021,10 @@ button_card_templates:
                 rgba(${bar},0.3) ${pct}%,
                 rgba(${bar},0.1) 100%)`;
             ]]]
+    extra_styles: |
+      :host {
+        grid-column: span 2;
+      }
 
   card_title: # --------------------------------------------------------------
     tap_action: # https://ui-lovelace-minimalist.github.io/UI/usage/cards/card_title/
@@ -2157,97 +2164,50 @@ button_card_templates:
     template: graphic # https://codepen.io/jonslater204/pen/jOmeryV
     custom_fields:
       graphic: |
-          <div class="trunk">
+        <div class="trunk">
+          <b>
             <b>
               <b>
                 <b>
                   <b>
-                    <b>
-                      <b></b>
-                      <b></b>
-                    </b>
-                    <b>
-                      <b></b>
-                      <b></b>
-                    </b>
+                    <b></b>
+                    <b></b>
                   </b>
                   <b>
-                    <b>
-                      <b></b>
-                      <b></b>
-                    </b>
-                    <b>
-                      <b></b>
-                      <b></b>
-                    </b>
+                    <b></b>
+                    <b></b>
                   </b>
                 </b>
                 <b>
                   <b>
-                    <b>
-                      <b></b>
-                      <b></b>
-                    </b>
-                    <b>
-                      <b></b>
-                      <b></b>
-                    </b>
+                    <b></b>
+                    <b></b>
                   </b>
                   <b>
-                    <b>
-                      <b></b>
-                      <b></b>
-                    </b>
-                    <b>
-                      <b></b>
-                      <b></b>
-                    </b>
+                    <b></b>
+                    <b></b>
                   </b>
                 </b>
               </b>
               <b>
                 <b>
                   <b>
-                    <b>
-                      <b></b>
-                      <b></b>
-                    </b>
-                    <b>
-                      <b></b>
-                      <b></b>
-                    </b>
+                    <b></b>
+                    <b></b>
                   </b>
                   <b>
-                    <b>
-                      <b></b>
-                      <b></b>
-                    </b>
-                    <b>
-                      <b></b>
-                      <b></b>
-                    </b>
+                    <b></b>
+                    <b></b>
                   </b>
                 </b>
                 <b>
                   <b>
-                    <b>
-                      <b></b>
-                      <b></b>
-                    </b>
-                    <b>
-                      <b></b>
-                      <b></b>
-                    </b>
+                    <b></b>
+                    <b></b>
                   </b>
                   <b>
-                    <b>
-                      <b></b>
-                      <b></b>
-                    </b>
-                    <b>
-                      <b></b>
-                      <b></b>
-                    </b>
+                    <b></b>
+                    <b></b>
                   </b>
                 </b>
               </b>
@@ -2256,97 +2216,144 @@ button_card_templates:
               <b>
                 <b>
                   <b>
-                    <b>
-                      <b></b>
-                      <b></b>
-                    </b>
-                    <b>
-                      <b></b>
-                      <b></b>
-                    </b>
+                    <b></b>
+                    <b></b>
                   </b>
                   <b>
-                    <b>
-                      <b></b>
-                      <b></b>
-                    </b>
-                    <b>
-                      <b></b>
-                      <b></b>
-                    </b>
+                    <b></b>
+                    <b></b>
                   </b>
                 </b>
                 <b>
                   <b>
-                    <b>
-                      <b></b>
-                      <b></b>
-                    </b>
-                    <b>
-                      <b></b>
-                      <b></b>
-                    </b>
+                    <b></b>
+                    <b></b>
                   </b>
                   <b>
-                    <b>
-                      <b></b>
-                      <b></b>
-                    </b>
-                    <b>
-                      <b></b>
-                      <b></b>
-                    </b>
+                    <b></b>
+                    <b></b>
                   </b>
                 </b>
               </b>
               <b>
                 <b>
                   <b>
-                    <b>
-                      <b></b>
-                      <b></b>
-                    </b>
-                    <b>
-                      <b></b>
-                      <b></b>
-                    </b>
+                    <b></b>
+                    <b></b>
                   </b>
                   <b>
-                    <b>
-                      <b></b>
-                      <b></b>
-                    </b>
-                    <b>
-                      <b></b>
-                      <b></b>
-                    </b>
+                    <b></b>
+                    <b></b>
                   </b>
                 </b>
                 <b>
                   <b>
-                    <b>
-                      <b></b>
-                      <b></b>
-                    </b>
-                    <b>
-                      <b></b>
-                      <b></b>
-                    </b>
+                    <b></b>
+                    <b></b>
                   </b>
                   <b>
-                    <b>
-                      <b></b>
-                      <b></b>
-                    </b>
-                    <b>
-                      <b></b>
-                      <b></b>
-                    </b>
+                    <b></b>
+                    <b></b>
                   </b>
                 </b>
               </b>
             </b>
-          </div>
+          </b>
+          <b>
+            <b>
+              <b>
+                <b>
+                  <b>
+                    <b></b>
+                    <b></b>
+                  </b>
+                  <b>
+                    <b></b>
+                    <b></b>
+                  </b>
+                </b>
+                <b>
+                  <b>
+                    <b></b>
+                    <b></b>
+                  </b>
+                  <b>
+                    <b></b>
+                    <b></b>
+                  </b>
+                </b>
+              </b>
+              <b>
+                <b>
+                  <b>
+                    <b></b>
+                    <b></b>
+                  </b>
+                  <b>
+                    <b></b>
+                    <b></b>
+                  </b>
+                </b>
+                <b>
+                  <b>
+                    <b></b>
+                    <b></b>
+                  </b>
+                  <b>
+                    <b></b>
+                    <b></b>
+                  </b>
+                </b>
+              </b>
+            </b>
+            <b>
+              <b>
+                <b>
+                  <b>
+                    <b></b>
+                    <b></b>
+                  </b>
+                  <b>
+                    <b></b>
+                    <b></b>
+                  </b>
+                </b>
+                <b>
+                  <b>
+                    <b></b>
+                    <b></b>
+                  </b>
+                  <b>
+                    <b></b>
+                    <b></b>
+                  </b>
+                </b>
+              </b>
+              <b>
+                <b>
+                  <b>
+                    <b></b>
+                    <b></b>
+                  </b>
+                  <b>
+                    <b></b>
+                    <b></b>
+                  </b>
+                </b>
+                <b>
+                  <b>
+                    <b></b>
+                    <b></b>
+                  </b>
+                  <b>
+                    <b></b>
+                    <b></b>
+                  </b>
+                </b>
+              </b>
+            </b>
+          </b>
+        </div>
     extra_styles: |
       :host {
         justify-self: center;
@@ -2989,7 +2996,7 @@ button_card_templates:
           <div class="drip-overlay">
             <div class="water-drip"></div>
           </div>
-        </div>                    
+        </div>
     extra_styles: |
       :host {
         justify-self: center;
@@ -3245,7 +3252,7 @@ button_card_templates:
         80% {
           opacity: 1;
         }
-      }                          
+      }
   graphic_fire: # ------------------------------------------------------------
     template: graphic
     custom_fields:
@@ -3353,7 +3360,7 @@ button_card_templates:
         }
 
   cpu_ram_sd_temp:
-    template: 
+    template:
       - base
       - circle
     variables:
@@ -3404,7 +3411,7 @@ button_card_templates:
         - align-items: start
         - margin: none
       icon:
-        - color: 'cornflowerblue'
+        - color: "cornflowerblue"
         - width: 50%
         - margin-left: 3%
         - margin-top: -6%
@@ -3438,10 +3445,9 @@ button_card_templates:
         [[[
           return `<ha-icon icon="mdi:harddisk" style="width: 12px; height: 12px; color: deepskyblue;"></ha-icon>
           SD:&nbsp;${states[variables.sd_id].state}%`
-        ]]] 
+        ]]]
 
 views:
-
   #################################################
   #                                               #
   #                 HOME VIEW                     #
@@ -3456,11 +3462,11 @@ views:
     # background:
     #   image: /local/bg-2.jpg
     #   size: cover
-    #   alignment: center 
+    #   alignment: center
     type: custom:layout-card
     layout_type: grid-layout
     kiosk_mode:
-      hide_header: false    
+      hide_header: false
     layout:
       height: calc(100vh - 2vw - var(--header-height)) /* 2vw margin, 8px padding */
       margin: 2vw 2vw 0 0 /* when sidebar is hidden, it still uses a cell in the grid */
@@ -3501,9 +3507,16 @@ views:
             - font-size: xxx-large
             - background: yellow
 
-      #################################################
-      #                    SIDEBAR                    #
-      #################################################
+      #=======
+      # NAVBAR
+      #=======
+
+      - type: custom:navbar-card # Navigation bar ----------------------------
+        template: main_menu
+
+      #========
+      # SIDEBAR
+      #========
 
       - type: custom:layout-card
         layout_type: grid-layout
@@ -3637,22 +3650,21 @@ views:
                     padding-bottom: 20px !important;
                   }
 
-      #################################################
-      #                     CARDS                     #
-      #################################################
+      #======
+      # CARDS
+      #======
 
       - type: custom:layout-card
         layout_type: grid-layout
         view_layout:
           grid-area: cards
         layout:
-          margin: 2vw 2vw 0 0 /* when sidebar is hidden, it still uses a cell in the grid */
+          margin: 0
           padding: 0;
-          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))
+          grid-template-columns: repeat(auto-fit, minmax(260px, 1fr))
           place-items: stretch stretch
           grid-gap: 2vw
         cards:
-
           - type: custom:mod-card # Living room ------------------------------
             card_mod:
               style:
@@ -3663,8 +3675,8 @@ views:
                     box-shadow: none;
                     backdrop-filter: none;
                     background: transparent;
-                  }              
-                hui-grid-card:  
+                  }
+                hui-grid-card:
                   $: |
                     .card-header {
                       padding: 0 1vw !important;
@@ -3711,8 +3723,8 @@ views:
                     box-shadow: none;
                     backdrop-filter: none;
                     background: transparent;
-                  }              
-                hui-grid-card:  
+                  }
+                hui-grid-card:
                   $: |
                     .card-header {
                       padding: 0 1vw !important;
@@ -3764,8 +3776,8 @@ views:
                     box-shadow: none;
                     backdrop-filter: none;
                     background: transparent;
-                  }              
-                hui-grid-card:  
+                  }
+                hui-grid-card:
                   $: |
                     .card-header {
                       padding: 0 1vw !important;
@@ -3821,8 +3833,8 @@ views:
                     box-shadow: none;
                     backdrop-filter: none;
                     background: transparent;
-                  }              
-                hui-grid-card:  
+                  }
+                hui-grid-card:
                   $: |
                     .card-header {
                       padding: 0 1vw !important;
@@ -4061,8 +4073,8 @@ views:
                     box-shadow: none;
                     backdrop-filter: none;
                     background: transparent;
-                  }              
-                hui-grid-card:  
+                  }
+                hui-grid-card:
                   $: |
                     .card-header {
                       padding: 0 1vw !important;
@@ -4105,8 +4117,8 @@ views:
                     box-shadow: none;
                     backdrop-filter: none;
                     background: transparent;
-                  }              
-                hui-grid-card:  
+                  }
+                hui-grid-card:
                   $: |
                     .card-header {
                       padding: 0 1vw !important;
@@ -4158,8 +4170,8 @@ views:
                     box-shadow: none;
                     backdrop-filter: none;
                     background: transparent;
-                  }              
-                hui-grid-card:  
+                  }
+                hui-grid-card:
                   $: |
                     .card-header {
                       padding: 0 1vw !important;
@@ -4400,13 +4412,6 @@ views:
                                               critical: 1
                                               volume: 1
 
-      #################################################
-      #                   NAVBAR                      #
-      #################################################
-
-      - type: custom:navbar-card # Navigation bar ----------------------------
-        template: main_menu
-
   #################################################
   #                                               #
   #                INSIDE VIEW                    #
@@ -4420,31 +4425,24 @@ views:
 
     type: custom:layout-card
     layout_type: grid-layout
+    kiosk_mode:
+      hide_header: false
     layout:
-      margin: 2vw 2vw 2vw 0 /* when sidebar is hidden, it still uses a cell in the grid */
+      margin: 2vw 2vw 0 0 /* when sidebar is hidden, it still uses a cell in the grid */
+      padding: 0;
+      place-items: stretch stretch
       grid-gap: 2vw
-      grid-template-columns: 0 20vw repeat(2, 1fr)
-      grid-template-rows: repeat(2, min-content) 70px
+      grid-template-columns: 0 minmax(260px, 20%) 1fr
+      grid-template-rows: repeat(1, 1fr) 100px
       grid-template-areas: |
-        ". graphic downstairs upstairs"
-        ". graphic .          filter "
-        ". .       .          .      "
-      mediaquery:
-        "(max-width: 800px)":
-          grid-template-columns: 0 repeat(1, 1fr)
-          grid-template-rows: repeat(3, min-content) 70px
-          grid-template-areas: |
-            "graphic downstairs"
-            "graphic upstairs  "
-            "graphic filter    "
-            ".       .         "
+        ". graphic cards"
+        ". .       .    "
+      mediaquery: # set the sidebar to 0-width
         "(max-width: 1200px)":
-          grid-template-columns: 0 repeat(2, 1fr)
-          grid-template-rows: repeat(2, min-content) 70px
+          grid-template-columns: 0 1fr
           grid-template-areas: |
-            "graphic downstairs upstairs"
-            "graphic .          filter "
-            ".       .          ."
+            "graphic cards"
+            ".       .    "
     cards:
       - type: custom:navbar-card
         template: main_menu
@@ -4454,62 +4452,105 @@ views:
         view_layout:
           grid-area: graphic
 
-      - entity: climate.main_floor
-        type: thermostat
-        show_current_as_primary: false
-        features:
-          - type: climate-hvac-modes
+      - type: custom:layout-card
         view_layout:
-          grid-area: downstairs
-        card_mod:
-          style: |
-            ha-card {
-                background: var(--secondary-background-color);
-            }
+          grid-area: cards
+        layout_type: grid-layout
+        layout:
+          margin: 0
+          padding: 0;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))
+          place-items: stretch stretch
+          grid-gap: 1vw
+        cards:
+          - heading: "Main floor"
+            type: heading
+            heading_style: title
+            card_mod:
+              style: |
+                :host {
+                  grid-column: 1 / -1;
+                }
+                ha-card .content.title p {
+                  padding: 0;
+                  text-align: var(--ha-stack-title-text-align, start);
+                  color: var(--ha-card-header-color, var(--primary-text-color));
+                  font-family: var(--ha-card-header-font-family, inherit);  
+                  letter-spacing: -0.012em;              
+                  font-size: max(2.0vw, 12pt) !important;
+                  line-height: 30px;                  
+                  font-weight: 400;
+                }
 
-      - entity: climate.upstairs_floor
-        type: thermostat
-        features:
-          - type: climate-hvac-modes
-        view_layout:
-          grid-area: upstairs
-        card_mod:
-          style: |
-            ha-card {
-                background: var(--secondary-background-color);
-            }
+          - entity: climate.main_floor
+            type: thermostat
+            show_current_as_primary: false
+            features:
+              - type: climate-hvac-modes
+            card_mod:
+              style: |
+                ha-card {
+                    background: var(--secondary-background-color);
+                }
 
-      - entity: fan.air_filter
-        type: custom:purifier-card
-        compact_view: true
-        show_state: true
-        show_toolbar: true
-        view_layout:
-          grid-area: filter
-        card_mod:
-          style: |
-            ha-card {
-                background: var(--secondary-background-color);
-            }
-        shortcuts:
-          - name: Auto
-            icon: mdi:brightness-auto
-            preset_mode: auto
-          - name: Sleep
-            icon: mdi:weather-night
-            preset_mode: sleep
-          - name: 25%
-            icon: mdi:circle-slice-2
-            percentage: 25
-          - name: 50%
-            icon: mdi:circle-slice-4
-            percentage: 50
-          - name: 75%
-            icon: mdi:circle-slice-6
-            percentage: 75
-          - name: 100%
-            icon: mdi:circle-slice-8
-            percentage: 100
+          - heading: "Upstairs floor"
+            type: heading
+            heading_style: title
+            card_mod:
+              style: |
+                :host {
+                  grid-column: 1 / -1;
+                }
+                ha-card .content.title p {
+                  padding: 0;
+                  text-align: var(--ha-stack-title-text-align, start);
+                  color: var(--ha-card-header-color, var(--primary-text-color));
+                  font-family: var(--ha-card-header-font-family, inherit);  
+                  letter-spacing: -0.012em;              
+                  font-size: max(2.0vw, 12pt) !important;
+                  line-height: 30px;                  
+                  font-weight: 400;
+                }
+
+          - entity: climate.upstairs_floor
+            type: thermostat
+            features:
+              - type: climate-hvac-modes
+            card_mod:
+              style: |
+                ha-card {
+                    background: var(--secondary-background-color);
+                }
+
+          - entity: fan.air_filter
+            type: custom:purifier-card
+            compact_view: true
+            show_state: true
+            show_toolbar: true
+            card_mod:
+              style: |
+                ha-card {
+                    background: var(--secondary-background-color);
+                }
+            shortcuts:
+              - name: Auto
+                icon: mdi:brightness-auto
+                preset_mode: auto
+              - name: Sleep
+                icon: mdi:weather-night
+                preset_mode: sleep
+              - name: 25%
+                icon: mdi:circle-slice-2
+                percentage: 25
+              - name: 50%
+                icon: mdi:circle-slice-4
+                percentage: 50
+              - name: 75%
+                icon: mdi:circle-slice-6
+                percentage: 75
+              - name: 100%
+                icon: mdi:circle-slice-8
+                percentage: 100
 
   #################################################
   #                                               #
@@ -4521,32 +4562,27 @@ views:
     path: outside
     icon: mdi:sun-thermometer
     background: linear-gradient(to right, rgba(76, 217, 100, 0.2), rgba(76, 217, 100, 0.1)), url(/local/bg.jpg)
+
     type: custom:layout-card
     layout_type: grid-layout
+    kiosk_mode:
+      hide_header: false
     layout:
-      margin: 2vw 2vw 2vw 0 /* when sidebar is hidden, it still uses a cell in the grid */
-      place-items: center stretch
-      place-content: stretch stretch
+      margin: 2vw 2vw 0 0 /* when sidebar is hidden, it still uses a cell in the grid */
+      padding: 0;
+      place-items: stretch stretch
       grid-gap: 2vw
-      grid-template-columns: 0 20vw repeat(2, 1fr)
-      grid-template-rows: repeat(1, min-content) 70px
+      grid-template-columns: 0 minmax(260px, 20%) 1fr
+      grid-template-rows: repeat(1, 1fr) 100px
       grid-template-areas: |
-        ". graphic station  aqi_temp"
-        ". .       .        .       "
-      mediaquery:
-        "(max-width: 800px)":
-          grid-template-columns: 0 repeat(1, 1fr)
-          grid-template-rows: repeat(2, min-content) 70px
-          grid-template-areas: |
-            "graphic aqi_temp"
-            "graphic station "
-            ".       .       "
+        ". graphic cards"
+        ". .       .    "
+      mediaquery: # set the sidebar to 0-width
         "(max-width: 1200px)":
-          grid-template-columns: 0 repeat(2, 1fr)
-          grid-template-rows: repeat(1, min-content) 70px
+          grid-template-columns: 0 1fr
           grid-template-areas: |
-            "graphic station  aqi_temp"
-            ".       .        .       "
+            "graphic cards"
+            ".       .    "
     cards:
       - type: custom:navbar-card
         template: main_menu
@@ -4556,42 +4592,62 @@ views:
         view_layout:
           grid-area: graphic
 
-      - title: Terrace Drive
-        type: entities
-        view_layout:
-          grid-area: station
-        card_mod:
-          style: |
-            ha-card {
-                background: var(--secondary-background-color);
-            }
-        entities:
-          - entity: sensor.terracehabitat_temperature
-            name: Air temp
-          - entity: sensor.terracehabitat_humidity
-            icon: mdi:water-percent
-            name: Humidity
-          - entity: sensor.terracehabitat_pressure
-            icon: mdi:arrow-collapse-down
-            name: Air pressure
-          - entity: sensor.terracehabitat_pm1
-            icon: mdi:waves
-            name: Particles ≤ 1 µm
-          - entity: sensor.terracehabitat_pm2_5
-            icon: mdi:waves
-            name: Particles ≤ 2.5 µm
-          - entity: sensor.terracehabitat_pm10
-            icon: mdi:waves
-            name: Particles ≤ 10 µm
-
       - type: custom:layout-card
+        view_layout:
+          grid-area: cards
         layout_type: grid-layout
         layout:
-          grid-gap: 2vw
-          grid-template-columns: repeat(1, 1fr)
-        view_layout:
-          grid-area: aqi_temp
+          margin: 0
+          padding: 0;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))
+          place-items: stretch stretch
+          grid-gap: 1vw
         cards:
+          - type: heading
+            heading: "Outside climate"
+            heading_style: title
+            card_mod:
+              style: |
+                :host {
+                  grid-column: 1 / -1;
+                }
+                ha-card .content.title p {
+                  padding: 0 0 4px 0;
+                  text-align: var(--ha-stack-title-text-align, start);
+                  color: var(--ha-card-header-color, var(--primary-text-color));
+                  font-family: var(--ha-card-header-font-family, inherit);  
+                  letter-spacing: -0.012em;              
+                  font-size: max(2.0vw, 12pt) !important;
+                  line-height: 30px;                  
+                  font-weight: 400;
+                }
+
+          - title: "Neighbor's station"
+            type: entities
+            card_mod:
+              style: |
+                ha-card {
+                    background: var(--secondary-background-color);
+                }
+            entities:
+              - entity: sensor.terracehabitat_temperature
+                name: Air temp
+              - entity: sensor.terracehabitat_humidity
+                icon: mdi:water-percent
+                name: Humidity
+              - entity: sensor.terracehabitat_pressure
+                icon: mdi:arrow-collapse-down
+                name: Air pressure
+              - entity: sensor.terracehabitat_pm1
+                icon: mdi:waves
+                name: Particles ≤ 1 µm
+              - entity: sensor.terracehabitat_pm2_5
+                icon: mdi:waves
+                name: Particles ≤ 2.5 µm
+              - entity: sensor.terracehabitat_pm10
+                icon: mdi:waves
+                name: Particles ≤ 10 µm
+
           - name: "Air Quality"
             type: custom:mini-graph-card
             entities:
@@ -4660,27 +4716,27 @@ views:
     path: cameras
     icon: mdi:camera
     background: linear-gradient(to right, rgba(247, 245, 197, 0.2), rgba(247, 245, 197, 0.1)), url(/local/bg.jpg)
+
     type: custom:layout-card
     layout_type: grid-layout
+    kiosk_mode:
+      hide_header: false
     layout:
-      margin: 2vw 2vw 2vw 0 /* when sidebar is hidden, it still uses a cell in the grid */
-      place-items: center stretch
-      place-content: stretch stretch
+      margin: 2vw 2vw 0 0 /* when sidebar is hidden, it still uses a cell in the grid */
+      padding: 0;
+      place-items: stretch stretch
       grid-gap: 2vw
-      grid-template-columns: 0 1fr repeat(1, 2fr)
-      grid-template-rows: repeat(2, min-content ) 70px
+      grid-template-columns: 0 minmax(260px, 20%) 1fr
+      grid-template-rows: repeat(1, 1fr) 100px
       grid-template-areas: |
-        ". graphic front"
-        ". graphic back "
+        ". graphic cards"
         ". .       .    "
-      mediaquery:
+      mediaquery: # set the sidebar to 0-width
         "(max-width: 1200px)":
-          grid-template-columns: 0 repeat(1, 1fr)
-          grid-template-rows: repeat(2, min-content ) 70px
+          grid-template-columns: 0 1fr
           grid-template-areas: |
-            "graphic front  "
-            "graphic back   "
-            ".       .      "
+            "graphic cards"
+            ".       .    "
     cards:
       - type: custom:navbar-card
         template: main_menu
@@ -4691,13 +4747,35 @@ views:
           grid-area: graphic
 
       - type: custom:layout-card
+        view_layout:
+          grid-area: cards
         layout_type: grid-layout
         layout:
-          grid-gap: 2vw
-          grid-template-columns: repeat(1, 1fr)
-        view_layout:
-          grid-area: front
+          margin: 0
+          padding: 0;
+          grid-template-columns: repeat(auto-fit, minmax(500px, 1fr))
+          place-items: stretch stretch
+          grid-gap: 1vw
         cards:
+          - type: heading
+            heading: "Outside"
+            heading_style: title
+            card_mod:
+              style: |
+                :host {
+                  grid-column: 1 / -1;
+                }
+                ha-card .content.title p {
+                  padding: 0 0 4px 0;
+                  text-align: var(--ha-stack-title-text-align, start);
+                  color: var(--ha-card-header-color, var(--primary-text-color));
+                  font-family: var(--ha-card-header-font-family, inherit);  
+                  letter-spacing: -0.012em;              
+                  font-size: max(2.0vw, 12pt) !important;
+                  line-height: 30px;                  
+                  font-weight: 400;
+                }
+
           - type: "custom:aarlo-glance"
             global: active,blended
             image_view: direct
@@ -4711,15 +4789,6 @@ views:
                 #door: binary_sensor.front_door
                 #door_lock: lock.front_door_lock
 
-      - type: custom:layout-card
-        layout_type: grid-layout
-        layout:
-          grid-gap: 2vw
-          grid-template-columns: repeat(1, 1fr)
-          grid-gap: var(--custom-layout-card-padding)
-        view_layout:
-          grid-area: back
-        cards:
           - type: "custom:aarlo-glance"
             global: active,blended
             image_view: direct
@@ -4741,40 +4810,27 @@ views:
     path: pool
     icon: mdi:pool-thermometer
     background: linear-gradient(to right, rgba(255, 149, 0, 0.2), rgba(255, 149, 0, 0.1)), url(/local/bg.jpg)
+
     type: custom:layout-card
     layout_type: grid-layout
-    # place-items for grid items: 1st value = vertical axis, 2nd value = horizontal axis
-    # place-content: for container: 1st value = vertical axis, 2nd value = horizontal axis
+    kiosk_mode:
+      hide_header: false
     layout:
-      margin: 2vw 2vw 2vw 0 /* when sidebar is hidden, it still uses a cell in the grid */
-      place-items: center stretch
-      place-content: stretch stretch
+      margin: 2vw 2vw 0 0 /* when sidebar is hidden, it still uses a cell in the grid */
+      padding: 0;
+      place-items: stretch stretch
       grid-gap: 2vw
-      grid-template-columns: 0 20vw repeat(2, 1fr)
-      grid-template-rows: repeat(3,  min-content) 70px
+      grid-template-columns: 0 minmax(260px, 20%) 1fr
+      grid-template-rows: repeat(1, 1fr) 100px
       grid-template-areas: |
-        ". graphic circuits   circuits  "
-        ". graphic components components"
-        ". graphic analysis   thermostat"
-        ". .       .          .         "
-      mediaquery:
-        "(max-width: 800px)":
-          grid-template-columns: 0 repeat(1, 1fr)
-          grid-template-rows: repeat(4, min-content ) 70px
-          grid-template-areas: |
-            "graphic circuits  "
-            "graphic components"
-            "graphic thermostat"
-            "graphic analysis  "
-            ".       .         "
+        ". graphic cards"
+        ". .       .    "
+      mediaquery: # set the sidebar to 0-width
         "(max-width: 1200px)":
-          grid-template-columns: 0 repeat(2, 1fr)
-          grid-template-rows: repeat(3, min-content ) 70px
+          grid-template-columns: 0 1fr
           grid-template-areas: |
-            "graphic circuits   circuits  "
-            "graphic components components"
-            "graphic analysis   thermostat"
-            ".       .          .         "
+            "graphic cards"
+            ".       .    "
     cards:
       - type: custom:navbar-card
         template: main_menu
@@ -4784,23 +4840,36 @@ views:
         view_layout:
           grid-area: graphic
 
-      - title: "Circuits"
-        type: custom:layout-card
+      - type: custom:layout-card
+        view_layout:
+          grid-area: cards
         layout_type: grid-layout
         layout:
-          grid-gap: 2vw
-          grid-template-columns: repeat(4, 1fr)
-          mediaquery:
-            "(max-width: 800px)":
-              grid-template-columns: repeat(2, 1fr)
-        view_layout:
-          grid-area: circuits
-        card_mod:
-          style: |
-            hui-grid-card, ha-card {
-                background: var(--secondary-background-color);
-            }
+          margin: 0
+          padding: 0;
+          grid-template-columns: repeat(auto-fit, minmax(120px, 1fr))
+          place-items: stretch stretch
+          grid-gap: 1vw
         cards:
+          - heading: "Circuits and components"
+            type: heading
+            heading_style: title
+            card_mod:
+              style: |
+                :host {
+                  grid-column: 1 / -1;
+                }
+                ha-card .content.title p {
+                  padding: 0 0 4px 0;
+                  text-align: var(--ha-stack-title-text-align, start);
+                  color: var(--ha-card-header-color, var(--primary-text-color));
+                  font-family: var(--ha-card-header-font-family, inherit);  
+                  letter-spacing: -0.012em;              
+                  font-size: max(2.0vw, 12pt) !important;
+                  line-height: 30px;                  
+                  font-weight: 400;
+                }
+
           - name: "Pool"
             type: custom:button-card
             template: pool_circuit
@@ -4840,23 +4909,6 @@ views:
               pending_entity: input_boolean.opnpool_aux2_circuit_pending
               loader_script_entity: script.toggle_opnpool_aux2_circuit_with_support_for_spinner
 
-      - title: "Components"
-        type: custom:layout-card
-        layout_type: grid-layout
-        layout:
-          grid-gap: 2vw
-          grid-template-columns: repeat(4, 1fr)
-          mediaquery:
-            "(max-width: 800px)":
-              grid-template-columns: repeat(2, 1fr)
-        view_layout:
-          grid-area: components
-        card_mod:
-          style: |
-            ha-card {
-                background: var(--secondary-background-color);
-            }
-        cards:
           - name: "Pump"
             type: custom:button-card
             template: pool_component
@@ -4898,20 +4950,6 @@ views:
             variables:
               graph_color: cornflowerblue
 
-      - title: "Thermostat"
-        type: custom:layout-card
-        layout_type: grid-layout
-        layout:
-          grid-gap: 2vw
-          grid-template-columns: repeat(1, 1fr)
-        view_layout:
-          grid-area: thermostat
-        card_mod:
-          style: |
-            ha-card {
-                background: var(--secondary-background-color);
-            }
-        cards:
           - name: "Pool Thermostat"
             type: conditional
             conditions:
@@ -5004,15 +5042,25 @@ views:
                     border-radius: 10px !important;
                   }
 
-      - title: "Last Analysis"
-        type: custom:layout-card
-        layout_type: grid-layout
-        layout:
-          grid-gap: 1vh
-          grid-template-columns: 1fr
-        view_layout:
-          grid-area: analysis
-        cards:
+          - heading: "Last water analysis"
+            type: heading
+            heading_style: title
+            card_mod:
+              style: |
+                :host {
+                  grid-column: 1 / -1;
+                }
+                ha-card .content.title p {
+                  padding: 0 0 4px 0;
+                  text-align: var(--ha-stack-title-text-align, start);
+                  color: var(--ha-card-header-color, var(--primary-text-color));
+                  font-family: var(--ha-card-header-font-family, inherit);  
+                  letter-spacing: -0.012em;              
+                  font-size: max(2.0vw, 12pt) !important;
+                  line-height: 30px;                  
+                  font-weight: 400;
+                }
+
           - name: "pH"
             entity: sensor.pool_ph
             type: custom:button-card
@@ -5075,11 +5123,6 @@ views:
               warning_below: 2700
               warning_above: 4500
               max_value: 6000
-        card_mod:
-          style: |
-            ha-card {
-                background: var(--secondary-background-color);
-            }
 
   #################################################
   #                                               #
@@ -5095,10 +5138,11 @@ views:
     type: custom:layout-card
     layout_type: grid-layout
     kiosk_mode:
-      hide_header: false    
+      hide_header: false
     layout:
       margin: 2vw 2vw 0 0 /* when sidebar is hidden, it still uses a cell in the grid */
       padding: 0;
+      place-items: stretch stretch
       grid-gap: 2vw
       grid-template-columns: 0 minmax(260px, 20%) 1fr
       grid-template-rows: repeat(1, 1fr) 100px
@@ -5117,6 +5161,8 @@ views:
 
       - type: custom:button-card
         template: graphic_irrigation
+        view_layout:
+          grid-area: graphic
 
       - type: custom:layout-card
         view_layout:
@@ -5127,7 +5173,7 @@ views:
           padding: 0;
           grid-template-columns: repeat(auto-fit, minmax(120px, 1fr))
           place-items: stretch stretch
-          grid-gap: 2vw
+          grid-gap: 1vw
         cards:
           - type: heading
             heading: "Zones"
@@ -5138,7 +5184,7 @@ views:
                   grid-column: 1 / -1;
                 }
                 ha-card .content.title p {
-                  padding: 0;
+                  padding: 0 0 4px 0;
                   text-align: var(--ha-stack-title-text-align, start);
                   color: var(--ha-card-header-color, var(--primary-text-color));
                   font-family: var(--ha-card-header-font-family, inherit);  
@@ -5167,53 +5213,53 @@ views:
             type: custom:button-card
             template: irrigation_zone
             entity: sensor.dripfence1_station_status
-            
+
           - name: "Fence Right"
             type: custom:button-card
             template: irrigation_zone
             entity: sensor.dripfence2_station_status
-            
+
           - name: "Fence Corner"
             type: custom:button-card
             template: irrigation_zone
             entity: sensor.dripcorner_station_status
-            
+
           - name: "Maple"
             type: custom:button-card
             template: irrigation_zone
             entity: sensor.dripmaple_station_status
-            
+
           - name: "Front Street"
             type: custom:button-card
             template: irrigation_zone
             entity: sensor.front1_station_status
-            
+
           - name: "Front Maple"
             type: custom:button-card
             template: irrigation_zone
             entity: sensor.front2_maple_station_status
-            
+
           - name: "Pond House"
             type: custom:button-card
             template: irrigation_zone
             entity: sensor.pond_house_side_station_status
-            
+
           - name: "Pond/Street"
             type: custom:button-card
             template: irrigation_zone
             entity: sensor.pond2_station_status
-            
+
           - name: "Pond Island"
             type: custom:button-card
             template: irrigation_zone
             entity: sensor.island_station_status
-            
+
           - name: "Lawn #1"
             type: custom:button-card
             template: irrigation_zone
             entity: sensor.sprinklerlawn1_station_status
             icon: mdi:sprinkler-variant
-            
+
           - name: "Lawn #2"
             icon: mdi:sprinkler-variant
             type: custom:button-card
@@ -5224,7 +5270,7 @@ views:
             type: custom:button-card
             template: irrigation_zone
             entity: sensor.sprinklerlawn3_station_status
-            icon: mdi:sprinkler-variant            
+            icon: mdi:sprinkler-variant
 
           - type: heading
             heading: "Programs"
@@ -5235,7 +5281,7 @@ views:
                   grid-column: 1 / -1;
                 }
                 ha-card .content.title p {
-                  padding: 0;
+                  padding: 0 0 4px 0;
                   text-align: var(--ha-stack-title-text-align, start);
                   color: var(--ha-card-header-color, var(--primary-text-color));
                   font-family: var(--ha-card-header-font-family, inherit);  
@@ -5244,7 +5290,7 @@ views:
                   line-height: 30px;                  
                   font-weight: 400;
                 }
-                
+
           - name: "Lawn"
             entity: switch.lawn_program_enabled
             type: custom:button-card
@@ -5269,32 +5315,27 @@ views:
     path: utilities
     icon: mdi:power-plug
     background: linear-gradient(to right, rgba(89, 86, 214, 0.2), rgba(89, 86, 214, 0.1)), url(/local/bg.jpg)
+
     type: custom:layout-card
     layout_type: grid-layout
+    kiosk_mode:
+      hide_header: false
     layout:
-      margin: 2vw 2vw 2vw 0 /* when sidebar is hidden, it still uses a cell in the grid */
-      place-items: center stretch
-      place-content: stretch stretch
+      margin: 2vw 2vw 0 0 /* when sidebar is hidden, it still uses a cell in the grid */
+      padding: 0;
+      place-items: stretch stretch
       grid-gap: 2vw
-      grid-template-columns: 0 20vw repeat(2, 1fr)
-      grid-template-rows: repeat(1, min-content) 70px
+      grid-template-columns: 0 minmax(260px, 20%) 1fr
+      grid-template-rows: repeat(1, 1fr) 100px
       grid-template-areas: |
-        ". graphic electric graphs"
-        ". .       .        .     "
-      mediaquery:
-        "(max-width: 800px)":
-          grid-template-columns: 0 repeat(1, 1fr)
-          grid-template-rows: repeat(2, min-content) 70px
-          grid-template-areas: |
-            "graphic electric"
-            "graphic graphs  "
-            ".       .       "
+        ". graphic cards"
+        ". .       .    "
+      mediaquery: # set the sidebar to 0-width
         "(max-width: 1200px)":
-          grid-template-columns: 0 repeat(2, 1fr)
-          grid-template-rows: repeat(1, min-content) 70px
+          grid-template-columns: 0 1fr
           grid-template-areas: |
-            "graphic electric graphs"
-            ".       .        .     "
+            "graphic cards"
+            ".       .    "
     cards:
       - type: custom:navbar-card
         template: main_menu
@@ -5302,43 +5343,165 @@ views:
       - type: custom:button-card
         template: graphic_utilities
         view_layout:
-            grid-area: graphic
+          grid-area: graphic
 
-      - type: custom:auto-entities
+      - type: custom:layout-card
         view_layout:
-          grid-area: electric
-        card:
-          type: vertical-stack
-          #title: "Current Electric"
-        sort:
-          method: name
-          ignore_case: true
-        card_param: cards
-        filter:
-          include:
-            - entity_id: sensor.*_power
-              options:
-                type: custom:button-card
-                template: ts_bar
-                variables:
-                  max_value: 2000
-          exclude:
-            - entity_id: sensor.total_power
-            - entity_id: sensor.*battery_power
-            - entity_id: sensor.cable_modem_*_power
-            - state: "unavailable"
-
-      - title: Graphs
-        type: custom:layout-card
+          grid-area: cards
         layout_type: grid-layout
         layout:
-          grid-gap: 2vw
-          mediaquery:
-            "(max-width: 800px)":
-              grid-template-columns: repeat(2, 1fr)
-        view_layout:
-          grid-area: graphs
+          margin: 0
+          padding: 0;
+          grid-template-columns: repeat(auto-fit, minmax(120px, 1fr))
+          place-items: stretch stretch
+          grid-gap: 1vw
         cards:
+          - type: heading
+            heading: "Current electric power"
+            heading_style: title
+            card_mod:
+              style: |
+                :host {
+                  grid-column: 1 / -1;
+                }
+                ha-card .content.title p {
+                  padding: 0 0 4px 0;
+                  text-align: var(--ha-stack-title-text-align, start);
+                  color: var(--ha-card-header-color, var(--primary-text-color));
+                  font-family: var(--ha-card-header-font-family, inherit);  
+                  letter-spacing: -0.012em;              
+                  font-size: max(2.0vw, 12pt) !important;
+                  line-height: 30px;                  
+                  font-weight: 400;
+                }
+
+          - type: custom:button-card
+            entity: sensor.sonoff_christmas_tree_power
+            template: ts_bar
+            variables:
+              max_value: 2000
+
+          - type: custom:button-card
+            entity: sensor.computer_power
+            template: ts_bar
+            variables:
+              max_value: 2000
+
+          - type: custom:button-card
+            entity: sensor.dryer_power
+            template: ts_bar
+            variables:
+              max_value: 2000
+
+          - type: custom:button-card
+            entity: sensor.sonoff_espresso_machine_power
+            template: ts_bar
+            variables:
+              max_value: 2000
+
+          - type: custom:button-card
+            entity: sensor.fridge_power
+            template: ts_bar
+            variables:
+              max_value: 2000
+
+          - type: custom:button-card
+            entity: sensor.hvac_power
+            template: ts_bar
+            variables:
+              max_value: 2000
+
+          - type: custom:button-card
+            entity: sensor.light_power
+            template: ts_bar
+            variables:
+              max_value: 2000
+
+          - type: custom:button-card
+            entity: sensor.sonoff_media_power
+            template: ts_bar
+            variables:
+              max_value: 2000
+
+          - type: custom:button-card
+            entity: sensor.sonoff_network_power
+            template: ts_bar
+            variables:
+              max_value: 2000
+
+          - type: custom:button-card
+            entity: sensor.opnpool_pump_power
+            template: ts_bar
+            variables:
+              max_value: 2000
+
+          - type: custom:button-card
+            entity: sensor.sonoff_washer_power
+            template: ts_bar
+            variables:
+              max_value: 2000
+
+          - type: custom:button-card
+            entity: sensor.estimated_idle_power
+            template: ts_bar
+            variables:
+              max_value: 2000
+
+          - type: custom:button-card
+            entity: sensor.unknown_power
+            template: ts_bar
+            variables:
+              max_value: 2000
+
+          #- type: custom:mod-card
+          #  card:
+          #    type: custom:auto-entities
+          #    card:
+          #      type: grid
+          #      columns: 1
+          #      square: false
+          #    card_param: cards
+          #    sort:
+          #      method: name
+          #      ignore_case: true
+          #    filter:
+          #      include:
+          #        - entity_id: sensor.*_power
+          #          options:
+          #            type: custom:button-card
+          #            template: ts_bar
+          #            variables:
+          #              max_value: 2000
+          #      exclude:
+          #        - entity_id: sensor.total_power
+          #        - entity_id: sensor.*battery_power
+          #        - entity_id: sensor.cable_modem_*_power
+          #        - state: "unavailable"
+          #  card_mod:
+          #    style: |
+          #      :host {
+          #        grid-column: span 2;
+          #      }
+
+          - type: heading
+            heading: "Electricity and Water"
+            heading_style: title
+            card_mod:
+              style: |
+                :host {
+                  grid-column: 1 / -1;
+                }
+                ha-card .content.title p {
+                  padding: 0 0 4px 0;
+                  text-align: var(--ha-stack-title-text-align, start);
+                  color: var(--ha-card-header-color, var(--primary-text-color));
+                  font-family: var(--ha-card-header-font-family, inherit);  
+                  letter-spacing: -0.012em;              
+                  font-size: max(2.0vw, 12pt) !important;
+                  line-height: 30px;                  
+                  font-weight: 400;
+                }
+
           - entity: sensor.total_power
             type: custom:button-card
             template: bubble_card_graph
@@ -5354,30 +5517,51 @@ views:
               graph_color: "cornflowerblue"
               card_icon: mdi:water-outline
 
+          - type: heading
+            heading: "Month to date"
+            heading_style: title
+            card_mod:
+              style: |
+                :host {
+                  grid-column: 1 / -1;
+                }
+                ha-card .content.title p {
+                  padding: 0 0 4px 0;
+                  text-align: var(--ha-stack-title-text-align, start);
+                  color: var(--ha-card-header-color, var(--primary-text-color));
+                  font-family: var(--ha-card-header-font-family, inherit);  
+                  letter-spacing: -0.012em;              
+                  font-size: max(2.0vw, 12pt) !important;
+                  line-height: 30px;                  
+                  font-weight: 400;
+                }
+
           - type: custom:mod-card
             style: >
-              {% set value = states('sensor.current_bill_electricity_usage_to_date') %}
-              {% if int(value) > 0 %}
+              {% set value = states('sensor.current_bill_electric_cost_to_date') %}
+              {% if float(value) == 0.0 %}
               {{ "ha-card { display: none; }" }}
-              {% endif %}                          card:
+              {% endif %}
+            card:
               entity: sensor.current_bill_electric_usage_to_date
               type: custom:button-card
               template: bubble_card_graph
               variables:
-                card_name: "Electricity to date"
+                card_name: "Electricity"
                 graph_color: "orange"
 
           - type: custom:mod-card
             style: >
-              {% set value = states('sensor.current_bill_gas_usage_to_date') %}
-              {% if int(value) > 0 %}
+              {% set value = states('sensor.current_bill_gas_cost_to_date') %}
+              {% if float(value) == 0.0 %}
               {{ "ha-card { display: none; }" }}
-              {% endif %}                          card:
+              {% endif %}
+            card:
               entity: sensor.current_bill_gas_usage_to_date
               type: custom:button-card
               template: bubble_card_graph
               variables:
-                card_name: "Electricity to date"
+                card_name: "Gas"
                 graph_color: "orange"
 
   #################################################
@@ -5390,36 +5574,27 @@ views:
     path: network
     icon: mdi:web
     background: linear-gradient(to right, rgba(255, 149, 0, 0.2), rgba(255, 149, 0, 0.1)), url(/local/bg.jpg)
+
     type: custom:layout-card
     layout_type: grid-layout
+    kiosk_mode:
+      hide_header: false
     layout:
-      margin: 2vw 2vw 2vw 0 /* when sidebar is hidden, it still uses a cell in the grid */
-      place-items: center stretch
-      place-content: stretch stretch
+      margin: 2vw 2vw 0 0 /* when sidebar is hidden, it still uses a cell in the grid */
+      padding: 0;
+      place-items: stretch stretch
       grid-gap: 2vw
-      grid-template-columns: 0 20vw repeat(2, 1fr)
-      grid-template-rows: repeat(2, min-content) 70px
+      grid-template-columns: 0 minmax(260px, 20%) 1fr
+      grid-template-rows: repeat(1, 1fr) 100px
       grid-template-areas: |
-        ". graphic router  ping     "
-        ". graphic ups     diskusage"
-        ". .       .       .        "
-      mediaquery:
-        "(max-width: 800px)":
-          grid-template-columns: 0 repeat(1, 1fr)
-          grid-template-rows: repeat(4, min-content) 70px
-          grid-template-areas: |
-            "graphic router   "
-            "graphic ping     "
-            "graphic ups      "
-            "graphic diskusage"
-            ".       .        "
+        ". graphic cards"
+        ". .       .    "
+      mediaquery: # set the sidebar to 0-width
         "(max-width: 1200px)":
-          grid-template-columns: 0 repeat(2, 1fr)
-          grid-template-rows: repeat(2, min-content) 70px
+          grid-template-columns: 0 1fr
           grid-template-areas: |
-            "graphic router  ping     "
-            "graphic ups     diskusage"
-            ".       .       .        "
+            "graphic cards"
+            ".       .    "
     cards:
       - type: custom:navbar-card
         template: main_menu
@@ -5429,18 +5604,36 @@ views:
         view_layout:
           grid-area: graphic
 
-      - title: "Router"
-        type: grid
-        columns: 4
-        square: false
+      - type: custom:layout-card
         view_layout:
-          grid-area: router
-        card_mod:
-          style: |
-            ha-card {
-              border: none !important;
-            }
+          grid-area: cards
+        layout_type: grid-layout
+        layout:
+          margin: 0
+          padding: 0;
+          grid-template-columns: repeat(auto-fit, minmax(120px, 1fr))
+          place-items: stretch stretch
+          grid-gap: 1vw
         cards:
+          - type: heading
+            heading: "Router"
+            heading_style: title
+            card_mod:
+              style: |
+                :host {
+                  grid-column: 1 / -1;
+                }
+                ha-card .content.title p {
+                  padding: 0 0 4px 0;
+                  text-align: var(--ha-stack-title-text-align, start);
+                  color: var(--ha-card-header-color, var(--primary-text-color));
+                  font-family: var(--ha-card-header-font-family, inherit);  
+                  letter-spacing: -0.012em;              
+                  font-size: max(2.0vw, 12pt) !important;
+                  line-height: 30px;                  
+                  font-weight: 400;
+                }
+
           - type: custom:button-card # LAN in
             template: circle_graph
             icon: mdi:download
@@ -5505,18 +5698,25 @@ views:
             entity: sensor.rtr_interface_wan_outbytes_kilobytes_per_second
             name: "WAN out"
 
-      - title: "Ping"
-        type: grid
-        columns: 4
-        square: false
-        view_layout:
-          grid-area: ping
-        card_mod:
-          style: |
-            ha-card {
-              border: none !important;
-            }
-        cards:
+          - type: heading
+            heading: "Ping"
+            heading_style: title
+            card_mod:
+              style: |
+                :host {
+                  grid-column: 1 / -1;
+                }
+                ha-card .content.title p {
+                  padding: 0 0 4px 0;
+                  text-align: var(--ha-stack-title-text-align, start);
+                  color: var(--ha-card-header-color, var(--primary-text-color));
+                  font-family: var(--ha-card-header-font-family, inherit);  
+                  letter-spacing: -0.012em;              
+                  font-size: max(2.0vw, 12pt) !important;
+                  line-height: 30px;                  
+                  font-weight: 400;
+                }
+
           - type: custom:button-card # Rtr
             template: connectivity
             variables:
@@ -5575,20 +5775,27 @@ views:
             variables:
               graph_color: cornflowerblue
             entity: sensor.ping_google_round_trip_time_average
-            name: "Google"                      
+            name: "Google"
 
-      - title: "UPS"
-        type: grid
-        columns: 1
-        square: false
-        view_layout:
-          grid-area: ups
-        card_mod:
-          style: |
-            ha-card {
-              border: none !important;
-            }
-        cards:
+          - type: heading
+            heading: "UPS"
+            heading_style: title
+            card_mod:
+              style: |
+                :host {
+                  grid-column: 1 / -1;
+                }
+                ha-card .content.title p {
+                  padding: 0 0 4px 0;
+                  text-align: var(--ha-stack-title-text-align, start);
+                  color: var(--ha-card-header-color, var(--primary-text-color));
+                  font-family: var(--ha-card-header-font-family, inherit);  
+                  letter-spacing: -0.012em;              
+                  font-size: max(2.0vw, 12pt) !important;
+                  line-height: 30px;                  
+                  font-weight: 400;
+                }
+
           - entity: sensor.ups_battery_charge
             name: >
               [[[
@@ -5601,18 +5808,25 @@ views:
               warning_above: 100
               max_value: 100
 
-      - title: "Disk usage"
-        type: grid
-        columns: 1
-        square: false
-        view_layout:
-          grid-area: diskusage
-        card_mod:
-          style: |
-            ha-card {
-              border: none !important;
-            }
-        cards:
+          - type: heading
+            heading: "Disk usage"
+            heading_style: title
+            card_mod:
+              style: |
+                :host {
+                  grid-column: 1 / -1;
+                }
+                ha-card .content.title p {
+                  padding: 0 0 4px 0;
+                  text-align: var(--ha-stack-title-text-align, start);
+                  color: var(--ha-card-header-color, var(--primary-text-color));
+                  font-family: var(--ha-card-header-font-family, inherit);  
+                  letter-spacing: -0.012em;              
+                  font-size: max(2.0vw, 12pt) !important;
+                  line-height: 30px;                  
+                  font-weight: 400;
+                }
+
           - entity: sensor.nas_volume_1_volume_used
             name: "NAS"
             type: custom:button-card
@@ -5641,27 +5855,27 @@ views:
     path: fire
     icon: mdi:fire
     background: linear-gradient(to right, rgba(255, 59, 48, 0.2), rgba(255, 59, 48, 0.1)), url(/local/bg.jpg)
+
     type: custom:layout-card
     layout_type: grid-layout
+    kiosk_mode:
+      hide_header: false
     layout:
-      margin: 2vw 2vw 2vw 0 /* when sidebar is hidden, it still uses a cell in the grid */
-      place-items: center stretch
-      place-content: stretch stretch
+      margin: 2vw 2vw 0 0 /* when sidebar is hidden, it still uses a cell in the grid */
+      padding: 0;
+      place-items: stretch stretch
       grid-gap: 2vw
-      grid-template-columns: 0 20vw 30vw
-      grid-template-rows: repeat(2, min-content) 70px
+      grid-template-columns: 0 minmax(260px, 20%) minmax(260px, 40%)
+      grid-template-rows: repeat(1, 1fr) 100px
       grid-template-areas: |
-        ". graphic on_off_button  "
-        ". graphic smoke_detectors"
-        ". .       .              "
-      mediaquery:
+        ". graphic cards"
+        ". .       .    "
+      mediaquery: # set the sidebar to 0-width
         "(max-width: 1200px)":
-          grid-template-columns: 0 repeat(1, 1fr)
-          grid-template-rows: repeat(2, min-content) 70px
+          grid-template-columns: 0 1fr
           grid-template-areas: |
-            "graphic on_off_button  "
-            "graphic smoke_detectors"
-            ".       .              "
+            "graphic cards"
+            ".       .    "
     cards:
       - type: custom:navbar-card
         template: main_menu
@@ -5671,73 +5885,80 @@ views:
         view_layout:
           grid-area: graphic
 
-      - type: custom:button-card
-        name: "Fire Alarm"
-        template: base
-        view_layout:
-          grid-area: on_off_button
-        aspect_ratio: 1/1
-        entity: alarm_control_panel.fire_alarm
-        triggers_update:
-          - alarm_control_panel.fire_alarm
-          - sensor.fire_status
-        label: >-
-          [[[
-              const id = states['sensor.fire_status']; 
-              return id?.state ? id.state : '';
-              // workaround not updating https://github.com/thomasloven/hass-browser_mod/issues/981
-              //let template = "[[[ const id = states['sensor.fire_status']; return id?.state ? id.state : ''; ]]]";
-              //return template;
-          ]]]
-        show_label: true
-        tap_action:
-          action: call-service
-          service: script.toggle_fire_alarm
-        styles:
-          grid:
-            - align-items: start #
-            - grid-template-areas: |
-                "n"
-                "."
-                "s"
-                "."
-                "l"
-            - grid-template-columns: 1fr
-            - grid-template-rows: min-content 1vw min-content 1vw min-content
-
-          name:
-            - justify-self: start # align to the left in the grid area
-            - line-height: 121%
-            - font-size: 30px
-          state:
-            - justify-self: start
-            - line-height: 115%
-            - font-size: 20px
-          label:
-            - justify-self: start
-            - line-height: 115%
-            - font-size: 20px
-
       - type: custom:layout-card
+        view_layout:
+          grid-area: cards
         layout_type: grid-layout
         layout:
-          grid-gap: 2vw
-          grid-template-columns: repeat(1, 1fr)
-        view_layout:
-          grid-area: smoke_detectors
+          margin: 0
+          padding: 0;
+          grid-template-columns: repeat(auto-fit, minmax(120px, 1fr))
+          place-items: stretch stretch
+          grid-gap: 1vw
         cards:
-          - type: custom:auto-entities
-            show_empty: false
-            filter:
-              include:
-                - domain: binary_sensor
-                  entity_id: /nest_protect_.*_status/
-                  state: "on"
-                  options:
-                    icon: mdi:fire
-                    type: custom:multiple-entity-row
-                    show_state: true
-                    secondary_info: last-changed
+          - name: "Fire Alarm"
+            type: custom:button-card
+            template: base
+            aspect_ratio: 1/1
+            entity: alarm_control_panel.fire_alarm
+            triggers_update:
+              - alarm_control_panel.fire_alarm
+              - sensor.fire_status
+            label: >-
+              [[[
+                  const id = states['sensor.fire_status']; 
+                  return id?.state ? id.state : '';
+                  // workaround not updating https://github.com/thomasloven/hass-browser_mod/issues/981
+                  //let template = "[[[ const id = states['sensor.fire_status']; return id?.state ? id.state : ''; ]]]";
+                  //return template;
+              ]]]
+            show_label: true
+            tap_action:
+              action: call-service
+              service: script.toggle_fire_alarm
+            styles:
+              grid:
+                - align-items: start #
+                - grid-template-areas: |
+                    "n"
+                    "."
+                    "s"
+                    "."
+                    "l"
+                - grid-template-columns: 1fr
+                - grid-template-rows: min-content 1vw min-content 1vw min-content
+
+              name:
+                - justify-self: start # align to the left in the grid area
+                - line-height: 121%
+                - font-size: 30px
+              state:
+                - justify-self: start
+                - line-height: 115%
+                - font-size: 20px
+              label:
+                - justify-self: start
+                - line-height: 115%
+                - font-size: 20px
+
+          - type: custom:layout-card
+            layout_type: grid-layout
+            layout:
+              grid-gap: 2vw
+              grid-template-columns: repeat(1, 1fr)
+            cards:
+              - type: custom:auto-entities
+                show_empty: false
+                filter:
+                  include:
+                    - domain: binary_sensor
+                      entity_id: /nest_protect_.*_status/
+                      state: "on"
+                      options:
+                        icon: mdi:fire
+                        type: custom:multiple-entity-row
+                        show_state: true
+                        secondary_info: last-changed
 
 background:
   opacity: 100
