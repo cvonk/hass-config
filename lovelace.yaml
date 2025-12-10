@@ -2023,7 +2023,7 @@ button_card_templates:
             ]]]
     extra_styles: |
       :host {
-        grid-column: span 2;
+        grid-column: span 1;
       }
 
   card_title: # --------------------------------------------------------------
@@ -3484,7 +3484,7 @@ views:
             "sidebar  cards"
             ".        .    "
     cards:
-      - name: "Set theme to tablet_frosted_glass in user profile"
+      - name: "Set theme to 'Frosted Glass cvonk' in user profile"
         type: custom:button-card
         view_layout:
           grid-area: 1 / 1 / 2 / 2
@@ -4809,7 +4809,7 @@ views:
   - title: "Pool"
     path: pool
     icon: mdi:pool-thermometer
-    background: linear-gradient(to right, rgba(255, 149, 0, 0.2), rgba(255, 149, 0, 0.1)), url(/local/bg.jpg)
+    background: linear-gradient(to right, rgba(0, 122, 255, 0.4), rgba(0, 122, 255, 0.2)), url(/local/bg.jpg)
 
     type: custom:layout-card
     layout_type: grid-layout
@@ -4827,7 +4827,7 @@ views:
         ". .       .    "
       mediaquery: # set the sidebar to 0-width
         "(max-width: 1200px)":
-          grid-template-columns: 0 1fr
+          grid-template-columns: 0 minmax(600px, 20%)
           grid-template-areas: |
             "graphic cards"
             ".       .    "
@@ -4847,282 +4847,376 @@ views:
         layout:
           margin: 0
           padding: 0;
-          grid-template-columns: repeat(auto-fit, minmax(120px, 1fr))
+          grid-template-columns: repeat(auto-fit, minmax(400px, 1fr))
           place-items: stretch stretch
           grid-gap: 1vw
         cards:
-          - heading: "Circuits and components"
-            type: heading
-            heading_style: title
+          - type: custom:mod-card # Circuits
             card_mod:
-              style: |
-                :host {
-                  grid-column: 1 / -1;
-                }
-                ha-card .content.title p {
-                  padding: 0 0 4px 0;
-                  text-align: var(--ha-stack-title-text-align, start);
-                  color: var(--ha-card-header-color, var(--primary-text-color));
-                  font-family: var(--ha-card-header-font-family, inherit);  
-                  letter-spacing: -0.012em;              
-                  font-size: max(2.0vw, 12pt) !important;
-                  line-height: 30px;                  
-                  font-weight: 400;
-                }
-
-          - name: "Pool"
-            type: custom:button-card
-            template: pool_circuit
-            entity: switch.opnpool_pool_circuit
-            icon: mdi:pool
-            variables:
-              schedule_entity: sensor.opnpool_pool_sched
-              pending_entity: input_boolean.opnpool_pool_circuit_pending
-              loader_script_entity: script.toggle_opnpool_pool_circuit_with_support_for_spinner
-
-          - name: "Spa"
-            type: custom:button-card
-            template: pool_circuit
-            entity: switch.opnpool_spa_circuit
-            icon: mdi:hot-tub
-            variables:
-              schedule_entity: sensor.opnpool_spa_sched
-              pending_entity: input_boolean.opnpool_spa_circuit_pending
-              loader_script_entity: script.toggle_opnpool_spa_circuit_with_support_for_spinner
-
-          - name: "Vacuum"
-            type: custom:button-card
-            template: pool_circuit
-            entity: switch.opnpool_aux1_circuit
-            icon: mdi:vacuum
-            variables:
-              schedule_entity: sensor.opnpool_aux1_sched
-              pending_entity: input_boolean.opnpool_aux1_circuit_pending
-
-          - name: "Light"
-            type: custom:button-card
-            template: pool_circuit
-            entity: switch.opnpool_aux2_circuit
-            icon: mdi:lightbulb
-            variables:
-              schedule_entity: sensor.opnpool_aux2_sched
-              pending_entity: input_boolean.opnpool_aux2_circuit_pending
-              loader_script_entity: script.toggle_opnpool_aux2_circuit_with_support_for_spinner
-
-          - name: "Pump"
-            type: custom:button-card
-            template: pool_component
-            entity: binary_sensor.opnpool_pump_running
-            icon: mdi:pump
-            variables:
-              info1_entity: sensor.opnpool_pump_mode
-              info2_entity: sensor.opnpool_pump_estimated_flow
-              status_entity: sensor.opnpool_pump_status
-            card_mod:
-              style: |
-                ha-card {
-                    background: var(--secondary-background-color);
-                }
-
-          - name: "Chlorinator"
-            type: custom:button-card
-            template: pool_component
-            entity: binary_sensor.opnpool_pump_running
-            icon: mdi:lotion-plus
-            variables:
-              info1_entity: sensor.opnpool_chlor_pct
-              info2_entity: sensor.opnpool_chlor_salt
-              status_entity: sensor.opnpool_chlor_status
-
-          - name: "Water Temp"
-            type: custom:button-card
-            template: circle_graph
-            entity: sensor.opnpool_water_temp
-            icon: mdi:pool-thermometer
-            variables:
-              graph_color: cornflowerblue
-
-          - name: "Air Temp"
-            type: custom:button-card
-            template: circle_graph
-            entity: sensor.opnpool_air_temp
-            icon: mdi:thermometer
-            variables:
-              graph_color: cornflowerblue
-
-          - name: "Pool Thermostat"
-            type: conditional
-            conditions:
-              - entity: switch.opnpool_pool_circuit
-                state: "on"
+              style:
+                .: |
+                  ha-card, ha-card::before {
+                    border-radius: 0; 
+                    border-width: 0;
+                    box-shadow: none;
+                    backdrop-filter: none;
+                    background: transparent;
+                  }
+                hui-grid-card:
+                  $: |
+                    .card-header {
+                      padding: 0 1vw !important;
+                      font-size: max(2.0vw, 12pt) !important;
+                      line-height: 30px !important;
+                    }
+                    #root {
+                      padding: 1vw 1vw 1vw 1vw !important;
+                    }
             card:
-              type: custom:simple-thermostat
-              entity: climate.opnpool_pool_heater
-              hide:
-                state: false
-                temperature: false
-              decimals: 0
-              step_size: 1
-              step_layout: row
-              control:
-                _headings: false
-                preset:
-                  _name: "Src"
-                  none:
-                    icon: mdi:power-standby
-                    name: Off
-                  Heater:
-                    icon: mdi:fire
-                  Solar:
-                    icon: mdi:weather-sunny
-                  SolarPref:
-                    icon: mdi:refresh-auto
+              title: "Circuits"
+              type: grid
+              square: false
+              columns: 4
               card_mod:
-                style: |
-                  ha-card {
-                    background-color: rgba(115, 115, 115, 0.25) !important;
-                  }
-                  header {
-                    display: none !important;
-                  }
-                  .body {
-                    padding-bottom: 0 !important;
-                  }
-                  .mode-title {
-                    font-size: 0 !important;
-                    padding: 0 !important;
-                  }
-                  .mode-item {
-                    border-radius: 10px !important;
-                  }
+                style:
+                  .: |
+                    ha-card, ha-card::before {
+                      border-radius: 0; 
+                      border-width: 0;
+                      box-shadow: none;
+                      backdrop-filter: none;
+                      background: transparent;
+                    }
+                  hui-grid-card:
+                    $: |
+                      .card-header {
+                        padding: 0 1vw !important;
+                        font-size: max(2.0vw, 12pt) !important;
+                        line-height: 30px !important;
+                      }
+                      #root {
+                        padding: 1vw 1vw 1vw 1vw !important;
+                      }
+              cards:
+                - entity: switch.opnpool_pool_circuit
+                  template: pool_circuit
+                  type: custom:button-card
+                  icon: mdi:pool
+                  variables:
+                    schedule_entity: sensor.opnpool_pool_sched
+                    pending_entity: input_boolean.opnpool_pool_circuit_pending
+                    loader_script_entity: script.toggle_opnpool_pool_circuit_with_support_for_spinner
 
-          - name: "Spa Thermostat"
-            type: conditional
-            conditions:
-              - entity: switch.opnpool_spa_circuit
-                state: "on"
-            card:
-              type: custom:simple-thermostat
-              entity: climate.opnpool_spa_heater
-              hide:
-                state: false
-                temperature: false
-              decimals: 0
-              step_size: 1
-              step_layout: row
-              control:
-                _headings: false
-                preset:
-                  _name: "Src"
-                  none:
-                    icon: mdi:power-standby
-                    name: Off
-                  Heater:
-                    icon: mdi:fire
-                  Solar:
-                    icon: mdi:weather-sunny
-                  SolarPref:
-                    icon: mdi:refresh-auto
-              card_mod:
-                style: |
-                  ha-card {
-                    background-color: rgba(115, 115, 115, 0.25) !important;
-                  }
-                  header {
-                    display: none !important;
-                  }
-                  .body {
-                    padding-bottom: 0 !important;
-                  }
-                  .mode-title {
-                    font-size: 0 !important;
-                    padding: 0 !important;
-                  }
-                  .mode-item {
-                    border-radius: 10px !important;
-                  }
+                - entity: switch.opnpool_spa_circuit
+                  type: custom:button-card
+                  template: pool_circuit
+                  icon: mdi:hot-tub
+                  variables:
+                    schedule_entity: sensor.opnpool_spa_sched
+                    pending_entity: input_boolean.opnpool_spa_circuit_pending
+                    loader_script_entity: script.toggle_opnpool_spa_circuit_with_support_for_spinner
 
-          - heading: "Last water analysis"
-            type: heading
-            heading_style: title
+                - entity: switch.opnpool_aux1_circuit
+                  type: custom:button-card
+                  template: pool_circuit
+                  icon: mdi:vacuum
+                  variables:
+                    schedule_entity: sensor.opnpool_aux1_sched
+                    pending_entity: input_boolean.opnpool_aux1_circuit_pending
+
+                - entity: switch.opnpool_aux2_circuit
+                  type: custom:button-card
+                  template: pool_circuit
+                  icon: mdi:lightbulb
+                  variables:
+                    schedule_entity: sensor.opnpool_aux2_sched
+                    pending_entity: input_boolean.opnpool_aux2_circuit_pending
+                    loader_script_entity: script.toggle_opnpool_aux2_circuit_with_support_for_spinner
+
+          - type: custom:mod-card # Components
             card_mod:
-              style: |
-                :host {
-                  grid-column: 1 / -1;
-                }
-                ha-card .content.title p {
-                  padding: 0 0 4px 0;
-                  text-align: var(--ha-stack-title-text-align, start);
-                  color: var(--ha-card-header-color, var(--primary-text-color));
-                  font-family: var(--ha-card-header-font-family, inherit);  
-                  letter-spacing: -0.012em;              
-                  font-size: max(2.0vw, 12pt) !important;
-                  line-height: 30px;                  
-                  font-weight: 400;
-                }
+              style:
+                .: |
+                  ha-card, ha-card::before {
+                    border-radius: 0; 
+                    border-width: 0;
+                    box-shadow: none;
+                    backdrop-filter: none;
+                    background: transparent;
+                  }
+                hui-grid-card:
+                  $: |
+                    .card-header {
+                      padding: 0 1vw !important;
+                      font-size: max(2.0vw, 12pt) !important;
+                      line-height: 30px !important;
+                    }
+                    #root {
+                      padding: 1vw 1vw 1vw 1vw !important;
+                    }
+            card:
+              title: "Components"
+              type: grid
+              square: false
+              columns: 4
+              cards:
+                - entity: binary_sensor.opnpool_pump_running
+                  type: custom:button-card
+                  template: pool_component
+                  icon: mdi:pump
+                  variables:
+                    info1_entity: sensor.opnpool_pump_mode
+                    info2_entity: sensor.opnpool_pump_estimated_flow
+                    status_entity: sensor.opnpool_pump_status
+                  card_mod:
+                    style: |
+                      ha-card {
+                          background: var(--secondary-background-color);
+                      }
 
-          - name: "pH"
-            entity: sensor.pool_ph
-            type: custom:button-card
-            template: above_below_bar
-            variables:
-              warning_below: 6
-              warning_above: 9
-              max_value: 12
+                - entity: binary_sensor.opnpool_pump_running
+                  type: custom:button-card
+                  template: pool_component
+                  icon: mdi:lotion-plus
+                  variables:
+                    info1_entity: sensor.opnpool_chlor_pct
+                    info2_entity: sensor.opnpool_chlor_salt
+                    status_entity: sensor.opnpool_chlor_status
 
-          - name: "Total Alkalinity (pH buffer)"
-            entity: sensor.pool_ta
-            type: custom:button-card
-            template: above_below_bar
-            variables:
-              warning_below: 80
-              warning_above: 120
-              max_value: 200
+                - entity: sensor.opnpool_water_temp
+                  name: "Water Temp"
+                  type: custom:button-card
+                  template: circle_graph
+                  icon: mdi:pool-thermometer
+                  variables:
+                    graph_color: cornflowerblue
 
-          - name: "Free Chlorine"
-            entity: sensor.pool_fc
-            type: custom:button-card
-            template: above_below_bar
-            variables:
-              warning_below: 3
-              warning_above: 7
-              max_value: 10
+                - entity: sensor.opnpool_air_temp
+                  type: custom:button-card
+                  template: circle_graph
+                  icon: mdi:thermometer
+                  variables:
+                    graph_color: cornflowerblue
 
-          - name: "Combined Chlorine"
-            entity: sensor.pool_cc
-            type: custom:button-card
-            template: above_below_bar
-            variables:
-              warning_below: 0
-              warning_above: 0.2
-              max_value: 2
+          - type: custom:mod-card # Thermostat
+            card_mod:
+              style:
+                .: |
+                  ha-card, ha-card::before {
+                    border-radius: 0; 
+                    border-width: 0;
+                    box-shadow: none;
+                    backdrop-filter: none;
+                    background: transparent;
+                  }
+                hui-grid-card:
+                  $: |
+                    .card-header {
+                      padding: 0 1vw !important;
+                      font-size: max(2.0vw, 12pt) !important;
+                      line-height: 30px !important;
+                    }
+                    #root {
+                      padding: 1vw 1vw 1vw 1vw !important;
+                    }
+            card:
+              type: conditional
+              conditions:
+                - condition: or
+                  conditions:
+                    - condition: state
+                      entity: switch.opnpool_pool_circuit
+                      state: "on"
+                    - condition: state
+                      entity: switch.opnpool_spa_circuit
+                      state: "on"
+              card:
+                title: "Thermostat"
+                type: grid
+                square: false
+                columns: 1
+                cards:
+                  - name: "Pool Thermostat"
+                    type: conditional
+                    conditions:
+                      - entity: switch.opnpool_pool_circuit
+                        state: "on"
+                    card:
+                      type: custom:simple-thermostat
+                      entity: climate.opnpool_pool_heater
+                      hide:
+                        state: false
+                        temperature: false
+                      decimals: 0
+                      step_size: 1
+                      step_layout: row
+                      control:
+                        _headings: false
+                        preset:
+                          _name: "Src"
+                          none:
+                            icon: mdi:power-standby
+                            name: Off
+                          Heater:
+                            icon: mdi:fire
+                          Solar:
+                            icon: mdi:weather-sunny
+                          SolarPref:
+                            icon: mdi:refresh-auto
+                      card_mod:
+                        style: |
+                          ha-card {
+                            background-color: rgba(115, 115, 115, 0.25) !important;
+                          }
+                          header {
+                            display: none !important;
+                          }
+                          .body {
+                            padding-bottom: 0 !important;
+                          }
+                          .mode-title {
+                            font-size: 0 !important;
+                            padding: 0 !important;
+                          }
+                          .mode-item {
+                            border-radius: 10px !important;
+                          }
 
-          - name: "Cyanuric Acid (Chlor buffer)"
-            entity: sensor.pool_cya
-            type: custom:button-card
-            template: above_below_bar
-            variables:
-              warning_below: 70
-              warning_above: 90
-              max_value: 160
+                  - name: "Spa Thermostat"
+                    type: conditional
+                    conditions:
+                      - entity: switch.opnpool_spa_circuit
+                        state: "on"
+                    card:
+                      type: custom:simple-thermostat
+                      entity: climate.opnpool_spa_heater
+                      hide:
+                        state: false
+                        temperature: false
+                      decimals: 0
+                      step_size: 1
+                      step_layout: row
+                      control:
+                        _headings: false
+                        preset:
+                          _name: "Src"
+                          none:
+                            icon: mdi:power-standby
+                            name: Off
+                          Heater:
+                            icon: mdi:fire
+                          Solar:
+                            icon: mdi:weather-sunny
+                          SolarPref:
+                            icon: mdi:refresh-auto
+                      card_mod:
+                        style: |
+                          ha-card {
+                            background-color: rgba(115, 115, 115, 0.25) !important;
+                          }
+                          header {
+                            display: none !important;
+                          }
+                          .body {
+                            padding-bottom: 0 !important;
+                          }
+                          .mode-title {
+                            font-size: 0 !important;
+                            padding: 0 !important;
+                          }
+                          .mode-item {
+                            border-radius: 10px !important;
+                          }
 
-          - name: "Calcium Hardness"
-            entity: sensor.pool_ch
-            type: custom:button-card
-            template: above_below_bar
-            variables:
-              warning_below: 200
-              warning_above: 650
-              max_value: 850
+          - type: custom:mod-card # Last water analysis
+            card_mod:
+              style:
+                .: |
+                  ha-card, ha-card::before {
+                    border-radius: 0; 
+                    border-width: 0;
+                    box-shadow: none;
+                    backdrop-filter: none;
+                    background: transparent;
+                  }
+                hui-grid-card:
+                  $: |
+                    .card-header {
+                      padding: 0 1vw !important;
+                      font-size: max(2.0vw, 12pt) !important;
+                      line-height: 30px !important;
+                    }
+                    #root {
+                      padding: 1vw 1vw 1vw 1vw !important;
+                    }
+            card:
+              title: "Last water analysis"
+              type: grid
+              square: false
+              columns: 1
+              cards:
+                - name: "pH"
+                  entity: sensor.pool_ph
+                  type: custom:button-card
+                  template: above_below_bar
+                  variables:
+                    warning_below: 6
+                    warning_above: 9
+                    max_value: 12
 
-          - name: "Salt"
-            entity: sensor.pool_salt
-            type: custom:button-card
-            template: above_below_bar
-            variables:
-              warning_below: 2700
-              warning_above: 4500
-              max_value: 6000
+                - name: "Total Alkalinity (pH buffer)"
+                  entity: sensor.pool_ta
+                  type: custom:button-card
+                  template: above_below_bar
+                  variables:
+                    warning_below: 80
+                    warning_above: 120
+                    max_value: 200
+
+                - name: "Free Chlorine"
+                  entity: sensor.pool_fc
+                  type: custom:button-card
+                  template: above_below_bar
+                  variables:
+                    warning_below: 3
+                    warning_above: 7
+                    max_value: 10
+
+                - name: "Combined Chlorine"
+                  entity: sensor.pool_cc
+                  type: custom:button-card
+                  template: above_below_bar
+                  variables:
+                    warning_below: 0
+                    warning_above: 0.2
+                    max_value: 2
+
+                - name: "Cyanuric Acid (Chlor buffer)"
+                  entity: sensor.pool_cya
+                  type: custom:button-card
+                  template: above_below_bar
+                  variables:
+                    warning_below: 70
+                    warning_above: 90
+                    max_value: 160
+
+                - name: "Calcium Hardness"
+                  entity: sensor.pool_ch
+                  type: custom:button-card
+                  template: above_below_bar
+                  variables:
+                    warning_below: 200
+                    warning_above: 650
+                    max_value: 850
+
+                - name: "Salt"
+                  entity: sensor.pool_salt
+                  type: custom:button-card
+                  template: above_below_bar
+                  variables:
+                    warning_below: 2700
+                    warning_above: 4500
+                    max_value: 6000
 
   #################################################
   #                                               #
@@ -5352,7 +5446,7 @@ views:
         layout:
           margin: 0
           padding: 0;
-          grid-template-columns: repeat(auto-fit, minmax(120px, 1fr))
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))
           place-items: stretch stretch
           grid-gap: 1vw
         cards:
@@ -5611,239 +5705,271 @@ views:
         layout:
           margin: 0
           padding: 0;
-          grid-template-columns: repeat(auto-fit, minmax(120px, 1fr))
+          grid-template-columns: repeat(auto-fit, minmax(400px, 1fr))
           place-items: stretch stretch
           grid-gap: 1vw
         cards:
-          - type: heading
-            heading: "Router"
-            heading_style: title
+          - type: custom:mod-card # Router
             card_mod:
-              style: |
-                :host {
-                  grid-column: 1 / -1;
-                }
-                ha-card .content.title p {
-                  padding: 0 0 4px 0;
-                  text-align: var(--ha-stack-title-text-align, start);
-                  color: var(--ha-card-header-color, var(--primary-text-color));
-                  font-family: var(--ha-card-header-font-family, inherit);  
-                  letter-spacing: -0.012em;              
-                  font-size: max(2.0vw, 12pt) !important;
-                  line-height: 30px;                  
-                  font-weight: 400;
-                }
+              style:
+                .: |
+                  ha-card, ha-card::before {
+                    border-radius: 0; 
+                    border-width: 0;
+                    box-shadow: none;
+                    backdrop-filter: none;
+                    background: transparent;
+                  }
+                hui-grid-card:
+                  $: |
+                    .card-header {
+                      padding: 0 1vw !important;
+                      font-size: max(2.0vw, 12pt) !important;
+                      line-height: 30px !important;
+                    }
+                    #root {
+                      padding: 1vw 1vw 1vw 1vw !important;
+                    }
+            card:
+              title: "Router"
+              type: grid
+              square: false
+              columns: 4
+              cards:
+                - type: custom:button-card # LAN in
+                  template: circle_graph
+                  icon: mdi:download
+                  variables:
+                    graph_color: cornflowerblue
+                  entity: sensor.rtr_interface_lan_inbytes_kilobytes_per_second
+                  name: "LAN in"
 
-          - type: custom:button-card # LAN in
-            template: circle_graph
-            icon: mdi:download
-            variables:
-              graph_color: cornflowerblue
-            entity: sensor.rtr_interface_lan_inbytes_kilobytes_per_second
-            name: "LAN in"
+                - type: custom:button-card # LAN out
+                  template: circle_graph
+                  icon: mdi:upload
+                  variables:
+                    graph_color: cornflowerblue
+                  entity: sensor.rtr_interface_lan_outbytes_kilobytes_per_second
+                  name: "LAN out"
 
-          - type: custom:button-card # LAN out
-            template: circle_graph
-            icon: mdi:upload
-            variables:
-              graph_color: cornflowerblue
-            entity: sensor.rtr_interface_lan_outbytes_kilobytes_per_second
-            name: "LAN out"
+                - type: custom:button-card # WG in
+                  template: circle_graph
+                  icon: mdi:download
+                  variables:
+                    graph_color: cornflowerblue
+                  entity: sensor.rtr_interface_homewg_inbytes_kilobytes_per_second
+                  name: "WG in"
 
-          - type: custom:button-card # WG in
-            template: circle_graph
-            icon: mdi:download
-            variables:
-              graph_color: cornflowerblue
-            entity: sensor.rtr_interface_homewg_inbytes_kilobytes_per_second
-            name: "WG in"
+                - type: custom:button-card # WG out
+                  template: circle_graph
+                  icon: mdi:upload
+                  variables:
+                    graph_color: cornflowerblue
+                  entity: sensor.rtr_interface_homewg_outbytes_kilobytes_per_second
+                  name: "WG out"
 
-          - type: custom:button-card # WG out
-            template: circle_graph
-            icon: mdi:upload
-            variables:
-              graph_color: cornflowerblue
-            entity: sensor.rtr_interface_homewg_outbytes_kilobytes_per_second
-            name: "WG out"
+                - type: custom:button-card # Guest in
+                  template: circle_graph
+                  icon: mdi:download
+                  variables:
+                    graph_color: cornflowerblue
+                  entity: sensor.rtr_interface_guest_inbytes_kilobytes_per_second
+                  name: "Guest in"
 
-          - type: custom:button-card # Guest in
-            template: circle_graph
-            icon: mdi:download
-            variables:
-              graph_color: cornflowerblue
-            entity: sensor.rtr_interface_guest_inbytes_kilobytes_per_second
-            name: "Guest in"
+                - type: custom:button-card # Guest out
+                  template: circle_graph
+                  icon: mdi:upload
+                  variables:
+                    graph_color: cornflowerblue
+                  entity: sensor.rtr_interface_guest_outbytes_kilobytes_per_second
+                  name: "Guest out"
 
-          - type: custom:button-card # Guest out
-            template: circle_graph
-            icon: mdi:upload
-            variables:
-              graph_color: cornflowerblue
-            entity: sensor.rtr_interface_guest_outbytes_kilobytes_per_second
-            name: "Guest out"
+                - type: custom:button-card # WAN in
+                  template: circle_graph
+                  icon: mdi:download
+                  variables:
+                    graph_color: cornflowerblue
+                  entity: sensor.rtr_interface_wan_inbytes_kilobytes_per_second
+                  name: "WAN in"
 
-          - type: custom:button-card # WAN in
-            template: circle_graph
-            icon: mdi:download
-            variables:
-              graph_color: cornflowerblue
-            entity: sensor.rtr_interface_wan_inbytes_kilobytes_per_second
-            name: "WAN in"
+                - type: custom:button-card # WAN out
+                  template: circle_graph
+                  icon: mdi:upload
+                  variables:
+                    graph_color: cornflowerblue
+                  entity: sensor.rtr_interface_wan_outbytes_kilobytes_per_second
+                  name: "WAN out"
 
-          - type: custom:button-card # WAN out
-            template: circle_graph
-            icon: mdi:upload
-            variables:
-              graph_color: cornflowerblue
-            entity: sensor.rtr_interface_wan_outbytes_kilobytes_per_second
-            name: "WAN out"
-
-          - type: heading
-            heading: "Ping"
-            heading_style: title
+          - type: custom:mod-card # Ping
             card_mod:
-              style: |
-                :host {
-                  grid-column: 1 / -1;
-                }
-                ha-card .content.title p {
-                  padding: 0 0 4px 0;
-                  text-align: var(--ha-stack-title-text-align, start);
-                  color: var(--ha-card-header-color, var(--primary-text-color));
-                  font-family: var(--ha-card-header-font-family, inherit);  
-                  letter-spacing: -0.012em;              
-                  font-size: max(2.0vw, 12pt) !important;
-                  line-height: 30px;                  
-                  font-weight: 400;
-                }
+              style:
+                .: |
+                  ha-card, ha-card::before {
+                    border-radius: 0; 
+                    border-width: 0;
+                    box-shadow: none;
+                    backdrop-filter: none;
+                    background: transparent;
+                  }
+                hui-grid-card:
+                  $: |
+                    .card-header {
+                      padding: 0 1vw !important;
+                      font-size: max(2.0vw, 12pt) !important;
+                      line-height: 30px !important;
+                    }
+                    #root {
+                      padding: 1vw 1vw 1vw 1vw !important;
+                    }
+            card:
+              title: "Ping"
+              type: grid
+              square: false
+              columns: 4
+              cards:
+                - type: custom:button-card # Rtr
+                  template: connectivity
+                  variables:
+                    graph_color: cornflowerblue
+                  entity: binary_sensor.ping_rtr
+                  name: "Rtr"
 
-          - type: custom:button-card # Rtr
-            template: connectivity
-            variables:
-              graph_color: cornflowerblue
-            entity: binary_sensor.ping_rtr
-            name: "Rtr"
+                - type: custom:button-card # Modem
+                  template: connectivity
+                  variables:
+                    graph_color: cornflowerblue
+                  entity: binary_sensor.ping_modem
+                  name: "Modem"
 
-          - type: custom:button-card # Modem
-            template: connectivity
-            variables:
-              graph_color: cornflowerblue
-            entity: binary_sensor.ping_modem
-            name: "Modem"
+                - type: custom:button-card # DNS
+                  template: connectivity
+                  variables:
+                    graph_color: cornflowerblue
+                  entity: binary_sensor.ping_dns
+                  name: "DNS"
 
-          - type: custom:button-card # DNS
-            template: connectivity
-            variables:
-              graph_color: cornflowerblue
-            entity: binary_sensor.ping_dns
-            name: "DNS"
+                - type: custom:button-card # Google
+                  template: connectivity
+                  variables:
+                    graph_color: cornflowerblue
+                  entity: binary_sensor.ping_google
+                  name: "Google"
 
-          - type: custom:button-card # Google
-            template: connectivity
-            variables:
-              graph_color: cornflowerblue
-            entity: binary_sensor.ping_google
-            name: "Google"
+                - type: custom:button-card # Rtr CPU
+                  template: cpu_ram_sd_temp
+                  variables:
+                    cpu_id: "sensor.rtr_cpu_usage"
+                    ram_id: "sensor.rtr_memory_used_percentage"
+                    sd_id: "sensor.rtr_filesystem_used_percentage_root"
+                    load_id: "sensor.rtr_system_load_average_one_minute"
+                  entity: sensor.rtr_system_load_average_one_minute
+                  icon: mdi:router
+                  name: "Rtr"
 
-          - type: custom:button-card # Rtr CPU
-            template: cpu_ram_sd_temp
-            variables:
-              cpu_id: "sensor.rtr_cpu_usage"
-              ram_id: "sensor.rtr_memory_used_percentage"
-              sd_id: "sensor.rtr_filesystem_used_percentage_root"
-              load_id: "sensor.rtr_system_load_average_one_minute"
-            entity: sensor.rtr_system_load_average_one_minute
-            icon: mdi:router
-            name: "Rtr"
+                - type: custom:button-card # Modem Status
+                  template: netstat
+                  variables:
+                    graph_color: cornflowerblue
+                  entity: sensor.cable_modem_connection_status
+                  name: "Modem"
 
-          - type: custom:button-card # Modem Status
-            template: netstat
-            variables:
-              graph_color: cornflowerblue
-            entity: sensor.cable_modem_connection_status
-            name: "Modem"
+                - type: custom:button-card # DNS Ping delay
+                  template: netstat
+                  variables:
+                    graph_color: cornflowerblue
+                  entity: sensor.ping_dns_round_trip_time_average
+                  name: "DNS"
 
-          - type: custom:button-card # DNS Ping delay
-            template: netstat
-            variables:
-              graph_color: cornflowerblue
-            entity: sensor.ping_dns_round_trip_time_average
-            name: "DNS"
+                - type: custom:button-card # Google Ping delay
+                  template: netstat
+                  variables:
+                    graph_color: cornflowerblue
+                  entity: sensor.ping_google_round_trip_time_average
+                  name: "Google"
 
-          - type: custom:button-card # Google Ping delay
-            template: netstat
-            variables:
-              graph_color: cornflowerblue
-            entity: sensor.ping_google_round_trip_time_average
-            name: "Google"
-
-          - type: heading
-            heading: "UPS"
-            heading_style: title
+          - type: custom:mod-card # UPS
             card_mod:
-              style: |
-                :host {
-                  grid-column: 1 / -1;
-                }
-                ha-card .content.title p {
-                  padding: 0 0 4px 0;
-                  text-align: var(--ha-stack-title-text-align, start);
-                  color: var(--ha-card-header-color, var(--primary-text-color));
-                  font-family: var(--ha-card-header-font-family, inherit);  
-                  letter-spacing: -0.012em;              
-                  font-size: max(2.0vw, 12pt) !important;
-                  line-height: 30px;                  
-                  font-weight: 400;
-                }
+              style:
+                .: |
+                  ha-card, ha-card::before {
+                    border-radius: 0; 
+                    border-width: 0;
+                    box-shadow: none;
+                    backdrop-filter: none;
+                    background: transparent;
+                  }
+                hui-grid-card:
+                  $: |
+                    .card-header {
+                      padding: 0 1vw !important;
+                      font-size: max(2.0vw, 12pt) !important;
+                      line-height: 30px !important;
+                    }
+                    #root {
+                      padding: 1vw 1vw 1vw 1vw !important;
+                    }
+            card:
+              title: "UPS"
+              type: grid
+              square: false
+              columns: 1
+              cards:
+                - entity: sensor.ups_battery_charge
+                  name: >
+                    [[[
+                        return states['sensor.ups_status']?.state;
+                    ]]]
+                  type: custom:button-card
+                  template: above_below_bar
+                  variables:
+                    warning_below: 30
+                    warning_above: 100
+                    max_value: 100
 
-          - entity: sensor.ups_battery_charge
-            name: >
-              [[[
-                  return states['sensor.ups_status']?.state;
-              ]]]
-            type: custom:button-card
-            template: above_below_bar
-            variables:
-              warning_below: 30
-              warning_above: 100
-              max_value: 100
-
-          - type: heading
-            heading: "Disk usage"
-            heading_style: title
+          - type: custom:mod-card # Disk usage
             card_mod:
-              style: |
-                :host {
-                  grid-column: 1 / -1;
-                }
-                ha-card .content.title p {
-                  padding: 0 0 4px 0;
-                  text-align: var(--ha-stack-title-text-align, start);
-                  color: var(--ha-card-header-color, var(--primary-text-color));
-                  font-family: var(--ha-card-header-font-family, inherit);  
-                  letter-spacing: -0.012em;              
-                  font-size: max(2.0vw, 12pt) !important;
-                  line-height: 30px;                  
-                  font-weight: 400;
-                }
+              style:
+                .: |
+                  ha-card, ha-card::before {
+                    border-radius: 0; 
+                    border-width: 0;
+                    box-shadow: none;
+                    backdrop-filter: none;
+                    background: transparent;
+                  }
+                hui-grid-card:
+                  $: |
+                    .card-header {
+                      padding: 0 1vw !important;
+                      font-size: max(2.0vw, 12pt) !important;
+                      line-height: 30px !important;
+                    }
+                    #root {
+                      padding: 1vw 1vw 1vw 1vw !important;
+                    }
+            card:
+              title: "Disk usage"
+              type: grid
+              square: false
+              columns: 1
+              cards:
+                - entity: sensor.nas_volume_1_volume_used
+                  name: "NAS"
+                  type: custom:button-card
+                  template: above_below_bar
+                  variables:
+                    warning_below: 0
+                    warning_above: 85
+                    max_value: 100
 
-          - entity: sensor.nas_volume_1_volume_used
-            name: "NAS"
-            type: custom:button-card
-            template: above_below_bar
-            variables:
-              warning_below: 0
-              warning_above: 85
-              max_value: 100
-
-          - entity: sensor.backup_volume_1_volume_used
-            name: "Backup"
-            type: custom:button-card
-            template: above_below_bar
-            variables:
-              warning_below: 0
-              warning_above: 85
-              max_value: 100
+                - entity: sensor.backup_volume_1_volume_used
+                  name: "Backup"
+                  type: custom:button-card
+                  template: above_below_bar
+                  variables:
+                    warning_below: 0
+                    warning_above: 85
+                    max_value: 100
 
   #################################################
   #                                               #
