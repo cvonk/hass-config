@@ -3477,7 +3477,6 @@ views:
           grid-template-areas: |
             "sidebar  cards"
             ".        .    "
-
     cards:
       - name: "Set theme to tablet_frosted_glass in user profile"
         type: custom:button-card
@@ -3503,9 +3502,7 @@ views:
             - background: yellow
 
       #################################################
-      #                                               #
       #                    SIDEBAR                    #
-      #                                               #
       #################################################
 
       - type: custom:layout-card
@@ -3641,9 +3638,7 @@ views:
                   }
 
       #################################################
-      #                                               #
       #                     CARDS                     #
-      #                                               #
       #################################################
 
       - type: custom:layout-card
@@ -3655,7 +3650,6 @@ views:
           padding: 0;
           grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))
           place-items: stretch stretch
-          //place-content: stretch stretch
           grid-gap: 2vw
         cards:
 
@@ -4407,9 +4401,7 @@ views:
                                               volume: 1
 
       #################################################
-      #                                               #
       #                   NAVBAR                      #
-      #                                               #
       #################################################
 
       - type: custom:navbar-card # Navigation bar ----------------------------
@@ -5099,53 +5091,63 @@ views:
     path: irrigation
     icon: mdi:sprinkler-variant
     background: linear-gradient(to right, rgba(0, 122, 255, 0.2), rgba(0, 122, 255, 0.1)), url(/local/bg.jpg)
+
     type: custom:layout-card
     layout_type: grid-layout
+    kiosk_mode:
+      hide_header: false    
     layout:
-      margin: 2vw 2vw 2vw 0 /* when sidebar is hidden, it still uses a cell in the grid */
-      place-items: center stretch
-      place-content: stretch stretch
+      margin: 2vw 2vw 0 0 /* when sidebar is hidden, it still uses a cell in the grid */
+      padding: 0;
       grid-gap: 2vw
-      grid-template-columns: 0 20vw repeat(1, 1fr)
-      grid-template-rows: repeat(2, min-content) 70px
+      grid-template-columns: 0 minmax(260px, 20%) 1fr
+      grid-template-rows: repeat(1, 1fr) 100px
       grid-template-areas: |
-        ". graphic zones   "
-        ". graphic programs"
-        ". .       .       "
-      mediaquery:
+        ". graphic cards"
+        ". .       .    "
+      mediaquery: # set the sidebar to 0-width
         "(max-width: 1200px)":
-          grid-template-columns: 0 repeat(1, 1fr) 70px
-          grid-template-rows: repeat(2, min-content)
+          grid-template-columns: 0 1fr
           grid-template-areas: |
-            "graphic zones   "
-            "graphic programs"
-            ".       .       "
+            "graphic cards"
+            ".       .    "
     cards:
       - type: custom:navbar-card
         template: main_menu
 
       - type: custom:button-card
         template: graphic_irrigation
-        view_layout:
-          grid-area: graphic
 
-      - title: "Zones"
-        type: custom:layout-card # Irrigation zones
+      - type: custom:layout-card
+        view_layout:
+          grid-area: cards
         layout_type: grid-layout
         layout:
+          margin: 0
+          padding: 0;
+          grid-template-columns: repeat(auto-fit, minmax(120px, 1fr))
+          place-items: stretch stretch
           grid-gap: 2vw
-          grid-template-columns: repeat(4, 1fr)
-          mediaquery:
-            "(max-width: 800px)":
-              grid-template-columns: repeat(2, 1fr)
-        view_layout:
-          grid-area: zones
-        card_mod:
-          style: |
-            ha-card {
-                background: var(--secondary-background-color);
-            }
         cards:
+          - type: heading
+            heading: "Zones"
+            heading_style: title
+            card_mod:
+              style: |
+                :host {
+                  grid-column: 1 / -1;
+                }
+                ha-card .content.title p {
+                  padding: 0;
+                  text-align: var(--ha-stack-title-text-align, start);
+                  color: var(--ha-card-header-color, var(--primary-text-color));
+                  font-family: var(--ha-card-header-font-family, inherit);  
+                  letter-spacing: -0.012em;              
+                  font-size: max(2.0vw, 12pt) !important;
+                  line-height: 30px;                  
+                  font-weight: 400;
+                }
+
           - name: "Box #1"
             type: custom:button-card
             template: irrigation_zone
@@ -5224,23 +5226,25 @@ views:
             entity: sensor.sprinklerlawn3_station_status
             icon: mdi:sprinkler-variant            
 
-      - title: "Programs"
-        type: custom:layout-card # Programs
-        layout_type: grid-layout
-        layout:
-          grid-gap: 2vw
-          grid-template-columns: repeat(4, 1fr)
-          mediaquery:
-            "(max-width: 800px)":
-              grid-template-columns: repeat(2, 1fr)
-        view_layout:
-          grid-area: programs
-        card_mod:
-          style: |
-            ha-card {
-                background: var(--secondary-background-color);
-            }
-        cards:
+          - type: heading
+            heading: "Programs"
+            heading_style: title
+            card_mod:
+              style: |
+                :host {
+                  grid-column: 1 / -1;
+                }
+                ha-card .content.title p {
+                  padding: 0;
+                  text-align: var(--ha-stack-title-text-align, start);
+                  color: var(--ha-card-header-color, var(--primary-text-color));
+                  font-family: var(--ha-card-header-font-family, inherit);  
+                  letter-spacing: -0.012em;              
+                  font-size: max(2.0vw, 12pt) !important;
+                  line-height: 30px;                  
+                  font-weight: 400;
+                }
+                
           - name: "Lawn"
             entity: switch.lawn_program_enabled
             type: custom:button-card
