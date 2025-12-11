@@ -17,28 +17,28 @@ sensor:
 
 homeassistant:
   customize:
-    sensor.terracehabitat_aqi:
+    sensor.los_altos_country_club_aqi:
       friendly_name: "Air Quality Index"
       icon: mdi:waves
-    sensor.terracehabitat_humidity:
+    sensor.los_altos_country_club_humidity:
       friendly_name: "Air Humidity"
       icon: mdi:water-percent
-    sensor.terracehabitat_pm1:
+    sensor.los_altos_country_club_pm1:
       friendly_name: "Air Particles ≤ 1 µm"
       icon: mdi:waves
-    sensor.terracehabitat_pm2_5:
+    sensor.los_altos_country_club_pm2_5:
       friendly_name: "Air Particles ≤ 2.5 µm"
       icon: mdi:waves
-    sensor.terracehabitat_pm10:
+    sensor.los_altos_country_club_pm10:
       friendly_name: "Air Particles ≤ 10 µm"
       icon: mdi:waves
-    sensor.terracehabitat_pressure:
+    sensor.los_altos_country_club_pressure:
       friendly_name: "Air Pressure"
       icon: mdi:arrow-collapse-down
-    sensor.terracehabitat_temperature:
+    sensor.los_altos_country_club_temperature:
       friendly_name: "Air Temperature"
       icon: mdi:thermometer
-    sensor.terracehabitat_volatile_organic_compounds_air_quality_index:
+    sensor.los_altos_country_club_volatile_organic_compounds_air_quality_index:
       friendly_name: "Air VOC AQI"
       icon: mdi:waves
 
@@ -65,14 +65,14 @@ template:
           - "unavailable"
 
   - sensor:
-      - unique_id: terracehabitat_aqi
-        name: "Air Quality Index"
+      - unique_id: los_altos_country_club_aqi
+        name: "Los Altos Country Club AQI"
         device_class: aqi
         state: >
           {% macro calcAQI(Cp, Ih, Il, BPh, BPl) -%}
             {{ (((Ih - Il)/(BPh - BPl)) * (Cp - BPl) + Il)|round }}
           {%- endmacro %}
-          {% set pm2_5 = states('sensor.terracehabitat_pm2_5') %}
+          {% set pm2_5 = states('sensor.los_altos_country_club_pm2_5') %}
           {% if (pm2_5 | float(0)) > 1000 %}
             invalid
           {% elif (pm2_5 | float(0)) > 350.5 %}
@@ -93,10 +93,10 @@ template:
             invalid
           {% endif %}
 
-      - unique_id: terracehabitat_description
+      - unique_id: los_altos_country_club_description
         name: "AQI Description"
         state: >
-          {% set aqi = states('sensor.terracehabitat_aqi') %}
+          {% set aqi = states('sensor.los_altos_country_club_aqi') %}
           {% if (aqi | float(0)) >= 401.0 %}
             Very Hazardous
           {% elif (aqi | float(0)) >= 301.0 %}
@@ -121,7 +121,7 @@ template:
         device_class: problem
         icon: mdi:alert
         state: >
-          {% set value = states('sensor.terracehabitat_aqi') %}
+          {% set value = states('sensor.los_altos_country_club_aqi') %}
           {% if value | is_number %}
           {{    float(value) >= 101.0 }}
           {% else %}
@@ -145,7 +145,7 @@ template:
         device_class: problem
         icon: mdi:alert
         state: >-
-          {% set value = states('sensor.terracehabitat_humidity') %}
+          {% set value = states('sensor.los_altos_country_club_humidity') %}
           {% if value | is_number %}
           {{    float(value) >= 90.0 }}
           {% else %}
@@ -193,6 +193,6 @@ google_assistant:
     climate.opnpool_outside_air:
       name: temperature
       room: Outside
-    sensor.terracehabitat_aqi:
+    sensor.los_altos_country_club_aqi:
       name: air quality
       room: Outside
