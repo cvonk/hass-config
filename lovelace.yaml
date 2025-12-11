@@ -5919,6 +5919,25 @@ views:
           grid-gap: 1vw
           grid-template-columns: repeat(auto-fit, minmax(240px, 1fr))
         cards:
+          - heading: "Fire alarm"
+            type: heading
+            heading_style: title
+            card_mod:
+              style: |
+                :host {
+                  grid-column: 1 / -1;
+                }
+                ha-card .content.title p {
+                  padding: 0 0 4px 0;
+                  text-align: var(--ha-stack-title-text-align, start);
+                  color: var(--ha-card-header-color, var(--primary-text-color));
+                  font-family: var(--ha-card-header-font-family, inherit);  
+                  letter-spacing: -0.012em;              
+                  font-size: max(2.0vw, 12pt) !important;
+                  line-height: 30px;                  
+                  font-weight: 400;
+                }
+
           - name: "Fire Alarm"
             type: custom:button-card
             template: base
