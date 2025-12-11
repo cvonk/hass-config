@@ -1,5 +1,5 @@
 - id: '1763962089725'
-  alias: Fire pop-up on fire_problem
+  alias: Navigate to Fire View on fire_problem
   description: ''
   triggers:
   - trigger: state
@@ -16,12 +16,17 @@
       message: Fire pop-up ..
       level: warning
       logger: fire_automation
+  - action: browser_mod.navigate
+    metadata: {}
+    data:
+      path: /lovelace-ui/fire
   - action: browser_mod.popup
     metadata: {}
     data:
       dismissable: true
       autoclose: false
       popup_card_id: lovelace-ui/fire_popup
+    enabled: false
   - action: input_boolean.turn_off
     metadata: {}
     data: {}
