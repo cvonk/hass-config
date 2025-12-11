@@ -441,7 +441,7 @@ Frosted Glass cvonk:
   # background-image: "center / cover no-repeat fixed url('https://cdn.jsdelivr.net/gh/wessamlauf/homeassistant-frosted-glass-themes@refs/heads/main/themes/frosted-glass-dark-background.jpg')"
   lovelace-background: "var(--background-image)"
   primary-background-color: "rgba(30, 30, 30, 1)" # 1.2 change - improved background color for a darker feel
-  secondary-background-color: "rgba(30, 33, 54, 0.6)"
+  secondary-background-color: "rgba(0,0,0, 0.3)"
   clear-background-color: "rgba(30, 33, 54, 0.7)"
   card-background-color: "rgba(30, 30, 30, 0.85)"
   ha-card-background: "rgba(30, 30, 30, 0.9)"
