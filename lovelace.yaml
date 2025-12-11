@@ -10,19 +10,12 @@
 #  - Many thanks to Mattias Persson for sharing his work.  It gave me a head
 #    start in configuring this Dashboard
 
-kiosk_mode:
-  admin_settings:
-    hide_sidebar: false
-  user_settings:
-    - users:
-        - "panel"
-      kiosk: true
-
 wallpanel:
-  enabled: false
-  fullscreen: true
+  enabled: true
+  fullscreen: false
+  hide_toolbar: true
   idle_time: 600
-  screensaver_entity: input_boolean.panel_screensaver # switch created in UI
+  # screensaver_entity: input_boolean.panel_screensaver # switch created in UI
   profiles:
     device.browser_mod_panel_m11:
       enabled: true
@@ -816,6 +809,10 @@ button_card_templates:
           backdrop-filter: none !important
         }
 
+  more_info:
+    custom_fields:
+      circle: >
+        <ha-icon icon="mdi:dots-vertical" style="width: 80%;"></ha-icon>
   loader: # ------------------------------------------------------------------
     custom_fields:
       loader: >
@@ -951,6 +948,8 @@ button_card_templates:
   irrigation_program: # ------------------------------------------------------
     template:
       - base
+      - circle
+      - more_info
     variables: start_time_entity
     icon: mdi:auto-mode
     size: 80%
@@ -3164,11 +3163,6 @@ button_card_templates:
         justify-self: center;
         align-self: center;
       }                    
-      @media screen and (max-width: 1200px) {
-        #graphic {
-          display: none; /* hide in last row, so it doesn't create an extra column on the right */
-        }                    
-      }
       #graphic {
         border: 0;
         margin: 0;
@@ -3344,12 +3338,13 @@ views:
     type: custom:layout-card
     layout_type: grid-layout
     layout:
-      height: calc(100vh - 2vw - var(--header-height)) /* 2vw margin, 8px padding */
+      height: calc(100vh - 0vw - var(--header-height)) /* 2vw margin, 8px padding */
       margin: 2vw 2vw 0 0 /* when sidebar is hidden, it still uses a cell in the grid */
       padding: 0;
+      #place-content: stretch stretch
       grid-gap: 2vw
       grid-template-columns: minmax(260px, 25%) 1fr
-      grid-template-rows: 1fr 100px  /* leave space for navbar */
+      grid-template-rows: 1fr 60px  /* leave space for navbar */
       grid-template-areas: |
         "sidebar cards"
         ".       .    "
@@ -3368,7 +3363,7 @@ views:
           card:
             - display: >
                 [[[
-                  return (hass.themes.theme === 'tablet') || (hass.themes.theme === 'tablet_frosted_glass') || (hass.themes.theme === 'Frosted Glass cvonk')
+                  return (hass.themes.theme === 'Frosted Glass cvonk')
                       ? 'none'
                       : 'initial';
                 ]]]
@@ -3397,29 +3392,37 @@ views:
         view_layout:
           grid-area: sidebar
         card_mod:
-          style: |
-            ha-card, ha-card::before {
-              border: none;
-              box-shadow: none;
-              backdrop-filter: none;
-              background: transparent;
-            }
-            @media screen and (max-width: 1200px) {
-              ha-card {
-                display: none; /* still takes up a grid cell */
-                height: 0;
-                margin: 2vw;
+          style:
+            .: |
+              :host {
+                place-self: stretch;
               }
-            }
+              ., #root {
+                height: 100%;
+              }
+              ha-card, ha-card::before {
+                height: 100%;
+                border: none;
+                box-shadow: none;
+                backdrop-filter: none;
+                background: transparent;
+              }
+              @media screen and (max-width: 1200px) {
+                ha-card {
+                  display: none; /* still takes up a grid cell */
+                  height: 0;
+                  margin: 2vw;
+                }
+              }
         card:
           type: custom:layout-card
           layout_type: grid-layout
           layout:
-            height: 85vh
-            place-items: center center
+            height: 100%
+            place-items: stretch stretch
             place-content: stretch stretch
             grid-gap: 2vw
-            grid-template-columns: 1fr
+            grid-template-columns: 0 1fr
             grid-template-rows: min-content 1fr min-content
             grid-template-areas: |
               ". time"
@@ -3523,8 +3526,8 @@ views:
         layout:
           margin: 0
           padding: 0;
-          grid-template-columns: repeat(auto-fit, minmax(260px, 1fr))
           grid-gap: 2vw
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr))
         cards:
           - type: custom:mod-card # Living room ------------------------------
             card_mod:
@@ -4289,10 +4292,9 @@ views:
     layout:
       margin: 2vw 2vw 0 0 /* when sidebar is hidden, it still uses a cell in the grid */
       padding: 0;
-      place-items: stretch stretch
       grid-gap: 2vw
       grid-template-columns: minmax(260px, 20%) 1fr
-      grid-template-rows: 1fr 100px  /* leave space for navbar */
+      grid-template-rows: 1fr 60px  /* leave space for navbar */
       grid-template-areas: |
         "graphic cards"
         ".       .    "
@@ -4329,9 +4331,8 @@ views:
         layout:
           margin: 0
           padding: 0;
-          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))
-          place-items: stretch stretch
           grid-gap: 1vw
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))
         cards:
           - heading: "Indoor climate controls"
             type: heading
@@ -4420,10 +4421,9 @@ views:
     layout:
       margin: 2vw 2vw 0 0 /* when sidebar is hidden, it still uses a cell in the grid */
       padding: 0;
-      place-items: stretch stretch
       grid-gap: 2vw
       grid-template-columns: minmax(260px, 20%) 1fr
-      grid-template-rows: 1fr 100px  /* leave space for navbar */
+      grid-template-rows: 1fr 60px  /* leave space for navbar */
       grid-template-areas: |
         "graphic cards"
         ".       .    "
@@ -4520,18 +4520,19 @@ views:
                 service: browser_mod.popup
                 data:
                   title: "Country Club"
+                  icon: mdi:waves
                   card_mod:
                     style:
                       ha-dialog: |
                         ha-dialog-header, .content {
-                          background: linear-gradient(to right, rgba(76, 217, 100, 0.2), rgba(76, 217, 100, 0.1));
+                          background: linear-gradient(to right, rgba(76, 217, 100, 0.1), rgba(76, 217, 100, 0.05));
                         }
                   content:
                     type: entities
                     card_mod:
                       style: |
                         ha-card {
-                          background: linear-gradient(to right, rgba(76, 217, 100, 0.2), rgba(76, 217, 100, 0.1));
+                          background: linear-gradient(to right, rgba(76, 217, 100, 0.0), rgba(76, 217, 100, 0.05));
                         }
                     entities:
                       - entity: sensor.los_altos_country_club_temperature
@@ -4593,10 +4594,9 @@ views:
     layout:
       margin: 2vw 2vw 0 0 /* when sidebar is hidden, it still uses a cell in the grid */
       padding: 0;
-      place-items: stretch stretch
       grid-gap: 2vw
       grid-template-columns: minmax(260px, 20%) 1fr
-      grid-template-rows: 1fr 100px  /* leave space for navbar */
+      grid-template-rows: 1fr 60px  /* leave space for navbar */
       grid-template-areas: |
         "graphic cards"
         ".       .    "
@@ -4633,9 +4633,8 @@ views:
         layout:
           margin: 0
           padding: 0;
-          grid-template-columns: repeat(auto-fit, minmax(500px, 1fr))
-          place-items: stretch stretch
           grid-gap: 1vw
+          grid-template-columns: repeat(auto-fit, minmax(500px, 1fr))
         cards:
           - heading: "Outside cameras"
             type: heading
@@ -4696,10 +4695,9 @@ views:
     layout:
       margin: 2vw 2vw 0 0 /* when sidebar is hidden, it still uses a cell in the grid */
       padding: 0;
-      place-items: stretch stretch
       grid-gap: 2vw
       grid-template-columns: minmax(260px, 20%) 1fr
-      grid-template-rows: 1fr 100px  /* leave space for navbar */
+      grid-template-rows: 1fr 60px  /* leave space for navbar */
       grid-template-areas: |
         "graphic cards"
         ".       .    "
@@ -4736,9 +4734,8 @@ views:
         layout:
           margin: 0
           padding: 0;
-          grid-template-columns: repeat(auto-fit, minmax(400px, 1fr))
-          place-items: stretch stretch
           grid-gap: 1vw
+          grid-template-columns: repeat(auto-fit, minmax(400px, 1fr))
         cards:
           - type: custom:mod-card # Circuits
             card_mod:
@@ -5123,10 +5120,9 @@ views:
     layout:
       margin: 2vw 2vw 0 0 /* when sidebar is hidden, it still uses a cell in the grid */
       padding: 0;
-      place-items: stretch stretch
       grid-gap: 2vw
       grid-template-columns: 0 minmax(260px, 20%) 1fr
-      grid-template-rows: 1fr 100px  /* leave space for navbar */
+      grid-template-rows: 1fr 60px  /* leave space for navbar */
       grid-template-areas: |
         ". graphic cards"
         ". .       .    "
@@ -5166,9 +5162,8 @@ views:
         layout:
           margin: 0
           padding: 0;
-          grid-template-columns: repeat(auto-fit, minmax(120px, 1fr))
-          place-items: stretch stretch
           grid-gap: 1vw
+          grid-template-columns: repeat(auto-fit, minmax(120px, 1fr))
         cards:
           - type: heading
             heading: "Irrigation zones"
@@ -5292,6 +5287,43 @@ views:
             template: irrigation_program
             variables:
               start_time_entity: time.lawn_start_time
+            tap_action:
+              action: fire-dom-event
+              browser_mod:
+                service: browser_mod.popup
+                data:
+                  title: "Lawn program"
+                  icon: mdi:auto-mode
+                  card_mod:
+                    style:
+                      ha-dialog: |
+                        ha-dialog-header, .content {
+                          background: linear-gradient(to right, rgba(0, 122, 255, 0.1), rgba(0, 122, 255, 0.05));
+                        }
+                  content:
+                    type: entities
+                    card_mod:
+                      style: |
+                        ha-card {
+                          background: linear-gradient(to right, rgba(0, 122, 255, 0.1), rgba(0, 122, 255, 0.05));
+                        }
+                    entities:
+                      - entity: switch.lawn_program_enabled
+                        name: "Enabled"
+                      - entity: binary_sensor.lawn_program_running
+                        name: "Program running"
+                      - entity: time.lawn_start_time
+                        name: "Start time"
+                      - entity: select.lawn_restrictions
+                        name: "Restrictions"
+                      - entity: switch.lawn_program_use_weather
+                        name: "Use weather"
+                      - entity: binary_sensor.opensprinkler_rain_delay_active
+                        name: "Rain delay active"
+                      - entity: select.lawn_type
+                        name: "Type"
+                      - entity: number.lawn_interval_days
+                        name: "Interval days"
 
           - name: "Drip"
             entity: switch.drip_program_enabled
@@ -5299,6 +5331,43 @@ views:
             template: irrigation_program
             variables:
               start_time_entity: time.drip_start_time
+            tap_action:
+              action: fire-dom-event
+              browser_mod:
+                service: browser_mod.popup
+                data:
+                  title: "Drip program"
+                  icon: mdi:auto-mode
+                  card_mod:
+                    style:
+                      ha-dialog: |
+                        ha-dialog-header, .content {
+                          background: linear-gradient(to right, rgba(0, 122, 255, 0.1), rgba(0, 122, 255, 0.05));
+                        }
+                  content:
+                    type: entities
+                    card_mod:
+                      style: |
+                        ha-card {
+                          background: linear-gradient(to right, rgba(0, 122, 255, 0.1), rgba(0, 122, 255, 0.05));
+                        }
+                    entities:
+                      - entity: switch.drip_program_enabled
+                        name: "Enabled"
+                      - entity: binary_sensor.drip_program_running
+                        name: "Program running"
+                      - entity: time.drip_start_time
+                        name: "Start time"
+                      - entity: select.drip_restrictions
+                        name: "Restrictions"
+                      - entity: switch.drip_program_use_weather
+                        name: "Use weather"
+                      - entity: binary_sensor.opensprinkler_rain_delay_active
+                        name: "Rain delay active"
+                      - entity: select.drip_type
+                        name: "Type"
+                      - entity: number.drip_interval_days
+                        name: "Interval days"
 
   #################################################
   #                                               #
@@ -5316,10 +5385,9 @@ views:
     layout:
       margin: 2vw 2vw 0 0 /* when sidebar is hidden, it still uses a cell in the grid */
       padding: 0;
-      place-items: stretch stretch
       grid-gap: 2vw
       grid-template-columns: minmax(260px, 20%) 1fr
-      grid-template-rows: 1fr 100px  /* leave space for navbar */
+      grid-template-rows: 1fr 60px  /* leave space for navbar */
       grid-template-areas: |
         "graphic cards"
         ".       .    "
@@ -5356,9 +5424,8 @@ views:
         layout:
           margin: 0
           padding: 0;
-          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))
-          place-items: stretch stretch
           grid-gap: 1vw
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))
         cards:
           - type: heading
             heading: "Current electric power"
@@ -5554,10 +5621,9 @@ views:
     layout:
       margin: 2vw 2vw 0 0 /* when sidebar is hidden, it still uses a cell in the grid */
       padding: 0;
-      place-items: stretch stretch
       grid-gap: 2vw
       grid-template-columns: minmax(260px, 20%) 1fr
-      grid-template-rows: 1fr 100px  /* leave space for navbar */
+      grid-template-rows: 1fr 60px  /* leave space for navbar */
       grid-template-areas: |
         "graphic cards"
         ".       .    "
@@ -5594,9 +5660,8 @@ views:
         layout:
           margin: 0
           padding: 0;
-          grid-template-columns: repeat(auto-fit, minmax(400px, 1fr))
-          place-items: stretch stretch
           grid-gap: 1vw
+          grid-template-columns: repeat(auto-fit, minmax(400px, 1fr))
         cards:
           - type: custom:mod-card # Router
             card_mod:
@@ -5711,7 +5776,7 @@ views:
                       padding: 1vw 1vw 1vw 1vw !important;
                     }
             card:
-              title: "Ping"
+              title: "Components"
               type: grid
               square: false
               columns: 4
@@ -5724,11 +5789,52 @@ views:
                   name: "Rtr"
 
                 - type: custom:button-card # Modem
-                  template: connectivity
+                  template:
+                    - connectivity
+                    - more_info
                   variables:
                     graph_color: cornflowerblue
                   entity: binary_sensor.ping_modem
                   name: "Modem"
+                  tap_action:
+                    action: fire-dom-event
+                    browser_mod:
+                      service: browser_mod.popup
+                      data:
+                        title: "Cable modem"
+                        icon: mdi:router-network
+                        card_mod:
+                          style:
+                            ha-dialog: |
+                              ha-dialog-header, .content {
+                                background: linear-gradient(to right, rgba(255, 149, 0, 0.1), rgba(255, 149, 0, 0.05));
+                              }
+                        content:
+                          type: entities
+                          card_mod:
+                            style: |
+                              ha-card {
+                                background: linear-gradient(to right, rgba(255, 149, 0, 0.1), rgba(255, 149, 0, 0.05));
+                              }
+                          entities:
+                            - entity: sensor.cable_modem_modem_info
+                              name: "Modem info"
+                            - entity: sensor.cable_modem_software_version
+                              name: "Firmware version"
+                            - entity: sensor.cable_modem_connection_status
+                              name: "Connection status"
+                            - entity: sensor.cable_modem_health_status
+                              name: "Health status"
+                            - entity: sensor.cable_modem_system_uptime
+                              name: "System uptime"
+                            - entity: sensor.cable_modem_us_channel_count
+                              name: "Upstream channel count"
+                            - entity: sensor.cable_modem_ds_channel_count
+                              name: "Downstream channel count"
+                            - entity: sensor.cable_modem_total_corrected_errors
+                              name: "Total corrected errors"
+                            - entity: sensor.cable_modem_total_uncorrected_errors
+                              name: "Total uncorrected errors"
 
                 - type: custom:button-card # DNS
                   template: connectivity
@@ -5876,16 +5982,12 @@ views:
     layout:
       margin: 2vw 2vw 0 0 /* when sidebar is hidden, it still uses a cell in the grid */
       padding: 0;
-      place-items: stretch stretch
       grid-gap: 2vw
-      grid-template-columns: minmax(260px, 20%) 1fr
-      grid-template-rows: 1fr 100px  /* leave space for navbar */
+      grid-template-columns: minmax(120px, 20%) 1fr
+      grid-template-rows: 1fr 60px  /* leave space for navbar */
       grid-template-areas: |
         "graphic cards"
         ".       .    "
-      mediaquery:
-        "(max-width: 1200px)":
-          grid-template-columns: 0 1fr /* graphic hidden in 0-width column */
     cards:
       #=======
       # NAVBAR
