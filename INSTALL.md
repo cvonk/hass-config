@@ -4,11 +4,11 @@
 
 * Within HACS Frontend, add the following custom cards:
   * [button-card](https://github.com/custom-cards/button-card)
-  * [card-mod](https://github.com/thomasloven/lovelace-card-mod)
   * [layout-card](https://github.com/thomasloven/lovelace-layout-card)
-  * [Swipe Card](https://github.com/bramkragten/swipe-card)
-  * [Kiosk mode](https://github.com/maykar/kiosk-mode)
-  * [Wallpanel](https://github.com/j-a-n/lovelace-wallpanel)
+  * [card-mod](https://github.com/thomasloven/lovelace-card-mod)
+  * [navbar-card](https://github.com/joseluis9595/lovelace-navbar-card)
+  * [kiosk-mode](https://github.com/maykar/kiosk-mode)
+  * [wallpanel](https://github.com/j-a-n/lovelace-wallpanel)
 
 * With HACS Frontend, download and add the following integration:
   * [Browser Mod](https://github.com/thomasloven/hass-browser_mod), used to e.g. show popup windows
