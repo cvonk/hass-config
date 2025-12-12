@@ -1,34 +1,42 @@
 toggle_opnpool_pool_circuit_with_support_for_spinner:
-  alias: "Toggle OPNpool POOL Circuit, with support for spinner"
+  alias: Toggle OPNpool POOL Circuit, with support for spinner
   use_blueprint:
     path: cvonk/toggle_switch_with_spinner.yaml
     input:
       switch_entity: switch.opnpool_pool_circuit
       pending_entity: input_boolean.opnpool_pool_circuit_pending
-
 toggle_opnpool_spa_circuit_with_support_for_spinner:
-  alias: "Toggle OPNpool SPA Circuit, with support for spinner"
+  alias: Toggle OPNpool SPA Circuit, with support for spinner
   use_blueprint:
     path: cvonk/toggle_switch_with_spinner.yaml
     input:
       switch_entity: switch.opnpool_spa_circuit
       pending_entity: input_boolean.opnpool_spa_circuit_pending
-  description: ""
-
+  description: ''
 toggle_opnpool_aux1_circuit_with_support_for_spinner:
-  alias: "Toggle OPNpool AUX1 Circuit, with support for spinner"
+  alias: Toggle OPNpool AUX1 Circuit, with support for spinner
   use_blueprint:
     path: cvonk/toggle_switch_with_spinner.yaml
     input:
       switch_entity: switch.opnpool_aux1_circuit
       pending_entity: input_boolean.opnpool_aux1_circuit_pending
-  description: ""
-
+  description: ''
 toggle_opnpool_aux2_circuit_with_support_for_spinner:
-  alias: "Toggle OPNpool AUX2 Circuit, with support for spinner"
+  alias: Toggle OPNpool AUX2 Circuit, with support for spinner
   use_blueprint:
     path: cvonk/toggle_switch_with_spinner.yaml
     input:
       switch_entity: switch.opnpool_aux2_circuit
       pending_entity: input_boolean.opnpool_aux2_circuit_pending
-  description: ""
+  description: ''
+reload_theme_in_current_browser:
+  sequence:
+  - action: frontend.reload_themes
+    metadata: {}
+    data: {}
+  - action: browser_mod.refresh
+    metadata: {}
+    data: {}
+  alias: Reload theme in current browser
+  description: First, ensure Home Assistant has loaded the latest theme definitions
+    from the Theme YAML file. Then, rRefresh the Lovelace Frontend using Browser Mod.

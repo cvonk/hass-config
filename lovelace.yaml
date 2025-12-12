@@ -1,5 +1,6 @@
 # A few words to the wise ..
 #  - Use the Visual Code addon in Home Assistant, and embrase the folding editor.
+#    Fold along the folding lines '--------' to good readability.
 #  - However tempting, I didn't split up this file, because it caused problems
 #    with !include files staying cached.
 #  - Use the browser_mod UI to hide the header
@@ -7,8 +8,8 @@
 #    repository
 #  - Remember, browser_mod can be used to print values on the console of the
 #    browser.
-#  - Many thanks to Mattias Persson for sharing his work.  It gave me a head
-#    start in configuring this Dashboard
+#  - Many thanks to Mattias Persson for sharing his Dashboard.  It gave me a head
+#    start in configuring this.
 
 wallpanel:
   enabled: true
@@ -45,12 +46,12 @@ navbar-templates:
       auto_padding:
         enabled: false
     routes:
-      - label: Home
+      - label: "Home"
         url: /lovelace-ui/Default
         image: /local/hass_logo_not_selected.svg
         image_selected: /local/hass_logo_selected.svg
 
-      - label: Inside
+      - label: "Inside"
         url: /lovelace-ui/inside
         icon: mdi:home-thermometer-outline
         badge:
@@ -68,7 +69,7 @@ navbar-templates:
             ]]]
         selected_color: "#007aff"
 
-      - label: Outside
+      - label: "Outside"
         url: /lovelace-ui/outside
         icon: mdi:sun-thermometer
         badge:
@@ -86,7 +87,7 @@ navbar-templates:
             ]]]
         selected_color: "#007aff"
 
-      - label: Network
+      - label: "Network"
         url: /lovelace-ui/network
         icon: mdi:web
         badge:
@@ -104,7 +105,7 @@ navbar-templates:
             ]]]
         selected_color: "#007aff"
 
-      - label: Fire
+      - label: "Fire"
         url: /lovelace-ui/fire
         icon: mdi:fire
         badge:
@@ -122,7 +123,7 @@ navbar-templates:
             ]]]
         selected_color: "#007aff"
 
-      - label: Pool
+      - label: "Pool"
         url: /lovelace-ui/pool
         icon: mdi:pool-thermometer
         badge:
@@ -140,7 +141,7 @@ navbar-templates:
             ]]]
         selected_color: "#007aff"
 
-      - label: Cameras
+      - label: "Cameras"
         url: /lovelace-ui/cameras
         icon: mdi:camera
         badge:
@@ -158,7 +159,7 @@ navbar-templates:
             ]]]
         selected_color: "#007aff"
 
-      - label: Irrigation
+      - label: "Irrigation"
         url: /lovelace-ui/irrigation
         icon: mdi:sprinkler-variant
         badge:
@@ -176,7 +177,7 @@ navbar-templates:
             ]]]
         selected_color: "#007aff"
 
-      - label: Utilities
+      - label: "Utilities"
         url: /lovelace-ui/utilities
         icon: mdi:power-plug
         badge:
@@ -193,6 +194,19 @@ navbar-templates:
               return 0;
             ]]]
         selected_color: "#007aff"
+
+      - label: "Reload"
+        icon: mdi:dots-horizontal
+        selected_color: "#007aff"
+        tap_action:
+          action: open-popup
+        popup:
+          - label: "Reload theme"
+            icon: mdi:reload
+            tap_action:
+              action: call-service
+              service: script.reload_theme_in_current_browser
+              data: {}
 
     styles: |
       .navbar-card {
@@ -3350,7 +3364,7 @@ views:
         tap_action:
           action: navigate
           navigation_path: /profile
-        styles:
+        styles: # ------------------------------------------------------------
           card:
             - display: >
                 [[[
@@ -3590,7 +3604,7 @@ views:
                   icon: mdi:book-open
                   size: 80%
 
-          - type: custom:mod-card # Outside ------------------------------
+          - type: custom:mod-card # Outside ----------------------------------
             card_mod:
               style:
                 .: |
@@ -3665,7 +3679,7 @@ views:
                   show_state: true
                   aspect_ratio: 1/1
 
-          - type: custom:mod-card # Master bedroom
+          - type: custom:mod-card # Master bedroom ---------------------------
             card_mod:
               style:
                 .: |
@@ -4007,7 +4021,7 @@ views:
                                           [[[ return entity.entity_id; ]]]
                                     template: icon_only
 
-          - type: custom:mod-card # Sander's room ------------------------------
+          - type: custom:mod-card # Sander's room ----------------------------
             card_mod:
               style:
                 .: |
@@ -4074,7 +4088,7 @@ views:
                   show_state: true
                   aspect_ratio: 1/1
 
-          - type: custom:mod-card # Other ------------------------------
+          - type: custom:mod-card # Other ------------------------------------
             card_mod:
               style:
                 .: |
@@ -4485,7 +4499,7 @@ views:
           - heading: "Indoor climate controls"
             type: heading
             heading_style: title
-            card_mod:
+            card_mod: # ------------------------------------------------------
               style: |
                 :host {
                   grid-column: 1 / -1;
@@ -4501,7 +4515,7 @@ views:
                   font-weight: 400;
                 }
 
-          - entity: climate.main_floor
+          - entity: climate.main_floor # -------------------------------------
             type: thermostat
             show_current_as_primary: false
             features:
@@ -4512,7 +4526,7 @@ views:
                   background: rgba(0,0,0, 0.3);
                 }
 
-          - entity: climate.upstairs_floor
+          - entity: climate.upstairs_floor # ---------------------------------
             type: thermostat
             features:
               - type: climate-hvac-modes
@@ -4522,7 +4536,7 @@ views:
                   background: rgba(0,0,0, 0.3);
                 }
 
-          - name: "Master Bedroom Filter"
+          - name: "Master Bedroom Filter" # ----------------------------------
             entity: fan.air_filter
             type: custom:purifier-card
             compact_view: false
@@ -4623,7 +4637,7 @@ views:
           - heading: "Outside climate"
             type: heading
             heading_style: title
-            card_mod:
+            card_mod: # ------------------------------------------------------
               style: |
                 :host {
                   grid-column: 1 / -1;
@@ -4639,7 +4653,7 @@ views:
                   font-weight: 400;
                 }
 
-          - name: "Air Quality"
+          - name: "Air Quality" # --------------------------------------------
             type: custom:mini-graph-card
             entities:
               - entity: sensor.los_altos_country_club_aqi
@@ -4710,7 +4724,7 @@ views:
                         icon: mdi:waves
                         name: Particles ≤ 10 µm
 
-          - name: "Backyard temp"
+          - name: "Backyard temp" # ------------------------------------------
             type: custom:mini-graph-card
             group_by: date
             hour24: true
@@ -4794,7 +4808,7 @@ views:
           grid-gap: 1vw
           grid-template-columns: repeat(auto-fit, minmax(500px, 1fr))
         cards:
-          - heading: "Outside cameras"
+          - heading: "Outside cameras" # -------------------------------------
             type: heading
             heading_style: title
             card_mod:
@@ -4813,7 +4827,7 @@ views:
                   font-weight: 400;
                 }
 
-          - type: "custom:aarlo-glance"
+          - type: "custom:aarlo-glance" # ------------------------------------
             global: active,blended
             image_view: direct
             image_top: "name,status"
@@ -4826,7 +4840,7 @@ views:
                 #door: binary_sensor.front_door
                 #door_lock: lock.front_door_lock
 
-          - type: "custom:aarlo-glance"
+          - type: "custom:aarlo-glance" # ------------------------------------
             global: active,blended
             image_view: direct
             image_top: "name,status"
@@ -4895,7 +4909,7 @@ views:
           grid-gap: 1vw
           grid-template-columns: repeat(auto-fit, minmax(400px, 1fr))
         cards:
-          - type: custom:mod-card # Circuits
+          - type: custom:mod-card # Circuits ---------------------------------
             card_mod:
               style:
                 .: |
@@ -4985,7 +4999,7 @@ views:
                     pending_entity: input_boolean.opnpool_aux2_circuit_pending
                     loader_script_entity: script.toggle_opnpool_aux2_circuit_with_support_for_spinner
 
-          - type: custom:mod-card # Components
+          - type: custom:mod-card # Components -------------------------------
             card_mod:
               style:
                 .: |
@@ -5077,7 +5091,7 @@ views:
                   variables:
                     graph_color: cornflowerblue
 
-          - type: custom:mod-card # Thermostat
+          - type: custom:mod-card # Thermostat -------------------------------
             card_mod:
               style:
                 .: |
@@ -5207,7 +5221,7 @@ views:
                             border-radius: 10px !important;
                           }
 
-          - type: custom:mod-card # Last water analysis
+          - type: custom:mod-card # Last water analysis ----------------------
             card_mod:
               style:
                 .: |
@@ -5385,7 +5399,7 @@ views:
           - type: heading
             heading: "Irrigation zones"
             heading_style: title
-            card_mod:
+            card_mod: # ------------------------------------------------------
               style: |
                 :host {
                   grid-column: 1 / -1;
@@ -5401,86 +5415,86 @@ views:
                   font-weight: 400;
                 }
 
-          - name: "Box #1"
+          - name: "Box #1" # -------------------------------------------------
             type: custom:button-card
             template: irrigation_zone
             entity: sensor.dripbox1_station_status
 
-          - name: "Box #2"
+          - name: "Box #2" # -------------------------------------------------
             type: custom:button-card
             template: irrigation_zone
             entity: sensor.dripbox2_station_status
 
-          - name: "Grapes"
+          - name: "Grapes" # -------------------------------------------------
             type: custom:button-card
             template: irrigation_zone
             entity: sensor.dripbox3_grapes_hydr_station_status
 
-          - name: "Fence Left"
+          - name: "Fence Left" # ---------------------------------------------
             type: custom:button-card
             template: irrigation_zone
             entity: sensor.dripfence1_station_status
 
-          - name: "Fence Right"
+          - name: "Fence Right" # --------------------------------------------
             type: custom:button-card
             template: irrigation_zone
             entity: sensor.dripfence2_station_status
 
-          - name: "Fence Corner"
+          - name: "Fence Corner" # -------------------------------------------
             type: custom:button-card
             template: irrigation_zone
             entity: sensor.dripcorner_station_status
 
-          - name: "Maple"
+          - name: "Maple" # --------------------------------------------------
             type: custom:button-card
             template: irrigation_zone
             entity: sensor.dripmaple_station_status
 
-          - name: "Front Street"
+          - name: "Front Street" # -------------------------------------------
             type: custom:button-card
             template: irrigation_zone
             entity: sensor.front1_station_status
 
-          - name: "Front Maple"
+          - name: "Front Maple" # --------------------------------------------
             type: custom:button-card
             template: irrigation_zone
             entity: sensor.front2_maple_station_status
 
-          - name: "Pond House"
+          - name: "Pond House" # ---------------------------------------------
             type: custom:button-card
             template: irrigation_zone
             entity: sensor.pond_house_side_station_status
 
-          - name: "Pond/Street"
+          - name: "Pond/Street" # --------------------------------------------
             type: custom:button-card
             template: irrigation_zone
             entity: sensor.pond2_station_status
 
-          - name: "Pond Island"
+          - name: "Pond Island" # --------------------------------------------
             type: custom:button-card
             template: irrigation_zone
             entity: sensor.island_station_status
 
-          - name: "Lawn #1"
+          - name: "Lawn #1" # ------------------------------------------------
             type: custom:button-card
             template: irrigation_zone
             entity: sensor.sprinklerlawn1_station_status
             icon: mdi:sprinkler-variant
 
-          - name: "Lawn #2"
+          - name: "Lawn #2" # ------------------------------------------------
             icon: mdi:sprinkler-variant
             type: custom:button-card
             template: irrigation_zone
             entity: sensor.sprinklerlawn2_station_status
 
-          - name: "Lawn #3"
+          - name: "Lawn #3" # ------------------------------------------------
             type: custom:button-card
             template: irrigation_zone
             entity: sensor.sprinklerlawn3_station_status
             icon: mdi:sprinkler-variant
 
-          - type: heading
-            heading: "Irrigation programs"
+          - heading: "Irrigation programs" # ---------------------------------
+            type: heading
             heading_style: title
             card_mod:
               style: |
@@ -5498,7 +5512,7 @@ views:
                   font-weight: 400;
                 }
 
-          - name: "Lawn"
+          - name: "Lawn" # ---------------------------------------------------
             entity: switch.lawn_program_enabled
             type: custom:button-card
             template: irrigation_program
@@ -5542,7 +5556,7 @@ views:
                       - entity: number.lawn_interval_days
                         name: "Interval days"
 
-          - name: "Drip"
+          - name: "Drip" # ---------------------------------------------------
             entity: switch.drip_program_enabled
             type: custom:button-card
             template: irrigation_program
@@ -5644,8 +5658,8 @@ views:
           grid-gap: 1vw
           grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))
         cards:
-          - type: heading
-            heading: "Current electric power"
+          - heading: "Current electric power" # ------------------------------
+            type: heading
             heading_style: title
             card_mod:
               style: |
@@ -5663,86 +5677,86 @@ views:
                   font-weight: 400;
                 }
 
-          - type: custom:button-card
-            entity: sensor.sonoff_christmas_tree_power
+          - entity: sensor.sonoff_christmas_tree_power # ---------------------
+            type: custom:button-card
             template: ts_bar
             variables:
               max_value: 2000
 
-          - type: custom:button-card
-            entity: sensor.computer_power
+          - entity: sensor.computer_power # ----------------------------------
+            type: custom:button-card
             template: ts_bar
             variables:
               max_value: 2000
 
-          - type: custom:button-card
-            entity: sensor.dryer_power
+          - entity: sensor.dryer_power # -------------------------------------
+            type: custom:button-card
             template: ts_bar
             variables:
               max_value: 2000
 
-          - type: custom:button-card
-            entity: sensor.sonoff_espresso_machine_power
+          - entity: sensor.sonoff_espresso_machine_power # -------------------
+            type: custom:button-card
             template: ts_bar
             variables:
               max_value: 2000
 
-          - type: custom:button-card
-            entity: sensor.fridge_power
+          - entity: sensor.fridge_power # ------------------------------------
+            type: custom:button-card
             template: ts_bar
             variables:
               max_value: 2000
 
-          - type: custom:button-card
-            entity: sensor.hvac_power
+          - entity: sensor.hvac_power # --------------------------------------
+            type: custom:button-card
             template: ts_bar
             variables:
               max_value: 2000
 
-          - type: custom:button-card
-            entity: sensor.light_power
+          - entity: sensor.light_power # -------------------------------------
+            type: custom:button-card
             template: ts_bar
             variables:
               max_value: 2000
 
-          - type: custom:button-card
-            entity: sensor.sonoff_media_power
+          - entity: sensor.sonoff_media_power # ------------------------------
+            type: custom:button-card
             template: ts_bar
             variables:
               max_value: 2000
 
-          - type: custom:button-card
-            entity: sensor.sonoff_network_power
+          - entity: sensor.sonoff_network_power # ----------------------------
+            type: custom:button-card
             template: ts_bar
             variables:
               max_value: 2000
 
-          - type: custom:button-card
-            entity: sensor.opnpool_pump_power
+          - entity: sensor.opnpool_pump_power # ------------------------------
+            type: custom:button-card
             template: ts_bar
             variables:
               max_value: 2000
 
-          - type: custom:button-card
-            entity: sensor.sonoff_washer_power
+          - entity: sensor.sonoff_washer_power # -----------------------------
+            type: custom:button-card
             template: ts_bar
             variables:
               max_value: 2000
 
-          - type: custom:button-card
-            entity: sensor.estimated_idle_power
+          - entity: sensor.estimated_idle_power # ----------------------------
+            type: custom:button-card
             template: ts_bar
             variables:
               max_value: 2000
 
-          - type: custom:button-card
-            entity: sensor.unknown_power
+          - entity: sensor.unknown_power # -----------------------------------
+            type: custom:button-card
             template: ts_bar
             variables:
               max_value: 2000
 
-          - type: heading
-            heading: "Electricity and Water"
+          - heading: "Electricity and Water" # -------------------------------
+            type: heading
             heading_style: title
             card_mod:
               style: |
@@ -5760,14 +5774,14 @@ views:
                   font-weight: 400;
                 }
 
-          - entity: sensor.total_power
+          - entity: sensor.total_power # -------------------------------------
             type: custom:button-card
             template: bubble_card_graph
             variables:
               card_name: "Electricity"
               graph_color: "orange"
 
-          - entity: sensor.flo_shutoff_water_flow_rate_per_hour
+          - entity: sensor.flo_shutoff_water_flow_rate_per_hour # ------------
             type: custom:button-card
             template: bubble_card_graph
             variables:
@@ -5775,8 +5789,8 @@ views:
               graph_color: "cornflowerblue"
               card_icon: mdi:water-outline
 
-          - type: heading
-            heading: "Month to date"
+          - heading: "Month to date" # ---------------------------------------
+            type: heading
             heading_style: title
             card_mod:
               style: |
@@ -5794,7 +5808,7 @@ views:
                   font-weight: 400;
                 }
 
-          - type: custom:mod-card
+          - type: custom:mod-card # electric to date # -----------------------
             style: >
               {% set value = states('sensor.current_bill_electric_cost_to_date') %}
               {% if float(value) == 0.0 %}
@@ -5808,7 +5822,7 @@ views:
                 card_name: "Electricity"
                 graph_color: "orange"
 
-          - type: custom:mod-card
+          - type: custom:mod-card # gas to date ------------------------------
             style: >
               {% set value = states('sensor.current_bill_gas_cost_to_date') %}
               {% if float(value) == 0.0 %}
@@ -5880,7 +5894,7 @@ views:
           grid-gap: 1vw
           grid-template-columns: repeat(auto-fit, minmax(120px, 1fr))
         cards:
-          - heading: "Core"
+          - heading: "Core" # ------------------------------------------------
             type: heading
             heading_style: title
             card_mod:
@@ -5899,7 +5913,7 @@ views:
                   font-weight: 400;
                 }
 
-          - name: "rtr"
+          - name: "rtr" # ----------------------------------------------------
             type: custom:button-card
             template:
               - connectivity
@@ -5967,7 +5981,7 @@ views:
                         name: "HOMEWG out speed"
                         icon: mdi:upload
 
-          - name: "MODEM"
+          - name: "MODEM" # --------------------------------------------------
             type: custom:button-card
             template:
               - base
@@ -6021,17 +6035,17 @@ views:
                       - entity: sensor.cable_modem_worst_freq
                         name: "Frequency with most errors"
 
-          - name: "DNS"
+          - name: "DNS" # ----------------------------------------------------
             type: custom:button-card
             template: connectivity
             entity: binary_sensor.ping_dns
 
-          - name: "google"
+          - name: "google" # -------------------------------------------------
             type: custom:button-card
             template: connectivity
             entity: binary_sensor.ping_google
 
-          - name: "UPS"
+          - name: "UPS" # ----------------------------------------------------
             type: custom:button-card
             template:
               - base
@@ -6068,7 +6082,7 @@ views:
                       - entity: sensor.ups_battery_runtime
                         name: "Battery runtime"
 
-          - heading: "WiFi access"
+          - heading: "WiFi access" # -----------------------------------------
             type: heading
             heading_style: title
             card_mod:
@@ -6087,7 +6101,7 @@ views:
                   font-weight: 400;
                 }
 
-          - name: "LAN AP1"
+          - name: "LAN AP1" # ------------------------------------------------
             type: custom:button-card
             template:
               - connectivity
@@ -6120,7 +6134,7 @@ views:
                       - entity: sensor.ap1_last_boot
                         name: "Last boot"
 
-          - name: "LAN AP2"
+          - name: "LAN AP2" # ------------------------------------------------
             type: custom:button-card
             template:
               - connectivity
@@ -6153,19 +6167,19 @@ views:
                       - entity: sensor.ap2_memory_utilization
                         name: "Memory usage"
 
-          - name: "GUEST AP1"
+          - name: "GUEST AP1" # ----------------------------------------------
             type: custom:button-card
             template: connectivity
             icon: mdi:wifi
             entity: binary_sensor.ping_guest_ap1
 
-          - name: "GUEST AP2"
+          - name: "GUEST AP2" # ----------------------------------------------
             type: custom:button-card
             template: connectivity
             icon: mdi:wifi
             entity: binary_sensor.ping_guest_ap2
 
-          - heading: "Devices"
+          - heading: "Devices" # ---------------------------------------------
             type: heading
             heading_style: title
             card_mod:
@@ -6184,7 +6198,7 @@ views:
                   font-weight: 400;
                 }
 
-          - name: "NAS"
+          - name: "NAS" # ----------------------------------------------------
             type: custom:button-card # NAS
             template:
               - connectivity
@@ -6246,7 +6260,7 @@ views:
                       - entity: binary_sensor.nas_drive_2_exceeded_max_bad_sectors
                         name: "Drive 2 exceeded max bad sectors"
 
-          - name: "backup"
+          - name: "backup" # -------------------------------------------------
             entity: binary_sensor.ping_nas
             type: custom:button-card # Backup
             icon: mdi:nas
@@ -6308,7 +6322,7 @@ views:
                       - entity: binary_sensor.backup_drive_2_exceeded_max_bad_sectors
                         name: "Drive 2 exceeded max bad sectors"
 
-          - name: "Printer"
+          - name: "Printer" # ------------------------------------------------
             type: custom:button-card
             template:
               - connectivity
@@ -6408,7 +6422,7 @@ views:
           grid-gap: 1vw
           grid-template-columns: repeat(auto-fit, minmax(240px, 1fr))
         cards:
-          - heading: "Fire alarm"
+          - heading: "Fire alarm" # ------------------------------------------
             type: heading
             heading_style: title
             card_mod:
@@ -6427,7 +6441,7 @@ views:
                   font-weight: 400;
                 }
 
-          - name: "Fire Alarm"
+          - name: "Fire Alarm" # ---------------------------------------------
             type: custom:button-card
             template: base
             aspect_ratio: 1/1
@@ -6471,7 +6485,7 @@ views:
                 - line-height: 115%
                 - font-size: 20px
 
-          - type: custom:layout-card
+          - type: custom:layout-card # smoke detectors -----------------------
             layout_type: grid-layout
             layout:
               grid-gap: 2vw
@@ -6496,8 +6510,7 @@ background:
   size: cover
   repeat: repeat
   attachment: fixed
-  #image: /api/image/serve/33e5f7514c86d628e8141caada05bc6f/original
   image: /local/bg.jpg
 
-theme: Frosted Glass Dashboard Theme
+theme: Frosted Glass cvonk
 path: Default
