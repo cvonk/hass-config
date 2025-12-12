@@ -341,7 +341,6 @@ button_card_templates:
         - margin-left: "-30%"
         - width: "80%"
       card:
-        - min-width: 100px
         - --button-card-border-radius: "var(--ha-card-border-radius, var(--ha-border-radius-lg))"
         - --button-card-border-width: 0
         - -webkit-tap-highlight-color: rgba(0,0,0,0)
@@ -3519,7 +3518,7 @@ views:
           margin: 0
           padding: 0;
           grid-gap: 2vw
-          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr))
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr))
         cards:
           - type: custom:mod-card # Living room ------------------------------
             card_mod:
@@ -3543,11 +3542,33 @@ views:
                       padding: 1vw 1vw 1vw 1vw !important;
                     }
             card:
-              title: "Living room"
-              type: grid
-              columns: 3
-              square: false
+              type: custom:layout-card
+              layout_type: grid-layout
+              layout:
+                margin: 0
+                padding: 0;
+                grid-gap: 1vw
+                grid-template-columns: repeat(3, minmax(85px, 1fr))
               cards:
+                - heading: "Living room"
+                  type: heading
+                  heading_style: title
+                  card_mod:
+                    style: |
+                      :host {
+                        grid-column: 1 / -1;
+                      }
+                      ha-card .content.title p {
+                        padding: 0 0 4px 0;
+                        text-align: var(--ha-stack-title-text-align, start);
+                        color: var(--ha-card-header-color, var(--primary-text-color));
+                        font-family: var(--ha-card-header-font-family, inherit);  
+                        letter-spacing: -0.012em;              
+                        font-size: max(2.0vw, 12pt) !important;
+                        line-height: 30px;                  
+                        font-weight: 400;
+                      }
+
                 - name: "Recessed lights"
                   entity: light.living_room_dimmer
                   type: custom:button-card
@@ -3569,7 +3590,7 @@ views:
                   icon: mdi:book-open
                   size: 80%
 
-          - type: custom:mod-card # Outside ----------------------------------
+          - type: custom:mod-card # Outside ------------------------------
             card_mod:
               style:
                 .: |
@@ -3591,11 +3612,33 @@ views:
                       padding: 1vw 1vw 1vw 1vw !important;
                     }
             card:
-              title: "Outside"
-              type: grid
-              columns: 3
-              square: false
+              type: custom:layout-card
+              layout_type: grid-layout
+              layout:
+                margin: 0
+                padding: 0;
+                grid-gap: 1vw
+                grid-template-columns: repeat(3, minmax(85px, 1fr))
               cards:
+                - heading: "Outside"
+                  type: heading
+                  heading_style: title
+                  card_mod:
+                    style: |
+                      :host {
+                        grid-column: 1 / -1;
+                      }
+                      ha-card .content.title p {
+                        padding: 0 0 4px 0;
+                        text-align: var(--ha-stack-title-text-align, start);
+                        color: var(--ha-card-header-color, var(--primary-text-color));
+                        font-family: var(--ha-card-header-font-family, inherit);  
+                        letter-spacing: -0.012em;              
+                        font-size: max(2.0vw, 12pt) !important;
+                        line-height: 30px;                  
+                        font-weight: 400;
+                      }
+
                 - name: "Entry"
                   type: custom:button-card
                   template: base
@@ -3622,7 +3665,7 @@ views:
                   show_state: true
                   aspect_ratio: 1/1
 
-          - type: custom:mod-card # Master bedroom ---------------------------
+          - type: custom:mod-card # Master bedroom
             card_mod:
               style:
                 .: |
@@ -3644,11 +3687,33 @@ views:
                       padding: 1vw 1vw 1vw 1vw !important;
                     }
             card:
-              title: "Master bedroom"
-              type: grid
-              columns: 3
-              square: false
+              type: custom:layout-card
+              layout_type: grid-layout
+              layout:
+                margin: 0
+                padding: 0;
+                grid-gap: 1vw
+                grid-template-columns: repeat(3, minmax(85px, 1fr))
               cards:
+                - heading: "Master bedroom"
+                  type: heading
+                  heading_style: title
+                  card_mod:
+                    style: |
+                      :host {
+                        grid-column: 1 / -1;
+                      }
+                      ha-card .content.title p {
+                        padding: 0 0 4px 0;
+                        text-align: var(--ha-stack-title-text-align, start);
+                        color: var(--ha-card-header-color, var(--primary-text-color));
+                        font-family: var(--ha-card-header-font-family, inherit);  
+                        letter-spacing: -0.012em;              
+                        font-size: max(2.0vw, 12pt) !important;
+                        line-height: 30px;                  
+                        font-weight: 400;
+                      }
+
                 - name: "Recessed"
                   type: custom:button-card
                   template: light
@@ -3701,11 +3766,34 @@ views:
                       padding: 1vw 1vw 1vw 1vw !important;
                     }
             card:
-              title: "Family room"
-              type: grid
-              columns: 3
+              type: custom:layout-card
+              layout_type: grid-layout
+              layout:
+                margin: 0
+                padding: 0;
+                grid-gap: 1vw
+                grid-template-columns: repeat(3, minmax(85px, 1fr))
               cards:
-                - name: "Family"
+                - heading: "Family room"
+                  type: heading
+                  heading_style: title
+                  card_mod:
+                    style: |
+                      :host {
+                        grid-column: 1 / -1;
+                      }
+                      ha-card .content.title p {
+                        padding: 0 0 4px 0;
+                        text-align: var(--ha-stack-title-text-align, start);
+                        color: var(--ha-card-header-color, var(--primary-text-color));
+                        font-family: var(--ha-card-header-font-family, inherit);  
+                        letter-spacing: -0.012em;              
+                        font-size: max(2.0vw, 12pt) !important;
+                        line-height: 30px;                  
+                        font-weight: 400;
+                      }
+
+                - name: "Recessed"
                   type: custom:button-card
                   template: light
                   entity: light.family_room_dimmer
@@ -3919,7 +4007,7 @@ views:
                                           [[[ return entity.entity_id; ]]]
                                     template: icon_only
 
-          - type: custom:mod-card # Sander's room ----------------------------
+          - type: custom:mod-card # Sander's room ------------------------------
             card_mod:
               style:
                 .: |
@@ -3941,11 +4029,34 @@ views:
                       padding: 1vw 1vw 1vw 1vw !important;
                     }
             card:
-              title: "Sander's room"
-              type: grid
-              columns: 3
+              type: custom:layout-card
+              layout_type: grid-layout
+              layout:
+                margin: 0
+                padding: 0;
+                grid-gap: 1vw
+                grid-template-columns: repeat(3, minmax(85px, 1fr))
               cards:
-                - name: Standing
+                - heading: "Sander's room"
+                  type: heading
+                  heading_style: title
+                  card_mod:
+                    style: |
+                      :host {
+                        grid-column: 1 / -1;
+                      }
+                      ha-card .content.title p {
+                        padding: 0 0 4px 0;
+                        text-align: var(--ha-stack-title-text-align, start);
+                        color: var(--ha-card-header-color, var(--primary-text-color));
+                        font-family: var(--ha-card-header-font-family, inherit);  
+                        letter-spacing: -0.012em;              
+                        font-size: max(2.0vw, 12pt) !important;
+                        line-height: 30px;                  
+                        font-weight: 400;
+                      }
+
+                - name: "Standing"
                   type: custom:button-card
                   template: base
                   entity: switch.sander_bedroom
@@ -3954,7 +4065,7 @@ views:
                   show_state: true
                   aspect_ratio: 1/1
 
-                - name: Dresser
+                - name: "Dresser"
                   type: custom:button-card
                   template: base
                   entity: switch.sander_dresser
@@ -3963,7 +4074,7 @@ views:
                   show_state: true
                   aspect_ratio: 1/1
 
-          - type: custom:mod-card # Other ------------------------------------
+          - type: custom:mod-card # Other ------------------------------
             card_mod:
               style:
                 .: |
@@ -3985,10 +4096,33 @@ views:
                       padding: 1vw 1vw 1vw 1vw !important;
                     }
             card:
-              title: "Other"
-              type: grid
-              columns: 3
+              type: custom:layout-card
+              layout_type: grid-layout
+              layout:
+                margin: 0
+                padding: 0;
+                grid-gap: 1vw
+                grid-template-columns: repeat(3, minmax(85px, 1fr))
               cards:
+                - heading: "Other"
+                  type: heading
+                  heading_style: title
+                  card_mod:
+                    style: |
+                      :host {
+                        grid-column: 1 / -1;
+                      }
+                      ha-card .content.title p {
+                        padding: 0 0 4px 0;
+                        text-align: var(--ha-stack-title-text-align, start);
+                        color: var(--ha-card-header-color, var(--primary-text-color));
+                        font-family: var(--ha-card-header-font-family, inherit);  
+                        letter-spacing: -0.012em;              
+                        font-size: max(2.0vw, 12pt) !important;
+                        line-height: 30px;                  
+                        font-weight: 400;
+                      }
+
                 - name: "Dining"
                   type: custom:button-card
                   template: light
@@ -4016,7 +4150,7 @@ views:
                   show_state: true
                   aspect_ratio: 1/1
 
-          - type: custom:mod-card # At home ----------------------------------
+          - type: custom:mod-card # Who's home ------------------------------
             card_mod:
               style:
                 .: |
@@ -4038,10 +4172,33 @@ views:
                       padding: 1vw 1vw 1vw 1vw !important;
                     }
             card:
-              title: "At home"
-              type: grid
-              columns: 3
+              type: custom:layout-card
+              layout_type: grid-layout
+              layout:
+                margin: 0
+                padding: 0;
+                grid-gap: 1vw
+                grid-template-columns: repeat(3, minmax(85px, 1fr))
               cards:
+                - heading: "Who's home"
+                  type: heading
+                  heading_style: title
+                  card_mod:
+                    style: |
+                      :host {
+                        grid-column: 1 / -1;
+                      }
+                      ha-card .content.title p {
+                        padding: 0 0 4px 0;
+                        text-align: var(--ha-stack-title-text-align, start);
+                        color: var(--ha-card-header-color, var(--primary-text-color));
+                        font-family: var(--ha-card-header-font-family, inherit);  
+                        letter-spacing: -0.012em;              
+                        font-size: max(2.0vw, 12pt) !important;
+                        line-height: 30px;                  
+                        font-weight: 400;
+                      }
+
                 - name: Coert
                   type: custom:button-card
                   template:
@@ -4760,32 +4917,37 @@ views:
                       padding: 1vw 1vw 1vw 1vw !important;
                     }
             card:
-              title: "Pool circuits"
-              type: grid
-              square: false
-              columns: 4
-              card_mod:
-                style:
-                  .: |
-                    ha-card, ha-card::before {
-                      border-radius: 0; 
-                      border-width: 0;
-                      box-shadow: none;
-                      backdrop-filter: none;
-                      background: transparent;
-                    }
-                  hui-grid-card:
-                    $: |
-                      .card-header {
-                        padding: 0 1vw !important;
-                        font-size: max(2.0vw, 12pt) !important;
-                        line-height: 30px !important;
-                      }
-                      #root {
-                        padding: 1vw 1vw 1vw 1vw !important;
-                      }
+              type: custom:layout-card
+              view_layout:
+                grid-area: cards
+              layout_type: grid-layout
+              layout:
+                margin: 0
+                padding: 0;
+                grid-gap: 1vw
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr))
               cards:
-                - entity: switch.opnpool_pool_circuit
+                - heading: "Circuits"
+                  type: heading
+                  heading_style: title
+                  card_mod:
+                    style: |
+                      :host {
+                        grid-column: 1 / -1;
+                      }
+                      ha-card .content.title p {
+                        padding: 0 0 4px 0;
+                        text-align: var(--ha-stack-title-text-align, start);
+                        color: var(--ha-card-header-color, var(--primary-text-color));
+                        font-family: var(--ha-card-header-font-family, inherit);  
+                        letter-spacing: -0.012em;              
+                        font-size: max(2.0vw, 12pt) !important;
+                        line-height: 30px;                  
+                        font-weight: 400;
+                      }
+
+                - name: Pool
+                  entity: switch.opnpool_pool_circuit
                   template: pool_circuit
                   type: custom:button-card
                   icon: mdi:pool
@@ -4794,7 +4956,8 @@ views:
                     pending_entity: input_boolean.opnpool_pool_circuit_pending
                     loader_script_entity: script.toggle_opnpool_pool_circuit_with_support_for_spinner
 
-                - entity: switch.opnpool_spa_circuit
+                - name: Spa
+                  entity: switch.opnpool_spa_circuit
                   type: custom:button-card
                   template: pool_circuit
                   icon: mdi:hot-tub
@@ -4803,7 +4966,8 @@ views:
                     pending_entity: input_boolean.opnpool_spa_circuit_pending
                     loader_script_entity: script.toggle_opnpool_spa_circuit_with_support_for_spinner
 
-                - entity: switch.opnpool_aux1_circuit
+                - name: Vacuum
+                  entity: switch.opnpool_aux1_circuit
                   type: custom:button-card
                   template: pool_circuit
                   icon: mdi:vacuum
@@ -4811,7 +4975,8 @@ views:
                     schedule_entity: sensor.opnpool_aux1_sched
                     pending_entity: input_boolean.opnpool_aux1_circuit_pending
 
-                - entity: switch.opnpool_aux2_circuit
+                - name: Light
+                  entity: switch.opnpool_aux2_circuit
                   type: custom:button-card
                   template: pool_circuit
                   icon: mdi:lightbulb
@@ -4842,12 +5007,37 @@ views:
                       padding: 1vw 1vw 1vw 1vw !important;
                     }
             card:
-              title: "Pool components"
-              type: grid
-              square: false
-              columns: 4
+              type: custom:layout-card
+              view_layout:
+                grid-area: cards
+              layout_type: grid-layout
+              layout:
+                margin: 0
+                padding: 0;
+                grid-gap: 1vw
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr))
               cards:
-                - entity: binary_sensor.opnpool_pump_running
+                - heading: "Components"
+                  type: heading
+                  heading_style: title
+                  card_mod:
+                    style: |
+                      :host {
+                        grid-column: 1 / -1;
+                      }
+                      ha-card .content.title p {
+                        padding: 0 0 4px 0;
+                        text-align: var(--ha-stack-title-text-align, start);
+                        color: var(--ha-card-header-color, var(--primary-text-color));
+                        font-family: var(--ha-card-header-font-family, inherit);  
+                        letter-spacing: -0.012em;              
+                        font-size: max(2.0vw, 12pt) !important;
+                        line-height: 30px;                  
+                        font-weight: 400;
+                      }
+
+                - name: "Pump"
+                  entity: binary_sensor.opnpool_pump_running
                   type: custom:button-card
                   template: pool_component
                   icon: mdi:pump
@@ -4861,7 +5051,8 @@ views:
                           background: var(--secondary-background-color);
                       }
 
-                - entity: binary_sensor.opnpool_pump_running
+                - name: "Chlorinator"
+                  entity: binary_sensor.opnpool_pump_running
                   type: custom:button-card
                   template: pool_component
                   icon: mdi:lotion-plus
@@ -4870,15 +5061,16 @@ views:
                     info2_entity: sensor.opnpool_chlor_salt
                     status_entity: sensor.opnpool_chlor_status
 
-                - entity: sensor.opnpool_water_temp
-                  name: "Water Temp"
+                - name: "Water Temp"
+                  entity: sensor.opnpool_water_temp
                   type: custom:button-card
                   template: circle_graph
                   icon: mdi:pool-thermometer
                   variables:
                     graph_color: cornflowerblue
 
-                - entity: sensor.opnpool_air_temp
+                - name: "Air Temp"
+                  entity: sensor.opnpool_air_temp
                   type: custom:button-card
                   template: circle_graph
                   icon: mdi:thermometer
@@ -4918,7 +5110,7 @@ views:
                       entity: switch.opnpool_spa_circuit
                       state: "on"
               card:
-                title: "Pool thermostat"
+                title: "Thermostat"
                 type: grid
                 square: false
                 columns: 1
@@ -5020,11 +5212,11 @@ views:
               style:
                 .: |
                   ha-card, ha-card::before {
+                    border-radius: 0; 
                     border-width: 0;
                     box-shadow: none;
                     backdrop-filter: none;
                     background: transparent;
-                    //background: rgba(0,0,0, 0.3);
                   }
                 hui-grid-card:
                   $: |
@@ -5037,11 +5229,35 @@ views:
                       padding: 1vw 1vw 1vw 1vw !important;
                     }
             card:
-              title: "Last water analysis"
-              type: grid
-              square: false
-              columns: 1
+              type: custom:layout-card
+              view_layout:
+                grid-area: cards
+              layout_type: grid-layout
+              layout:
+                margin: 0
+                padding: 0;
+                grid-gap: 0
+                grid-template-columns: 1fr
               cards:
+                - heading: "Last water analysis"
+                  type: heading
+                  heading_style: title
+                  card_mod:
+                    style: |
+                      :host {
+                        grid-column: 1 / -1;
+                      }
+                      ha-card .content.title p {
+                        padding: 0 0 1.5vw 0;
+                        text-align: var(--ha-stack-title-text-align, start);
+                        color: var(--ha-card-header-color, var(--primary-text-color));
+                        font-family: var(--ha-card-header-font-family, inherit);  
+                        letter-spacing: -0.012em;              
+                        font-size: max(2.0vw, 12pt) !important;
+                        line-height: 30px;                  
+                        font-weight: 400;
+                      }
+
                 - name: "pH"
                   entity: sensor.pool_ph
                   type: custom:button-card
@@ -6160,7 +6376,6 @@ views:
         "graphic cards"
         ".       .    "
     cards:
-      
       #=======
       # NAVBAR
       #=======
