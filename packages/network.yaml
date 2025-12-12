@@ -1,29 +1,4 @@
-#binary_sensor:
-#  - unique_id: network_ping_rtr
-#    name: "Network Ping rtr"
-#    platform: ping
-#    host: 10.0.1.999
-#    count: 1
-#
-#  - unique_id: network_ping_modem
-#    name: "Network Ping modem"
-#    platform: ping
-#    host: 192.168.100.0
-#    count: 1
-#
-#  - unique_id: network_ping_dns
-#    name: "Network Ping DNS"
-#    platform: ping
-#    host: dns.google
-#    count: 1
-#
-#  - unique_id: network_ping_google
-#    name: "Network Ping google"
-#    platform: ping
-#    host: google.com
-#    count: 1
-
-automation: # work around ping integration restrictions
+automation: # work around ping integration limitation
   - id: update_ping_wan
     alias: "Ping every 3 minutes"
     trigger:
@@ -220,16 +195,3 @@ template:
           {{
               states('sensor.nr_of_network_problems') | int > 0
           }}
-
-device_tracker:
-  - platform: ddwrt
-    host: 10.1.1.5
-    username: !secret ddwrt_uname
-    password: !secret ddwrt_passwd
-    wireless_only: true
-
-  - platform: ddwrt
-    host: 10.1.1.6
-    username: !secret ddwrt_uname
-    password: !secret ddwrt_passwd
-    wireless_only: true

@@ -341,6 +341,7 @@ button_card_templates:
         - margin-left: "-30%"
         - width: "80%"
       card:
+        - min-width: 100px
         - --button-card-border-radius: "var(--ha-card-border-radius, var(--ha-border-radius-lg))"
         - --button-card-border-width: 0
         - -webkit-tap-highlight-color: rgba(0,0,0,0)
@@ -4050,7 +4051,6 @@ views:
                     retain: sensor.coert_last_changed
                   triggers_update:
                     - sensor.coert_last_changed
-                  # double_tap_action: !include popup/athome_coert.yaml
                   tap_action:
                     action: fire-dom-event
                     browser_mod:
@@ -4365,8 +4365,8 @@ views:
                   background: rgba(0,0,0, 0.3);
                 }
 
-          - entity: fan.air_filter
-            name: "Master Bedroom Filter"
+          - name: "Master Bedroom Filter"
+            entity: fan.air_filter
             type: custom:purifier-card
             compact_view: false
             show_state: true
@@ -4375,6 +4375,15 @@ views:
               style: |
                 ha-card {
                   background: rgba(0,0,0, 0.3);
+                }
+                ha-card .header {
+                  display: none;
+                }
+                ha-card .state {
+                  display: none;
+                }
+                ha-card .preview {
+                  background-color: transparent !important;
                 }
             shortcuts:
               - name: Auto
@@ -4510,7 +4519,7 @@ views:
               browser_mod:
                 service: browser_mod.popup
                 data:
-                  title: "Country Club"
+                  title: "PurpleAir at the Country Club"
                   icon: mdi:waves
                   card_mod:
                     style:
@@ -4553,16 +4562,17 @@ views:
             upper_bound: 100
             smoothing: false
             show:
-              icon: true
-              icon_adaptive_color: true
-              legend: false
+              icon: false
+              legend: true
             entities:
-              - aggregate_func: max
+              - name: max temp
+                aggregate_func: max
                 entity: sensor.opnpool_last_air_temp
-                name: max temp
-              - aggregate_func: min
+                color: brown
+              - name: min temp
+                aggregate_func: min
                 entity: sensor.opnpool_last_air_temp
-                name: min temp
+                color: cornflowerblue
             card_mod:
               style: |
                 ha-card {
@@ -6150,6 +6160,7 @@ views:
         "graphic cards"
         ".       .    "
     cards:
+      
       #=======
       # NAVBAR
       #=======
