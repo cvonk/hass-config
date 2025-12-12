@@ -12,6 +12,7 @@
   * `lovelace.yaml`
   * `themes/` folder
   * `packages/` folder
+  * `www/` folder
   * `automations.yaml`
   * `scripts.yaml`
   * `groups.yaml`
@@ -44,7 +45,7 @@ Then add your entities, [browser_mod](https://github.com/thomasloven/hass-browse
 * These are the key integrations that I use:
 
   * From HA Integrations, I added:
-  
+
     * [ecobee](https://www.home-assistant.io/integrations/ecobee/), thermostat
     * [Flo](https://www.home-assistant.io/integrations/flo/), water shutoff
     * [Leviton Decora Wi-Fi](https://www.home-assistant.io/integrations/decora_wifi/)
@@ -62,7 +63,7 @@ Then add your entities, [browser_mod](https://github.com/thomasloven/hass-browse
     * [Cable Modem Monitor](https://github.com/solentlabs/cable_modem_monitor)
     * [Nest Protect](https://github.com/iMicknl/ha-nest-protect), for smoke detectors
     * [Node-RED Companion](https://github.com/zachowj/hass-node-red)
-    * [Noonlight Alarm](https://github.com/konnected-io/noonlight-hass), calls E911
+    * [Noonlight Alarm](https://github.com/konnected-io/noonlight-hass), calls E911 in the USA
     * [OpenSprinkler](https://github.com/vinteo/hass-opensprinkler)
     * [Pirate Weather](https://github.com/Pirate-Weather/pirate-weather-ha)
     * [SNMP Printer](https://github.com/DSorlov/snmp_printer)
