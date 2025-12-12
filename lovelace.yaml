@@ -9,7 +9,13 @@
 #  - Remember, browser_mod can be used to print values on the console of the
 #    browser.
 #  - Many thanks to Mattias Persson for sharing his Dashboard.  It gave me a head
-#    start in configuring this.
+#    start in configuring this. See https://github.com/matt8707/hass-config
+
+kiosk_mode:
+  user_settings: # kiosk mode also hide the top bar on Android
+    - users:
+        - "panel"
+      kiosk: true
 
 wallpanel:
   enabled: true
@@ -45,13 +51,26 @@ navbar-templates:
     layout:
       auto_padding:
         enabled: false
+    styles: |
+      .navbar-card {
+        --navbar-primary-color: #007aff;
+        background: rgba(255,255,255,0.3);
+      }
+      .navbar-card.desktop {
+        padding: 4px;
+        border-radius: 32px;
+      }
+      .button.active {
+        background: rgba(255,255,255, 0.7);  //color-mix(in srgb, white 70%, transparent);
+        border-radius: 32px;
+      }
     routes:
-      - label: "Home"
+      - label: "Home" # ------------------------------------------------------
         url: /lovelace-ui/Default
         image: /local/hass_logo_not_selected.svg
         image_selected: /local/hass_logo_selected.svg
 
-      - label: "Inside"
+      - label: "Inside" # ----------------------------------------------------
         url: /lovelace-ui/inside
         icon: mdi:home-thermometer-outline
         badge:
@@ -69,7 +88,7 @@ navbar-templates:
             ]]]
         selected_color: "#007aff"
 
-      - label: "Outside"
+      - label: "Outside" # ---------------------------------------------------
         url: /lovelace-ui/outside
         icon: mdi:sun-thermometer
         badge:
@@ -87,7 +106,7 @@ navbar-templates:
             ]]]
         selected_color: "#007aff"
 
-      - label: "Network"
+      - label: "Network" # ---------------------------------------------------
         url: /lovelace-ui/network
         icon: mdi:web
         badge:
@@ -105,7 +124,7 @@ navbar-templates:
             ]]]
         selected_color: "#007aff"
 
-      - label: "Fire"
+      - label: "Fire" # ------------------------------------------------------
         url: /lovelace-ui/fire
         icon: mdi:fire
         badge:
@@ -123,7 +142,7 @@ navbar-templates:
             ]]]
         selected_color: "#007aff"
 
-      - label: "Pool"
+      - label: "Pool" # ------------------------------------------------------
         url: /lovelace-ui/pool
         icon: mdi:pool-thermometer
         badge:
@@ -141,7 +160,7 @@ navbar-templates:
             ]]]
         selected_color: "#007aff"
 
-      - label: "Cameras"
+      - label: "Cameras" # ---------------------------------------------------
         url: /lovelace-ui/cameras
         icon: mdi:camera
         badge:
@@ -159,7 +178,7 @@ navbar-templates:
             ]]]
         selected_color: "#007aff"
 
-      - label: "Irrigation"
+      - label: "Irrigation" # ------------------------------------------------
         url: /lovelace-ui/irrigation
         icon: mdi:sprinkler-variant
         badge:
@@ -177,7 +196,7 @@ navbar-templates:
             ]]]
         selected_color: "#007aff"
 
-      - label: "Utilities"
+      - label: "Utilities" # -------------------------------------------------
         url: /lovelace-ui/utilities
         icon: mdi:power-plug
         badge:
@@ -195,7 +214,7 @@ navbar-templates:
             ]]]
         selected_color: "#007aff"
 
-      - label: "Reload"
+      - label: "Reload" # ----------------------------------------------------
         icon: mdi:dots-horizontal
         selected_color: "#007aff"
         tap_action:
@@ -207,20 +226,6 @@ navbar-templates:
               action: call-service
               service: script.reload_theme_in_current_browser
               data: {}
-
-    styles: |
-      .navbar-card {
-        --navbar-primary-color: #007aff;
-        background: rgba(255,255,255,0.3);
-      }
-      .navbar-card.desktop {
-        padding: 4px;
-        border-radius: 32px;
-      }
-      .button.active {
-        background: rgba(255,255,255, 0.7);  //color-mix(in srgb, white 70%, transparent);
-        border-radius: 32px;
-      }
 
 button_card_templates:
   settings:
@@ -1022,8 +1027,8 @@ button_card_templates:
         entity_id: >-
           [[[ return entity.entity_id; ]]]
 
-  tilt: # see https://micku7zu.github.io/vanilla-tilt.js/ --------------------
-    variables:
+  tilt: # --------------------------------------------------------------------
+    variables: # see https://micku7zu.github.io/vanilla-tilt.js/
       tilt_enable: >
         [[[
           // disable on macos app, text appears over popup
@@ -3346,7 +3351,6 @@ views:
       height: calc(100vh - 0vw - var(--header-height)) /* 2vw margin, 8px padding */
       margin: 2vw 2vw 0 0 /* when sidebar is hidden, it still uses a cell in the grid */
       padding: 0;
-      #place-content: stretch stretch
       grid-gap: 2vw
       grid-template-columns: minmax(260px, 25%) 1fr
       grid-template-rows: 1fr 60px  /* leave space for navbar */

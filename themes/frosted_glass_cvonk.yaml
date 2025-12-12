@@ -1,11 +1,13 @@
-# Frosted Glass Dark
-#
-# Adapted from Wessam Lauf's Frosted Glass Theme for Home Assistant:
-# ver. 1.3 - (2025-11-24)
-# https://github.com/wessamlauf/homeassistant-frosted-glass-themes
+# A few words to the wise ..
+# -  Use the "reload" button on the Dashboard's navbar, to force the theme to
+#    reload in your browserl.
+#  - Use the Visual Code addon in Home Assistant.
+#  - Many thanks to Wessam Lauf for sharing his Frosted Glass Theme (ver. 1.3,
+#    2025-11-24).  It forms the foundation of this theme.
+#    https://github.com/wessamlauf/homeassistant-frosted-glass-themes
 
 Frosted Glass cvonk:
-  modes: # dark-only declaration
+  modes:
     dark: {}
 
   # =========================
@@ -17,7 +19,7 @@ Frosted Glass cvonk:
   app-header-text-color: "rgba(240, 243, 255, 0.95)"
   app-header-edit-background-color: "rgba(30, 33, 54, 0.8)"
   app-header-edit-text-color: "rgba(234, 235, 238, 0.98)"
-  app-theme-color: "rgb(0, 0, 0)" # 1.2 Glass – header theme color hint for browsers
+  app-theme-color: "rgb(0, 0, 0)" # header theme color hint for browsers
 
   # =========================
   # SIDEBAR / DRAWER
@@ -33,11 +35,179 @@ Frosted Glass cvonk:
   # DIALOGS
   # =========================
 
-  ha-dialog-surface-backdrop-filter: "blur(8px)" # 1.2 Glass – same blur as cards
+  ha-dialog-surface-backdrop-filter: "blur(8px)" # same blur as cards
   ha-dialog-surface-background: "rgba(30, 30, 30, 0.7)"
   dialog-box-shadow: "0 12px 20px rgba(0, 0, 0, 0.25)"
   paper-dialog-background-color: "rgba(30, 30, 30, 0.7)"
   mdc-dialog-scrim-color: "rgba(0, 0, 0, 0.8)"
+
+  # =========================
+  # TYPOGRAPHY
+  # =========================
+
+  ha-font-family-body: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
+  ha-font-family-heading: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
+  ha-font-family-code: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
+  ha-font-family-longform: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
+  ha-card-header-font-family: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
+  mdc-typography-font-family: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
+  mdc-typography-button-font-family: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
+  mdc-typography-body1-font-family: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
+  md-list-item-label-text-font: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
+  paper-font-common-base_-_font-family: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
+  paper-font-common-code_-_font-family: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
+  paper-font-body1_-_font-family: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
+  paper-font-subhead_-_font-family: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
+  paper-font-headline_-_font-family: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
+  paper-font-caption_-_font-family: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
+  paper-font-title_-_font-family: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
+
+  ha-font-weight-normal: "400"
+  ha-font-weight-medium: "500"
+  ha-font-weight-bold: "700"
+  ha-font-weight-body: "400"
+  ha-font-weight-heading: "500"
+  ha-font-weight-action: "500"
+  mdc-typography-button-font-weight: "500"
+  title-font-weight: "var(--token-weight-font-title-card)"
+
+  ha-font-size-xs: "10px"
+  ha-font-size-s: "12px"
+  ha-font-size-m: "14px"
+  ha-font-size-l: "15px"
+  ha-font-size-xl: "20px"
+  ha-font-size-2xl: "25px"
+  ha-font-size-3xl: "29px"
+  ha-font-size-4xl: "33px"
+  ha-font-size-5xl: "42px"
+  title-font-size: "20px"
+  ha-heading-card-title-font-size: "var(--token-size-font-l)"
+  ha-heading-card-title-font-weight: "500"
+  ha-font-smoothing: "antialiased"
+
+  # =========================
+  # COLORS & MISCELLANEOUS
+  # =========================
+
+  ha-color-primary-05: "#0D0E19"
+  ha-color-primary-10: "#131526"
+  ha-color-primary-20: "#20233F"
+  ha-color-primary-30: "#30345F"
+  ha-color-primary-40: "#40467F"
+  ha-color-primary-50: "#6A74D3" # base theme primary (kept)
+  ha-color-primary-60: "#8F97DE"
+  ha-color-primary-70: "#ADB3E7"
+  ha-color-primary-80: "#D2D5F2"
+  ha-color-primary-90: "#EAECF9"
+  ha-color-primary-95: "#F6F7FC"
+
+  color-primary-05: "#0D0E19"
+  color-primary-10: "#131526"
+  color-primary-20: "#20233F"
+  color-primary-30: "#30345F"
+  color-primary-40: "#40467F"
+  color-primary-50: "#6A74D3"
+  color-primary-60: "#8F97DE"
+  color-primary-70: "#ADB3E7"
+  color-primary-80: "#D2D5F2"
+  color-primary-90: "#EAECF9"
+  color-primary-95: "#F6F7FC"
+
+  primary-text-color: "rgba(234, 235, 238, 0.98)"
+  secondary-text-color: "rgba(234, 235, 238, 0.8)"
+  text-primary-color: "rgba(234, 235, 238, 0.98)"
+  disabled-text-color: "rgba(234, 235, 238, 0.45)"
+  text-light-primary-color: "rgb(234, 235, 238)"
+  paper-item-icon-color: "rgba(234, 235, 238, 0.95)"
+  state-inactive-color: "rgba(234, 235, 238, 0.8)"
+  state-icon-color: "rgba(234, 235, 238, 0.95)"
+  state-on-color: "rgb(118, 214, 152)"
+  state-off-color: "rgb(234, 114, 135)"
+  label-badge-text-color: "rgba(234, 235, 238, 0.85)"
+  label-badge-red: "rgb(234, 114, 135)"
+  label-badge-blue: "rgb(106, 116, 211)"
+  label-badge-green: "rgb(78, 183, 128)"
+  label-badge-yellow: "rgb(255, 219, 117)"
+  label-badge-grey: "rgb(83, 90, 103)"
+  ha-chip-text-color: "rgb(234, 235, 238)"
+
+  primary-color: "rgb(106, 116, 211)"
+  dark-primary-color: "rgb(106, 116, 211)"
+  light-primary-color: "rgb(167, 182, 199)"
+  accent-color: "rgb(106, 116, 211)"
+  divider-color: "rgba(84, 84, 98, 0.28)"
+  scrollbar-thumb-color: "rgb(68, 68, 88)"
+  disabled-color: "rgb(173, 176, 184)"
+  info-color: "rgb(106, 116, 211)"
+  success-color: "rgb(118, 214, 152)"
+  warning-color: "rgb(255, 219, 117)"
+  error-color: "rgb(234, 114, 135)"
+  # background-image: "center / cover no-repeat fixed url('https://cdn.jsdelivr.net/gh/wessamlauf/homeassistant-frosted-glass-themes@refs/heads/main/themes/frosted-glass-dark-background.jpg')"
+  lovelace-background: "var(--background-image)"
+  primary-background-color: "rgba(30, 30, 30, 1)"
+  secondary-background-color: "rgba(0,0,0, 0.3)"
+  clear-background-color: "rgba(30, 33, 54, 0.7)"
+  card-background-color: "rgba(30, 30, 30, 0.85)"
+  ha-card-background: "rgba(30, 30, 30, 0.9)"
+  ha-card-border-radius: "18px"
+  ha-card-border-color: "rgba(234, 235, 238, 0.22)"
+  ha-card-border-width: "0.5px"
+  ha-card-border-style: "solid"
+  ha-card-border: "0.5px solid rgba(234, 235, 238, 0.1)"
+  ha-card-box-shadow: "0 12px 20px rgba(0, 0, 0, 0.28)"
+  ha-view-sections-column-gap: "17px"
+  ha-view-sections-column-min-width: 320px
+
+  # Sliders, toggles, switches
+  paper-slider-knob-color: "rgb(106, 116, 211)"
+  paper-slider-knob-start-color: "rgb(106, 116, 211)"
+  paper-slider-pin-color: "rgb(106, 116, 211)"
+  paper-slider-active-color: "rgb(106, 116, 211)"
+  paper-slider-secondary-color: "rgb(167, 182, 199)"
+  switch-checked-button-color: "rgb(106, 116, 211)"
+  switch-checked-track-color: "rgb(106, 116, 211)"
+  switch-unchecked-button-color: "rgba(234, 235, 238, 0.3)"
+  switch-unchecked-track-color: "rgba(234, 235, 238, 0.18)"
+  paper-toggle-button-checked-button-color: "rgb(106, 116, 211)"
+  paper-toggle-button-checked-bar-color: "rgb(106, 116, 211)"
+  paper-toggle-button-unchecked-button-color: "rgba(234, 235, 238, 0.3)"
+  paper-toggle-button-unchecked-bar-color: "rgba(234, 235, 238, 0.18)"
+  mdc-checkbox-unchecked-color: "rgba(234, 235, 238, 0.75)"
+  mdc-radio-unchecked-color: "rgba(234, 235, 238, 0.75)"
+  mdc-ripple-hover-opacity: "0.1"
+
+  # Inputs
+  input-background-color: "rgba(50, 50, 50, 0.1)"
+  input-background-token-color-disabled: "rgba(50, 50, 50, 0.1)"
+  input-fill-color: "rgba(50,50, 50, 0.1)"
+  input-ink-color: "rgba(234, 235, 238, 0.98)"
+  input-label-ink-color: "rgba(234, 235, 238, 0.98)"
+  input-disabled-fill-color: "rgba(30, 33, 54, 0.5)"
+  input-disabled-ink-color: "rgba(234, 235, 238, 0.45)"
+  input-disabled-label-ink-color: "rgba(234, 235, 238, 0.45)"
+  input-idle-line-color: "transparent"
+  input-dropdown-icon-color: "rgba(234, 235, 238, 0.8)"
+  input-hover-line-color: "rgb(106, 116, 211)"
+  mdc-select-idle-line-color: "transparent"
+  mdc-text-field-idle-line-color: "transparent"
+
+  # Code Editor & Misc
+  code-editor-background-color: "rgba(25, 28, 45, 1)"
+  codemirror-meta: "rgba(234, 235, 238, 0.98)"
+  codemirror-property: "rgb(106, 116, 211)"
+  codemirror-atom: "rgb(106, 116, 211)"
+  codemirror-string: "rgb(164, 209, 255)"
+  codemirror-keyword: "rgb(148, 182, 255)"
+  codemirror-number: "rgb(255, 171, 64)"
+  mcg-title-font-weight: "400"
+  mush-title-font-weight: "500"
+  mush-title-font-size: "var(--token-size-font-2xl)"
+  light-grey-color: "rgb(103, 104, 119)"
+  mush-rgb-grey: "103, 104, 119"
+
+  # Misc sizes
+  paper-slider-height: "5px"
+  border-radius: "18px"
 
   # ========
   # CARD-MOD
@@ -164,13 +334,19 @@ Frosted Glass cvonk:
       -webkit-backdrop-filter: none !important;
     }
 
-  # =========================
-  # CARD-MOD-ROOT GLOBAL CSS
-  # =========================
-  # root applies styles rooted in the shadowRoot of the hui-root element which
+  # =============
+  # CARD-MOD-ROOT
+  # =============
+  # `root` applies styles rooted in the shadowRoot of the hui-root element which
   # contains the header bar
 
   card-mod-root: |
+    #view {
+      background-size: cover !important;
+    }
+    app-header {
+      //display: none;
+    }
     :host {
       --ha-card-background: rgba(30, 30, 30, 0.1);
       --ha-card-box-shadow: 0 12px 20px rgba(0, 0, 0, 0.28);
@@ -361,172 +537,17 @@ Frosted Glass cvonk:
       --text-divider-color: rgba(234, 235, 238, 1) !important;
     }
 
-  # =========================
-  # TYPOGRAPHY
-  # =========================
+  # ==================
+  # CARD-MOD-VIEW-YAML (Customizations for `lovelace.yaml`)
+  # ==================
+  # `view` applies styles rooted in the hui-view element which contains the
+  # lovelace cards and badges. To traverse the ShadowDOM structure of the thing
+  # we want to style, we specify the variable `card-mod-<thing>-yaml`.
 
-  ha-font-family-body: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
-  ha-font-family-heading: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
-  ha-font-family-code: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
-  ha-font-family-longform: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
-  ha-card-header-font-family: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
-  mdc-typography-font-family: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
-  mdc-typography-button-font-family: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
-  mdc-typography-body1-font-family: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
-  md-list-item-label-text-font: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
-  paper-font-common-base_-_font-family: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
-  paper-font-common-code_-_font-family: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
-  paper-font-body1_-_font-family: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
-  paper-font-subhead_-_font-family: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
-  paper-font-headline_-_font-family: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
-  paper-font-caption_-_font-family: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
-  paper-font-title_-_font-family: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
-
-  ha-font-weight-normal: "400"
-  ha-font-weight-medium: "500"
-  ha-font-weight-bold: "700"
-  ha-font-weight-body: "400"
-  ha-font-weight-heading: "500"
-  ha-font-weight-action: "500"
-  mdc-typography-button-font-weight: "500"
-  title-font-weight: "var(--token-weight-font-title-card)"
-
-  ha-font-size-xs: "10px"
-  ha-font-size-s: "12px"
-  ha-font-size-m: "14px"
-  ha-font-size-l: "15px"
-  ha-font-size-xl: "20px"
-  ha-font-size-2xl: "25px"
-  ha-font-size-3xl: "29px"
-  ha-font-size-4xl: "33px"
-  ha-font-size-5xl: "42px"
-  title-font-size: "20px"
-  ha-heading-card-title-font-size: "var(--token-size-font-l)"
-  ha-heading-card-title-font-weight: "500"
-  ha-font-smoothing: "antialiased"
-
-  # =========================
-  # COLORS & MISCELLANEOUS
-  # =========================
-
-  ha-color-primary-05: "#0D0E19"
-  ha-color-primary-10: "#131526"
-  ha-color-primary-20: "#20233F"
-  ha-color-primary-30: "#30345F"
-  ha-color-primary-40: "#40467F"
-  ha-color-primary-50: "#6A74D3" # base theme primary (kept)
-  ha-color-primary-60: "#8F97DE"
-  ha-color-primary-70: "#ADB3E7"
-  ha-color-primary-80: "#D2D5F2"
-  ha-color-primary-90: "#EAECF9"
-  ha-color-primary-95: "#F6F7FC"
-
-  color-primary-05: "#0D0E19"
-  color-primary-10: "#131526"
-  color-primary-20: "#20233F"
-  color-primary-30: "#30345F"
-  color-primary-40: "#40467F"
-  color-primary-50: "#6A74D3"
-  color-primary-60: "#8F97DE"
-  color-primary-70: "#ADB3E7"
-  color-primary-80: "#D2D5F2"
-  color-primary-90: "#EAECF9"
-  color-primary-95: "#F6F7FC"
-
-  primary-text-color: "rgba(234, 235, 238, 0.98)"
-  secondary-text-color: "rgba(234, 235, 238, 0.8)"
-  text-primary-color: "rgba(234, 235, 238, 0.98)"
-  disabled-text-color: "rgba(234, 235, 238, 0.45)"
-  text-light-primary-color: "rgb(234, 235, 238)"
-  paper-item-icon-color: "rgba(234, 235, 238, 0.95)"
-  state-inactive-color: "rgba(234, 235, 238, 0.8)"
-  state-icon-color: "rgba(234, 235, 238, 0.95)"
-  state-on-color: "rgb(118, 214, 152)"
-  state-off-color: "rgb(234, 114, 135)"
-  label-badge-text-color: "rgba(234, 235, 238, 0.85)"
-  label-badge-red: "rgb(234, 114, 135)"
-  label-badge-blue: "rgb(106, 116, 211)"
-  label-badge-green: "rgb(78, 183, 128)"
-  label-badge-yellow: "rgb(255, 219, 117)"
-  label-badge-grey: "rgb(83, 90, 103)"
-  ha-chip-text-color: "rgb(234, 235, 238)"
-
-  primary-color: "rgb(106, 116, 211)"
-  dark-primary-color: "rgb(106, 116, 211)"
-  light-primary-color: "rgb(167, 182, 199)"
-  accent-color: "rgb(106, 116, 211)"
-  divider-color: "rgba(84, 84, 98, 0.28)"
-  scrollbar-thumb-color: "rgb(68, 68, 88)"
-  disabled-color: "rgb(173, 176, 184)"
-  info-color: "rgb(106, 116, 211)"
-  success-color: "rgb(118, 214, 152)"
-  warning-color: "rgb(255, 219, 117)"
-  error-color: "rgb(234, 114, 135)"
-  # background-image: "center / cover no-repeat fixed url('https://cdn.jsdelivr.net/gh/wessamlauf/homeassistant-frosted-glass-themes@refs/heads/main/themes/frosted-glass-dark-background.jpg')"
-  lovelace-background: "var(--background-image)"
-  primary-background-color: "rgba(30, 30, 30, 1)"
-  secondary-background-color: "rgba(0,0,0, 0.3)"
-  clear-background-color: "rgba(30, 33, 54, 0.7)"
-  card-background-color: "rgba(30, 30, 30, 0.85)"
-  ha-card-background: "rgba(30, 30, 30, 0.9)"
-  ha-card-border-radius: "18px"
-  ha-card-border-color: "rgba(234, 235, 238, 0.22)"
-  ha-card-border-width: "0.5px"
-  ha-card-border-style: "solid"
-  ha-card-border: "0.5px solid rgba(234, 235, 238, 0.1)"
-  ha-card-box-shadow: "0 12px 20px rgba(0, 0, 0, 0.28)"
-  ha-view-sections-column-gap: "17px"
-  ha-view-sections-column-min-width: 320px
-
-  # Sliders, toggles, switches
-  paper-slider-knob-color: "rgb(106, 116, 211)"
-  paper-slider-knob-start-color: "rgb(106, 116, 211)"
-  paper-slider-pin-color: "rgb(106, 116, 211)"
-  paper-slider-active-color: "rgb(106, 116, 211)"
-  paper-slider-secondary-color: "rgb(167, 182, 199)"
-  switch-checked-button-color: "rgb(106, 116, 211)"
-  switch-checked-track-color: "rgb(106, 116, 211)"
-  switch-unchecked-button-color: "rgba(234, 235, 238, 0.3)"
-  switch-unchecked-track-color: "rgba(234, 235, 238, 0.18)"
-  paper-toggle-button-checked-button-color: "rgb(106, 116, 211)"
-  paper-toggle-button-checked-bar-color: "rgb(106, 116, 211)"
-  paper-toggle-button-unchecked-button-color: "rgba(234, 235, 238, 0.3)"
-  paper-toggle-button-unchecked-bar-color: "rgba(234, 235, 238, 0.18)"
-  mdc-checkbox-unchecked-color: "rgba(234, 235, 238, 0.75)"
-  mdc-radio-unchecked-color: "rgba(234, 235, 238, 0.75)"
-  mdc-ripple-hover-opacity: "0.1"
-
-  # Inputs
-  input-background-color: "rgba(50, 50, 50, 0.1)"
-  input-background-token-color-disabled: "rgba(50, 50, 50, 0.1)"
-  input-fill-color: "rgba(50,50, 50, 0.1)"
-  input-ink-color: "rgba(234, 235, 238, 0.98)"
-  input-label-ink-color: "rgba(234, 235, 238, 0.98)"
-  input-disabled-fill-color: "rgba(30, 33, 54, 0.5)"
-  input-disabled-ink-color: "rgba(234, 235, 238, 0.45)"
-  input-disabled-label-ink-color: "rgba(234, 235, 238, 0.45)"
-  input-idle-line-color: "transparent"
-  input-dropdown-icon-color: "rgba(234, 235, 238, 0.8)"
-  input-hover-line-color: "rgb(106, 116, 211)"
-  mdc-select-idle-line-color: "transparent"
-  mdc-text-field-idle-line-color: "transparent"
-
-  # Code Editor & Misc
-  code-editor-background-color: "rgba(25, 28, 45, 1)"
-  codemirror-meta: "rgba(234, 235, 238, 0.98)"
-  codemirror-property: "rgb(106, 116, 211)"
-  codemirror-atom: "rgb(106, 116, 211)"
-  codemirror-string: "rgb(164, 209, 255)"
-  codemirror-keyword: "rgb(148, 182, 255)"
-  codemirror-number: "rgb(255, 171, 64)"
-  mcg-title-font-weight: "400"
-  mush-title-font-weight: "500"
-  mush-title-font-size: "var(--token-size-font-2xl)"
-  light-grey-color: "rgb(103, 104, 119)"
-  mush-rgb-grey: "103, 104, 119"
-
-  # Misc sizes
-  paper-slider-height: "5px"
-  border-radius: "18px"
+  card-mod-view-yaml: |
+    .: |
+      hui-view {
+        /* background: none !important; */
+      }
 
   # --- End of Theme ---
