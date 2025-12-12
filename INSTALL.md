@@ -7,8 +7,10 @@
   * [card-mod](https://github.com/thomasloven/lovelace-card-mod)
   * [layout-card](https://github.com/thomasloven/lovelace-layout-card)
   * [Swipe Card](https://github.com/bramkragten/swipe-card)
+  * [Kiosk mode](https://github.com/maykar/kiosk-mode)
+  * [Wallpanel](https://github.com/j-a-n/lovelace-wallpanel)
 
-* Manually copy over these files from [cvonk/hass-config](https://github.com/cvonk/hass-config)
+* Manually copy over these files from [cvonk/hass-config](https://github.com/cvonk/hass-config) to the `config/` folder on your HA.
   * `lovelace.yaml`
   * `themes/` folder
   * `packages/` folder
@@ -16,6 +18,9 @@
   * `automations.yaml`
   * `scripts.yaml`
   * `groups.yaml`
+  * `secrets-redacted.yaml`
+
+* Manually rename `secrets-redacted.yaml` to `secrets.yaml`. Edit the file.
 
 * In `configuration.yaml` add lines [[docs](https://www.home-assistant.io/lovelace/dashboards/)]
 
@@ -36,7 +41,7 @@ Then add your entities, [browser_mod](https://github.com/thomasloven/hass-browse
 
 * I use the following addons:
 
-  * [Get HACS](https://www.hacs.xyz/docs/use/download/download/), to install cards/integrations from GitHub
+  * [Get HACS](https://www.hacs.xyz/docs/use/download/download/), to install cards/integrations from GitHub see top line of this file
   * [Let's Encrypt](https://community.home-assistant.io/t/how-to-configure-lets-encrypt-ssl-certificates-for-home-assistant-completely-100-free-updated-for-2022-2023/508329), to be enable to HTTPS to HA
   * [Mosquito broker](https://github.com/home-assistant/addons/tree/master/mosquitto), a MQTT broker
   * [Node-RED](https://github.com/hassio-addons/addon-node-red), for fire alarm flow
