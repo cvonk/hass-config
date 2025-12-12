@@ -220,7 +220,7 @@ button_card_templates:
       state_on: >
         [[[ return ['on', 'home', 'cool', 'heat', 'fan_only', 'playing',
         'unlocked', 'armed_home', 'armed_away', 'armed_night',
-        'open', 'manual', 'program'].indexOf(!entity || entity.state) !== -1; ]]]
+        'open', 'manual', 'program', 'online', 'Online'].indexOf(!entity || entity.state) !== -1; ]]]
       state: >
         [[[ return !entity || entity.state; ]]]
       entity_id: >
@@ -307,10 +307,6 @@ button_card_templates:
             - opacity: 45%
         tap_action:
           action: none
-      #- value: "off"
-      #  styles:
-      #    icon:
-      #      - color: rgb(215,215,215)
       - value: "closed"
         styles:
           icon:
@@ -341,8 +337,8 @@ button_card_templates:
         - color: var(--button-card-light-color)
         - icon_size: 600px
         - padding: 0px 0px
-        - margin-top: "-45%"
-        - margin-left: "-28%"
+        - margin-top: "-25%"
+        - margin-left: "-30%"
         - width: "80%"
       card:
         - --button-card-border-radius: "var(--ha-card-border-radius, var(--ha-border-radius-lg))"
@@ -373,7 +369,7 @@ button_card_templates:
         z-index: 1;
       }
       #card {
-        padding: 10.9% 9.9% 8.9% 10.9%;
+        padding: 9%;
       }
       #state::first-letter {
         text-transform: uppercase;
@@ -809,10 +805,16 @@ button_card_templates:
           backdrop-filter: none !important
         }
 
-  more_info:
+  overflow_reminder:
     custom_fields:
       circle: >
-        <ha-icon icon="mdi:dots-vertical" style="width: 80%;"></ha-icon>
+        <center><ha-icon icon="mdi:dots-vertical" style="width:70%;"></ha-icon></center>
+    styles:
+      custom_fields:
+        circle:
+          #- background: rgba(0,0,0, 0.1)
+          #- border-radius: 50%
+
   loader: # ------------------------------------------------------------------
     custom_fields:
       loader: >
@@ -949,7 +951,7 @@ button_card_templates:
     template:
       - base
       - circle
-      - more_info
+      - overflow_reminder
     variables: start_time_entity
     icon: mdi:auto-mode
     size: 80%
@@ -1201,15 +1203,10 @@ button_card_templates:
     state_display: >-
       [[[
           if (entity?.state) {
-              return entity.state === 'on' ? 'Connected' : 'Error';
+              return entity.state === 'on' ? 'Online' : 'Offline';
           }
           return entity.state;
       ]]]
-    state:
-      - value: "off"
-        styles:
-          icon:
-            - color: red
     tap_action:
     double_tab_action:
   netstat: # -----------------------------------------------------------------
@@ -1223,11 +1220,6 @@ button_card_templates:
           }
           return entity.state;
       ]]]
-    state:
-      - value: "off"
-        styles:
-          icon:
-            - color: red
     tap_action:
     double_tab_action:
 
@@ -2983,7 +2975,6 @@ button_card_templates:
         top: 75%;
         left: 38%;
         height: 5%;
-        background: red;
         scale: 0.5;
       }
       .water-drip {
@@ -3235,7 +3226,7 @@ button_card_templates:
           opacity: 0;
         }
 
-  cpu_ram_sd_temp:
+  obsolete_cpu_ram_sd_temp:
     template:
       - base
       - circle
@@ -5661,310 +5652,480 @@ views:
           margin: 0
           padding: 0;
           grid-gap: 1vw
-          grid-template-columns: repeat(auto-fit, minmax(400px, 1fr))
+          grid-template-columns: repeat(auto-fit, minmax(120px, 1fr))
         cards:
-          - type: custom:mod-card # Router
+          - heading: "Core"
+            type: heading
+            heading_style: title
             card_mod:
-              style:
-                .: |
-                  ha-card, ha-card::before {
-                    border-radius: 0; 
-                    border-width: 0;
-                    box-shadow: none;
-                    backdrop-filter: none;
-                    background: transparent;
-                  }
-                hui-grid-card:
-                  $: |
-                    .card-header {
-                      padding: 0 1vw !important;
-                      font-size: max(2.0vw, 12pt) !important;
-                      line-height: 30px !important;
-                    }
-                    #root {
-                      padding: 1vw 1vw 1vw 1vw !important;
-                    }
-            card:
-              title: "Router"
-              type: grid
-              square: false
-              columns: 4
-              cards:
-                - type: custom:button-card # LAN in
-                  template: circle_graph
-                  icon: mdi:download
-                  variables:
-                    graph_color: cornflowerblue
-                  entity: sensor.rtr_interface_lan_inbytes_kilobytes_per_second
-                  name: "LAN in"
+              style: |
+                :host {
+                  grid-column: 1 / -1;
+                }
+                ha-card .content.title p {
+                  padding: 0 0 4px 0;
+                  text-align: var(--ha-stack-title-text-align, start);
+                  color: var(--ha-card-header-color, var(--primary-text-color));
+                  font-family: var(--ha-card-header-font-family, inherit);  
+                  letter-spacing: -0.012em;              
+                  font-size: max(2.0vw, 12pt) !important;
+                  line-height: 30px;                  
+                  font-weight: 400;
+                }
 
-                - type: custom:button-card # LAN out
-                  template: circle_graph
-                  icon: mdi:upload
-                  variables:
-                    graph_color: cornflowerblue
-                  entity: sensor.rtr_interface_lan_outbytes_kilobytes_per_second
-                  name: "LAN out"
+          - name: "rtr"
+            type: custom:button-card
+            template:
+              - connectivity
+              - overflow_reminder
+            entity: binary_sensor.ping_rtr
+            icon: mdi:router-network
+            tap_action:
+              action: fire-dom-event
+              browser_mod:
+                service: browser_mod.popup
+                data:
+                  title: "Router"
+                  icon: mdi:router-network
+                  card_mod:
+                    style:
+                      ha-dialog: |
+                        ha-dialog-header, .content {
+                          background: linear-gradient(to right, rgba(255, 149, 0, 0.1), rgba(255, 149, 0, 0.05));
+                        }
+                  content:
+                    type: entities
+                    card_mod:
+                      style: |
+                        ha-card {
+                          background: linear-gradient(to right, rgba(255, 149, 0, 0.1), rgba(255, 149, 0, 0.05));
+                        }
+                    entities:
+                      - entity: update.rtr_firmware_updates_available
+                        name: "Firmware update available"
+                        icon: mdi:update
+                      - entity: sensor.rtr_system_boottime
+                        name: "Boot time"
+                      - entity: sensor.rtr_cpu_usage
+                        name: "CPU usage"
+                      - entity: sensor.rtr_filesystem_used_percentage_root
+                        name: "Filesystem usage"
+                      - entity: sensor.rtr_memory_used_percentage
+                        name: "Memory usage"
+                      - entity: sensor.rtr_dhcp_leases_lan
+                        name: "LAN DHCP"
+                      - entity: sensor.rtr_dhcp_leases_guest
+                        name: "GUEST DHCP"
+                      - entity: sensor.rtr_interface_wan_inbytes_kilobytes_per_second
+                        name: "WAN in speed"
+                        icon: mdi:download
+                      - entity: sensor.rtr_interface_wan_outbytes_kilobytes_per_second
+                        name: "WAN out speed"
+                        icon: mdi:upload
+                      - entity: sensor.rtr_interface_lan_inbytes_kilobytes_per_second
+                        name: "LAN in speed"
+                        icon: mdi:download
+                      - entity: sensor.rtr_interface_lan_outbytes_kilobytes_per_second
+                        name: "LAN out speed"
+                        icon: mdi:upload
+                      - entity: sensor.rtr_interface_guest_inbytes_kilobytes_per_second
+                        name: "GUEST in speed"
+                        icon: mdi:download
+                      - entity: sensor.rtr_interface_guest_outbytes_kilobytes_per_second
+                        name: "GUEST out speed"
+                        icon: mdi:upload
+                      - entity: sensor.rtr_interface_homewg_inbytes_kilobytes_per_second
+                        name: "HOMEWG in speed"
+                        icon: mdi:download
+                      - entity: sensor.rtr_interface_homewg_outbytes_kilobytes_per_second
+                        name: "HOMEWG out speed"
+                        icon: mdi:upload
 
-                - type: custom:button-card # WG in
-                  template: circle_graph
-                  icon: mdi:download
-                  variables:
-                    graph_color: cornflowerblue
-                  entity: sensor.rtr_interface_homewg_inbytes_kilobytes_per_second
-                  name: "WG in"
+          - name: "MODEM"
+            type: custom:button-card
+            template:
+              - base
+              - overflow_reminder
+            entity: binary_sensor.cable_modem_online
+            icon: mdi:router-network
+            tap_action:
+              action: fire-dom-event
+              browser_mod:
+                service: browser_mod.popup
+                data:
+                  title: "Cable modem"
+                  icon: mdi:router-network
+                  card_mod:
+                    style:
+                      ha-dialog: |
+                        ha-dialog-header, .content {
+                          background: linear-gradient(to right, rgba(255, 149, 0, 0.1), rgba(255, 149, 0, 0.05));
+                        }
+                  content:
+                    type: entities
+                    card_mod:
+                      style: |
+                        ha-card {
+                          background: linear-gradient(to right, rgba(255, 149, 0, 0.1), rgba(255, 149, 0, 0.05));
+                        }
+                    entities:
+                      - entity: sensor.cable_modem_modem_info
+                        name: "Modem info"
+                      - entity: sensor.cable_modem_software_version
+                        name: "Firmware version"
+                      - entity: sensor.cable_modem_connection_status
+                        name: "Connection status"
+                      - entity: sensor.cable_modem_health_status
+                        name: "Health status"
+                      - entity: sensor.cable_modem_system_uptime
+                        name: "System uptime"
+                      - entity: sensor.cable_modem_us_channel_count
+                        name: "Upstream channel count"
+                        icon: mdi:upload
+                      - entity: sensor.cable_modem_ds_channel_count
+                        name: "Downstream channel count"
+                        icon: mdi:download
+                      - entity: sensor.cable_modem_total_corrected_errors
+                        name: "Total corrected errors"
+                      - entity: sensor.cable_modem_total_uncorrected_errors
+                        name: "Total uncorrected errors"
+                      - entity: sensor.cable_modem_mean_s_n
+                        name: "Mean S/N ratio"
+                        icon: mdi:signal
+                      - entity: sensor.cable_modem_worst_freq
+                        name: "Frequency with most errors"
 
-                - type: custom:button-card # WG out
-                  template: circle_graph
-                  icon: mdi:upload
-                  variables:
-                    graph_color: cornflowerblue
-                  entity: sensor.rtr_interface_homewg_outbytes_kilobytes_per_second
-                  name: "WG out"
+          - name: "DNS"
+            type: custom:button-card
+            template: connectivity
+            entity: binary_sensor.ping_dns
 
-                - type: custom:button-card # Guest in
-                  template: circle_graph
-                  icon: mdi:download
-                  variables:
-                    graph_color: cornflowerblue
-                  entity: sensor.rtr_interface_guest_inbytes_kilobytes_per_second
-                  name: "Guest in"
+          - name: "google"
+            type: custom:button-card
+            template: connectivity
+            entity: binary_sensor.ping_google
 
-                - type: custom:button-card # Guest out
-                  template: circle_graph
-                  icon: mdi:upload
-                  variables:
-                    graph_color: cornflowerblue
-                  entity: sensor.rtr_interface_guest_outbytes_kilobytes_per_second
-                  name: "Guest out"
+          - name: "UPS"
+            type: custom:button-card
+            template:
+              - base
+              - overflow_reminder
+            entity: binary_sensor.network_ups_online
+            icon: mdi:battery-outline
+            tap_action:
+              action: fire-dom-event
+              browser_mod:
+                service: browser_mod.popup
+                data:
+                  title: "UPS"
+                  icon: mdi:battery-outline
+                  card_mod:
+                    style:
+                      ha-dialog: |
+                        ha-dialog-header, .content {
+                          background: linear-gradient(to right, rgba(255, 149, 0, 0.1), rgba(255, 149, 0, 0.05));
+                        }
+                  content:
+                    type: entities
+                    card_mod:
+                      style: |
+                        ha-card {
+                          background: linear-gradient(to right, rgba(255, 149, 0, 0.1), rgba(255, 149, 0, 0.05));
+                        }
+                    entities:
+                      - entity: sensor.ups_status
+                        name: "Status"
+                      - entity: sensor.ups_load
+                        name: "Load"
+                      - entity: sensor.ups_battery_charge
+                        name: "Battery charge"
+                      - entity: sensor.ups_battery_runtime
+                        name: "Battery runtime"
 
-                - type: custom:button-card # WAN in
-                  template: circle_graph
-                  icon: mdi:download
-                  variables:
-                    graph_color: cornflowerblue
-                  entity: sensor.rtr_interface_wan_inbytes_kilobytes_per_second
-                  name: "WAN in"
-
-                - type: custom:button-card # WAN out
-                  template: circle_graph
-                  icon: mdi:upload
-                  variables:
-                    graph_color: cornflowerblue
-                  entity: sensor.rtr_interface_wan_outbytes_kilobytes_per_second
-                  name: "WAN out"
-
-          - type: custom:mod-card # Ping
+          - heading: "WiFi access"
+            type: heading
+            heading_style: title
             card_mod:
-              style:
-                .: |
-                  ha-card, ha-card::before {
-                    border-radius: 0; 
-                    border-width: 0;
-                    box-shadow: none;
-                    backdrop-filter: none;
-                    background: transparent;
-                  }
-                hui-grid-card:
-                  $: |
-                    .card-header {
-                      padding: 0 1vw !important;
-                      font-size: max(2.0vw, 12pt) !important;
-                      line-height: 30px !important;
-                    }
-                    #root {
-                      padding: 1vw 1vw 1vw 1vw !important;
-                    }
-            card:
-              title: "Components"
-              type: grid
-              square: false
-              columns: 4
-              cards:
-                - type: custom:button-card # Rtr
-                  template: connectivity
-                  variables:
-                    graph_color: cornflowerblue
-                  entity: binary_sensor.ping_rtr
-                  name: "Rtr"
+              style: |
+                :host {
+                  grid-column: 1 / -1;
+                }
+                ha-card .content.title p {
+                  padding: 0 0 4px 0;
+                  text-align: var(--ha-stack-title-text-align, start);
+                  color: var(--ha-card-header-color, var(--primary-text-color));
+                  font-family: var(--ha-card-header-font-family, inherit);  
+                  letter-spacing: -0.012em;              
+                  font-size: max(2.0vw, 12pt) !important;
+                  line-height: 30px;                  
+                  font-weight: 400;
+                }
 
-                - type: custom:button-card # Modem
-                  template:
-                    - connectivity
-                    - more_info
-                  variables:
-                    graph_color: cornflowerblue
-                  entity: binary_sensor.ping_modem
-                  name: "Modem"
-                  tap_action:
-                    action: fire-dom-event
-                    browser_mod:
-                      service: browser_mod.popup
-                      data:
-                        title: "Cable modem"
-                        icon: mdi:router-network
-                        card_mod:
-                          style:
-                            ha-dialog: |
-                              ha-dialog-header, .content {
-                                background: linear-gradient(to right, rgba(255, 149, 0, 0.1), rgba(255, 149, 0, 0.05));
-                              }
-                        content:
-                          type: entities
-                          card_mod:
-                            style: |
-                              ha-card {
-                                background: linear-gradient(to right, rgba(255, 149, 0, 0.1), rgba(255, 149, 0, 0.05));
-                              }
-                          entities:
-                            - entity: sensor.cable_modem_modem_info
-                              name: "Modem info"
-                            - entity: sensor.cable_modem_software_version
-                              name: "Firmware version"
-                            - entity: sensor.cable_modem_connection_status
-                              name: "Connection status"
-                            - entity: sensor.cable_modem_health_status
-                              name: "Health status"
-                            - entity: sensor.cable_modem_system_uptime
-                              name: "System uptime"
-                            - entity: sensor.cable_modem_us_channel_count
-                              name: "Upstream channel count"
-                            - entity: sensor.cable_modem_ds_channel_count
-                              name: "Downstream channel count"
-                            - entity: sensor.cable_modem_total_corrected_errors
-                              name: "Total corrected errors"
-                            - entity: sensor.cable_modem_total_uncorrected_errors
-                              name: "Total uncorrected errors"
+          - name: "LAN AP1"
+            type: custom:button-card
+            template:
+              - connectivity
+              - overflow_reminder
+            entity: binary_sensor.ping_ap1
+            icon: mdi:wifi
+            tap_action:
+              action: fire-dom-event
+              browser_mod:
+                service: browser_mod.popup
+                data:
+                  title: "WiFi LAN Access Point 1"
+                  icon: mdi:wifi
+                  card_mod:
+                    style:
+                      ha-dialog: |
+                        ha-dialog-header, .content {
+                          background: linear-gradient(to right, rgba(255, 149, 0, 0.1), rgba(255, 149, 0, 0.05));
+                        }
+                  content:
+                    type: entities
+                    card_mod:
+                      style: |
+                        ha-card {
+                          background: linear-gradient(to right, rgba(255, 149, 0, 0.1), rgba(255, 149, 0, 0.05));
+                        }
+                    entities:
+                      - entity: sensor.ap1_devices_connected
+                        name: "Devices connected"
+                      - entity: sensor.ap1_last_boot
+                        name: "Last boot"
 
-                - type: custom:button-card # DNS
-                  template: connectivity
-                  variables:
-                    graph_color: cornflowerblue
-                  entity: binary_sensor.ping_dns
-                  name: "DNS"
+          - name: "LAN AP2"
+            type: custom:button-card
+            template:
+              - connectivity
+              - overflow_reminder
+            entity: binary_sensor.ping_ap2
+            icon: mdi:wifi
+            tap_action:
+              action: fire-dom-event
+              browser_mod:
+                service: browser_mod.popup
+                data:
+                  title: "WiFi LAN Access Point 2"
+                  icon: mdi:wifi
+                  card_mod:
+                    style:
+                      ha-dialog: |
+                        ha-dialog-header, .content {
+                          background: linear-gradient(to right, rgba(255, 149, 0, 0.1), rgba(255, 149, 0, 0.05));
+                        }
+                  content:
+                    type: entities
+                    card_mod:
+                      style: |
+                        ha-card {
+                          background: linear-gradient(to right, rgba(255, 149, 0, 0.1), rgba(255, 149, 0, 0.05));
+                        }
+                    entities:
+                      - entity: sensor.ap2_cpu_utilization
+                        name: "CPU usage"
+                      - entity: sensor.ap2_memory_utilization
+                        name: "Memory usage"
 
-                - type: custom:button-card # Google
-                  template: connectivity
-                  variables:
-                    graph_color: cornflowerblue
-                  entity: binary_sensor.ping_google
-                  name: "Google"
+          - name: "GUEST AP1"
+            type: custom:button-card
+            template: connectivity
+            icon: mdi:wifi
+            entity: binary_sensor.ping_guest_ap1
 
-                - type: custom:button-card # Rtr CPU
-                  template: cpu_ram_sd_temp
-                  variables:
-                    cpu_id: "sensor.rtr_cpu_usage"
-                    ram_id: "sensor.rtr_memory_used_percentage"
-                    sd_id: "sensor.rtr_filesystem_used_percentage_root"
-                    load_id: "sensor.rtr_system_load_average_one_minute"
-                  entity: sensor.rtr_system_load_average_one_minute
-                  icon: mdi:router
-                  name: "Rtr"
+          - name: "GUEST AP2"
+            type: custom:button-card
+            template: connectivity
+            icon: mdi:wifi
+            entity: binary_sensor.ping_guest_ap2
 
-                - type: custom:button-card # Modem Status
-                  template: netstat
-                  variables:
-                    graph_color: cornflowerblue
-                  entity: sensor.cable_modem_connection_status
-                  name: "Modem"
-
-                - type: custom:button-card # DNS Ping delay
-                  template: netstat
-                  variables:
-                    graph_color: cornflowerblue
-                  entity: sensor.ping_dns_round_trip_time_average
-                  name: "DNS"
-
-                - type: custom:button-card # Google Ping delay
-                  template: netstat
-                  variables:
-                    graph_color: cornflowerblue
-                  entity: sensor.ping_google_round_trip_time_average
-                  name: "Google"
-
-          - type: custom:mod-card # UPS
+          - heading: "Devices"
+            type: heading
+            heading_style: title
             card_mod:
-              style:
-                .: |
-                  ha-card, ha-card::before {
-                    border-radius: 0; 
-                    border-width: 0;
-                    box-shadow: none;
-                    backdrop-filter: none;
-                    background: transparent;
-                  }
-                hui-grid-card:
-                  $: |
-                    .card-header {
-                      padding: 0 1vw !important;
-                      font-size: max(2.0vw, 12pt) !important;
-                      line-height: 30px !important;
-                    }
-                    #root {
-                      padding: 1vw 1vw 1vw 1vw !important;
-                    }
-            card:
-              title: "UPS"
-              type: grid
-              square: false
-              columns: 1
-              cards:
-                - entity: sensor.ups_battery_charge
-                  name: >
-                    [[[
-                        return states['sensor.ups_status']?.state;
-                    ]]]
-                  type: custom:button-card
-                  template: above_below_bar
-                  variables:
-                    warning_below: 30
-                    warning_above: 100
-                    max_value: 100
+              style: |
+                :host {
+                  grid-column: 1 / -1;
+                }
+                ha-card .content.title p {
+                  padding: 0 0 4px 0;
+                  text-align: var(--ha-stack-title-text-align, start);
+                  color: var(--ha-card-header-color, var(--primary-text-color));
+                  font-family: var(--ha-card-header-font-family, inherit);  
+                  letter-spacing: -0.012em;              
+                  font-size: max(2.0vw, 12pt) !important;
+                  line-height: 30px;                  
+                  font-weight: 400;
+                }
 
-          - type: custom:mod-card # Disk usage
-            card_mod:
-              style:
-                .: |
-                  ha-card, ha-card::before {
-                    border-radius: 0; 
-                    border-width: 0;
-                    box-shadow: none;
-                    backdrop-filter: none;
-                    background: transparent;
-                  }
-                hui-grid-card:
-                  $: |
-                    .card-header {
-                      padding: 0 1vw !important;
-                      font-size: max(2.0vw, 12pt) !important;
-                      line-height: 30px !important;
-                    }
-                    #root {
-                      padding: 1vw 1vw 1vw 1vw !important;
-                    }
-            card:
-              title: "Disk usage"
-              type: grid
-              square: false
-              columns: 1
-              cards:
-                - entity: sensor.nas_volume_1_volume_used
-                  name: "NAS"
-                  type: custom:button-card
-                  template: above_below_bar
-                  variables:
-                    warning_below: 0
-                    warning_above: 85
-                    max_value: 100
+          - name: "NAS"
+            type: custom:button-card # NAS
+            template:
+              - connectivity
+              - overflow_reminder
+            entity: binary_sensor.ping_nas
+            icon: mdi:nas
+            tap_action:
+              action: fire-dom-event
+              browser_mod:
+                service: browser_mod.popup
+                data:
+                  title: "NAS"
+                  icon: mdi:nas
+                  card_mod:
+                    style:
+                      ha-dialog: |
+                        ha-dialog-header, .content {
+                          background: linear-gradient(to right, rgba(255, 149, 0, 0.1), rgba(255, 149, 0, 0.05));
+                        }
+                  content:
+                    type: entities
+                    card_mod:
+                      style: |
+                        ha-card {
+                          background: linear-gradient(to right, rgba(255, 149, 0, 0.1), rgba(255, 149, 0, 0.05));
+                        }
+                    entities:
+                      - entity: update.nas_dsm_update
+                        name: "Firmware"
+                        icon: mdi:update
+                      - entity: sensor.nas_cpu_utilization_total
+                        name: "CPU usage"
+                      - entity: sensor.nas_memory_usage_real
+                        name: "Memory usage"
+                      - entity: sensor.nas_volume_1_volume_used
+                        name: "Disk usage"
+                      - entity: sensor.nas_download_throughput
+                        name: "In speed"
+                        icon: mdi:download
+                      - entity: sensor.nas_upload_throughput
+                        name: "Out speed"
+                        icon: mdi:upload
+                      - entity: sensor.nas_volume_1_status
+                        name: "Volume status"
+                      - entity: sensor.nas_drive_1_status
+                        name: "Drive 1 status"
+                      - entity: sensor.nas_drive_1_status_smart
+                        name: "Drive 1 status SMART"
+                      - entity: binary_sensor.nas_drive_1_below_min_remaining_life
+                        name: "Drive 1 below min lifespan"
+                      - entity: binary_sensor.nas_drive_1_exceeded_max_bad_sectors
+                        name: "Drive 1 exceeded max bad sectors"
+                      - entity: sensor.nas_drive_2_status
+                        name: "Drive 2 status"
+                      - entity: sensor.nas_drive_2_status_smart
+                        name: "Drive 2 status SMART"
+                      - entity: binary_sensor.nas_drive_2_below_min_remaining_life
+                        name: "Drive 2 below min lifespan"
+                      - entity: binary_sensor.nas_drive_2_exceeded_max_bad_sectors
+                        name: "Drive 2 exceeded max bad sectors"
 
-                - entity: sensor.backup_volume_1_volume_used
-                  name: "Backup"
-                  type: custom:button-card
-                  template: above_below_bar
-                  variables:
-                    warning_below: 0
-                    warning_above: 85
-                    max_value: 100
+          - name: "backup"
+            entity: binary_sensor.ping_nas
+            type: custom:button-card # Backup
+            icon: mdi:nas
+            template:
+              - connectivity
+              - overflow_reminder
+            tap_action:
+              action: fire-dom-event
+              browser_mod:
+                service: browser_mod.popup
+                data:
+                  title: "Backup"
+                  icon: mdi:nas
+                  card_mod:
+                    style:
+                      ha-dialog: |
+                        ha-dialog-header, .content {
+                          background: linear-gradient(to right, rgba(255, 149, 0, 0.1), rgba(255, 149, 0, 0.05));
+                        }
+                  content:
+                    type: entities
+                    card_mod:
+                      style: |
+                        ha-card {
+                          background: linear-gradient(to right, rgba(255, 149, 0, 0.1), rgba(255, 149, 0, 0.05));
+                        }
+                    entities:
+                      - entity: update.backup_dsm_update
+                        name: "Firmware"
+                        icon: mdi:update
+                      - entity: sensor.backup_cpu_utilization_total
+                        name: "CPU usage"
+                      - entity: sensor.backup_memory_usage_real
+                        name: "Memory usage"
+                      - entity: sensor.backup_volume_1_volume_used
+                        name: "Disk usage"
+                      - entity: sensor.backup_download_throughput
+                        name: "In speed"
+                        icon: mdi:download
+                      - entity: sensor.backup_upload_throughput
+                        name: "Out speed"
+                        icon: mdi:upload
+                      - entity: sensor.backup_volume_1_status
+                        name: "Volume status"
+                      - entity: sensor.backup_drive_1_status
+                        name: "Drive 1 status"
+                      - entity: sensor.backup_drive_1_status_smart
+                        name: "Drive 1 status SMART"
+                      - entity: binary_sensor.backup_drive_1_below_min_remaining_life
+                        name: "Drive 1 below min lifespan"
+                      - entity: binary_sensor.backup_drive_1_exceeded_max_bad_sectors
+                        name: "Drive 1 exceeded max bad sectors"
+                      - entity: sensor.backup_drive_2_status
+                        name: "Drive 2 status"
+                      - entity: sensor.backup_drive_2_status_smart
+                        name: "Drive 2 status SMART"
+                      - entity: binary_sensor.backup_drive_2_below_min_remaining_life
+                        name: "Drive 2 below min lifespan"
+                      - entity: binary_sensor.backup_drive_2_exceeded_max_bad_sectors
+                        name: "Drive 2 exceeded max bad sectors"
+
+          - name: "Printer"
+            type: custom:button-card
+            template:
+              - connectivity
+              - overflow_reminder
+            entity: binary_sensor.ping_printer
+            icon: mdi:printer
+            tap_action:
+              action: fire-dom-event
+              browser_mod:
+                service: browser_mod.popup
+                data:
+                  title: "Laser printer"
+                  icon: mdi:printer
+                  card_mod:
+                    style:
+                      ha-dialog: |
+                        ha-dialog-header, .content {
+                          background: linear-gradient(to right, rgba(255, 149, 0, 0.1), rgba(255, 149, 0, 0.05));
+                        }
+                  content:
+                    type: entities
+                    card_mod:
+                      style: |
+                        ha-card {
+                          background: linear-gradient(to right, rgba(255, 149, 0, 0.1), rgba(255, 149, 0, 0.05));
+                        }
+                    entities:
+                      - entity: sensor.printer_page_count
+                        name: "Page count"
+                      - entity: sensor.printer_black
+                        name: "Toner"
+                      - entity: sensor.printer_fuser_life
+                        name: "Fuser life"
+                      - entity: sensor.printer_imaging_unit
+                        name: "Imaging unit"
+                      - entity: sensor.printer_pick_up_roller
+                        name: "Pick up roller"
+                      - entity: sensor.printer_transfer_roller
+                        name: "Transfer roller"
+                      - entity: sensor.printer_tray1_forward_roller
+                        name: "Tray forward roller"
+                      - entity: sensor.printer_tray1_retard_roller
+                        name: "Tray retard roller"
 
   #################################################
   #                                               #

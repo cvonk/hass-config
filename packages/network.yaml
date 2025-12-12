@@ -24,7 +24,7 @@
 #    count: 1
 
 automation: # work around ping integration restrictions
-  - id: update_ping_rtr
+  - id: update_ping_wan
     alias: "Ping every 3 minutes"
     trigger:
       - trigger: time_pattern
@@ -35,10 +35,29 @@ automation: # work around ping integration restrictions
       - action: homeassistant.update_entity
         target:
           entity_id:
-            - binary_sensor.ping_rtr
-            - binary_sensor.ping_modem
             - binary_sensor.ping_dns
             - binary_sensor.ping_google
+
+  - id: update_ping_lan
+    alias: "Ping every 1 minute"
+    trigger:
+      - trigger: time_pattern
+        minutes: "/1"
+    condition: []
+    mode: single
+    action:
+      - action: homeassistant.update_entity
+        target:
+          entity_id:
+            - binary_sensor.ping_rtr
+            - binary_sensor.ping_modem
+            - binary_sensor.ping_nas
+            - binary_sensor.ping_backup
+            - binary_sensor.ping_printer
+            - binary_sensor.ping_ap1
+            - binary_sensor.ping_ap2
+            - binary_sensor.ping_guest_ap1
+            - binary_sensor.ping_guest_ap2
 
 template:
   - binary_sensor:
@@ -126,6 +145,28 @@ template:
           {{     value }}
           {% endif %}
 
+      - unique_id: ups_online
+        name: "Network UPS Online"
+        device_class: connectivity
+        state: >-
+          {% set value = states('sensor.ups_status') %}
+          {% if value != "unavailable" and value != "unknown" %}
+          {{    value == 'Online' }}
+          {% else %}
+          {{     value }}
+          {% endif %}
+
+      - unique_id: cable_modem_online
+        name: "Cable Modem Online"
+        device_class: connectivity
+        state: >-
+          {% set value = states('sensor.cable_modem_connection_status') %}
+          {% if value != "unavailable" and value != "unknown" %}
+          {{    value == 'online' }}
+          {% else %}
+          {{     value }}
+          {% endif %}
+
   - sensor:
       - unique_id: nr_of_network_problems
         name: "Nr of Network Problems"
@@ -137,6 +178,39 @@ template:
               selectattr('state', 'eq', 'on') | list | count
           }}
 
+      - unique_id: cable_modem_mean_s_n
+        name: "Cable Modem Mean S/N"
+        icon: mdi:signal
+        state: >-
+          {% set data_list = states.sensor | 
+                  selectattr('entity_id', 'match', 'sensor\.cable_modem_ds_ch_.*_snr') |
+                  map(attribute='state') | map('float', 0) | list %}
+          {% set sum_list = data_list | sum %}
+          {% set count = data_list | length %}
+          {% set mean = sum_list / count %}
+          {% set ns = namespace(sum_sq_diffs = 0) %}
+          {% for item in data_list %}
+          {%     set ns.sum_sq_diffs = ns.sum_sq_diffs + (item - mean)**2 %}
+          {% endfor %}
+          {% set variance = ns.sum_sq_diffs / count %}
+          {% set std_dev = variance**0.5 %}
+          {{ (mean | round(1) | string) + " dBmV" + ", σ=" + (std_dev | round(1) | string) }}
+
+      - unique_id: cable_modem_worst_freq
+        name: "Cable Modem Worst Freq"
+        device_class: frequency
+        unit_of_measurement: "MHz"
+        state: >-
+          {% set value_list = states.sensor | 
+                selectattr('entity_id', 'match', 'sensor\.cable_modem_ds_ch_.*_uncorrected') |
+                map(attribute='state') | map('float', 0) | list %}
+          {% set freq_list = states.sensor | 
+                selectattr('entity_id', 'match', 'sensor\.cable_modem_ds_ch_.*_frequency') |
+                map(attribute='state') | map('float', 0) | list %}
+          {% set highest = max(value_list) %}
+          {% set idx = value_list.index(highest) %}
+          {{ freq_list[idx] / 1000000.0 }}
+
   - binary_sensor:
       - unique_id: network_status
         name: "Network Status"
@@ -146,3 +220,16 @@ template:
           {{
               states('sensor.nr_of_network_problems') | int > 0
           }}
+
+device_tracker:
+  - platform: ddwrt
+    host: 10.1.1.5
+    username: !secret ddwrt_uname
+    password: !secret ddwrt_passwd
+    wireless_only: true
+
+  - platform: ddwrt
+    host: 10.1.1.6
+    username: !secret ddwrt_uname
+    password: !secret ddwrt_passwd
+    wireless_only: true
