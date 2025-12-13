@@ -1138,7 +1138,8 @@ button_card_templates:
   person: # ------------------------------------------------------------------
     template:
       - base
-      - circle
+      #- circle
+      - overflow_reminder
     state_display: >
       [[[
         if (entity) {
@@ -1252,6 +1253,32 @@ button_card_templates:
         - width: 4em
         - height: 3.7em
         - background: "#FFFFFF10"
+  icon_name:
+    size: 1.4em
+    color: '#9da0a2'
+    styles:
+      grid:
+        - grid-template-areas: '"i n"'
+        - grid-column-gap: 0.3em
+      card:
+        - color: '#9da0a2'
+        - border-radius: 0.6em
+        - padding: 1em 1.4em 1em 1.2em
+        - width: max-content
+        - font-size: 1.06em
+        - font-weight: 500
+        - letter-spacing: 0.03em
+        - background: '#FFFFFF10'
+  icon_only:
+    show_name: false
+    color: '#9da0a2'
+    styles:
+      card:
+        - color: '#9da0a2'
+        - border-radius: 0.6em
+        - width: 4em
+        - height: 3.7em
+        - background: '#FFFFFF10'
 
   obsolete_base_media: # -----------------------------------------------------
     template:
@@ -4260,7 +4287,7 @@ views:
                                   }
                               show_state: false
                               entities:
-                                - entity: device_tracker.coert_phone
+                                - entity: device_tracker.rtr_coert_phone
                                   name: Router
                                   icon: mdi:wifi
                                   card_mod:
@@ -4269,51 +4296,34 @@ views:
                                         color: {{ is_state(config.entity, 'home') | iif('#3182b7', '#3c3f3f') }};
                                       }
 
-                                - entity: device_tracker.coert_phone
-                                  name: Bluetooth
-                                  icon: mdi:bluetooth
-                                  card_mod:
-                                    style: *state
-
-                                - entity: device_tracker.coert_phone
+                                - entity: device_tracker.app_coert_phone
                                   name: Position
-                                  icon: cil:iphone-modern
+                                  icon: mdi:cellphone
                                   card_mod:
                                     style: *state
 
-                            - type: custom:mod-card
-                              card_mod:
-                                style:
-                                  hui-horizontal-stack-card$: |
-                                    #root {
-                                      justify-content: space-evenly !important;
-                                      padding: var(--tablet-popup-button-padding);
-                                    }
-                              card:
-                                type: horizontal-stack
-                                cards:
-                                  - type: custom:button-card
-                                    name: Spela upp ljud på iPhone X
-                                    icon: mdi:volume-high
-                                    template: icon_name
-                                    tap_action:
-                                      action: call-service
-                                      service: notify.mobile_app_iphone
-                                      service_data:
-                                        title: Hitta min iPhone
-                                        message: Här är jag
-                                        data:
-                                          push:
-                                            sound:
-                                              name: findmy.wav
-                                              critical: 1
-                                              volume: 1
+                            - name: Play sound on phone
+                              type: custom:button-card
+                              icon: mdi:volume-high
+                              template: icon_name
+                              tap_action:
+                                action: call-service
+                                service: notify.mobile_app_coert_phone
+                                service_data:
+                                  title: "Find my phone"
+                                  message: "Here I am"
+                                  data:
+                                    push:
+                                      sound:
+                                        name: /local/media/findmy.wav
+                                        critical: 1
+                                        volume: 1
 
                             - type: map
                               default_zoom: 16
                               dark_mode: true
                               entities:
-                                - device_tracker.iphone
+                                - device_tracker.app_coert_phone
                               card_mod:
                                 style:
                                   .: |
@@ -4396,48 +4406,34 @@ views:
                                   }
                               show_state: false
                               entities:
-                                - entity: device_tracker.barrie_phone
+                                - entity: device_tracker.rtr_barrie_phone
                                   name: Router
                                   icon: mdi:wifi
-                                  #card_mod:
-                                  #  style: &state |
-                                  #    state-badge {
-                                  #      color: {{ '#3182b7' if is_state(config.entity, 'home') else '#3c3f3f' }};
-                                  #    }
+                                  card_mod:
+                                    style: *state
 
-                                - entity: device_tracker.barrie_phone
+                                - entity: device_tracker.app_barrie_phone
                                   name: Position
-                                  icon: cil:iphone-modern
-                                  #card_mod:
-                                  #  style: *state
+                                  icon: mdi:cellphone
+                                  card_mod:
+                                    style: *state
 
-                            - type: custom:mod-card
-                              card_mod:
-                                style:
-                                  hui-horizontal-stack-card$: |
-                                    #root {
-                                      justify-content: space-evenly !important;
-                                      padding: var(--tablet-popup-button-padding);
-                                    }
-                              card:
-                                type: horizontal-stack
-                                cards:
-                                  - type: custom:button-card
-                                    name: Play audio on phone
-                                    icon: mdi:volume-high
-                                    template: icon_name
-                                    tap_action:
-                                      action: call-service
-                                      service: notify.mobile_app_barrie_phone
-                                      service_data:
-                                        title: Find my phone
-                                        message: Here I am
-                                        data:
-                                          push:
-                                            sound:
-                                              name: findmy.wav
-                                              critical: 1
-                                              volume: 1
+                            - name: Play sound on phone
+                              type: custom:button-card
+                              icon: mdi:volume-high
+                              template: icon_name
+                              tap_action:
+                                action: call-service
+                                service: notify.mobile_app_barrie_phone
+                                service_data:
+                                  title: "Find my phone"
+                                  message: "Here I am"
+                                  data:
+                                    push:
+                                      sound:
+                                        name: /local/media/findmy.wav
+                                        critical: 1
+                                        volume: 1
 
                 - name: Sander
                   type: custom:button-card
@@ -4486,45 +4482,31 @@ views:
                                 - entity: device_tracker.rtr_sander_phone
                                   name: Router
                                   icon: mdi:wifi
-                                  #card_mod:
-                                  #  style: &state |
-                                  #    state-badge {
-                                  #      color: {{ '#3182b7' if is_state(config.entity, 'home') else '#3c3f3f' }};
-                                  #    }
+                                  card_mod:
+                                    style: *state
 
-                                - entity: device_tracker.rtr_sander_phone
+                                - entity: device_tracker.app_sander_phone
                                   name: Position
-                                  icon: cil:iphone-modern
-                                  #card_mod:
-                                  #  style: *state
+                                  icon: mdi:cellphone
+                                  card_mod:
+                                    style: *state
 
-                            - type: custom:mod-card
-                              card_mod:
-                                style:
-                                  hui-horizontal-stack-card$: |
-                                    #root {
-                                      justify-content: space-evenly !important;
-                                      padding: var(--tablet-popup-button-padding);
-                                    }
-                              card:
-                                type: horizontal-stack
-                                cards:
-                                  - type: custom:button-card
-                                    name: Play audio on iPhone
-                                    icon: mdi:volume-high
-                                    template: icon_name
-                                    tap_action:
-                                      action: call-service
-                                      service: notify.mobile_app_sander_phone
-                                      service_data:
-                                        title: Find my iPhone
-                                        message: Here I am
-                                        data:
-                                          push:
-                                            sound:
-                                              name: findmy.wav
-                                              critical: 1
-                                              volume: 1
+                            - name: Play sound on phone
+                              type: custom:button-card
+                              icon: mdi:volume-high
+                              template: icon_name
+                              tap_action:
+                                action: call-service
+                                service: notify.mobile_app_sander_phone
+                                service_data:
+                                  title: "Find my phone"
+                                  message: "Here I am"
+                                  data:
+                                    push:
+                                      sound:
+                                        name: /local/media/findmy.wav
+                                        critical: 1
+                                        volume: 1
 
                 - name: Johan
                   type: custom:button-card
@@ -4573,45 +4555,31 @@ views:
                                 - entity: device_tracker.rtr_johan_phone
                                   name: Router
                                   icon: mdi:wifi
-                                  #card_mod:
-                                  #  style: &state |
-                                  #    state-badge {
-                                  #      color: {{ '#3182b7' if is_state(config.entity, 'home') else '#3c3f3f' }};
-                                  #    }
+                                  card_mod:
+                                    style: *state
 
-                                - entity: device_tracker.rtr_johan_phone
+                                - entity: device_tracker.app_johan_phone
                                   name: Position
-                                  icon: cil:iphone-modern
-                                  #card_mod:
-                                  #  style: *state
+                                  icon: mdi:cellphone
+                                  card_mod:
+                                    style: *state
 
-                            - type: custom:mod-card
-                              card_mod:
-                                style:
-                                  hui-horizontal-stack-card$: |
-                                    #root {
-                                      justify-content: space-evenly !important;
-                                      padding: var(--tablet-popup-button-padding);
-                                    }
-                              card:
-                                type: horizontal-stack
-                                cards:
-                                  - type: custom:button-card
-                                    name: Play audio on phone
-                                    icon: mdi:volume-high
-                                    template: icon_name
-                                    tap_action:
-                                      action: call-service
-                                      service: notify.mobile_app_johan_phone
-                                      service_data:
-                                        title: Find my phone
-                                        message: Here I am
-                                        data:
-                                          push:
-                                            sound:
-                                              name: findmy.wav
-                                              critical: 1
-                                              volume: 1
+                            - name: Play sound on phone
+                              type: custom:button-card
+                              icon: mdi:volume-high
+                              template: icon_name
+                              tap_action:
+                                action: call-service
+                                service: notify.mobile_app_johan_phone
+                                service_data:
+                                  title: "Find my phone"
+                                  message: "Here I am"
+                                  data:
+                                    push:
+                                      sound:
+                                        name: /local/media/findmy.wav
+                                        critical: 1
+                                        volume: 1
 
   #################################################
   #                                               #
