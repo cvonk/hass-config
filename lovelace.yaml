@@ -67,8 +67,8 @@ navbar-templates:
     routes:
       - label: "Home" # ------------------------------------------------------
         url: /lovelace-ui/Default
-        image: /local/hass_logo_not_selected.svg
-        image_selected: /local/hass_logo_selected.svg
+        image: /local/media/hass_logo_not_selected.svg
+        image_selected: /local/media/hass_logo_selected.svg
 
       - label: "Inside" # ----------------------------------------------------
         url: /lovelace-ui/inside
@@ -275,14 +275,14 @@ button_card_templates:
       #    if (variables.state === 'off' && screensaver === 'off') {
       #        hass.callService('media_player', 'play_media', {
       #            entity_id: 'media_player.tablet',
-      #            media_content_id: '/local/sound/on.m4a',
+      #            media_content_id: '/local/media/on.m4a',
       #            media_content_type: 'music'
       #        });
       #    }
       #    if (variables.state_on && screensaver === 'off') {
       #        hass.callService('media_player', 'play_media', {
       #            entity_id: 'media_player.tablet',
-      #            media_content_id: '/local/sound/off.m4a',
+      #            media_content_id: '/local/media/off.m4a',
       #            media_content_type: 'music'
       #        });
       #    }
@@ -837,7 +837,7 @@ button_card_templates:
   loader: # ------------------------------------------------------------------
     custom_fields:
       loader: >
-        <img src="/local/loader.svg" width="100%">
+        <img src="/local/media/loader.svg" width="100%">
     tap_action:
       loader: >
         [[[
@@ -1152,7 +1152,7 @@ button_card_templates:
     show_icon: true
     tap_action:
       action: none
-    entity_picture: "[[[ return variables.entity_picture ]]]"
+    entity_picture: "[[[ return variables.entity_picture ]]]" # set in athome.yaml
     show_entity_picture: true
     styles:
       entity_picture:
@@ -1959,7 +1959,7 @@ button_card_templates:
     custom_fields:
       graphic: |
         <div class="wrapper">
-          <img src="/local/house.png" />
+          <img src="/local/media/house.png" />
         </div>
     styles:
       card:
@@ -1986,7 +1986,7 @@ button_card_templates:
     custom_fields:
       graphic: |
         <div class="wrapper">
-          <img src="/local/inside.png" />
+          <img src="/local/media/inside.png" />
           <div class="overlay one"></div>
           <div class="overlay two"></div>
           <div class="overlay three"></div>
@@ -2306,9 +2306,9 @@ button_card_templates:
       graphic: |
         <div class="wrapper">
           <div class="overlay spot"></div>
-          <img class="overlay eyes" src="/local/cameras-eyes.png"></img>
-          <img class="overlay eyelids" src="/local/cameras-eyelids.png"></img>
-          <img class="main body" src="/local/cameras-body.png"></img>
+          <img class="overlay eyes" src="/local/media/cameras-eyes.png"></img>
+          <img class="overlay eyelids" src="/local/media/cameras-eyelids.png"></img>
+          <img class="main body" src="/local/media/cameras-body.png"></img>
         </div>
     extra_styles: |
       *, *::before, *::after {
@@ -2864,7 +2864,7 @@ button_card_templates:
     custom_fields:
       graphic: |
         <div class="image-wrapper">
-          <img src="/local/utilities.png" />
+          <img src="/local/media/utilities.png" />
           <div class="flame-overlay">
             <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="40 30 80 160" enable-background="new 0 0 125 189.864" xml:space="preserve">
               <path class="flame" fill="white" d="M76.553,186.09c0,0-10.178-2.976-15.325-8.226s-9.278-16.82-9.278-16.82s-0.241-6.647-4.136-18.465
@@ -3046,18 +3046,18 @@ button_card_templates:
       graphic: |
         <div class="wrapper">
           <div class="main">
-            <img src="/local/network.png" />
+            <img src="/local/media/network.png" />
           <div class="overlay blue">
-            <img src="/local/network-1.png" />
+            <img src="/local/media/network-1.png" />
           </div>
           <div class="overlay green">
-            <img src="/local/network-2.png" />
+            <img src="/local/media/network-2.png" />
           </div>
           <div class="overlay red">
-            <img src="/local/network-3.png" />
+            <img src="/local/media/network-3.png" />
           </div>
           <div class="overlay yellow">
-            <img src="/local/network-4.png" />
+            <img src="/local/media/network-4.png" />
           </div>
         </div>
     extra_styles: |
@@ -3343,7 +3343,7 @@ views:
   - title: "Home"
     path: Default
     icon: mdi:home
-    background: linear-gradient(to right, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1)), url(/local/bg.jpg)
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1)), url(/local/media/bg.jpg)
 
     type: custom:layout-card
     layout_type: grid-layout
@@ -3428,8 +3428,6 @@ views:
           layout_type: grid-layout
           layout:
             height: 100%
-            place-items: stretch stretch
-            place-content: stretch stretch
             grid-gap: 2vw
             grid-template-columns: 0 1fr
             grid-template-rows: min-content 1fr min-content
@@ -4262,26 +4260,26 @@ views:
                                   }
                               show_state: false
                               entities:
-                                - entity: device_tracker.coert_phone_unifi
+                                - entity: device_tracker.coert_phone
                                   name: Router
                                   icon: mdi:wifi
-                                  #card_mod:
-                                  #  style: &state |
-                                  #    state-badge {
-                                  #      color: {{ is_state(config.entity, 'home') | iif('#3182b7', '#3c3f3f') }};
-                                  #    }
+                                  card_mod:
+                                    style: &state |
+                                      state-badge {
+                                        color: {{ is_state(config.entity, 'home') | iif('#3182b7', '#3c3f3f') }};
+                                      }
 
-                                - entity: device_tracker.coert_phone_unifi
+                                - entity: device_tracker.coert_phone
                                   name: Bluetooth
                                   icon: mdi:bluetooth
-                                  #card_mod:
-                                  #  style: *state
+                                  card_mod:
+                                    style: *state
 
                                 - entity: device_tracker.coert_phone
                                   name: Position
                                   icon: cil:iphone-modern
-                                  #card_mod:
-                                  #  style: *state
+                                  card_mod:
+                                    style: *state
 
                             - type: custom:mod-card
                               card_mod:
@@ -4362,8 +4360,7 @@ views:
                   variables:
                     retain: sensor.barrie_last_changed
                   triggers_update:
-                    - sensor.sanja_last_changed
-                  # double_tap_action: !include popup/athome_barrie.yaml
+                    - sensor.barrie_last_changed
                   tap_action:
                     action: fire-dom-event
                     browser_mod:
@@ -4399,7 +4396,7 @@ views:
                                   }
                               show_state: false
                               entities:
-                                - entity: device_tracker.barrie_phone_unifi
+                                - entity: device_tracker.barrie_phone
                                   name: Router
                                   icon: mdi:wifi
                                   #card_mod:
@@ -4426,15 +4423,189 @@ views:
                                 type: horizontal-stack
                                 cards:
                                   - type: custom:button-card
-                                    name: Spela upp ljud på iPhone 13
+                                    name: Play audio on phone
                                     icon: mdi:volume-high
                                     template: icon_name
                                     tap_action:
                                       action: call-service
                                       service: notify.mobile_app_barrie_phone
                                       service_data:
-                                        title: Hitta min iPhone
-                                        message: Här är jag
+                                        title: Find my phone
+                                        message: Here I am
+                                        data:
+                                          push:
+                                            sound:
+                                              name: findmy.wav
+                                              critical: 1
+                                              volume: 1
+
+                - name: Sander
+                  type: custom:button-card
+                  template:
+                    - person
+                  entity: person.sander
+                  variables:
+                    retain: sensor.sander_last_changed
+                  triggers_update:
+                    - sensor.sander_last_changed
+                  tap_action:
+                    action: fire-dom-event
+                    browser_mod:
+                      service: browser_mod.popup
+                      data:
+                        title: Sander
+                        style: |
+                          --popup-max-width: 400px;
+                        content:
+                          type: vertical-stack
+                          cards:
+                            - type: entities
+                              card_mod:
+                                class: content
+                              entities:
+                                - entity: person.sander
+                                  secondary_info: last-changed
+
+                            - type: history-graph
+                              card_mod:
+                                style: |
+                                  ha-card > div {
+                                    padding: 0 2em 1em 1.6em !important;
+                                  }
+                              entities:
+                                - entity: person.sander
+
+                            - type: glance
+                              card_mod:
+                                style: |
+                                  ha-card > div {
+                                    padding: 1em 1.5em 0.2em 1em !important;
+                                  }
+                              show_state: false
+                              entities:
+                                - entity: device_tracker.rtr_sander_phone
+                                  name: Router
+                                  icon: mdi:wifi
+                                  #card_mod:
+                                  #  style: &state |
+                                  #    state-badge {
+                                  #      color: {{ '#3182b7' if is_state(config.entity, 'home') else '#3c3f3f' }};
+                                  #    }
+
+                                - entity: device_tracker.rtr_sander_phone
+                                  name: Position
+                                  icon: cil:iphone-modern
+                                  #card_mod:
+                                  #  style: *state
+
+                            - type: custom:mod-card
+                              card_mod:
+                                style:
+                                  hui-horizontal-stack-card$: |
+                                    #root {
+                                      justify-content: space-evenly !important;
+                                      padding: var(--tablet-popup-button-padding);
+                                    }
+                              card:
+                                type: horizontal-stack
+                                cards:
+                                  - type: custom:button-card
+                                    name: Play audio on iPhone
+                                    icon: mdi:volume-high
+                                    template: icon_name
+                                    tap_action:
+                                      action: call-service
+                                      service: notify.mobile_app_sander_phone
+                                      service_data:
+                                        title: Find my iPhone
+                                        message: Here I am
+                                        data:
+                                          push:
+                                            sound:
+                                              name: findmy.wav
+                                              critical: 1
+                                              volume: 1
+
+                - name: Johan
+                  type: custom:button-card
+                  template:
+                    - person
+                  entity: person.johan
+                  variables:
+                    retain: sensor.johan_last_changed
+                  triggers_update:
+                    - sensor.johan_last_changed
+                  tap_action:
+                    action: fire-dom-event
+                    browser_mod:
+                      service: browser_mod.popup
+                      data:
+                        title: Johan
+                        style: |
+                          --popup-max-width: 400px;
+                        content:
+                          type: vertical-stack
+                          cards:
+                            - type: entities
+                              card_mod:
+                                class: content
+                              entities:
+                                - entity: person.johan
+                                  secondary_info: last-changed
+
+                            - type: history-graph
+                              card_mod:
+                                style: |
+                                  ha-card > div {
+                                    padding: 0 2em 1em 1.6em !important;
+                                  }
+                              entities:
+                                - entity: person.johan
+
+                            - type: glance
+                              card_mod:
+                                style: |
+                                  ha-card > div {
+                                    padding: 1em 1.5em 0.2em 1em !important;
+                                  }
+                              show_state: false
+                              entities:
+                                - entity: device_tracker.rtr_johan_phone
+                                  name: Router
+                                  icon: mdi:wifi
+                                  #card_mod:
+                                  #  style: &state |
+                                  #    state-badge {
+                                  #      color: {{ '#3182b7' if is_state(config.entity, 'home') else '#3c3f3f' }};
+                                  #    }
+
+                                - entity: device_tracker.rtr_johan_phone
+                                  name: Position
+                                  icon: cil:iphone-modern
+                                  #card_mod:
+                                  #  style: *state
+
+                            - type: custom:mod-card
+                              card_mod:
+                                style:
+                                  hui-horizontal-stack-card$: |
+                                    #root {
+                                      justify-content: space-evenly !important;
+                                      padding: var(--tablet-popup-button-padding);
+                                    }
+                              card:
+                                type: horizontal-stack
+                                cards:
+                                  - type: custom:button-card
+                                    name: Play audio on phone
+                                    icon: mdi:volume-high
+                                    template: icon_name
+                                    tap_action:
+                                      action: call-service
+                                      service: notify.mobile_app_johan_phone
+                                      service_data:
+                                        title: Find my phone
+                                        message: Here I am
                                         data:
                                           push:
                                             sound:
@@ -4451,7 +4622,7 @@ views:
   - title: "Inside"
     path: inside
     icon: mdi:home-thermometer-outline
-    background: linear-gradient(to right, rgba(232, 176, 53, 0.2), rgba(232, 176, 53, 0.1)), url(/local/bg.jpg)
+    background: linear-gradient(to right, rgba(232, 176, 53, 0.2), rgba(232, 176, 53, 0.1)), url(/local/media/bg.jpg)
 
     type: custom:layout-card
     layout_type: grid-layout
@@ -4589,7 +4760,7 @@ views:
   - title: "Outside"
     path: outside
     icon: mdi:sun-thermometer
-    background: linear-gradient(to right, rgba(76, 217, 100, 0.2), rgba(76, 217, 100, 0.1)), url(/local/bg.jpg)
+    background: linear-gradient(to right, rgba(76, 217, 100, 0.2), rgba(76, 217, 100, 0.1)), url(/local/media/bg.jpg)
 
     type: custom:layout-card
     layout_type: grid-layout
@@ -4763,7 +4934,7 @@ views:
   - title: "Cameras"
     path: cameras
     icon: mdi:camera
-    background: linear-gradient(to right, rgba(76, 217, 100, 0.2), rgba(76, 217, 100, 0.1)), url(/local/bg.jpg)
+    background: linear-gradient(to right, rgba(76, 217, 100, 0.2), rgba(76, 217, 100, 0.1)), url(/local/media/bg.jpg)
 
     type: custom:layout-card
     layout_type: grid-layout
@@ -4864,7 +5035,7 @@ views:
   - title: "Pool"
     path: pool
     icon: mdi:pool-thermometer
-    background: linear-gradient(to right, rgba(0, 122, 255, 0.3), rgba(0, 122, 255, 0.15)), url(/local/bg.jpg)
+    background: linear-gradient(to right, rgba(0, 122, 255, 0.3), rgba(0, 122, 255, 0.15)), url(/local/media/bg.jpg)
 
     type: custom:layout-card
     layout_type: grid-layout
@@ -5348,7 +5519,7 @@ views:
   - title: "Irrigation"
     path: irrigation
     icon: mdi:sprinkler-variant
-    background: linear-gradient(to right, rgba(0, 122, 255, 0.2), rgba(0, 122, 255, 0.1)), url(/local/bg.jpg)
+    background: linear-gradient(to right, rgba(0, 122, 255, 0.2), rgba(0, 122, 255, 0.1)), url(/local/media/bg.jpg)
 
     type: custom:layout-card
     layout_type: grid-layout
@@ -5613,7 +5784,7 @@ views:
   - title: "Utilities"
     path: utilities
     icon: mdi:power-plug
-    background: linear-gradient(to right, rgba(89, 86, 214, 0.2), rgba(89, 86, 214, 0.1)), url(/local/bg.jpg)
+    background: linear-gradient(to right, rgba(89, 86, 214, 0.2), rgba(89, 86, 214, 0.1)), url(/local/media/bg.jpg)
 
     type: custom:layout-card
     layout_type: grid-layout
@@ -5849,7 +6020,7 @@ views:
   - title: "Network"
     path: network
     icon: mdi:web
-    background: linear-gradient(to right, rgba(255, 149, 0, 0.2), rgba(255, 149, 0, 0.1)), url(/local/bg.jpg)
+    background: linear-gradient(to right, rgba(255, 149, 0, 0.2), rgba(255, 149, 0, 0.1)), url(/local/media/bg.jpg)
 
     type: custom:layout-card
     layout_type: grid-layout
@@ -6380,7 +6551,7 @@ views:
   - title: "Fire"
     path: fire
     icon: mdi:fire
-    background: linear-gradient(to right, rgba(255, 59, 48, 0.2), rgba(255, 59, 48, 0.1)), url(/local/bg.jpg)
+    background: linear-gradient(to right, rgba(255, 59, 48, 0.2), rgba(255, 59, 48, 0.1)), url(/local/media/bg.jpg)
 
     type: custom:layout-card
     layout_type: grid-layout
@@ -6514,7 +6685,7 @@ background:
   size: cover
   repeat: repeat
   attachment: fixed
-  image: /local/bg.jpg
+  image: /local/media/bg.jpg
 
 theme: Frosted Glass cvonk
 path: Default

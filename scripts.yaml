@@ -38,5 +38,5 @@ reload_theme_in_current_browser:
     metadata: {}
     data: {}
   alias: Reload theme in current browser
-  description: First, ensure Home Assistant has loaded the latest theme definitions
-    from the Theme YAML file. Then, rRefresh the Lovelace Frontend using Browser Mod.
+  description: Make Home Assistant load the latest theme definitions from the Theme
+    YAML file. Then, rRefresh the Lovelace Frontend using  Browser Mod.

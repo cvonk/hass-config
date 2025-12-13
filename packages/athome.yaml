@@ -1,9 +1,13 @@
 homeassistant:
   customize:
     person.coert:
-      entity_picture: /local/coert.png
+      entity_picture: /local/media/coert.png
     person.barrie:
-      entity_picture: /local/barrie.png
+      entity_picture: /local/media/barrie.png
+    person.sander:
+      entity_picture: /local/media/sander.png
+    person.johan:
+      entity_picture: /local/media/johan.png
 
 person:
   - name: "Coert"
@@ -17,6 +21,16 @@ person:
     device_trackers:
       - device_tracker.app_barrie_phone
       - device_tracker.rtr_barrie_phone
+
+  - name: "Sander"
+    id: "sander"
+    device_trackers:
+      - device_tracker.rtr_sander_phone
+
+  - name: "Johan"
+    id: "johan"
+    device_trackers:
+      - device_tracker.rtr_johan_phone
 #mqtt:
 #  sensor:
 #    - name: coert_last_changed
