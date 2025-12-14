@@ -31,6 +31,16 @@ media_player:
         action: media_player.toggle
         data:
           entity_id: media_player.family_room_tv_remote
+      select_source:
+        service: media_player.select_source
+        data:
+          entity_id: media_player.family_room_tv_remote
+          source: "{{ source }}"
+      select_sound_mode:
+        service: media_player.select_sound_mode
+        data:
+          entity_id: media_player.family_room_tv_remote
+          sound_mode: "{{ sound_mode }}"
       volume_up:
         action: media_player.volume_up
         data:
@@ -39,16 +49,16 @@ media_player:
         action: media_player.volume_down
         data:
           entity_id: media_player.family_room_tv_remote
-      volume_set:
-        service: media_player.volume_set
-        data:
-          entity_id: media_player.family_room_tv_cast
-          volume_level: "{{ volume_level }}"
       volume_mute:
         service: media_player.volume_mute
         data:
           entity_id: media_player.family_room_tv_remote
           is_volume_muted: "{{ is_volume_muted }}"
+      volume_set:
+        service: media_player.volume_set
+        data:
+          entity_id: media_player.family_room_tv_cast
+          volume_level: "{{ volume_level }}"
       media_play_pause:
         service: media_player.media_play_pause
         data:
@@ -81,26 +91,26 @@ media_player:
         service: media_player.shuffle_set
         data:
           entity_id: media_player.family_room_tv_cast
+          shuffle: "{{ shuffle }}"
       repeat_set:
         service: media_player.repeat_set
         data:
           entity_id: media_player.family_room_tv_cast
+          shuffle: "{{ repeat }}"
+      media_seek:
+        service: media_player.repeat_set
+        data:
+          entity_id: media_player.family_room_tv_cast
+          seek_position: "{{ seek_position }}"
       play_media:
         service: media_player.play_media
         data:
           entity_id: media_player.family_room_tv_cast
           media_content_id: "{{ media_content_id }}"
           media_content_type: "{{ media_content_type }}"
-      select_source:
-        service: media_player.select_source
-        data:
-          entity_id: media_player.family_room_tv_remote
-          #source: "{{ source }}"
-      select_sound_mode:
-        service: media_player.select_sound_mode
-        data:
-          entity_id: media_player.family_room_tv_remote
-          #sound_mode: "{{ sound_mode }}"
+          enqueue: "{{ enqueue }}"
+          announce: "{{ announce }}"
+          extra: "{{ extra }}"
       join:
         service: media_player.join
         data:
@@ -188,10 +198,12 @@ media_player:
         service: media_player.shuffle_set
         data:
           entity_id: media_player.apartment_tv_cast
+          shuffle: "{{ shuffle }}"
       repeat_set:
         service: media_player.repeat_set
         data:
           entity_id: media_player.apartment_tv_cast
+          repeat: "{{ repeat }}"
       play_media:
         service: media_player.play_media
         data:
@@ -202,20 +214,27 @@ media_player:
         service: media_player.select_source
         data:
           entity_id: media_player.apartment_tv_remote
-          #source: "{{ source }}"
+          source: "{{ source }}"
       select_sound_mode:
         service: media_player.select_sound_mode
         data:
           entity_id: media_player.apartment_tv_remote
-          #sound_mode: "{{ sound_mode }}"
+          sound_mode: "{{ sound_mode }}"
       join:
         service: media_player.join
         data:
           entity_id: media_player.apartment_tv_cast
+          group_members: "{{ group_members }}"
       unjoin:
         service: media_player.unjoin
         data:
           entity_id: media_player.apartment_tv_cast
+      browse_media:
+        service: media_player.browse_media
+        data:
+          entity_id: media_player.apartment_tv_cast
+          media_content_type: "{{ media_content_type }}"
+          media_content_id: "{{ media_content_id }}"
 
 #script:
 #  samsung_tv_energy_saving:

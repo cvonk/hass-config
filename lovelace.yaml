@@ -61,8 +61,11 @@ navbar-templates:
         border-radius: 32px;
       }
       .button.active {
-        background: rgba(255,255,255, 0.7);  //color-mix(in srgb, white 70%, transparent);
-        border-radius: 32px;
+        background: rgba(255,255,255, 0.7);
+        border-radius: 50%;
+      }
+      .button:hover {
+        transform: scale(1.1);
       }
     routes:
       - label: "Home" # ------------------------------------------------------
@@ -231,6 +234,98 @@ button_card_templates:
   settings:
     variables:
       tilt_enable: true
+  tilt: # --------------------------------------------------------------------
+    variables: # see https://micku7zu.github.io/vanilla-tilt.js/
+      tilt_enable: >
+        [[[
+          // enable on desktop/laptop browsers
+          if (window.navigator.userAgent.match(/Macintosh/i) ||
+              window.navigator.userAgent.match(/Chrome/i) ||
+              window.navigator.userAgent.match(/Firefox/i)) {
+              return true;
+          }
+          return false;  // default - phones, tablets etc
+        ]]]
+      tilt_options: >
+        [[[
+          let options = {
+              max: 5,
+              scale: 1.06,
+              glare: true,
+              'max-glare': 0.15,
+              perspective: 800,
+              speed: 800,
+              parallax: '25px'
+          }
+          if (this._config.template.includes('conditional_media')) {
+              options.scale = options.scale % parseInt(options.scale) / 2 + parseInt(options.scale);
+              options.perspective = options.perspective * 2;
+              return options;
+          }
+          return options;
+        ]]]
+    custom_fields:
+      tilt: >
+        [[[
+          setTimeout(() => {
+              let elt = this.shadowRoot,
+                  card = elt.getElementById('card'),
+                  tilt = typeof VanillaTilt === 'function';
+
+              if (elt && card && tilt && variables.tilt_enable) {
+                  VanillaTilt.init(card, variables.tilt_options);
+              } else {
+                  setTimeout(() => {
+                      if (elt && card && tilt && variables.tilt_enable) {
+                          VanillaTilt.init(card, variables.tilt_options);
+                      }
+                  }, 1000);
+              }
+          }, 0);
+        ]]]
+    extra_styles: |
+      #name, #state {
+        font-size: calc(var(--button-card-font-size) - var(--z-axis-adjustment));
+      }
+      @media screen and (max-width: 1200px) { /* portrait */
+        #name, #state {
+          font-size: calc(calc(var(--button-card-font-size) * var(--card-portrait)) - var(--z-axis-adjustment));
+        }
+      }
+      @media screen and (max-width: 800px) { /* phone */
+        #name, #state {
+          font-size: calc(calc(var(--button-card-font-size) * var(--card-phone)) - var(--z-axis-adjustment));
+        }
+      }
+      #container {
+        transform: translateZ(${variables.tilt_options.parallax});
+      }
+      #circle_slider {
+        width: 100%;
+        margin-top: 0;
+      }                
+      @supports (-moz-appearance:none) { /* adjust circle_slider position for firefox */
+        #circle_slider {
+          margin-top: 13%;
+        }
+      }
+      #card {
+        padding: 12% 11% 10.5% 12%;
+        transform-style: preserve-3d;
+        overflow: visible;
+        /* firefox pixelated edges */
+        outline: 1px solid transparent;
+      }
+      #ripple, .js-tilt-glare {
+        clip-path: inset(0 round var(--button-card-border-radius));
+        overflow: hidden;
+      }
+      .js-tilt-glare {
+        z-index: 1;
+      }
+      .js-tilt-glare-inner {
+        background-color: rgba(0,0,0,0.9);
+      }
   base: # --------------------------------------------------------------------
     template:
       - settings
@@ -294,7 +389,6 @@ button_card_templates:
 
               // phone condition
               let mq = window.matchMedia('(max-width: 800px)').matches;
-
               let style = document.createElement('style');
 
               style.innerHTML = `
@@ -306,7 +400,6 @@ button_card_templates:
                       100% { transform: scale(1); }
                   }
               `;
-
               this.appendChild(style);
           }
           let duration = 800;
@@ -408,7 +501,41 @@ button_card_templates:
           font-size: calc(var(--button-card-font-size) * var(--card-phone));
         }
       }
-
+  loader: # ------------------------------------------------------------------
+    custom_fields:
+      loader: >
+        <img src="/local/media/loader.svg" width="100%">
+    tap_action:
+      loader: >
+        [[[
+          if (entity) {
+              let elt = this.shadowRoot,
+                  loader = (id, style, timeout) => {
+                    elt.getElementById(id) && (elt.getElementById(id).style.display = style,
+                      window.setTimeout(() => {
+                        elt.getElementById('loader').style.display = 'none'
+                      }, 20000))
+                  };
+              loader('circle', 'none', 'initial'),
+              loader('loader', 'initial', 'none');
+          }
+        ]]]
+    styles:
+      custom_fields:
+        loader:
+          - display: none
+          - top: -6%
+          - right: -3.5%
+          - width: 52%
+          - position: absolute
+          - opacity: 0.5
+          - pointer-events: none
+          - filter: >
+              [[[
+                return variables.state_on
+                    ? 'none'
+                    : 'invert(1)';
+              ]]]
   light: # -------------------------------------------------------------------
     template:
       - base
@@ -823,7 +950,69 @@ button_card_templates:
           background: none;
           backdrop-filter: none !important
         }
+  icon_only: # ---------------------------------------------------------------
+    show_name: false
+    color: "#9da0a2"
+    styles:
+      card:
+        - color: "#9da0a2"
+        - border-radius: 0.6em
+        - width: 4em
+        - height: 3.7em
+        - background: "#FFFFFF10"
+  icon_name:
+    size: 1.4em
+    color: "#9da0a2"
+    styles:
+      grid:
+        - grid-template-areas: '"i n"'
+        - grid-column-gap: 0.3em
+      card:
+        - color: "#9da0a2"
+        - border-radius: 0.6em
+        - padding: 1em 1.4em 1em 1.2em
+        - width: max-content
+        - font-size: 1.06em
+        - font-weight: 500
+        - letter-spacing: 0.03em
+        - background: "#FFFFFF10"
+  person: # ------------------------------------------------------------------
+    template:
+      - base
+      #- circle
+      - overflow_reminder
+    state_display: >
+      [[[
+        if (entity) {
+            return 
+              variables.state === 'home' ? 'Home' :
+              variables.state === 'not_home' ? 'Not home' : variables.state;
+        }
+        return 'Unknown';
+      ]]]
+    triggers_update: sensor.time
+    show_icon: true
+    tap_action:
+      action: none
+    entity_picture: "[[[ return variables.entity_picture ]]]" # set in athome.yaml
+    show_entity_picture: true
+    styles:
+      entity_picture:
+        - color: var(--button-card-light-color)
+        - icon_size: 600px
+        - padding: 0px 0px
+        - width: "100%"
+        #- clip-path: circle()
+        - pointer-events: none
 
+  no_shadow: # ---------------------------------------------------------------
+    card_mod:
+      style: |
+        ha-card {
+          box-shadow: none;
+          background: none;
+          backdrop-filter: none !important
+        }
   overflow_reminder:
     custom_fields:
       circle: >
@@ -833,43 +1022,6 @@ button_card_templates:
         circle:
           #- background: rgba(0,0,0, 0.1)
           #- border-radius: 50%
-
-  loader: # ------------------------------------------------------------------
-    custom_fields:
-      loader: >
-        <img src="/local/media/loader.svg" width="100%">
-    tap_action:
-      loader: >
-        [[[
-          if (entity) {
-              let elt = this.shadowRoot,
-                  loader = (id, style, timeout) => {
-                    elt.getElementById(id) && (elt.getElementById(id).style.display = style,
-                      window.setTimeout(() => {
-                        elt.getElementById('loader').style.display = 'none'
-                      }, 20000))
-                  };
-              loader('circle', 'none', 'initial'),
-              loader('loader', 'initial', 'none');
-          }
-        ]]]
-    styles:
-      custom_fields:
-        loader:
-          - display: none
-          - top: -6%
-          - right: -3.5%
-          - width: 52%
-          - position: absolute
-          - opacity: 0.5
-          - pointer-events: none
-          - filter: >
-              [[[
-                return variables.state_on
-                    ? 'none'
-                    : 'invert(1)';
-              ]]]
-
   pool_circuit: # ------------------------------------------------------------
     template:
       - base
@@ -965,7 +1117,6 @@ button_card_templates:
         }
         return entity.state
       ]]]
-
   irrigation_program: # ------------------------------------------------------
     template:
       - base
@@ -1026,198 +1177,6 @@ button_card_templates:
       target:
         entity_id: >-
           [[[ return entity.entity_id; ]]]
-
-  tilt: # --------------------------------------------------------------------
-    variables: # see https://micku7zu.github.io/vanilla-tilt.js/
-      tilt_enable: >
-        [[[
-          // disable on macos app, text appears over popup
-          //if (window.navigator.userAgent.includes("Home Assistant")) {
-          //    return false
-          //}
-
-          // enable on desktop/laptop browsers
-          if (window.navigator.userAgent.match(/Macintosh/i) ||
-              window.navigator.userAgent.match(/Chrome/i) ||
-              window.navigator.userAgent.match(/Firefox/i)) {
-              return true;
-          }
-          
-          return false;  // default - phones, tablets etc
-        ]]]
-      tilt_options: >
-        [[[
-          let options = {
-              max: 5,
-              scale: 1.06,
-              glare: true,
-              'max-glare': 0.15,
-              perspective: 800,
-              speed: 800,
-              parallax: '25px'
-          }
-          if (this._config.template.includes('conditional_media')) {
-              options.scale = options.scale % parseInt(options.scale) / 2 + parseInt(options.scale);
-              options.perspective = options.perspective * 2;
-              return options;
-          }
-          return options;
-        ]]]
-    custom_fields:
-      tilt: >
-        [[[
-          setTimeout(() => {
-              let elt = this.shadowRoot,
-                  card = elt.getElementById('card'),
-                  tilt = typeof VanillaTilt === 'function';
-
-              if (elt && card && tilt && variables.tilt_enable) {
-                  VanillaTilt.init(card, variables.tilt_options);
-              } else {
-                  setTimeout(() => {
-                      if (elt && card && tilt && variables.tilt_enable) {
-                          VanillaTilt.init(card, variables.tilt_options);
-                      }
-                  }, 1000);
-              }
-          }, 0);
-        ]]]
-    extra_styles: |
-      #name, #state {
-        font-size: calc(var(--button-card-font-size) - var(--z-axis-adjustment));
-      }
-      @media screen and (max-width: 1200px) { /* portrait */
-        #name, #state {
-          font-size: calc(calc(var(--button-card-font-size) * var(--card-portrait)) - var(--z-axis-adjustment));
-        }
-      }
-      @media screen and (max-width: 800px) { /* phone */
-        #name, #state {
-          font-size: calc(calc(var(--button-card-font-size) * var(--card-phone)) - var(--z-axis-adjustment));
-        }
-      }
-      #container {
-        transform: translateZ(${variables.tilt_options.parallax});
-      }
-      #circle_slider {
-        width: 100%;
-        margin-top: 0;
-      }                
-      @supports (-moz-appearance:none) { /* adjust circle_slider position for firefox */
-        #circle_slider {
-          margin-top: 13%;
-        }
-      }
-      #card {
-        padding: 12% 11% 10.5% 12%;
-        transform-style: preserve-3d;
-        overflow: visible;
-        /* firefox pixelated edges */
-        outline: 1px solid transparent;
-      }
-      #ripple, .js-tilt-glare {
-        clip-path: inset(0 round var(--button-card-border-radius));
-        overflow: hidden;
-      }
-      .js-tilt-glare {
-        z-index: 1;
-      }
-      .js-tilt-glare-inner {
-        background-color: rgba(0,0,0,0.9);
-      }
-
-  no_shadow: # ---------------------------------------------------------------
-    card_mod:
-      style: |
-        ha-card {
-          box-shadow: none;
-          background: none;
-          backdrop-filter: none !important
-        }
-
-  person: # ------------------------------------------------------------------
-    template:
-      - base
-      #- circle
-      - overflow_reminder
-    state_display: >
-      [[[
-        if (entity) {
-            return 
-              variables.state === 'home' ? 'Home' :
-              variables.state === 'not_home' ? 'Not home' : variables.state;
-        }
-        return 'Unknown';
-      ]]]
-    triggers_update: sensor.time
-    show_icon: true
-    tap_action:
-      action: none
-    entity_picture: "[[[ return variables.entity_picture ]]]" # set in athome.yaml
-    show_entity_picture: true
-    styles:
-      entity_picture:
-        - color: var(--button-card-light-color)
-        - icon_size: 600px
-        - padding: 0px 0px
-        - width: "100%"
-        #- clip-path: circle()
-        - pointer-events: none
-
-  obsolete_climate_base: # ------------------------------------------------------------
-    show_icon: false
-    styles:
-      name:
-        - padding: 12px 13px
-        - font-size: 0.8em
-        - font-weight: 600
-      card:
-        - border-radius: 10px'
-  obsolete_climate_fan_mode: # --------------------------------------------------------
-    variables:
-      fan_mode: false
-    tap_action:
-      action: call-service
-      service: climate.set_fan_mode
-      service_data:
-        entity_id: >
-          [[[ return !entity || entity.entity_id; ]]]
-        fan_mode: >
-          [[[ return variables.fan_mode; ]]]
-    styles:
-      card:
-        - background-color: >
-            [[[
-              return !entity || entity.attributes.fan_mode === variables.fan_mode
-                  ? "rgba(158, 158, 158, 0.2)"
-                  : "rgba(189, 189, 189, 0.05)";
-            ]]]
-    template:
-      - climate_base
-  obsolete_climate_swing_mode: # ------------------------------------------------------
-    tap_action:
-      action: call-service
-      service: climate.set_swing_mode
-      service_data:
-        entity_id: >
-          [[[ return !entity || entity.entity_id; ]]]
-        swing_mode: >
-          [[[
-            return !entity || entity.attributes.swing_mode === 'off'
-                ? 'on'
-                : 'off';
-          ]]]
-    styles:
-      card:
-        - background-color: >
-            [[[
-              return !entity || entity.attributes.swing_mode === 'on'
-                  ? "rgba(158, 158, 158, 0.2)"
-                  : "rgba(189, 189, 189, 0.05)";
-            ]]]
-    template:
-      - climate_base
-
   connectivity: # ------------------------------------------------------------
     template: base
     state_display: >-
@@ -1229,508 +1188,6 @@ button_card_templates:
       ]]]
     tap_action:
     double_tab_action:
-  netstat: # -----------------------------------------------------------------
-    template: base
-    state_display: >-
-      [[[
-          if (entity?.state) {
-              //return entity.state === 'on' ? 'Connected' : 'Error';
-              //return ['on', 'online'].indexOf(!entity || entity.state) !== -1 ? "Connected" : "Error";
-              return entity.state;
-          }
-          return entity.state;
-      ]]]
-    tap_action:
-    double_tab_action:
-
-  icon_only: # ---------------------------------------------------------------
-    show_name: false
-    color: "#9da0a2"
-    styles:
-      card:
-        - color: "#9da0a2"
-        - border-radius: 0.6em
-        - width: 4em
-        - height: 3.7em
-        - background: "#FFFFFF10"
-  icon_name:
-    size: 1.4em
-    color: "#9da0a2"
-    styles:
-      grid:
-        - grid-template-areas: '"i n"'
-        - grid-column-gap: 0.3em
-      card:
-        - color: "#9da0a2"
-        - border-radius: 0.6em
-        - padding: 1em 1.4em 1em 1.2em
-        - width: max-content
-        - font-size: 1.06em
-        - font-weight: 500
-        - letter-spacing: 0.03em
-        - background: "#FFFFFF10"
-
-  obsolete_base_media: # -----------------------------------------------------
-    template:
-      - settings
-    state_display: >
-      [[[
-        if (variables.state === true) return 'Unknown';
-        return variables.state;
-        /*
-        const stateDict = {
-          'on': variables.translate_on,
-          'off': variables.translate_off,
-          'playing': variables.translate_playing,
-          'paused': variables.translate_paused,
-          'standby': variables.translate_standby,
-          'idle': variables.translate_idle
-        };
-        if (variables.state === true) return variables.translate_unknown;
-        return stateDict[variables.state];
-        */
-      ]]]
-    variables:
-      media_on: >
-        [[[ return !entity || ['playing', 'paused'].indexOf(entity.state) !== -1; ]]]
-      media_off: >
-        [[[ return !entity || ['off', 'idle', 'standby', 'unknown', 'unavailable'].indexOf(entity.state) !== -1; ]]]
-    tap_action:
-      action: >
-        [[[
-          return variables.media_on
-              ? 'call-service'
-              : 'none';
-        ]]]
-      service: media_player.media_play_pause
-      service_data:
-        entity_id: >
-          [[[
-            return variables.entity_id;
-          ]]]
-    double_tap_action:
-      action: more-info
-    styles:
-      card:
-        - color: >
-            [[[
-              if (variables.is_youtube) {
-                  return `#efefef`;
-              } else {
-                  return variables.media_on && variables.entity_picture === undefined
-                      ? 'rgba(0, 0, 0, 0.6)'
-                      : variables.media_off
-                          ? '#97989c'
-                          : '#efefef';
-              }
-            ]]]
-        - text-shadow: >
-            [[[
-              if (variables.is_youtube) {
-                  return `1px 1px 5px rgba(18, 22, 23, 0.9)`;
-              } else {
-                  return variables.media_off || variables.entity_picture === undefined
-                      ? 'none'
-                      : '1px 1px 5px rgba(18, 22, 23, 0.9)';
-              }
-            ]]]
-  obsolete_media: # ----------------------------------------------------------
-    template:
-      - base
-      - base_media
-    styles:
-      custom_fields:
-        icon:
-          - width: 70%
-          - margin-left: 2%
-          - fill: "#9da0a2"
-          - display: >
-              [[[
-              if (variables.is_youtube) {
-                  return `none`;
-              }
-              else {
-                  return variables.media_off || variables.entity_picture === undefined
-                      ? 'initial'
-                      : 'none';
-              }
-              ]]]
-      card:
-        - background-color: none
-        - background-size: cover
-        - background-position: center
-        - background-image: >
-            [[[
-              if (variables.is_youtube) {
-                  return `linear-gradient(0deg, rgba(0,0,0,.8) 0%, rgba(0,0,0,0) 100%), url(${states[this._config?.triggers_update].state})`;
-              } else {
-                  return variables.media_on && variables.entity_picture === undefined
-                      ? 'linear-gradient(0deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.8) 100%)'
-                      : variables.media_off
-                          ? 'linear-gradient(0deg, rgba(115, 115, 115, 0.2) 0%, rgba(115, 115, 115, 0.2) 100%)'
-                          : `linear-gradient(0deg, rgba(0,0,0,.8) 0%, rgba(0,0,0,0) 100%), url(${variables.entity_picture})`;
-              }
-            ]]]
-  obsolete_conditional_media: # ----------------------------------------------
-    aspect_ratio: 1000/996
-    template:
-      - base
-      - base_media
-      - icon_play_pause
-    variables:
-      i: >
-        [[[
-          if (entity) {
-              let data = entity.attributes.data;
-              return data === undefined || Math.floor(Math.random() * (data.length - 1)) + 1;
-          }
-        ]]]
-    state_display: >
-      [[[
-        let horizontalStack = this.getRootNode().host,
-            swipeCard = horizontalStack.getRootNode().host,
-            gridTitle = swipeCard.getRootNode().querySelector("h1");
-
-        swipeCard.swiper.on("slideChange", () => {
-            if (swipeCard.swiper.realIndex === 0) {
-                gridTitle.textContent = "Media";
-            }
-            else if (swipeCard.swiper.realIndex === 1) {
-                gridTitle.textContent = "Spelare";
-            }
-        });
-
-        if (entity) {
-            let elt = this.shadowRoot,
-                await = setTimeout(marquee, 100),
-                data = entity.attributes.data,
-                artist = entity.attributes.media_artist,
-                title = entity.attributes.media_title;
-
-              if (data !== undefined) {
-                  var number = data[variables.i].number === undefined && data[variables.i].aired !== undefined
-                      ? `(${data[variables.i].aired.split("-")[0]})`
-                      : data[variables.i].number === undefined && data[variables.i].aired === undefined
-                          ? ' '
-                          : data[variables.i].number,
-                  output = `${data[variables.i].title} ${number}`;
-              } else {
-                  var output = artist === undefined && title !== undefined
-                      ? title
-                      : title === undefined && artist !== undefined
-                          ? artist
-                          : title !== undefined && artist !== undefined
-                              ? `${artist} - ${title}`
-                              : 'Idle';
-              }
-
-            function marquee() {
-                let state = elt.getElementById("state"),
-                    container = elt.getElementById("container");
-
-                if (state && container) {
-                    state.innerHTML = output;
-                    let ro = new ResizeObserver(entries => {
-                        let spacer = "&nbsp;".repeat(3),
-                            s = entries[0],
-                            c = entries[1],
-                            r = s && s.contentRect &&
-                                c && c.contentRect &&
-                                s.contentRect.width !== 0 &&
-                                c.contentRect.width !== 0;
-
-                        if (r && s.contentRect.width < c.contentRect.width) {
-                            state.classList.remove("marquee");
-                        }
-                        else if (r && s.contentRect.width >= c.contentRect.width) {
-                            state.innerHTML = `${output} ${spacer} ${output} ${spacer}&nbsp;`;
-                            state.classList.add("marquee");
-                        }
-                    });
-                    ro.observe(state);
-                    ro.observe(container);
-                }
-            }
-            return output;
-        }
-        return 'Unknown';
-      ]]]
-    tap_action:
-      action: call-service
-      service: media_player.media_play_pause
-      service_data:
-        entity_id: >
-          [[[ return variables.entity_id; ]]]
-    styles:
-      grid:
-        - gap: 0.65%
-      name:
-        - padding: 0.2vw
-        - margin: -0.2vw
-      state:
-        - padding-bottom: 5.25%
-        - max-width: unset
-        - overflow: visible
-      card:
-        - padding: 5.75% 5.25% 0 5.75%
-        - border-radius: calc(var(--button-card-border-radius) / 2)
-        - background: rgba(115, 115, 115, 0.2) center center/cover no-repeat
-        - background-image: >
-            [[[
-              if (entity) {
-                if (variables.is_youtube) {
-                    return `url(${states[this._config?.triggers_update].state})`;
-                } else {
-                  let data = entity.attributes.data;
-                  return data && (data[variables.i].fanart || data[variables.i].poster)
-                      ? `url("${data[variables.i].fanart}"), url("${data[variables.i].poster}")`
-                      : `url("${variables.entity_picture}")`;
-                }
-              }
-            ]]]
-        - color: >
-            [[[
-              return entity === undefined
-                  ? '#97989c'
-                  : '#efefef';
-            ]]]
-        - text-shadow: >
-            [[[
-              return entity === undefined
-                  ? 'none'
-                  : '1px 1px 5px rgba(18, 22, 23, 0.9)';
-            ]]]
-      custom_fields:
-        icon:
-          - width: 30%
-          - fill: >
-              [[[
-                return entity && variables.media_on
-                    ? 'rgba(255, 255, 255, 0.8)'
-                    : '#9da0a2';
-              ]]]
-        blur_overlay:
-          - display: block
-          - position: absolute
-          - width: 103.1%
-          - height: 103.1%
-          - clip-path: >
-              inset(74.5% 1.45% 1.45% 1.45% round 0 0 calc(var(--button-card-border-radius) / 2) calc(var(--button-card-border-radius) / 2))
-          - backdrop-filter: var(--blur-intensity)
-          - -webkit-backdrop-filter: var(--blur-intensity)
-          - left: -1.5%
-          - bottom: -1.6%
-    custom_fields:
-      blur_overlay: >
-        [[[
-          setTimeout(() => {
-              let elt = this.shadowRoot,
-                  card = elt.getElementById('card'),
-                  container = elt.getElementById('container'),
-                  blur_overlay = elt.getElementById('blur_overlay');
-
-              if (elt && card && container && blur_overlay) {
-                  card.insertBefore(blur_overlay, container);
-              }
-            }, 0);
-          return ' ';
-        ]]]
-    extra_styles: |
-      :host {
-        --blur-intensity: blur(4.5px) brightness(0.8);
-      }
-      @media screen and (max-width: 800px) { /* phone */
-        :host {
-          --blur-intensity: blur(2.5px) brightness(0.8);
-        }
-      }
-      #ripple, .js-tilt-glare {
-        clip-path: inset(0 round calc(var(--button-card-border-radius) / 2));
-      }
-      #container {
-        overflow: hidden;
-      }
-      .marquee {
-        animation: marquee 20s linear infinite;
-      }
-      @keyframes marquee {
-        from {
-          transform: translateX(0%);
-        }
-        to {
-          transform: translateX(-50%);
-        }
-      }
-
-  base_updates: # ------------------------------------------------------------
-    show_state: true
-    show_name: false
-    show_icon: false
-    styles:
-      state:
-        - text-align: left
-        - justify-self: left
-        - white-space: normal
-      card:
-        - cursor: default
-        - padding: 0.2em 0 0 0.6em
-        - letter-spacing: var(--mdc-typography-body1-letter-spacing)
-    tap_action:
-      href:
-    extra_styles: |
-      #ripple {
-        display: none;
-      }
-      ha-icon {
-        width: 1.4em;
-        vertical-align: 12%;
-        opacity: 0.5;
-        padding-right: 2px;
-      }
-      .title {
-        font-size: 1.3em;
-        font-weight: 500;
-      }
-      .subtitle {
-        font-size: 0.95em;
-        line-height: 0.7em;
-        padding-left: 3px;
-        padding-bottom: 10px;
-        font-weight: 500;
-        color: #828383;
-      }
-      a {
-        color: var(--primary-color);
-      }
-      ul {
-        margin-top: -0.6em;
-        font-size: 0.88em;
-        letter-spacing: 0.5px;
-        line-height: 1.6em;
-      }
-      code {
-        background-color: var(--secondary-background-color);
-      }
-
-      updates:
-    template:
-      - base_updates
-      - settings
-    state_display: |
-      [[[
-        // variables
-        let output = '',
-            updates = states[variables.updates],
-            hacs_installed = states[variables.hacs_installed]?.attributes.repositories,
-            other_updates = states[variables.other_updates],
-            hacs_update = states['update.hacs_update']?.attributes.installed_version,
-            no_updates = 'No update',
-            update_available = 'Update available',
-            updates_available = 'Updates available';
-
-        const rename = a => {
-            return a.release_url && a.release_url.indexOf('github.com') > -1
-                ? `${a.release_url.split('/')[3]}/${a.release_url.split('/')[4]}`
-                : a?.friendly_name;
-        };
-
-        // update entities
-        Object.keys(states).forEach(key => {
-          let s = states[key], e = s.entity_id, a = s.attributes;
-          if (e.includes('update.') && s.state === 'on') {
-              output += `<li><b><a href="#" onclick="window.open('${a.release_url}');">
-              ${rename(a)}</a></b> ${a.installed_version} <b>&rarr;</b> ${a.latest_version}</li>`
-          }
-        });
-
-        // other updates
-        let attr = Object.fromEntries(
-            Object.entries(other_updates?.attributes).filter(([, value]) => value != false));
-        for (const [, value] of Object.entries(attr)) {
-          output += `<li>${value}</li>`;
-        }
-
-        // subtitle
-        let count = updates?.attributes.update_entities + updates?.attributes.other_updates,
-            subtitle = count === 0
-                ? `${no_updates} <b>&larr;</b> ${hacs_update || ''}`
-                : `${count} ${count === 1 ? update_available : updates_available} ${String.fromCodePoint('0x1f389')}`;
-
-        return `
-          <ha-icon icon="mdi:package-up"></ha-icon> <span class="title">Integrationer</span><br>
-          <p class="subtitle">${subtitle}</p>
-          <ul>${output}</ul>
-        `;
-      ]]]
-  updates_hass: # ------------------------------------------------------------
-    template:
-      - base_updates
-      - settings
-    state_display: |
-      [[[
-        if (entity) {
-            let available = states[variables.available].attributes.home_assistant;
-
-            let links = new RegExp('<a href="([^"]+)"', "g"),
-                installed = entity.state,
-                hass_version_latest = states[variables.latest],
-                hass_version_latest_beta = states[variables.latest_beta],
-                hass_release_notes = states[variables.release_notes],
-                hass_release_notes_beta = states[variables.release_notes_beta];
-
-            let latest = installed.includes('b')
-                ? hass_version_latest_beta.state
-                : hass_version_latest.state;
-
-            let release_notes = installed.includes('b')
-                ? marked.parse(hass_release_notes.attributes.body)
-                : marked.parse(hass_release_notes_beta.attributes.body);
-
-            let subtitle = available === 0
-                ? `No update <b>&larr;</b> ${installed}`
-                : `${installed} <b>&rarr;</b> ${latest} Update available ${String.fromCodePoint("0x1f389")}`;
-
-            let output = available === 0
-                ? '<ul></ul>'
-                : release_notes.replace(links, '<a href="#" onclick="window.open(\'$1\')"');
-
-            return `
-              <ha-icon icon="mdi:home-assistant"></ha-icon> <span class="title">Home Assistant</span><br>
-              <p class="subtitle">${subtitle}</p>
-              ${output}
-            `;
-        }
-      ]]]
-  updates_hass_icon_name: # --------------------------------------------------
-    template: icon_name
-    icon: mdi:update
-    styles:
-      card:
-        - opacity: >
-            [[[
-              return entity && (entity.state === states[variables.latest].state ||
-                entity.state === states[variables.latest_beta].state)
-                  ? '0.3'
-                  : '1';
-            ]]]
-        - display: >
-            [[[
-              return entity
-                ? 'flex'
-                : 'none';
-            ]]]
-  updates_icon_name: # -------------------------------------------------------
-    template: icon_name
-    icon: mdi:open-in-new
-    styles:
-      card:
-        - opacity: >
-            [[[
-              return entity?.attributes?.update_entities === 0
-                  ? '0.3'
-                  : '1';
-            ]]]
-
   bubble_card_graph: # -------------------------------------------------------
     template: no_shadow
     show_name: false
@@ -1778,7 +1235,6 @@ button_card_templates:
         - border-radius: 25px
         - box-shadow: none
         - background: rgba(255,255,255,0.05)
-
   above_below_bar: # ---------------------------------------------------------
     variables: # inspired by https://community.home-assistant.io/t/home-assistant-card-replacing-former-bar-card-config
       max_value: 100
@@ -1901,49 +1357,6 @@ button_card_templates:
       :host {
         grid-column: span 1;
       }
-
-  card_title: # --------------------------------------------------------------
-    tap_action: # https://ui-lovelace-minimalist.github.io/UI/usage/cards/card_title/
-      action: "none"
-    show_icon: false
-    show_label: true
-    show_name: true
-    styles:
-      card:
-        - background-color: "rgba(0,0,0,0)"
-        - box-shadow: "none"
-        - height: "auto"
-        - width: "auto"
-        - margin-top: "6px"
-        - margin-left: "18px"
-        - margin-bottom: "0px"
-        - padding: "6px"
-      grid:
-        - grid-template-areas: "'n' 'l'"
-        - grid-template-columns: "1fr"
-        - grid-template-rows: "min-content min-content"
-      name:
-        - justify-self: "start"
-        - color: var(--ha-card-header-color, var(--primary-text-color))
-        - text-align: var(--ha-stack-title-text-align, start)
-        - font-family: var(--ha-card-header-font-family, inherit)
-        - font-size: var(--ha-card-header-font-size, var(--ha-font-size-2xl))
-        - font-weight: var(--ha-font-weight-normal)
-        - margin-block: 0px
-        - letter-spacing: -0.012em
-        - line-height: var(--ha-line-height-condensed)
-        - width: 100%
-      label:
-        - justify-self: start
-        - color: var(--ha-card-header-color, var(--primary-text-color))
-        - text-align: var(--ha-stack-title-text-align, start)
-        - font-family: var(--ha-card-header-font-family, inherit)
-        - font-size: var(--ha-card-header-font-size, var(--ha-font-size-2xl))
-        - font-weight: var(--ha-font-weight-normal)
-        - margin-block: 0px
-        - letter-spacing: -0.012em
-        - line-height: var(--ha-line-height-condensed)
-        - width: 100%
 
   graphic_base: # ------------------------------------------------------------
     template: no_shadow
@@ -3349,6 +2762,545 @@ button_card_templates:
           return `<ha-icon icon="mdi:harddisk" style="width: 12px; height: 12px; color: deepskyblue;"></ha-icon>
           SD:&nbsp;${states[variables.sd_id].state}%`
         ]]]
+  obsolete_card_title: # --------------------------------------------------------------
+    tap_action: # https://ui-lovelace-minimalist.github.io/UI/usage/cards/card_title/
+      action: "none"
+    show_icon: false
+    show_label: true
+    show_name: true
+    styles:
+      card:
+        - background-color: "rgba(0,0,0,0)"
+        - box-shadow: "none"
+        - height: "auto"
+        - width: "auto"
+        - margin-top: "6px"
+        - margin-left: "18px"
+        - margin-bottom: "0px"
+        - padding: "6px"
+      grid:
+        - grid-template-areas: "'n' 'l'"
+        - grid-template-columns: "1fr"
+        - grid-template-rows: "min-content min-content"
+      name:
+        - justify-self: "start"
+        - color: var(--ha-card-header-color, var(--primary-text-color))
+        - text-align: var(--ha-stack-title-text-align, start)
+        - font-family: var(--ha-card-header-font-family, inherit)
+        - font-size: var(--ha-card-header-font-size, var(--ha-font-size-2xl))
+        - font-weight: var(--ha-font-weight-normal)
+        - margin-block: 0px
+        - letter-spacing: -0.012em
+        - line-height: var(--ha-line-height-condensed)
+        - width: 100%
+      label:
+        - justify-self: start
+        - color: var(--ha-card-header-color, var(--primary-text-color))
+        - text-align: var(--ha-stack-title-text-align, start)
+        - font-family: var(--ha-card-header-font-family, inherit)
+        - font-size: var(--ha-card-header-font-size, var(--ha-font-size-2xl))
+        - font-weight: var(--ha-font-weight-normal)
+        - margin-block: 0px
+        - letter-spacing: -0.012em
+        - line-height: var(--ha-line-height-condensed)
+        - width: 100%
+  obsolete_netstat: # -----------------------------------------------------------------
+    template: base
+    state_display: >-
+      [[[
+          if (entity?.state) {
+              //return entity.state === 'on' ? 'Connected' : 'Error';
+              //return ['on', 'online'].indexOf(!entity || entity.state) !== -1 ? "Connected" : "Error";
+              return entity.state;
+          }
+          return entity.state;
+      ]]]
+    tap_action:
+    double_tab_action:
+
+  obsolete_base_media: # -----------------------------------------------------
+    template:
+      - settings
+    state_display: >
+      [[[
+        if (variables.state === true) return 'Unknown';
+        return variables.state;
+        /*
+        const stateDict = {
+          'on': variables.translate_on,
+          'off': variables.translate_off,
+          'playing': variables.translate_playing,
+          'paused': variables.translate_paused,
+          'standby': variables.translate_standby,
+          'idle': variables.translate_idle
+        };
+        if (variables.state === true) return variables.translate_unknown;
+        return stateDict[variables.state];
+        */
+      ]]]
+    variables:
+      media_on: >
+        [[[ return !entity || ['playing', 'paused'].indexOf(entity.state) !== -1; ]]]
+      media_off: >
+        [[[ return !entity || ['off', 'idle', 'standby', 'unknown', 'unavailable'].indexOf(entity.state) !== -1; ]]]
+    tap_action:
+      action: >
+        [[[
+          return variables.media_on
+              ? 'call-service'
+              : 'none';
+        ]]]
+      service: media_player.media_play_pause
+      service_data:
+        entity_id: >
+          [[[
+            return variables.entity_id;
+          ]]]
+    double_tap_action:
+      action: more-info
+    styles:
+      card:
+        - color: >
+            [[[
+              if (variables.is_youtube) {
+                  return `#efefef`;
+              } else {
+                  return variables.media_on && variables.entity_picture === undefined
+                      ? 'rgba(0, 0, 0, 0.6)'
+                      : variables.media_off
+                          ? '#97989c'
+                          : '#efefef';
+              }
+            ]]]
+        - text-shadow: >
+            [[[
+              if (variables.is_youtube) {
+                  return `1px 1px 5px rgba(18, 22, 23, 0.9)`;
+              } else {
+                  return variables.media_off || variables.entity_picture === undefined
+                      ? 'none'
+                      : '1px 1px 5px rgba(18, 22, 23, 0.9)';
+              }
+            ]]]
+  obsolete_media: # ----------------------------------------------------------
+    template:
+      - base
+      - base_media
+    styles:
+      custom_fields:
+        icon:
+          - width: 70%
+          - margin-left: 2%
+          - fill: "#9da0a2"
+          - display: >
+              [[[
+              if (variables.is_youtube) {
+                  return `none`;
+              }
+              else {
+                  return variables.media_off || variables.entity_picture === undefined
+                      ? 'initial'
+                      : 'none';
+              }
+              ]]]
+      card:
+        - background-color: none
+        - background-size: cover
+        - background-position: center
+        - background-image: >
+            [[[
+              if (variables.is_youtube) {
+                  return `linear-gradient(0deg, rgba(0,0,0,.8) 0%, rgba(0,0,0,0) 100%), url(${states[this._config?.triggers_update].state})`;
+              } else {
+                  return variables.media_on && variables.entity_picture === undefined
+                      ? 'linear-gradient(0deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.8) 100%)'
+                      : variables.media_off
+                          ? 'linear-gradient(0deg, rgba(115, 115, 115, 0.2) 0%, rgba(115, 115, 115, 0.2) 100%)'
+                          : `linear-gradient(0deg, rgba(0,0,0,.8) 0%, rgba(0,0,0,0) 100%), url(${variables.entity_picture})`;
+              }
+            ]]]
+  obsolete_conditional_media: # ----------------------------------------------
+    aspect_ratio: 1000/996
+    template:
+      - base
+      - base_media
+      - icon_play_pause
+    variables:
+      i: >
+        [[[
+          if (entity) {
+              let data = entity.attributes.data;
+              return data === undefined || Math.floor(Math.random() * (data.length - 1)) + 1;
+          }
+        ]]]
+    state_display: >
+      [[[
+        let horizontalStack = this.getRootNode().host,
+            swipeCard = horizontalStack.getRootNode().host,
+            gridTitle = swipeCard.getRootNode().querySelector("h1");
+
+        swipeCard.swiper.on("slideChange", () => {
+            if (swipeCard.swiper.realIndex === 0) {
+                gridTitle.textContent = "Media";
+            }
+            else if (swipeCard.swiper.realIndex === 1) {
+                gridTitle.textContent = "Spelare";
+            }
+        });
+
+        if (entity) {
+            let elt = this.shadowRoot,
+                await = setTimeout(marquee, 100),
+                data = entity.attributes.data,
+                artist = entity.attributes.media_artist,
+                title = entity.attributes.media_title;
+
+              if (data !== undefined) {
+                  var number = data[variables.i].number === undefined && data[variables.i].aired !== undefined
+                      ? `(${data[variables.i].aired.split("-")[0]})`
+                      : data[variables.i].number === undefined && data[variables.i].aired === undefined
+                          ? ' '
+                          : data[variables.i].number,
+                  output = `${data[variables.i].title} ${number}`;
+              } else {
+                  var output = artist === undefined && title !== undefined
+                      ? title
+                      : title === undefined && artist !== undefined
+                          ? artist
+                          : title !== undefined && artist !== undefined
+                              ? `${artist} - ${title}`
+                              : 'Idle';
+              }
+
+            function marquee() {
+                let state = elt.getElementById("state"),
+                    container = elt.getElementById("container");
+
+                if (state && container) {
+                    state.innerHTML = output;
+                    let ro = new ResizeObserver(entries => {
+                        let spacer = "&nbsp;".repeat(3),
+                            s = entries[0],
+                            c = entries[1],
+                            r = s && s.contentRect &&
+                                c && c.contentRect &&
+                                s.contentRect.width !== 0 &&
+                                c.contentRect.width !== 0;
+
+                        if (r && s.contentRect.width < c.contentRect.width) {
+                            state.classList.remove("marquee");
+                        }
+                        else if (r && s.contentRect.width >= c.contentRect.width) {
+                            state.innerHTML = `${output} ${spacer} ${output} ${spacer}&nbsp;`;
+                            state.classList.add("marquee");
+                        }
+                    });
+                    ro.observe(state);
+                    ro.observe(container);
+                }
+            }
+            return output;
+        }
+        return 'Unknown';
+      ]]]
+    tap_action:
+      action: call-service
+      service: media_player.media_play_pause
+      service_data:
+        entity_id: >
+          [[[ return variables.entity_id; ]]]
+    styles:
+      grid:
+        - gap: 0.65%
+      name:
+        - padding: 0.2vw
+        - margin: -0.2vw
+      state:
+        - padding-bottom: 5.25%
+        - max-width: unset
+        - overflow: visible
+      card:
+        - padding: 5.75% 5.25% 0 5.75%
+        - border-radius: calc(var(--button-card-border-radius) / 2)
+        - background: rgba(115, 115, 115, 0.2) center center/cover no-repeat
+        - background-image: >
+            [[[
+              if (entity) {
+                if (variables.is_youtube) {
+                    return `url(${states[this._config?.triggers_update].state})`;
+                } else {
+                  let data = entity.attributes.data;
+                  return data && (data[variables.i].fanart || data[variables.i].poster)
+                      ? `url("${data[variables.i].fanart}"), url("${data[variables.i].poster}")`
+                      : `url("${variables.entity_picture}")`;
+                }
+              }
+            ]]]
+        - color: >
+            [[[
+              return entity === undefined
+                  ? '#97989c'
+                  : '#efefef';
+            ]]]
+        - text-shadow: >
+            [[[
+              return entity === undefined
+                  ? 'none'
+                  : '1px 1px 5px rgba(18, 22, 23, 0.9)';
+            ]]]
+      custom_fields:
+        icon:
+          - width: 30%
+          - fill: >
+              [[[
+                return entity && variables.media_on
+                    ? 'rgba(255, 255, 255, 0.8)'
+                    : '#9da0a2';
+              ]]]
+        blur_overlay:
+          - display: block
+          - position: absolute
+          - width: 103.1%
+          - height: 103.1%
+          - clip-path: >
+              inset(74.5% 1.45% 1.45% 1.45% round 0 0 calc(var(--button-card-border-radius) / 2) calc(var(--button-card-border-radius) / 2))
+          - backdrop-filter: var(--blur-intensity)
+          - -webkit-backdrop-filter: var(--blur-intensity)
+          - left: -1.5%
+          - bottom: -1.6%
+    custom_fields:
+      blur_overlay: >
+        [[[
+          setTimeout(() => {
+              let elt = this.shadowRoot,
+                  card = elt.getElementById('card'),
+                  container = elt.getElementById('container'),
+                  blur_overlay = elt.getElementById('blur_overlay');
+
+              if (elt && card && container && blur_overlay) {
+                  card.insertBefore(blur_overlay, container);
+              }
+            }, 0);
+          return ' ';
+        ]]]
+    extra_styles: |
+      :host {
+        --blur-intensity: blur(4.5px) brightness(0.8);
+      }
+      @media screen and (max-width: 800px) { /* phone */
+        :host {
+          --blur-intensity: blur(2.5px) brightness(0.8);
+        }
+      }
+      #ripple, .js-tilt-glare {
+        clip-path: inset(0 round calc(var(--button-card-border-radius) / 2));
+      }
+      #container {
+        overflow: hidden;
+      }
+      .marquee {
+        animation: marquee 20s linear infinite;
+      }
+      @keyframes marquee {
+        from {
+          transform: translateX(0%);
+        }
+        to {
+          transform: translateX(-50%);
+        }
+      }
+
+  obsolete_updates_base: # ------------------------------------------------------------
+    show_state: true
+    show_name: false
+    show_icon: false
+    styles:
+      state:
+        - text-align: left
+        - justify-self: left
+        - white-space: normal
+      card:
+        - cursor: default
+        - padding: 0.2em 0 0 0.6em
+        - letter-spacing: var(--mdc-typography-body1-letter-spacing)
+    tap_action:
+      href:
+    extra_styles: |
+      #ripple {
+        display: none;
+      }
+      ha-icon {
+        width: 1.4em;
+        vertical-align: 12%;
+        opacity: 0.5;
+        padding-right: 2px;
+      }
+      .title {
+        font-size: 1.3em;
+        font-weight: 500;
+      }
+      .subtitle {
+        font-size: 0.95em;
+        line-height: 0.7em;
+        padding-left: 3px;
+        padding-bottom: 10px;
+        font-weight: 500;
+        color: #828383;
+      }
+      a {
+        color: var(--primary-color);
+      }
+      ul {
+        margin-top: -0.6em;
+        font-size: 0.88em;
+        letter-spacing: 0.5px;
+        line-height: 1.6em;
+      }
+      code {
+        background-color: var(--secondary-background-color);
+      }
+
+      updates:
+    template:
+      - settings
+      - obsolete_updates_base
+    state_display: |
+      [[[
+        // variables
+        let output = '',
+            updates = states[variables.updates],
+            hacs_installed = states[variables.hacs_installed]?.attributes.repositories,
+            other_updates = states[variables.other_updates],
+            hacs_update = states['update.hacs_update']?.attributes.installed_version,
+            no_updates = 'No update',
+            update_available = 'Update available',
+            updates_available = 'Updates available';
+
+        const rename = a => {
+            return a.release_url && a.release_url.indexOf('github.com') > -1
+                ? `${a.release_url.split('/')[3]}/${a.release_url.split('/')[4]}`
+                : a?.friendly_name;
+        };
+
+        // update entities
+        Object.keys(states).forEach(key => {
+          let s = states[key], e = s.entity_id, a = s.attributes;
+          if (e.includes('update.') && s.state === 'on') {
+              output += `<li><b><a href="#" onclick="window.open('${a.release_url}');">
+              ${rename(a)}</a></b> ${a.installed_version} <b>&rarr;</b> ${a.latest_version}</li>`
+          }
+        });
+
+        // other updates
+        let attr = Object.fromEntries(
+            Object.entries(other_updates?.attributes).filter(([, value]) => value != false));
+        for (const [, value] of Object.entries(attr)) {
+          output += `<li>${value}</li>`;
+        }
+
+        // subtitle
+        let count = updates?.attributes.update_entities + updates?.attributes.other_updates,
+            subtitle = count === 0
+                ? `${no_updates} <b>&larr;</b> ${hacs_update || ''}`
+                : `${count} ${count === 1 ? update_available : updates_available} ${String.fromCodePoint('0x1f389')}`;
+
+        return `
+          <ha-icon icon="mdi:package-up"></ha-icon> <span class="title">Integrationer</span><br>
+          <p class="subtitle">${subtitle}</p>
+          <ul>${output}</ul>
+        `;
+      ]]]
+  obsolete_updates_icon_name: # -------------------------------------------------------
+    template: icon_name
+    icon: mdi:open-in-new
+    styles:
+      card:
+        - opacity: >
+            [[[
+              return entity?.attributes?.update_entities === 0
+                  ? '0.3'
+                  : '1';
+            ]]]
+  obsolete_obsolete_updates_hass_icon_name: # --------------------------------------------------
+    template: icon_name
+    icon: mdi:update
+    styles:
+      card:
+        - opacity: >
+            [[[
+              return entity && (entity.state === states[variables.latest].state ||
+                entity.state === states[variables.latest_beta].state)
+                  ? '0.3'
+                  : '1';
+            ]]]
+        - display: >
+            [[[
+              return entity
+                ? 'flex'
+                : 'none';
+            ]]]
+  obsolete_updates_hass: # ------------------------------------------------------------
+    template:
+      - settings
+      - obsolete_updates_base
+    state_display: |
+      [[[
+        if (entity) {
+            let available = states[variables.available].attributes.home_assistant;
+
+            let links = new RegExp('<a href="([^"]+)"', "g"),
+                installed = entity.state,
+                hass_version_latest = states[variables.latest],
+                hass_version_latest_beta = states[variables.latest_beta],
+                hass_release_notes = states[variables.release_notes],
+                hass_release_notes_beta = states[variables.release_notes_beta];
+
+            let latest = installed.includes('b')
+                ? hass_version_latest_beta.state
+                : hass_version_latest.state;
+
+            let release_notes = installed.includes('b')
+                ? marked.parse(hass_release_notes.attributes.body)
+                : marked.parse(hass_release_notes_beta.attributes.body);
+
+            let subtitle = available === 0
+                ? `No update <b>&larr;</b> ${installed}`
+                : `${installed} <b>&rarr;</b> ${latest} Update available ${String.fromCodePoint("0x1f389")}`;
+
+            let output = available === 0
+                ? '<ul></ul>'
+                : release_notes.replace(links, '<a href="#" onclick="window.open(\'$1\')"');
+
+            return `
+              <ha-icon icon="mdi:home-assistant"></ha-icon> <span class="title">Home Assistant</span><br>
+              <p class="subtitle">${subtitle}</p>
+              ${output}
+            `;
+        }
+      ]]]
+  obsolete_hacs_iframe: # -------------------------------------------------------------
+    tap_action:
+      action: fire-dom-event
+      browser_mod:
+        service: browser_mod.popup
+        data:
+          title: " "
+          size: fullscreen
+          content:
+            type: iframe
+            aspect_ratio: 16x9.15
+            url: >
+              [[[ return `/${hass.panels.config.url_path}/updates` ]]]
+    template: icon_name
+  obsolete_hacs_navigate_ios: # -------------------------------------------------------
+    tap_action:
+      action: fire-dom-event
+      browser_mod:
+        service: browser_mod.javascript
+        data:
+          code: >
+            window.location.href = `/${hass.panels.config.url_path}/updates`;
+    template: icon_name
 
 views:
   #################################################
@@ -3360,7 +3312,7 @@ views:
   - title: "Home"
     path: Default
     icon: mdi:home
-    background: linear-gradient(to right, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1)), url(/local/media/bg.jpg)
+    background: center / cover no-repeat fixed linear-gradient(to right, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1)), url(/local/media/bg.jpg)
 
     type: custom:layout-card
     layout_type: grid-layout
@@ -4078,17 +4030,6 @@ views:
                                               entity_id: remote.family_room_tv
                                           hold_action:
                                             action: none
-                                        - type: button
-                                          icon: mdi:netflix
-                                          tap_action:
-                                            action: perform-action
-                                            perform_action: remote.turn_on
-                                            data:
-                                              activity: com.netflix.ninja
-                                            target:
-                                              entity_id: remote.family_room_tv
-                                          hold_action:
-                                            action: none
                                         - type: picture
                                           image: >-
                                             https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Amazon_Prime_Video_logo.svg/450px-Amazon_Prime_Video_logo.svg.png
@@ -4113,13 +4054,6 @@ views:
                                               entity_id: remote.family_room_tv
                                           hold_action:
                                             action: none
-                                    - type: entity
-                                      entity: remote.family_room_tv
-                                      attribute: current_activity
-                                    - type: media-control
-                                      entity: media_player.family_room_tv
-                                    - type: media-control
-                                      entity: media_player.family_room_tv_remote
 
                             - type: entities
                               state_color: true

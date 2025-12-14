@@ -142,7 +142,7 @@ Frosted Glass cvonk:
   success-color: "rgb(118, 214, 152)"
   warning-color: "rgb(255, 219, 117)"
   error-color: "rgb(234, 114, 135)"
-  # background-image: "center / cover no-repeat fixed url('https://cdn.jsdelivr.net/gh/wessamlauf/homeassistant-frosted-glass-themes@refs/heads/main/themes/frosted-glass-dark-background.jpg')"
+  background-image: "center / cover no-repeat fixed url('/local/media/bg-2.jpg')"
   lovelace-background: "var(--background-image)"
   primary-background-color: "rgba(30, 30, 30, 1)"
   secondary-background-color: "rgba(0,0,0, 0.3)"
