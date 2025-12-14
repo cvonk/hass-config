@@ -1255,30 +1255,20 @@ button_card_templates:
         - background: "#FFFFFF10"
   icon_name:
     size: 1.4em
-    color: '#9da0a2'
+    color: "#9da0a2"
     styles:
       grid:
         - grid-template-areas: '"i n"'
         - grid-column-gap: 0.3em
       card:
-        - color: '#9da0a2'
+        - color: "#9da0a2"
         - border-radius: 0.6em
         - padding: 1em 1.4em 1em 1.2em
         - width: max-content
         - font-size: 1.06em
         - font-weight: 500
         - letter-spacing: 0.03em
-        - background: '#FFFFFF10'
-  icon_only:
-    show_name: false
-    color: '#9da0a2'
-    styles:
-      card:
-        - color: '#9da0a2'
-        - border-radius: 0.6em
-        - width: 4em
-        - height: 3.7em
-        - background: '#FFFFFF10'
+        - background: "#FFFFFF10"
 
   obsolete_base_media: # -----------------------------------------------------
     template:
@@ -3863,6 +3853,274 @@ views:
                         content:
                           type: vertical-stack
                           cards:
+                            - type: custom:maxi-media-player
+                              entities:
+                                - media_player.family_room_tv
+                                - media_player.apartment_tv
+
+                            - type: grid
+                              cards:
+                                - type: heading
+                                  heading: New section
+                                - type: vertical-stack
+                                  cards:
+                                    - type: entities
+                                      entities:
+                                        - entity: remote.family_room_tv
+                                    - type: grid
+                                      square: true
+                                      columns: 3
+                                      cards:
+                                        - type: button
+                                          show_icon: false
+                                          tap_action:
+                                            action: none
+                                          hold_action:
+                                            action: none
+                                        - type: button
+                                          icon: mdi:arrow-up-bold
+                                          tap_action:
+                                            action: perform-action
+                                            perform_action: remote.send_command
+                                            data:
+                                              command: DPAD_UP
+                                            target:
+                                              entity_id: remote.family_room_tv
+                                          hold_action:
+                                            action: none
+                                        - type: button
+                                          show_icon: false
+                                          tap_action:
+                                            action: none
+                                          hold_action:
+                                            action: none
+                                        - type: button
+                                          icon: mdi:arrow-left-bold
+                                          tap_action:
+                                            action: perform-action
+                                            perform_action: remote.send_command
+                                            data:
+                                              command: DPAD_LEFT
+                                            target:
+                                              entity_id: remote.family_room_tv
+                                          hold_action:
+                                            action: none
+                                        - type: button
+                                          icon: mdi:circle
+                                          tap_action:
+                                            action: perform-action
+                                            perform_action: remote.send_command
+                                            data:
+                                              command: DPAD_CENTER
+                                            target:
+                                              entity_id: remote.family_room_tv
+                                          hold_action:
+                                            action: perform-action
+                                            perform_action: remote.send_command
+                                            data:
+                                              command: DPAD_CENTER
+                                              hold_secs: 0.5
+                                            target:
+                                              entity_id: remote.family_room_tv
+                                        - type: button
+                                          icon: mdi:arrow-right-bold
+                                          tap_action:
+                                            action: perform-action
+                                            perform_action: remote.send_command
+                                            data:
+                                              command: DPAD_RIGHT
+                                            target:
+                                              entity_id: remote.family_room_tv
+                                          hold_action:
+                                            action: none
+                                        - type: button
+                                          icon: mdi:arrow-left
+                                          tap_action:
+                                            action: perform-action
+                                            perform_action: remote.send_command
+                                            data:
+                                              command: BACK
+                                            target:
+                                              entity_id: remote.family_room_tv
+                                          hold_action:
+                                            action: perform-action
+                                            perform_action: remote.send_command
+                                            data:
+                                              command: BACK
+                                              hold_secs: 0.5
+                                            target:
+                                              entity_id: remote.family_room_tv
+                                        - type: button
+                                          icon: mdi:arrow-down-bold
+                                          tap_action:
+                                            action: perform-action
+                                            perform_action: remote.send_command
+                                            data:
+                                              command: DPAD_DOWN
+                                            target:
+                                              entity_id: remote.family_room_tv
+                                          hold_action:
+                                            action: none
+                                        - type: button
+                                          icon: mdi:home-outline
+                                          tap_action:
+                                            action: perform-action
+                                            perform_action: remote.send_command
+                                            data:
+                                              command: HOME
+                                            target:
+                                              entity_id: remote.family_room_tv
+                                          hold_action:
+                                            action: perform-action
+                                            perform_action: remote.send_command
+                                            data:
+                                              command: HOME
+                                              hold_secs: 0.5
+                                            target:
+                                              entity_id: remote.family_room_tv
+                                    - type: grid
+                                      square: false
+                                      columns: 3
+                                      cards:
+                                        - type: button
+                                          icon: mdi:skip-previous
+                                          tap_action:
+                                            action: perform-action
+                                            perform_action: remote.send_command
+                                            data:
+                                              command: MEDIA_PREVIOUS
+                                            target:
+                                              entity_id: remote.family_room_tv
+                                          hold_action:
+                                            action: perform-action
+                                            perform_action: remote.send_command
+                                            data:
+                                              command: MEDIA_REWIND
+                                            target:
+                                              entity_id: remote.family_room_tv
+                                        - type: button
+                                          icon: mdi:play-pause
+                                          tap_action:
+                                            action: perform-action
+                                            perform_action: remote.send_command
+                                            data:
+                                              command: MEDIA_PLAY_PAUSE
+                                            target:
+                                              entity_id: remote.family_room_tv
+                                          hold_action:
+                                            action: perform-action
+                                            perform_action: remote.send_command
+                                            data:
+                                              command: MEDIA_STOP
+                                            target:
+                                              entity_id: remote.family_room_tv
+                                        - type: button
+                                          icon: mdi:skip-next
+                                          tap_action:
+                                            action: perform-action
+                                            perform_action: remote.send_command
+                                            data:
+                                              command: MEDIA_NEXT
+                                            target:
+                                              entity_id: remote.family_room_tv
+                                          hold_action:
+                                            action: perform-action
+                                            perform_action: remote.send_command
+                                            data:
+                                              command: MEDIA_FAST_FORWARD
+                                            target:
+                                              entity_id: remote.family_room_tv
+                                        - type: button
+                                          icon: mdi:volume-off
+                                          tap_action:
+                                            action: perform-action
+                                            perform_action: remote.send_command
+                                            data:
+                                              command: MUTE
+                                            target:
+                                              entity_id: remote.family_room_tv
+                                          hold_action:
+                                            action: none
+                                        - type: button
+                                          icon: mdi:volume-medium
+                                          tap_action:
+                                            action: perform-action
+                                            perform_action: remote.send_command
+                                            data:
+                                              command: VOLUME_DOWN
+                                            target:
+                                              entity_id: remote.family_room_tv
+                                          hold_action:
+                                            action: none
+                                        - type: button
+                                          icon: mdi:volume-high
+                                          tap_action:
+                                            action: perform-action
+                                            perform_action: remote.send_command
+                                            data:
+                                              command: VOLUME_UP
+                                            target:
+                                              entity_id: remote.family_room_tv
+                                          hold_action:
+                                            action: none
+                                    - type: grid
+                                      square: false
+                                      columns: 4
+                                      cards:
+                                        - type: button
+                                          icon: mdi:youtube
+                                          tap_action:
+                                            action: perform-action
+                                            perform_action: remote.turn_on
+                                            data:
+                                              activity: https://www.youtube.com
+                                            target:
+                                              entity_id: remote.family_room_tv
+                                          hold_action:
+                                            action: none
+                                        - type: button
+                                          icon: mdi:netflix
+                                          tap_action:
+                                            action: perform-action
+                                            perform_action: remote.turn_on
+                                            data:
+                                              activity: com.netflix.ninja
+                                            target:
+                                              entity_id: remote.family_room_tv
+                                          hold_action:
+                                            action: none
+                                        - type: picture
+                                          image: >-
+                                            https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Amazon_Prime_Video_logo.svg/450px-Amazon_Prime_Video_logo.svg.png
+                                          tap_action:
+                                            action: perform-action
+                                            perform_action: remote.turn_on
+                                            data:
+                                              activity: com.amazon.amazonvideo.livingroom
+                                            target:
+                                              entity_id: remote.family_room_tv
+                                          hold_action:
+                                            action: none
+                                        - type: picture
+                                          image: >-
+                                            https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Disney%2B_logo.svg/440px-Disney%2B_logo.svg.png
+                                          tap_action:
+                                            action: perform-action
+                                            perform_action: remote.turn_on
+                                            data:
+                                              activity: com.disney.disneyplus
+                                            target:
+                                              entity_id: remote.family_room_tv
+                                          hold_action:
+                                            action: none
+                                    - type: entity
+                                      entity: remote.family_room_tv
+                                      attribute: current_activity
+                                    - type: media-control
+                                      entity: media_player.family_room_tv
+                                    - type: media-control
+                                      entity: media_player.family_room_tv_remote
+
                             - type: entities
                               state_color: true
                               show_header_toggle: false
@@ -4302,7 +4560,7 @@ views:
                                   card_mod:
                                     style: *state
 
-                            - name: Play sound on phone
+                            - name: "Play sound on phone"
                               type: custom:button-card
                               icon: mdi:volume-high
                               template: icon_name
@@ -4418,7 +4676,7 @@ views:
                                   card_mod:
                                     style: *state
 
-                            - name: Play sound on phone
+                            - name: "Play sound on phone"
                               type: custom:button-card
                               icon: mdi:volume-high
                               template: icon_name
@@ -4491,7 +4749,7 @@ views:
                                   card_mod:
                                     style: *state
 
-                            - name: Play sound on phone
+                            - name: "Play sound on phone"
                               type: custom:button-card
                               icon: mdi:volume-high
                               template: icon_name
@@ -4564,7 +4822,7 @@ views:
                                   card_mod:
                                     style: *state
 
-                            - name: Play sound on phone
+                            - name: "Play sound on phone"
                               type: custom:button-card
                               icon: mdi:volume-high
                               template: icon_name

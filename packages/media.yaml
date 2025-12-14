@@ -1,16 +1,221 @@
 media_player:
-  - platform: emby
-    host: !secret emby_host
-    api_key: !secret emby_api_key
+  #  - platform: emby
+  #    host: !secret emby_host
+  #    api_key: !secret emby_api_key
 
-homeassistant:
-  customize:
-    media_player.apartment_tv:
-      friendly_name: "Tv\u00B2"
-      device_class: tv
-    media_player.family_room_tv:
-      friendly_name: "Tv\u00B2"
-      device_class: tv
+  - name: "Family room TV"
+    unique_id: family_room_tv
+    platform: universal
+    device_class: tv
+    children:
+      - media_player.family_room_tv_cast
+      - media_player.family_room_tv_remote
+    browse_media_entity: media_player.family_room_tv_cast
+    attributes:
+      state: media_player.family_room_tv_cast
+      source: media_player.family_room_tv_cast|media_content_id
+      app_name: media_player.family_room_tv_cast|app_name
+      entity_picture: media_player.family_room_tv_cast|entity_picture
+      volume_level: media_player.family_room_tv_cast|volume_level
+      is_volume_muted: media_player.family_room_tv_cast|is_volume_muted
+    commands:
+      turn_on:
+        action: media_player.turn_on
+        data:
+          entity_id: media_player.family_room_tv_remote
+      turn_off:
+        action: media_player.turn_off
+        data:
+          entity_id: media_player.family_room_tv_remote
+      toggle:
+        action: media_player.toggle
+        data:
+          entity_id: media_player.family_room_tv_remote
+      volume_up:
+        action: media_player.volume_up
+        data:
+          entity_id: media_player.family_room_tv_remote
+      volume_down:
+        action: media_player.volume_down
+        data:
+          entity_id: media_player.family_room_tv_remote
+      volume_set:
+        service: media_player.volume_set
+        data:
+          entity_id: media_player.family_room_tv_cast
+          volume_level: "{{ volume_level }}"
+      volume_mute:
+        service: media_player.volume_mute
+        data:
+          entity_id: media_player.family_room_tv_remote
+          is_volume_muted: "{{ is_volume_muted }}"
+      media_play_pause:
+        service: media_player.media_play_pause
+        data:
+          entity_id: media_player.family_room_tv_cast
+      media_play:
+        service: media_player.media_play
+        data:
+          entity_id: media_player.family_room_tv_cast
+      media_pause:
+        service: media_player.media_pause
+        data:
+          entity_id: media_player.family_room_tv_cast
+      media_stop:
+        service: media_player.media_stop
+        data:
+          entity_id: media_player.family_room_tv_cast
+      next_track:
+        service: media_player.next_track
+        data:
+          entity_id: media_player.family_room_tv_cast
+      previous_track:
+        service: media_player.previous_track
+        data:
+          entity_id: media_player.family_room_tv_cast
+      clear_playlist:
+        service: media_player.clear_playlist
+        data:
+          entity_id: media_player.family_room_tv_cast
+      shuffle_set:
+        service: media_player.shuffle_set
+        data:
+          entity_id: media_player.family_room_tv_cast
+      repeat_set:
+        service: media_player.repeat_set
+        data:
+          entity_id: media_player.family_room_tv_cast
+      play_media:
+        service: media_player.play_media
+        data:
+          entity_id: media_player.family_room_tv_cast
+          media_content_id: "{{ media_content_id }}"
+          media_content_type: "{{ media_content_type }}"
+      select_source:
+        service: media_player.select_source
+        data:
+          entity_id: media_player.family_room_tv_remote
+          #source: "{{ source }}"
+      select_sound_mode:
+        service: media_player.select_sound_mode
+        data:
+          entity_id: media_player.family_room_tv_remote
+          #sound_mode: "{{ sound_mode }}"
+      join:
+        service: media_player.join
+        data:
+          entity_id: media_player.family_room_tv_cast
+      unjoin:
+        service: media_player.unjoin
+        data:
+          entity_id: media_player.family_room_tv_cast
+
+  - name: "Apartment TV"
+    unique_id: apartment_tv
+    platform: universal
+    device_class: tv
+    children:
+      - media_player.apartment_tv_cast
+      - media_player.apartment_tv_remote
+    browse_media_entity: media_player.apartment_tv_cast
+    attributes:
+      state: media_player.apartment_tv_cast
+      source: media_player.apartment_tv_cast|media_content_id
+      app_name: media_player.apartment_tv_cast|app_name
+      entity_picture: media_player.apartment_tv_cast|entity_picture
+      volume_level: media_player.apartment_tv_cast|volume_level
+      is_volume_muted: media_player.apartment_tv_cast|is_volume_muted
+    commands:
+      turn_on:
+        action: media_player.turn_on
+        data:
+          entity_id: media_player.apartment_tv_remote
+      turn_off:
+        action: media_player.turn_off
+        data:
+          entity_id: media_player.apartment_tv_remote
+      toggle:
+        action: media_player.toggle
+        data:
+          entity_id: media_player.apartment_tv_remote
+      volume_up:
+        action: media_player.volume_up
+        data:
+          entity_id: media_player.apartment_tv_remote
+      volume_down:
+        action: media_player.volume_down
+        data:
+          entity_id: media_player.apartment_tv_remote
+      volume_set:
+        service: media_player.volume_set
+        data:
+          entity_id: media_player.apartment_tv_cast
+          volume_level: "{{ volume_level }}"
+      volume_mute:
+        service: media_player.volume_mute
+        data:
+          entity_id: media_player.apartment_tv_remote
+          is_volume_muted: "{{ is_volume_muted }}"
+      media_play_pause:
+        service: media_player.media_play_pause
+        data:
+          entity_id: media_player.apartment_tv_cast
+      media_play:
+        service: media_player.media_play
+        data:
+          entity_id: media_player.apartment_tv_cast
+      media_pause:
+        service: media_player.media_pause
+        data:
+          entity_id: media_player.apartment_tv_cast
+      media_stop:
+        service: media_player.media_stop
+        data:
+          entity_id: media_player.apartment_tv_cast
+      next_track:
+        service: media_player.next_track
+        data:
+          entity_id: media_player.apartment_tv_cast
+      previous_track:
+        service: media_player.previous_track
+        data:
+          entity_id: media_player.apartment_tv_cast
+      clear_playlist:
+        service: media_player.clear_playlist
+        data:
+          entity_id: media_player.apartment_tv_cast
+      shuffle_set:
+        service: media_player.shuffle_set
+        data:
+          entity_id: media_player.apartment_tv_cast
+      repeat_set:
+        service: media_player.repeat_set
+        data:
+          entity_id: media_player.apartment_tv_cast
+      play_media:
+        service: media_player.play_media
+        data:
+          entity_id: media_player.apartment_tv_cast
+          media_content_id: "{{ media_content_id }}"
+          media_content_type: "{{ media_content_type }}"
+      select_source:
+        service: media_player.select_source
+        data:
+          entity_id: media_player.apartment_tv_remote
+          #source: "{{ source }}"
+      select_sound_mode:
+        service: media_player.select_sound_mode
+        data:
+          entity_id: media_player.apartment_tv_remote
+          #sound_mode: "{{ sound_mode }}"
+      join:
+        service: media_player.join
+        data:
+          entity_id: media_player.apartment_tv_cast
+      unjoin:
+        service: media_player.unjoin
+        data:
+          entity_id: media_player.apartment_tv_cast
 
 #script:
 #  samsung_tv_energy_saving:
@@ -46,22 +251,6 @@ homeassistant:
 #            ] %}
 #
 #            {{ sequence | join('+') }}
-
-#  bedroom_tv_night:
-#    alias: "Night mode"
-#    icon: mdi:bed
-#    sequence:
-#      - action: media_player.volume_set
-#        data:
-#          volume_level: 0.1
-#        target:
-#          entity_id: media_player.samsung
-#      - action: light.turn_off
-#        data:
-#          transition: 10
-#        target:
-#          area_id: bedroom
-#      - action: script.samsung_tv_energy_saving
 
 template:
   - select:
