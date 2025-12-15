@@ -58,11 +58,12 @@ navbar-templates:
       }
       .navbar-card.desktop {
         padding: 4px;
-        border-radius: 32px;
+        /* border-radius: 32px; */
+        border-radius: var(--ha-card-border-radius, var(--ha-border-radius-lg));
       }
       .button.active {
         background: rgba(255,255,255, 0.7);
-        border-radius: 50%;
+        border-radius: var(--ha-card-border-radius, var(--ha-border-radius-lg));
       }
       .button:hover {
         transform: scale(1.1);
@@ -5456,136 +5457,6 @@ views:
                   variables:
                     graph_color: cornflowerblue
 
-          - type: custom:mod-card # Thermostat -------------------------------
-            card_mod:
-              style:
-                .: |
-                  ha-card, ha-card::before {
-                    border-radius: 0; 
-                    border-width: 0;
-                    box-shadow: none;
-                    backdrop-filter: none;
-                    background: transparent;
-                  }
-                hui-grid-card:
-                  $: |
-                    .card-header {
-                      padding: 0 1vw !important;
-                      font-size: max(2.0vw, 12pt) !important;
-                      line-height: 30px !important;
-                    }
-                    #root {
-                      padding: 1vw 1vw 1vw 1vw !important;
-                    }
-            card:
-              type: conditional
-              conditions:
-                - condition: or
-                  conditions:
-                    - condition: state
-                      entity: switch.opnpool_pool_circuit
-                      state: "on"
-                    - condition: state
-                      entity: switch.opnpool_spa_circuit
-                      state: "on"
-              card:
-                title: "Thermostat"
-                type: grid
-                square: false
-                columns: 1
-                cards:
-                  - name: "Pool Thermostat"
-                    type: conditional
-                    conditions:
-                      - entity: switch.opnpool_pool_circuit
-                        state: "on"
-                    card:
-                      type: custom:simple-thermostat
-                      entity: climate.opnpool_pool_heater
-                      hide:
-                        state: false
-                        temperature: false
-                      decimals: 0
-                      step_size: 1
-                      step_layout: row
-                      control:
-                        _headings: false
-                        preset:
-                          _name: "Src"
-                          none:
-                            icon: mdi:power-standby
-                            name: Off
-                          Heater:
-                            icon: mdi:fire
-                          Solar:
-                            icon: mdi:weather-sunny
-                          SolarPref:
-                            icon: mdi:refresh-auto
-                      card_mod:
-                        style: |
-                          ha-card {
-                            background-color: rgba(115, 115, 115, 0.25) !important;
-                          }
-                          header {
-                            display: none !important;
-                          }
-                          .body {
-                            padding-bottom: 0 !important;
-                          }
-                          .mode-title {
-                            font-size: 0 !important;
-                            padding: 0 !important;
-                          }
-                          .mode-item {
-                            border-radius: 10px !important;
-                          }
-
-                  - name: "Spa Thermostat"
-                    type: conditional
-                    conditions:
-                      - entity: switch.opnpool_spa_circuit
-                        state: "on"
-                    card:
-                      type: custom:simple-thermostat
-                      entity: climate.opnpool_spa_heater
-                      hide:
-                        state: false
-                        temperature: false
-                      decimals: 0
-                      step_size: 1
-                      step_layout: row
-                      control:
-                        _headings: false
-                        preset:
-                          _name: "Src"
-                          none:
-                            icon: mdi:power-standby
-                            name: Off
-                          Heater:
-                            icon: mdi:fire
-                          Solar:
-                            icon: mdi:weather-sunny
-                          SolarPref:
-                            icon: mdi:refresh-auto
-                      card_mod:
-                        style: |
-                          ha-card {
-                            background-color: rgba(115, 115, 115, 0.25) !important;
-                          }
-                          header {
-                            display: none !important;
-                          }
-                          .body {
-                            padding-bottom: 0 !important;
-                          }
-                          .mode-title {
-                            font-size: 0 !important;
-                            padding: 0 !important;
-                          }
-                          .mode-item {
-                            border-radius: 10px !important;
-                          }
-
           - type: custom:mod-card # Last water analysis ----------------------
             card_mod:
               style:
@@ -5699,6 +5570,158 @@ views:
                     warning_below: 2700
                     warning_above: 4500
                     max_value: 6000
+
+          - type: custom:mod-card # Thermostat -------------------------------
+            card_mod:
+              style:
+                .: |
+                  ha-card, ha-card::before {
+                    border-radius: 0; 
+                    border-width: 0;
+                    box-shadow: none;
+                    backdrop-filter: none;
+                    background: transparent;
+                  }
+                hui-grid-card:
+                  $: |
+                    .card-header {
+                      padding: 0 1vw !important;
+                      font-size: max(2.0vw, 12pt) !important;
+                      line-height: 30px !important;
+                    }
+                    #root {
+                      padding: 1vw 1vw 1vw 1vw !important;
+                    }
+            card:
+              type: conditional
+              conditions:
+                - condition: or
+                  conditions:
+                    - condition: state
+                      entity: switch.opnpool_pool_circuit
+                      state: "on"
+                    - condition: state
+                      entity: switch.opnpool_spa_circuit
+                      state: "on"
+              card:
+                type: custom:layout-card
+                view_layout:
+                  grid-area: cards
+                layout_type: grid-layout
+                layout:
+                  margin: 0
+                  padding: 0;
+                  grid-gap: 0
+                  grid-template-columns: 1fr
+                cards:
+                  - heading: "Thermostat"
+                    type: heading
+                    heading_style: title
+                    card_mod:
+                      style: |
+                        :host {
+                          grid-column: 1 / -1;
+                        }
+                        ha-card .content.title p {
+                          padding: 0 0 1.5vw 0;
+                          text-align: var(--ha-stack-title-text-align, start);
+                          color: var(--ha-card-header-color, var(--primary-text-color));
+                          font-family: var(--ha-card-header-font-family, inherit);  
+                          letter-spacing: -0.012em;              
+                          font-size: max(2.0vw, 12pt) !important;
+                          line-height: 30px;                  
+                          font-weight: 400;
+                        }
+
+                  - type: conditional
+                    conditions:
+                      - entity: switch.opnpool_pool_circuit
+                        state: "on"
+                    card:
+                      type: custom:simple-thermostat
+                      entity: climate.opnpool_pool_heater
+                      hide:
+                        state: false
+                        temperature: false
+                      decimals: 0
+                      step_size: 1
+                      step_layout: row
+                      control:
+                        _headings: false
+                        preset:
+                          _name: "Src"
+                          none:
+                            icon: mdi:power-standby
+                            name: Off
+                          Heater:
+                            icon: mdi:fire
+                          Solar:
+                            icon: mdi:weather-sunny
+                          SolarPref:
+                            icon: mdi:refresh-auto
+                      card_mod:
+                        style: |
+                          ha-card {
+                            background-color: rgba(115, 115, 115, 0.25) !important;
+                          }
+                          header {
+                            display: none !important;
+                          }
+                          .body {
+                            padding-bottom: 0 !important;
+                          }
+                          .mode-title {
+                            font-size: 0 !important;
+                            padding: 0 !important;
+                          }
+                          .mode-item {
+                            border-radius: 10px !important;
+                          }
+
+                  - type: conditional
+                    conditions:
+                      - entity: switch.opnpool_spa_circuit
+                        state: "on"
+                    card:
+                      type: custom:simple-thermostat
+                      entity: climate.opnpool_spa_heater
+                      hide:
+                        state: false
+                        temperature: false
+                      decimals: 0
+                      step_size: 1
+                      step_layout: row
+                      control:
+                        _headings: false
+                        preset:
+                          _name: "Src"
+                          none:
+                            icon: mdi:power-standby
+                            name: Off
+                          Heater:
+                            icon: mdi:fire
+                          Solar:
+                            icon: mdi:weather-sunny
+                          SolarPref:
+                            icon: mdi:refresh-auto
+                      card_mod:
+                        style: |
+                          ha-card {
+                            background-color: rgba(115, 115, 115, 0.25) !important;
+                          }
+                          header {
+                            display: none !important;
+                          }
+                          .body {
+                            padding-bottom: 0 !important;
+                          }
+                          .mode-title {
+                            font-size: 0 !important;
+                            padding: 0 !important;
+                          }
+                          .mode-item {
+                            border-radius: 10px !important;
+                          }
 
   #################################################
   #                                               #
