@@ -1013,7 +1013,7 @@ button_card_templates:
           background: none;
           backdrop-filter: none !important
         }
-  overflow_reminder:
+  overflow_reminder: # -------------------------------------------------------
     custom_fields:
       circle: >
         <center><ha-icon icon="mdi:dots-vertical" style="width:70%;"></ha-icon></center>
@@ -1022,6 +1022,38 @@ button_card_templates:
         circle:
           #- background: rgba(0,0,0, 0.1)
           #- border-radius: 50%
+  announcement: # ------------------------------------------------------------
+    variables:
+      - message
+    template:
+      - base
+    icon: mdi:microphone-message
+    size: 80%
+    show_state: true
+    aspect_ratio: 1/1
+    tap_action:
+      #action: call-service
+      #service: script.announce_dinner
+      action: call-service
+      service: chime_tts.say
+      data:
+        chime_path: soft
+        offset: -2250
+        message: |
+          [[[
+            return '"' + variables.message + '"';
+          ]]]
+        tts_platform: google_translate
+        language: en
+        tld: com
+        volume_level: 1.00
+        cache: true
+        #join_players: true
+        #unjoin_players: true
+        #announce: true
+      target:
+        entity_id:
+          - media_player.google_speaker_1
   pool_circuit: # ------------------------------------------------------------
     template:
       - base
@@ -3805,15 +3837,17 @@ views:
                         content:
                           type: vertical-stack
                           cards:
-                            - type: custom:maxi-media-player
-                              entities:
-                                - media_player.family_room_tv
-                                - media_player.apartment_tv
+                            - type: custom:mini-media-player
+                              entity: media_player.family_room_tv
+                              icon: mdi:music
+                              artwork: cover
+                              group: true
+                              volume_stateless: true
+                              source: icon
+                              info: short
 
                             - type: grid
                               cards:
-                                - type: heading
-                                  heading: New section
                                 - type: vertical-stack
                                   cards:
                                     - type: entities
@@ -4772,6 +4806,76 @@ views:
                                         name: /local/media/findmy.wav
                                         critical: 1
                                         volume: 1
+
+          - type: custom:mod-card # Sander's room ----------------------------
+            card_mod:
+              style:
+                .: |
+                  ha-card, ha-card::before {
+                    border-radius: 0; 
+                    border-width: 0;
+                    box-shadow: none;
+                    backdrop-filter: none;
+                    background: transparent;
+                  }
+                hui-grid-card:
+                  $: |
+                    .card-header {
+                      padding: 0 1vw !important;
+                      font-size: max(2.0vw, 12pt) !important;
+                      line-height: 30px !important;
+                    }
+                    #root {
+                      padding: 1vw 1vw 1vw 1vw !important;
+                    }
+            card:
+              type: custom:layout-card
+              layout_type: grid-layout
+              layout:
+                margin: 0
+                padding: 0;
+                grid-gap: 1vw
+                grid-template-columns: repeat(3, minmax(85px, 1fr))
+              cards:
+                - heading: "Sander's room"
+                  type: heading
+                  heading_style: title
+                  card_mod:
+                    style: |
+                      :host {
+                        grid-column: 1 / -1;
+                      }
+                      ha-card .content.title p {
+                        padding: 0 0 4px 0;
+                        text-align: var(--ha-stack-title-text-align, start);
+                        color: var(--ha-card-header-color, var(--primary-text-color));
+                        font-family: var(--ha-card-header-font-family, inherit);  
+                        letter-spacing: -0.012em;              
+                        font-size: max(2.0vw, 12pt) !important;
+                        line-height: 30px;                  
+                        font-weight: 400;
+                      }
+
+                - name: "Breakfast"
+                  type: custom:button-card
+                  entity: media_player.google_speaker_1
+                  template: announcement
+                  variables:
+                    message: "Breakfast is served"
+
+                - name: "Lunch"
+                  type: custom:button-card
+                  entity: media_player.google_speaker_1
+                  template: announcement
+                  variables:
+                    message: "Lunch is served"
+
+                - name: "Dinner"
+                  type: custom:button-card
+                  entity: media_player.google_speaker_1
+                  template: announcement
+                  variables:
+                    message: "Dinner is served"
 
   #################################################
   #                                               #
@@ -6657,50 +6761,50 @@ views:
                       - entity: binary_sensor.backup_drive_2_exceeded_max_bad_sectors
                         name: "Drive 2 exceeded max bad sectors"
 
-          - name: "Printer" # ------------------------------------------------
-            type: custom:button-card
-            template:
-              - connectivity
-              - overflow_reminder
-            entity: binary_sensor.ping_printer
-            icon: mdi:printer
-            tap_action:
-              action: fire-dom-event
-              browser_mod:
-                service: browser_mod.popup
-                data:
-                  title: "Laser printer"
-                  icon: mdi:printer
-                  card_mod:
-                    style:
-                      ha-dialog: |
-                        ha-dialog-header, .content {
-                          background: linear-gradient(to right, rgba(255, 149, 0, 0.1), rgba(255, 149, 0, 0.05));
-                        }
-                  content:
-                    type: entities
-                    card_mod:
-                      style: |
-                        ha-card {
-                          background: linear-gradient(to right, rgba(255, 149, 0, 0.1), rgba(255, 149, 0, 0.05));
-                        }
-                    entities:
-                      - entity: sensor.printer_page_count
-                        name: "Page count"
-                      - entity: sensor.printer_black
-                        name: "Toner"
-                      - entity: sensor.printer_fuser_life
-                        name: "Fuser life"
-                      - entity: sensor.printer_imaging_unit
-                        name: "Imaging unit"
-                      - entity: sensor.printer_pick_up_roller
-                        name: "Pick up roller"
-                      - entity: sensor.printer_transfer_roller
-                        name: "Transfer roller"
-                      - entity: sensor.printer_tray1_forward_roller
-                        name: "Tray forward roller"
-                      - entity: sensor.printer_tray1_retard_roller
-                        name: "Tray retard roller"
+          #- name: "Printer" # ------------------------------------------------
+          #  type: custom:button-card
+          #  template:
+          #    - connectivity
+          #    - overflow_reminder
+          #  entity: binary_sensor.ping_printer
+          #  icon: mdi:printer
+          #  tap_action:
+          #    action: fire-dom-event
+          #    browser_mod:
+          #      service: browser_mod.popup
+          #      data:
+          #        title: "Laser printer"
+          #        icon: mdi:printer
+          #        card_mod:
+          #          style:
+          #            ha-dialog: |
+          #              ha-dialog-header, .content {
+          #                background: linear-gradient(to right, rgba(255, 149, 0, 0.1), rgba(255, 149, 0, 0.05));
+          #              }
+          #        content:
+          #          type: entities
+          #          card_mod:
+          #            style: |
+          #              ha-card {
+          #                background: linear-gradient(to right, rgba(255, 149, 0, 0.1), rgba(255, 149, 0, 0.05));
+          #              }
+          #          entities:
+          #            - entity: sensor.printer_page_count
+          #              name: "Page count"
+          #            - entity: sensor.printer_black
+          #              name: "Toner"
+          #            - entity: sensor.printer_fuser_life
+          #              name: "Fuser life"
+          #            - entity: sensor.printer_imaging_unit
+          #              name: "Imaging unit"
+          #            - entity: sensor.printer_pick_up_roller
+          #              name: "Pick up roller"
+          #            - entity: sensor.printer_transfer_roller
+          #              name: "Transfer roller"
+          #            - entity: sensor.printer_tray1_forward_roller
+          #              name: "Tray forward roller"
+          #            - entity: sensor.printer_tray1_retard_roller
+          #              name: "Tray retard roller"
 
   #################################################
   #                                               #

@@ -86,4 +86,4 @@ lovelace:
 logger:
   default: warning
   logs:
-    custom_components.cable_modem_monitor: debug
+    custom_components.chime_tts: debug
