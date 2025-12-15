@@ -1,20 +1,3 @@
-sensor:
-  - unique_id: opnpool_min_air_temp
-    name: "OPNpool Min Air Temperature"
-    platform: statistics
-    state_characteristic: value_min
-    entity_id: sensor.opnpool_air_temp
-    max_age:
-      hours: 24
-
-  - unique_id: opnpool_max_air_temp
-    name: "OPNpool Max Air Temperature"
-    platform: statistics
-    state_characteristic: value_max
-    entity_id: sensor.opnpool_air_temp
-    max_age:
-      hours: 24
-
 homeassistant:
   customize:
     sensor.los_altos_country_club_aqi:
@@ -41,6 +24,38 @@ homeassistant:
     sensor.los_altos_country_club_volatile_organic_compounds_air_quality_index:
       friendly_name: "Air VOC AQI"
       icon: mdi:waves
+
+sensor:
+  - unique_id: opnpool_min_air_temp
+    name: "OPNpool Min Air Temperature"
+    platform: statistics
+    state_characteristic: value_min
+    entity_id: sensor.opnpool_air_temp
+    max_age:
+      hours: 24
+
+  - unique_id: opnpool_max_air_temp
+    name: "OPNpool Max Air Temperature"
+    platform: statistics
+    state_characteristic: value_max
+    entity_id: sensor.opnpool_air_temp
+    max_age:
+      hours: 24
+
+input_boolean:
+  fake_heater: # fake heater so Google Assistant can read the outside temperature
+    name: fake_heater
+    icon: mdi:toggle-switch-off
+    initial: false
+
+climate:
+  - unique_id: opnpool_outside_air
+    name: "OPNpool Outside_Air"
+    platform: generic_thermostat
+    heater: input_boolean.fake_heater
+    target_sensor: sensor.opnpool_last_air_temp
+    min_temp: 20
+    max_temp: 120
 
 template:
   - sensor:
@@ -115,9 +130,60 @@ template:
             undefined
           {% endif %}
 
+      - unique_id: nr_of_climate_problems
+        name: "Nr of Climate Problems"
+        icon: mdi:alert
+        state: |
+          {{
+            states.binary_sensor | 
+            selectattr('entity_id', 'match', 'binary_sensor\.climate_.*_problem') |
+            selectattr('state', 'eq', 'on') | list | count
+          }}
+
   - binary_sensor:
-      - unique_id: outside_aqi_problem
-        name: "Outside AQI Problem"
+      - unique_id: climate_main_floor_temp_problem
+        name: "Climate Main Floor Temp Problem"
+        state: >-
+          {% set value = states('sensor.main_floor_temperature') %}
+          {% if value | is_number %}
+          {{    float(value) <= 50.0 }}
+          {% else %}
+          {{     value }}
+          {% endif %}
+
+      - unique_id: climate_upstairs_floor_temp_problem
+        name: "Climate Upstairs Floor Temp Problem"
+        state: >-
+          {% set value = states('sensor.upstairs_floor_temperature') %}
+          {% if value | is_number %}
+          {{    float(value) <= 50.0 }}
+          {% else %}
+          {{     value }}
+          {% endif %}
+
+      - unique_id: upstairs_floor_cooling_status
+        name: "Upstairs Floor Cooling Status"
+        state: >-
+          {% set value = state_attr('climate.upstairs_floor', 'hvac_action') %}
+          {% if value != "unavailable" and value != "unknown" %}
+          {{     value == 'cooling' }}
+          {% else %}
+          {{     value }}
+          {%- endif %}
+        icon: >-
+          {% set value = state_attr('climate.upstairs_floor', 'hvac_action') %}
+          {% if value != "unavailable" and value != "unknown" %}
+          {%     if value == 'cooling' %}
+                  mdi:snowflake
+          {%     else %}
+                  mdi:power-on
+          {%     endif %}
+          {%  else %}
+                  mdi:help
+          {%- endif %}
+
+      - unique_id: climate_aqi_problem
+        name: "Climate AQI Problem"
         device_class: problem
         icon: mdi:alert
         state: >
@@ -128,8 +194,8 @@ template:
           {{     value }}
           {% endif %}
 
-      - unique_id: outside_temp_problem
-        name: "Outside Temp Problem"
+      - unique_id: climate_temp_problem
+        name: "Climate Temp Problem"
         device_class: problem
         icon: mdi:alert
         state: >-
@@ -140,8 +206,8 @@ template:
           {{     value }}
           {% endif %}
 
-      - unique_id: outside_humidity_problem
-        name: "Outside Humidity Problem"
+      - unique_id: climate_humidity_problem
+        name: "Climate Humidity Problem"
         device_class: problem
         icon: mdi:alert
         state: >-
@@ -151,42 +217,6 @@ template:
           {% else %}
           {{     value }}
           {% endif %}
-
-  - sensor:
-      - unique_id: nr_of_outside_problems
-        name: "Nr of Outside Problems"
-        icon: mdi:alert
-        state: |
-          {{
-            states.binary_sensor | 
-            selectattr('entity_id', 'match', 'binary_sensor\.outside_.*_problem') |
-            selectattr('state', 'eq', 'on') | list | count
-          }}
-
-  - binary_sensor:
-      - unique_id: outside_status
-        name: "Outside Status"
-        icon: mdi:alert
-        device_class: problem
-        state: >-
-          {{
-              states('sensor.nr_of_outside_problems') | int > 0
-          }}
-
-input_boolean:
-  fake_heater: # fake heater so Google Assistant can read the outside temperature
-    name: fake_heater
-    icon: mdi:toggle-switch-off
-    initial: false
-
-climate:
-  - unique_id: opnpool_outside_air
-    name: "OPNpool Outside_Air"
-    platform: generic_thermostat
-    heater: input_boolean.fake_heater
-    target_sensor: sensor.opnpool_last_air_temp
-    min_temp: 20
-    max_temp: 120
 
 google_assistant:
   entity_config:

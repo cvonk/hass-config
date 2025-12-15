@@ -73,37 +73,19 @@ navbar-templates:
         image: /local/media/hass_logo_not_selected.svg
         image_selected: /local/media/hass_logo_selected.svg
 
-      - label: "Inside" # ----------------------------------------------------
-        url: /lovelace-ui/inside
+      - label: "Climate" # ----------------------------------------------------
+        url: /lovelace-ui/climate
         icon: mdi:home-thermometer-outline
         badge:
           show: >-
             [[[
-              let id = states['sensor.nr_of_inside_problems'];
+              let id = states['sensor.nr_of_climate_problems'];
               if (id) return parseInt(id.state) > 0;
               return 0;
             ]]]
           count: >-
             [[[
-              let id = states['sensor.nr_of_inside_problems'];
-              if (id) return parseInt(id.state);
-              return 0;
-            ]]]
-        selected_color: "#007aff"
-
-      - label: "Outside" # ---------------------------------------------------
-        url: /lovelace-ui/outside
-        icon: mdi:sun-thermometer
-        badge:
-          show: >-
-            [[[
-              let id = states['sensor.nr_of_outside_problems'];
-              if (id) return parseInt(id.state) > 0;
-              return 0;
-            ]]]
-          count: >-
-            [[[
-              let id = states['sensor.nr_of_outside_problems'];
+              let id = states['sensor.nr_of_climate_problems'];
               if (id) return parseInt(id.state);
               return 0;
             ]]]
@@ -217,7 +199,7 @@ navbar-templates:
             ]]]
         selected_color: "#007aff"
 
-      - label: "Reload" # ----------------------------------------------------
+      - label: "Tools" # -----------------------------------------------------
         icon: mdi:dots-horizontal
         selected_color: "#007aff"
         tap_action:
@@ -1048,8 +1030,8 @@ button_card_templates:
         tld: com
         volume_level: 1.00
         cache: true
-        #join_players: true
-        #unjoin_players: true
+        join_players: true
+        unjoin_players: true
         #announce: true
       target:
         entity_id:
@@ -1508,7 +1490,7 @@ button_card_templates:
           opacity: 0;
         }
       }
-  graphic_outside: # ---------------------------------------------------------'
+  graphic_climate: # ---------------------------------------------------------'
     template: graphic_base # https://codepen.io/jonslater204/pen/jOmeryV
     custom_fields:
       graphic: |
@@ -2795,7 +2777,7 @@ button_card_templates:
           return `<ha-icon icon="mdi:harddisk" style="width: 12px; height: 12px; color: deepskyblue;"></ha-icon>
           SD:&nbsp;${states[variables.sd_id].state}%`
         ]]]
-  obsolete_card_title: # --------------------------------------------------------------
+  obsolete_card_title: # -----------------------------------------------------
     tap_action: # https://ui-lovelace-minimalist.github.io/UI/usage/cards/card_title/
       action: "none"
     show_icon: false
@@ -2837,7 +2819,7 @@ button_card_templates:
         - letter-spacing: -0.012em
         - line-height: var(--ha-line-height-condensed)
         - width: 100%
-  obsolete_netstat: # -----------------------------------------------------------------
+  obsolete_netstat: # --------------------------------------------------------
     template: base
     state_display: >-
       [[[
@@ -3143,7 +3125,7 @@ button_card_templates:
         }
       }
 
-  obsolete_updates_base: # ------------------------------------------------------------
+  obsolete_updates_base: # ---------------------------------------------------
     show_state: true
     show_name: false
     show_icon: false
@@ -3243,7 +3225,7 @@ button_card_templates:
           <ul>${output}</ul>
         `;
       ]]]
-  obsolete_updates_icon_name: # -------------------------------------------------------
+  obsolete_updates_icon_name: # ----------------------------------------------
     template: icon_name
     icon: mdi:open-in-new
     styles:
@@ -3254,7 +3236,7 @@ button_card_templates:
                   ? '0.3'
                   : '1';
             ]]]
-  obsolete_obsolete_updates_hass_icon_name: # --------------------------------------------------
+  obsolete_obsolete_updates_hass_icon_name: # --------------------------------
     template: icon_name
     icon: mdi:update
     styles:
@@ -3272,7 +3254,7 @@ button_card_templates:
                 ? 'flex'
                 : 'none';
             ]]]
-  obsolete_updates_hass: # ------------------------------------------------------------
+  obsolete_updates_hass: # ---------------------------------------------------
     template:
       - settings
       - obsolete_updates_base
@@ -3311,7 +3293,7 @@ button_card_templates:
             `;
         }
       ]]]
-  obsolete_hacs_iframe: # -------------------------------------------------------------
+  obsolete_hacs_iframe: # ----------------------------------------------------
     tap_action:
       action: fire-dom-event
       browser_mod:
@@ -3325,7 +3307,7 @@ button_card_templates:
             url: >
               [[[ return `/${hass.panels.config.url_path}/updates` ]]]
     template: icon_name
-  obsolete_hacs_navigate_ios: # -------------------------------------------------------
+  obsolete_hacs_navigate_ios: # ----------------------------------------------
     tap_action:
       action: fire-dom-event
       browser_mod:
@@ -4420,7 +4402,7 @@ views:
                   show_state: true
                   aspect_ratio: 1/1
 
-          - type: custom:mod-card # Who's home ------------------------------
+          - type: custom:mod-card # Who's home -------------------------------
             card_mod:
               style:
                 .: |
@@ -4808,7 +4790,7 @@ views:
                                         critical: 1
                                         volume: 1
 
-          - type: custom:mod-card # Sander's room ----------------------------
+          - type: custom:mod-card # Announcements ----------------------------
             card_mod:
               style:
                 .: |
@@ -4880,12 +4862,12 @@ views:
 
   #################################################
   #                                               #
-  #                INSIDE VIEW                    #
+  #               CLIMATE VIEW                    #
   #                                               #
   #################################################
 
-  - title: "Inside"
-    path: inside
+  - title: "Climate"
+    path: climate
     icon: mdi:home-thermometer-outline
     background: linear-gradient(to right, rgba(232, 176, 53, 0.2), rgba(232, 176, 53, 0.1)), url(/local/media/bg.jpg)
 
@@ -4919,144 +4901,6 @@ views:
 
       - type: custom:button-card
         template: graphic_inside
-        view_layout:
-          grid-area: graphic
-
-      #======
-      # CARDS
-      #======
-
-      - type: custom:layout-card
-        view_layout:
-          grid-area: cards
-        layout_type: grid-layout
-        layout:
-          margin: 0
-          padding: 0;
-          grid-gap: 1vw
-          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))
-        cards:
-          - heading: "Indoor climate controls"
-            type: heading
-            heading_style: title
-            card_mod: # ------------------------------------------------------
-              style: |
-                :host {
-                  grid-column: 1 / -1;
-                }
-                ha-card .content.title p {
-                  padding: 0;
-                  text-align: var(--ha-stack-title-text-align, start);
-                  color: var(--ha-card-header-color, var(--primary-text-color));
-                  font-family: var(--ha-card-header-font-family, inherit);  
-                  letter-spacing: -0.012em;              
-                  font-size: max(2.0vw, 12pt) !important;
-                  line-height: 30px;                  
-                  font-weight: 400;
-                }
-
-          - entity: climate.main_floor # -------------------------------------
-            type: thermostat
-            show_current_as_primary: false
-            features:
-              - type: climate-hvac-modes
-            card_mod:
-              style: |
-                ha-card {
-                  background: rgba(0,0,0, 0.3);
-                }
-
-          - entity: climate.upstairs_floor # ---------------------------------
-            type: thermostat
-            features:
-              - type: climate-hvac-modes
-            card_mod:
-              style: |
-                ha-card {
-                  background: rgba(0,0,0, 0.3);
-                }
-
-          - name: "Master Bedroom Filter" # ----------------------------------
-            entity: fan.air_filter
-            type: custom:purifier-card
-            compact_view: false
-            show_state: true
-            show_toolbar: true
-            card_mod:
-              style: |
-                ha-card {
-                  background: rgba(0,0,0, 0.3);
-                }
-                ha-card .header {
-                  display: none;
-                }
-                ha-card .state {
-                  display: none;
-                }
-                ha-card .preview {
-                  background-color: transparent !important;
-                }
-            shortcuts:
-              - name: Auto
-                icon: mdi:brightness-auto
-                preset_mode: auto
-              - name: Sleep
-                icon: mdi:weather-night
-                preset_mode: sleep
-              - name: 25%
-                icon: mdi:circle-slice-2
-                percentage: 25
-              - name: 50%
-                icon: mdi:circle-slice-4
-                percentage: 50
-              - name: 75%
-                icon: mdi:circle-slice-6
-                percentage: 75
-              - name: 100%
-                icon: mdi:circle-slice-8
-                percentage: 100
-
-  #################################################
-  #                                               #
-  #               OUTSIDE VIEW                    #
-  #                                               #
-  #################################################
-
-  - title: "Outside"
-    path: outside
-    icon: mdi:sun-thermometer
-    background: linear-gradient(to right, rgba(76, 217, 100, 0.2), rgba(76, 217, 100, 0.1)), url(/local/media/bg.jpg)
-
-    type: custom:layout-card
-    layout_type: grid-layout
-    layout:
-      margin: 2vw 2vw 0 0 /* when sidebar is hidden, it still uses a cell in the grid */
-      padding: 0;
-      grid-gap: 2vw
-      grid-template-columns: minmax(260px, 20%) 1fr
-      grid-template-rows: 1fr 60px  /* leave space for navbar */
-      grid-template-areas: |
-        "graphic cards"
-        ".       .    "
-      mediaquery:
-        "(max-width: 1200px)":
-          grid-template-columns: 0 1fr /* graphic hidden in 0-width column */
-    cards:
-      #=======
-      # NAVBAR
-      #=======
-
-      - type: custom:navbar-card
-        template: main_menu
-        view_layout:
-          grid-area: graphic
-
-      #========
-      # GRAPHIC
-      #========
-
-      - type: custom:button-card
-        template: graphic_outside
         view_layout:
           grid-area: graphic
 
@@ -5189,6 +5033,86 @@ views:
                 ha-card {
                   background: rgba(0,0,0, 0.3);
                 }
+
+          - heading: "Indoor climate controls"
+            type: heading
+            heading_style: title
+            card_mod: # ------------------------------------------------------
+              style: |
+                :host {
+                  grid-column: 1 / -1;
+                }
+                ha-card .content.title p {
+                  padding: 0;
+                  text-align: var(--ha-stack-title-text-align, start);
+                  color: var(--ha-card-header-color, var(--primary-text-color));
+                  font-family: var(--ha-card-header-font-family, inherit);  
+                  letter-spacing: -0.012em;              
+                  font-size: max(2.0vw, 12pt) !important;
+                  line-height: 30px;                  
+                  font-weight: 400;
+                }
+
+          - entity: climate.main_floor # -------------------------------------
+            type: thermostat
+            show_current_as_primary: false
+            features:
+              - type: climate-hvac-modes
+            card_mod:
+              style: |
+                ha-card {
+                  background: rgba(0,0,0, 0.3);
+                }
+
+          - entity: climate.upstairs_floor # ---------------------------------
+            type: thermostat
+            features:
+              - type: climate-hvac-modes
+            card_mod:
+              style: |
+                ha-card {
+                  background: rgba(0,0,0, 0.3);
+                }
+
+          - name: "Master Bedroom Filter" # ----------------------------------
+            entity: fan.air_filter
+            type: custom:purifier-card
+            compact_view: false
+            show_state: true
+            show_toolbar: true
+            card_mod:
+              style: |
+                ha-card {
+                  background: rgba(0,0,0, 0.3);
+                }
+                ha-card .header {
+                  display: none;
+                }
+                ha-card .state {
+                  display: none;
+                }
+                ha-card .preview {
+                  background-color: transparent !important;
+                }
+            shortcuts:
+              - name: Auto
+                icon: mdi:brightness-auto
+                preset_mode: auto
+              - name: Sleep
+                icon: mdi:weather-night
+                preset_mode: sleep
+              - name: 25%
+                icon: mdi:circle-slice-2
+                percentage: 25
+              - name: 50%
+                icon: mdi:circle-slice-4
+                percentage: 50
+              - name: 75%
+                icon: mdi:circle-slice-6
+                percentage: 75
+              - name: 100%
+                icon: mdi:circle-slice-8
+                percentage: 100
 
   #################################################
   #                                               #
@@ -6547,7 +6471,7 @@ views:
               - connectivity
               - overflow_reminder
             entity: binary_sensor.ping_ap1
-            icon: mdi:wifi
+            icon: mdi:access-point
             tap_action:
               action: fire-dom-event
               browser_mod:
@@ -6580,7 +6504,7 @@ views:
               - connectivity
               - overflow_reminder
             entity: binary_sensor.ping_ap2
-            icon: mdi:wifi
+            icon: mdi:access-point
             tap_action:
               action: fire-dom-event
               browser_mod:
@@ -6610,13 +6534,13 @@ views:
           - name: "GUEST AP1" # ----------------------------------------------
             type: custom:button-card
             template: connectivity
-            icon: mdi:wifi
+            icon: mdi:access-point
             entity: binary_sensor.ping_guest_ap1
 
           - name: "GUEST AP2" # ----------------------------------------------
             type: custom:button-card
             template: connectivity
-            icon: mdi:wifi
+            icon: mdi:access-point
             entity: binary_sensor.ping_guest_ap2
 
           - heading: "Devices" # ---------------------------------------------

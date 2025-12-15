@@ -28,7 +28,7 @@ automation: # work around ping integration limitation
             - binary_sensor.ping_modem
             - binary_sensor.ping_nas
             - binary_sensor.ping_backup
-            - binary_sensor.ping_printer
+            #- binary_sensor.ping_printer
             - binary_sensor.ping_ap1
             - binary_sensor.ping_ap2
             - binary_sensor.ping_guest_ap1
@@ -185,13 +185,3 @@ template:
           {% set highest = max(value_list) %}
           {% set idx = value_list.index(highest) %}
           {{ freq_list[idx] / 1000000.0 }}
-
-  - binary_sensor:
-      - unique_id: network_status
-        name: "Network Status"
-        icon: mdi:alert
-        device_class: problem
-        state: >-
-          {{
-              states('sensor.nr_of_network_problems') | int > 0
-          }}
