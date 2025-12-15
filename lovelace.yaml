@@ -1426,7 +1426,7 @@ button_card_templates:
         width: 100%;
         height: auto;
       }
-  graphic_inside: # ----------------------------------------------------------
+  obsolete_graphic_inside: # ----------------------------------------------------------
     template: graphic_base
     custom_fields:
       graphic: |
@@ -4869,7 +4869,8 @@ views:
   - title: "Climate"
     path: climate
     icon: mdi:home-thermometer-outline
-    background: linear-gradient(to right, rgba(232, 176, 53, 0.2), rgba(232, 176, 53, 0.1)), url(/local/media/bg.jpg)
+    #background: linear-gradient(to right, rgba(232, 176, 53, 0.2), rgba(232, 176, 53, 0.1)), url(/local/media/bg.jpg)
+    background: linear-gradient(to right, rgba(76, 217, 100, 0.2), rgba(76, 217, 100, 0.1)), url(/local/media/bg.jpg)
 
     type: custom:layout-card
     layout_type: grid-layout
@@ -4900,7 +4901,7 @@ views:
       #========
 
       - type: custom:button-card
-        template: graphic_inside
+        template: graphic_climate
         view_layout:
           grid-area: graphic
 
@@ -4935,6 +4936,32 @@ views:
                   font-size: max(2.0vw, 12pt) !important;
                   line-height: 30px;                  
                   font-weight: 400;
+                }
+
+          - name: "Backyard temp" # ------------------------------------------
+            type: custom:mini-graph-card
+            group_by: date
+            hour24: true
+            hours_to_show: 730
+            lower_bound: 32
+            upper_bound: 100
+            smoothing: false
+            show:
+              icon: false
+              legend: true
+            entities:
+              - name: max temp
+                aggregate_func: max
+                entity: sensor.opnpool_last_air_temp
+                color: brown
+              - name: min temp
+                aggregate_func: min
+                entity: sensor.opnpool_last_air_temp
+                color: cornflowerblue
+            card_mod:
+              style: |
+                ha-card {
+                  background: rgba(0,0,0, 0.3);
                 }
 
           - name: "Air Quality" # --------------------------------------------
@@ -5007,32 +5034,6 @@ views:
                       - entity: sensor.los_altos_country_club_pm10
                         icon: mdi:waves
                         name: Particles ≤ 10 µm
-
-          - name: "Backyard temp" # ------------------------------------------
-            type: custom:mini-graph-card
-            group_by: date
-            hour24: true
-            hours_to_show: 730
-            lower_bound: 32
-            upper_bound: 100
-            smoothing: false
-            show:
-              icon: false
-              legend: true
-            entities:
-              - name: max temp
-                aggregate_func: max
-                entity: sensor.opnpool_last_air_temp
-                color: brown
-              - name: min temp
-                aggregate_func: min
-                entity: sensor.opnpool_last_air_temp
-                color: cornflowerblue
-            card_mod:
-              style: |
-                ha-card {
-                  background: rgba(0,0,0, 0.3);
-                }
 
           - heading: "Indoor climate controls"
             type: heading
