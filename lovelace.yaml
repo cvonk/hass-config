@@ -1054,6 +1054,7 @@ button_card_templates:
       target:
         entity_id:
           - media_player.google_speaker_1
+          - media_player.google_speaker_2
   pool_circuit: # ------------------------------------------------------------
     template:
       - base
@@ -4837,7 +4838,7 @@ views:
                 grid-gap: 1vw
                 grid-template-columns: repeat(3, minmax(85px, 1fr))
               cards:
-                - heading: "Sander's room"
+                - heading: "Announcements"
                   type: heading
                   heading_style: title
                   card_mod:
