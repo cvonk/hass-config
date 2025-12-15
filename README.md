@@ -2,8 +2,6 @@
 
 ##  A few words to the wise
 
-# A few words to the wise ..
-
 - Use the Visual Code addon in Home Assistant, and embrase the folding editor. Fold along the folding lines '--------' to good readability.
 
 - However tempting, I didn't split up this file, because it caused problems with `!include files` remaining cached.
