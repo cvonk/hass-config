@@ -318,24 +318,24 @@ button_card_templates:
         [[[ return ['on', 'home', 'cool', 'heat', 'fan_only', 'playing',
         'unlocked', 'armed_home', 'armed_away', 'armed_night',
         'open', 'manual', 'program', 'online', 'Online'].indexOf(!entity || entity.state) !== -1; ]]]
-      state: >
-        [[[ return !entity || entity.state; ]]]
+      #state: >
+      #  [[[ return !entity || entity.state; ]]]
       entity_id: >
         [[[ return !entity || entity.entity_id; ]]]
       entity_picture: >
         [[[ return !entity || entity.attributes.entity_picture; ]]]
       timeout: >
         [[[ return !entity || Date.now() - Date.parse(entity.last_changed); ]]]
-      is_youtube: >
-        [[[
-          let is_youtube = entity?.attributes?.app_id === 'com.google.ios.youtube',
-              sensor = this?._config?.triggers_update,
-              media_title = entity?.attributes?.media_title,
-              watching_title = states[sensor]?.attributes?.title;
-          if (is_youtube && media_title === watching_title) {
-              return true;
-          }
-        ]]]
+      #is_youtube: >
+      #  [[[
+      #    let is_youtube = entity?.attributes?.app_id === 'com.google.ios.youtube',
+      #        sensor = this?._config?.triggers_update,
+      #        media_title = entity?.attributes?.media_title,
+      #        watching_title = states[sensor]?.attributes?.title;
+      #    if (is_youtube && media_title === watching_title) {
+      #        return true;
+      #    }
+      #  ]]]
     aspect_ratio: 1/1
     show_state: true
     show_icon: true
@@ -1204,7 +1204,7 @@ button_card_templates:
       ]]]
     tap_action:
     double_tab_action:
-  bubble_card_graph: # -------------------------------------------------------
+  obsoleete_bubble_card_graph: # -------------------------------------------------------
     template: no_shadow
     show_name: false
     show_state: false
@@ -1218,6 +1218,8 @@ button_card_templates:
           entity: "[[[ return entity.entity_id ]]]"
           name: "[[[ return variables.card_name ]]]"
           icon: "[[[ return variables.card_icon ]]]"
+          tap_action:
+            action: none
           card_layout: normal
           styles: |-
             ha-card {
@@ -1228,6 +1230,8 @@ button_card_templates:
           type: custom:mini-graph-card
           entities:
             - "[[[ return entity.entity_id ]]]"
+          tap_action:
+            action: none
           show:
             name: false
             icon: false
@@ -4965,7 +4969,7 @@ views:
                   background: rgba(0,0,0, 0.3);
                 }
 
-          - name: "Air Quality" # --------------------------------------------
+          - name: "Air Quality Index" # --------------------------------------------
             type: custom:mini-graph-card
             entities:
               - entity: sensor.los_altos_country_club_aqi
@@ -6046,183 +6050,330 @@ views:
           grid-gap: 1vw
           grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))
         cards:
-          - heading: "Current electric power" # ------------------------------
-            type: heading
-            heading_style: title
+          - type: custom:mod-card # Current usage ----------------------------
             card_mod:
-              style: |
-                :host {
-                  grid-column: 1 / -1;
-                }
-                ha-card .content.title p {
-                  padding: 0 0 4px 0;
-                  text-align: var(--ha-stack-title-text-align, start);
-                  color: var(--ha-card-header-color, var(--primary-text-color));
-                  font-family: var(--ha-card-header-font-family, inherit);  
-                  letter-spacing: -0.012em;              
-                  font-size: max(2.0vw, 12pt) !important;
-                  line-height: 30px;                  
-                  font-weight: 400;
-                }
-
-          - entity: sensor.sonoff_christmas_tree_power # ---------------------
-            type: custom:button-card
-            template: ts_bar
-            variables:
-              max_value: 2000
-
-          - entity: sensor.computer_power # ----------------------------------
-            type: custom:button-card
-            template: ts_bar
-            variables:
-              max_value: 2000
-
-          - entity: sensor.dryer_power # -------------------------------------
-            type: custom:button-card
-            template: ts_bar
-            variables:
-              max_value: 2000
-
-          - entity: sensor.sonoff_espresso_machine_power # -------------------
-            type: custom:button-card
-            template: ts_bar
-            variables:
-              max_value: 2000
-
-          - entity: sensor.fridge_power # ------------------------------------
-            type: custom:button-card
-            template: ts_bar
-            variables:
-              max_value: 2000
-
-          - entity: sensor.hvac_power # --------------------------------------
-            type: custom:button-card
-            template: ts_bar
-            variables:
-              max_value: 2000
-
-          - entity: sensor.light_power # -------------------------------------
-            type: custom:button-card
-            template: ts_bar
-            variables:
-              max_value: 2000
-
-          - entity: sensor.sonoff_media_power # ------------------------------
-            type: custom:button-card
-            template: ts_bar
-            variables:
-              max_value: 2000
-
-          - entity: sensor.sonoff_network_power # ----------------------------
-            type: custom:button-card
-            template: ts_bar
-            variables:
-              max_value: 2000
-
-          - entity: sensor.opnpool_pump_power # ------------------------------
-            type: custom:button-card
-            template: ts_bar
-            variables:
-              max_value: 2000
-
-          - entity: sensor.sonoff_washer_power # -----------------------------
-            type: custom:button-card
-            template: ts_bar
-            variables:
-              max_value: 2000
-
-          - entity: sensor.estimated_idle_power # ----------------------------
-            type: custom:button-card
-            template: ts_bar
-            variables:
-              max_value: 2000
-
-          - entity: sensor.unknown_power # -----------------------------------
-            type: custom:button-card
-            template: ts_bar
-            variables:
-              max_value: 2000
-
-          - heading: "Electricity and Water" # -------------------------------
-            type: heading
-            heading_style: title
-            card_mod:
-              style: |
-                :host {
-                  grid-column: 1 / -1;
-                }
-                ha-card .content.title p {
-                  padding: 0 0 4px 0;
-                  text-align: var(--ha-stack-title-text-align, start);
-                  color: var(--ha-card-header-color, var(--primary-text-color));
-                  font-family: var(--ha-card-header-font-family, inherit);  
-                  letter-spacing: -0.012em;              
-                  font-size: max(2.0vw, 12pt) !important;
-                  line-height: 30px;                  
-                  font-weight: 400;
-                }
-
-          - entity: sensor.total_power # -------------------------------------
-            type: custom:button-card
-            template: bubble_card_graph
-            variables:
-              card_name: "Electricity"
-              graph_color: "orange"
-
-          - entity: sensor.flo_shutoff_water_flow_rate_per_hour # ------------
-            type: custom:button-card
-            template: bubble_card_graph
-            variables:
-              card_name: "Water for house"
-              graph_color: "cornflowerblue"
-              card_icon: mdi:water-outline
-
-          - heading: "Month to date" # ---------------------------------------
-            type: heading
-            heading_style: title
-            card_mod:
-              style: |
-                :host {
-                  grid-column: 1 / -1;
-                }
-                ha-card .content.title p {
-                  padding: 0 0 4px 0;
-                  text-align: var(--ha-stack-title-text-align, start);
-                  color: var(--ha-card-header-color, var(--primary-text-color));
-                  font-family: var(--ha-card-header-font-family, inherit);  
-                  letter-spacing: -0.012em;              
-                  font-size: max(2.0vw, 12pt) !important;
-                  line-height: 30px;                  
-                  font-weight: 400;
-                }
-
-          - type: custom:mod-card # electric to date # -----------------------
-            style: >
-              {% set value = states('sensor.current_bill_electric_cost_to_date') %}
-              {% if float(value) == 0.0 %}
-              {{ "ha-card { display: none; }" }}
-              {% endif %}
+              style:
+                .: |
+                  ha-card, ha-card::before {
+                    border-radius: 0; 
+                    border-width: 0;
+                    box-shadow: none;
+                    backdrop-filter: none;
+                    background: transparent;
+                  }
+                hui-grid-card:
+                  $: |
+                    .card-header {
+                      padding: 0 1vw !important;
+                      font-size: max(2.0vw, 12pt) !important;
+                      line-height: 30px !important;
+                    }
+                    #root {
+                      padding: 1vw 1vw 1vw 1vw !important;
+                    }
             card:
-              entity: sensor.current_bill_electric_usage_to_date
-              type: custom:button-card
-              template: bubble_card_graph
-              variables:
-                card_name: "Electricity"
-                graph_color: "orange"
+              type: custom:layout-card
+              view_layout:
+                grid-area: cards
+              layout_type: grid-layout
+              layout:
+                margin: 0
+                padding: 0;
+                grid-gap: 1vw
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr))
+              cards:
+                - heading: "Current usage"
+                  type: heading
+                  heading_style: title
+                  card_mod:
+                    style: |
+                      :host {
+                        grid-column: 1 / -1;
+                      }
+                      ha-card .content.title p {
+                        padding: 0 0 4px 0;
+                        text-align: var(--ha-stack-title-text-align, start);
+                        color: var(--ha-card-header-color, var(--primary-text-color));
+                        font-family: var(--ha-card-header-font-family, inherit);  
+                        letter-spacing: -0.012em;              
+                        font-size: max(2.0vw, 12pt) !important;
+                        line-height: 30px;                  
+                        font-weight: 400;
+                      }
 
-          - type: custom:mod-card # gas to date ------------------------------
-            style: >
-              {% set value = states('sensor.current_bill_gas_cost_to_date') %}
-              {% if float(value) == 0.0 %}
-              {{ "ha-card { display: none; }" }}
-              {% endif %}
-            card:
-              entity: sensor.current_bill_gas_usage_to_date
-              type: custom:button-card
-              template: bubble_card_graph
-              variables:
-                card_name: "Gas"
-                graph_color: "orange"
+                - entity: sensor.total_power # -------------------------------------
+                  type: custom:button-card
+                  template:
+                    - base
+                    - overflow_reminder
+                  tap_action:
+                    action: fire-dom-event
+                    browser_mod:
+                      service: browser_mod.popup
+                      data:
+                        title: "Water for house"
+                        icon: mdi:water-outline
+                        card_mod:
+                          style:
+                            ha-dialog: |
+                              ha-dialog-header, .content {
+                                background: linear-gradient(to right, rgba(89, 86, 214, 0.2), rgba(89, 86, 214, 0.1));
+                              }
+                        content:
+                          type: custom:mod-card # Current electric usage detail ------------
+                          card_mod:
+                            style:
+                              .: |
+                                ha-card, ha-card::before {
+                                  border-radius: 0; 
+                                  border-width: 0;
+                                  box-shadow: none;
+                                  backdrop-filter: none;
+                                  background: transparent;
+                                }
+                              hui-grid-card:
+                                $: |
+                                  .card-header {
+                                    padding: 0 1vw !important;
+                                    font-size: max(2.0vw, 12pt) !important;
+                                    line-height: 30px !important;
+                                  }
+                                  #root {
+                                    padding: 1vw 1vw 1vw 1vw !important;
+                                  }
+                          card:
+                            type: custom:layout-card
+                            view_layout:
+                              grid-area: cards
+                            layout_type: grid-layout
+                            layout:
+                              margin: 0
+                              padding: 0;
+                              grid-gap: 0vw 1vw
+                              grid-template-columns: repeat(auto-fit, minmax(400px, 1fr))
+                            cards:
+                              - heading: "PG&E"
+                                type: heading
+                                heading_style: title
+                                card_mod:
+                                  style: |
+                                    :host {
+                                      grid-column: 1 / -1;
+                                    }
+                                    ha-card .content.title p {
+                                      padding: 0 0 1vw 0;
+                                      text-align: var(--ha-stack-title-text-align, start);
+                                      color: var(--ha-card-header-color, var(--primary-text-color));
+                                      font-family: var(--ha-card-header-font-family, inherit);  
+                                      letter-spacing: -0.012em;              
+                                      font-size: max(2.0vw, 12pt) !important;
+                                      line-height: 30px;                  
+                                      font-weight: 400;
+                                    }
+
+                              - type: entities
+                                card_mod:
+                                  style: |
+                                    :host {
+                                      grid-column: 1 / -1;
+                                    }
+                                    ha-card {
+                                      background: none;
+                                    }
+                                entities:
+                                  - entity: binary_sensor.utilities_eagle_200_problem
+                                    name: "Problem"
+                                  - entity: sensor.eagle_200_meter_power_demand
+                                    name: "Power demand"
+                                  - entity: sensor.eagle_200_total_meter_energy_delivered
+                                    name: "Total energy delivered"
+                                  - entity: sensor.eagle_200_total_meter_energy_received
+                                    name: "Total energy received"
+
+                              - heading: "History electric energy"
+                                type: heading
+                                heading_style: title
+                                card_mod:
+                                  style: |
+                                    :host {
+                                      grid-column: 1 / -1;
+                                    }
+                                    ha-card .content.title p {
+                                      padding: 0 0 1vw 0;
+                                      text-align: var(--ha-stack-title-text-align, start);
+                                      color: var(--ha-card-header-color, var(--primary-text-color));
+                                      font-family: var(--ha-card-header-font-family, inherit);  
+                                      letter-spacing: -0.012em;              
+                                      font-size: max(2.0vw, 12pt) !important;
+                                      line-height: 30px;                  
+                                      font-weight: 400;
+                                    }
+
+                              - type: energy-devices-graph
+
+                              - heading: "Current electric power"
+                                type: heading
+                                heading_style: title
+                                card_mod:
+                                  style: |
+                                    :host {
+                                      grid-column: 1 / -1;
+                                    }
+                                    ha-card .content.title p {
+                                      padding: 0 0 1vw 0;
+                                      text-align: var(--ha-stack-title-text-align, start);
+                                      color: var(--ha-card-header-color, var(--primary-text-color));
+                                      font-family: var(--ha-card-header-font-family, inherit);  
+                                      letter-spacing: -0.012em;              
+                                      font-size: max(2.0vw, 12pt) !important;
+                                      line-height: 30px;                  
+                                      font-weight: 400;
+                                    }
+
+                              - entity: sensor.sonoff_christmas_tree_power # ---------------------
+                                type: custom:button-card
+                                template: ts_bar
+                                variables:
+                                  max_value: 2000
+
+                              - entity: sensor.computer_power # ----------------------------------
+                                type: custom:button-card
+                                template: ts_bar
+                                variables:
+                                  max_value: 2000
+
+                              - entity: sensor.dryer_power # -------------------------------------
+                                type: custom:button-card
+                                template: ts_bar
+                                variables:
+                                  max_value: 2000
+
+                              - entity: sensor.sonoff_espresso_machine_power # -------------------
+                                type: custom:button-card
+                                template: ts_bar
+                                variables:
+                                  max_value: 2000
+
+                              - entity: sensor.fridge_power # ------------------------------------
+                                type: custom:button-card
+                                template: ts_bar
+                                variables:
+                                  max_value: 2000
+
+                              - entity: sensor.hvac_power # --------------------------------------
+                                type: custom:button-card
+                                template: ts_bar
+                                variables:
+                                  max_value: 2000
+
+                              - entity: sensor.light_power # -------------------------------------
+                                type: custom:button-card
+                                template: ts_bar
+                                variables:
+                                  max_value: 2000
+
+                              - entity: sensor.sonoff_media_power # ------------------------------
+                                type: custom:button-card
+                                template: ts_bar
+                                variables:
+                                  max_value: 2000
+
+                              - entity: sensor.sonoff_network_power # ----------------------------
+                                type: custom:button-card
+                                template: ts_bar
+                                variables:
+                                  max_value: 2000
+
+                              - entity: sensor.opnpool_pump_power # ------------------------------
+                                type: custom:button-card
+                                template: ts_bar
+                                variables:
+                                  max_value: 2000
+
+                              - entity: sensor.sonoff_washer_power # -----------------------------
+                                type: custom:button-card
+                                template: ts_bar
+                                variables:
+                                  max_value: 2000
+
+                              - entity: sensor.estimated_idle_power # ----------------------------
+                                type: custom:button-card
+                                template: ts_bar
+                                variables:
+                                  max_value: 2000
+
+                              - entity: sensor.unknown_power # -----------------------------------
+                                type: custom:button-card
+                                template: ts_bar
+                                variables:
+                                  max_value: 2000
+
+                - entity: sensor.flo_shutoff_water_flow_rate_per_hour # ------------
+                  type: custom:button-card
+                  template:
+                    - base
+                    - overflow_reminder
+                  icon: mdi:water-outline
+                  tap_action:
+                    action: fire-dom-event
+                    browser_mod:
+                      service: browser_mod.popup
+                      data:
+                        title: "Water for house"
+                        icon: mdi:water-outline
+                        card_mod:
+                          style:
+                            ha-dialog: |
+                              ha-dialog-header, .content {
+                                background: linear-gradient(to right, rgba(89, 86, 214, 0.2), rgba(89, 86, 214, 0.1));
+                              }
+                        content:
+                          type: entities
+                          card_mod:
+                            style: |
+                              ha-card {
+                                background: none;
+                              }
+                          entities:
+                            - entity: sensor.flo_shutoff_current_system_mode
+                              name: "Mode"
+                            - entity: binary_sensor.flo_shutoff_pending_system_alerts
+                              name: "Pending system alert"
+                            - entity: sensor.flo_shutoff_today_s_water_usage
+                              name: "Today's water usage"
+                            - entity: sensor.flo_shutoff_water_flow_rate
+                              name: "Water flow rate"
+                            - entity: sensor.flo_shutoff_water_pressure
+                              name: "Water pressure"
+                            - entity: sensor.flo_shutoff_water_temperature
+                              name: "Water temperature"
+
+          - heading: "Historic usage" # ---------------------------------------
+            type: heading
+            heading_style: title
+            card_mod:
+              style: |
+                :host {
+                  grid-column: 1 / -1;
+                }
+                ha-card .content.title p {
+                  padding: 0 0 4px 0;
+                  text-align: var(--ha-stack-title-text-align, start);
+                  color: var(--ha-card-header-color, var(--primary-text-color));
+                  font-family: var(--ha-card-header-font-family, inherit);  
+                  letter-spacing: -0.012em;              
+                  font-size: max(2.0vw, 12pt) !important;
+                  line-height: 30px;                  
+                  font-weight: 400;
+                }
+
+          - type: energy-date-selection
+
+          - type: energy-usage-graph
+
+          - type: energy-water-graph
+
+          - type: energy-gas-graph
 
   #################################################
   #                                               #

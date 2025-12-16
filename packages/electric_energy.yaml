@@ -59,9 +59,9 @@ template:
           {{     value }}
           {% endif %}
 
-      # group individual devices together (each enitty ends in "etl")
+      # group individual devices together (each entity ends in "etl")
 
-      - unique_id: light_energy
+      - unique_id: light_energy # from the Leviton switches/dimmers
         name: "Light Energy"
         device_class: energy
         unit_of_measurement: "kWh"
@@ -73,7 +73,7 @@ template:
               map('float', 0) | sum
           }}
 
-      - unique_id: computer_energy
+      - unique_id: computer_energy # from the sonoff/tamota
         name: "Computer Energy"
         device_class: energy
         unit_of_measurement: "kWh"
@@ -97,7 +97,7 @@ template:
               map('float', 0) | sum
           }}
 
-      - unique_id: fridge_energy
+      - unique_id: fridge_energy # from the sonoff/tamota
         name: "Fridge Energy"
         device_class: energy
         unit_of_measurement: "kWh"

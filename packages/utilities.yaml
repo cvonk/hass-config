@@ -30,8 +30,8 @@ template:
 
       - unique_id: flo_shutoff_water_flow_rate_per_hour
         name: "Flo Shutoff Water Flow Rate per hour"
-        #device_class: volume_flow_rate
-        #unit_of_measurement: "gal/h"
+        device_class: volume_flow_rate
+        unit_of_measurement: "gal/h"
         state: >-
           {% set value = states('sensor.flo_shutoff_water_flow_rate') %}
           {% if value != 'unavailable' and value != 'unknown' %}
