@@ -238,6 +238,123 @@ media_player:
       #  data:
       #    entity_id: media_player.apartment_tv_cast
 
+  - name: "Bicycle TV"
+    unique_id: bicycle_tv
+    platform: universal
+    device_class: tv
+    children:
+      - media_player.bicycle_tv_cast
+      - media_player.bicycle_tv_remote
+    browse_media_entity: media_player.bicycle_tv_cast
+    attributes:
+      state: media_player.bicycle_tv_cast
+      source: media_player.bicycle_tv_cast|media_content_id
+      app_name: media_player.bicycle_tv_cast|app_name
+      entity_picture: media_player.bicycle_tv_cast|entity_picture
+      volume_level: media_player.bicycle_tv_cast|volume_level
+      is_volume_muted: media_player.bicycle_tv_cast|is_volume_muted
+    commands:
+      turn_on:
+        action: media_player.turn_on
+        data:
+          entity_id: media_player.bicycle_tv_remote
+      turn_off:
+        action: media_player.turn_off
+        data:
+          entity_id: media_player.bicycle_tv_remote
+      toggle:
+        action: media_player.toggle
+        data:
+          entity_id: media_player.bicycle_tv_remote
+      #select_source:
+      #  service: media_player.select_source
+      #  data:
+      #    entity_id: media_player.bicycle_tv_remote
+      #    source: "{{ source }}"
+      #select_sound_mode:
+      #  service: media_player.select_sound_mode
+      #  data:
+      #    entity_id: media_player.bicycle_tv_remote
+      #    sound_mode: "{{ sound_mode }}"
+      volume_up:
+        action: media_player.volume_up
+        data:
+          entity_id: media_player.bicycle_tv_remote
+      volume_down:
+        action: media_player.volume_down
+        data:
+          entity_id: media_player.bicycle_tv_remote
+      volume_mute:
+        service: media_player.volume_mute
+        data:
+          entity_id: media_player.bicycle_tv_remote
+          is_volume_muted: "{{ is_volume_muted }}"
+      #volume_set:
+      #  service: media_player.volume_set
+      #  data:
+      #    entity_id: media_player.bicycle_tv_cast
+      #    volume_level: "{{ volume_level }}"
+      media_play_pause:
+        service: media_player.media_play_pause
+        data:
+          entity_id: media_player.bicycle_tv_cast
+      media_play:
+        service: media_player.media_play
+        data:
+          entity_id: media_player.bicycle_tv_cast
+      media_pause:
+        service: media_player.media_pause
+        data:
+          entity_id: media_player.bicycle_tv_cast
+      media_stop:
+        service: media_player.media_stop
+        data:
+          entity_id: media_player.bicycle_tv_cast
+      media_next_track:
+        service: media_player.media_next_track
+        data:
+          entity_id: media_player.bicycle_tv_cast
+      media_previous_track:
+        service: media_player.media_previous_track
+        data:
+          entity_id: media_player.bicycle_tv_cast
+      #clear_playlist:
+      #  service: media_player.clear_playlist
+      #  data:
+      #    entity_id: media_player.bicycle_tv_cast
+      #shuffle_set:
+      #  service: media_player.shuffle_set
+      #  data:
+      #    entity_id: media_player.bicycle_tv_cast
+      #    shuffle: "{{ shuffle }}"
+      #repeat_set:
+      #  service: media_player.repeat_set
+      #  data:
+      #    entity_id: media_player.bicycle_tv_cast
+      #    shuffle: "{{ repeat }}"
+      media_seek:
+        service: media_player.repeat_set
+        data:
+          entity_id: media_player.bicycle_tv_cast
+          seek_position: "{{ seek_position }}"
+      play_media:
+        service: media_player.play_media
+        data:
+          entity_id: media_player.bicycle_tv_cast
+          media_content_id: "{{ media_content_id }}"
+          media_content_type: "{{ media_content_type }}"
+          #enqueue: "{{ enqueue }}"
+          #announce: "{{ announce }}"
+          #extra: "{{ extra }}"
+      #join:
+      #  service: media_player.join
+      #  data:
+      #    entity_id: media_player.bicycle_tv_cast
+      #unjoin:
+      #  service: media_player.unjoin
+      #  data:
+      #    entity_id: media_player.bicycle_tv_cast
+
 #script:
 #  samsung_tv_energy_saving:
 #    alias: "Eco mode"
