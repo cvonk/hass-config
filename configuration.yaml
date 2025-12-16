@@ -86,4 +86,4 @@ lovelace:
 logger:
   default: warning
   logs:
-    custom_components.chime_tts: debug
+    custom_components.appname: debug
