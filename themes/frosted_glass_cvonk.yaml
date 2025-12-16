@@ -209,6 +209,8 @@ Frosted Glass cvonk:
   paper-slider-height: "5px"
   border-radius: "18px"
 
+  button-card-light-color: cornflowerblue
+
   # ========
   # CARD-MOD
   # ========

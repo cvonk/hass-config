@@ -318,24 +318,24 @@ button_card_templates:
         [[[ return ['on', 'home', 'cool', 'heat', 'fan_only', 'playing',
         'unlocked', 'armed_home', 'armed_away', 'armed_night',
         'open', 'manual', 'program', 'online', 'Online'].indexOf(!entity || entity.state) !== -1; ]]]
-      #state: >
-      #  [[[ return !entity || entity.state; ]]]
+      state: >
+        [[[ return !entity || entity.state; ]]]
       entity_id: >
         [[[ return !entity || entity.entity_id; ]]]
       entity_picture: >
         [[[ return !entity || entity.attributes.entity_picture; ]]]
       timeout: >
         [[[ return !entity || Date.now() - Date.parse(entity.last_changed); ]]]
-      #is_youtube: >
-      #  [[[
-      #    let is_youtube = entity?.attributes?.app_id === 'com.google.ios.youtube',
-      #        sensor = this?._config?.triggers_update,
-      #        media_title = entity?.attributes?.media_title,
-      #        watching_title = states[sensor]?.attributes?.title;
-      #    if (is_youtube && media_title === watching_title) {
-      #        return true;
-      #    }
-      #  ]]]
+      is_youtube: >
+        [[[
+          let is_youtube = entity?.attributes?.app_id === 'com.google.ios.youtube',
+              sensor = this?._config?.triggers_update,
+              media_title = entity?.attributes?.media_title,
+              watching_title = states[sensor]?.attributes?.title;
+          if (is_youtube && media_title === watching_title) {
+              return true;
+          }
+        ]]]
     aspect_ratio: 1/1
     show_state: true
     show_icon: true
@@ -429,7 +429,12 @@ button_card_templates:
         - line-height: 115%
         - font-size: 13px
       icon:
-        - color: var(--button-card-light-color)
+        - color: >-
+            [[[
+              return variables.state_on
+                  ? 'cornflowerblue'
+                  : 'rgba(255, 255, 255, 0.85)';
+            ]]]
         - icon_size: 600px
         - padding: 0px 0px
         - margin-top: "-25%"
@@ -585,6 +590,9 @@ button_card_templates:
           }
         ]]]
       circle_input_unit: "%"
+    styles:
+      icon:
+        - color: var(--button-card-light-color)
     extra_styles: >
       [[[
         if (entity) {  // set light color
@@ -1048,11 +1056,6 @@ button_card_templates:
     size: 80%
     show_state: true
     aspect_ratio: 1/1
-    state:
-      - value: "on"
-        styles:
-          icon:
-            - color: cornflowerblue
     state_display: |
       [[[
         let sched = states[variables.schedule_entity];
@@ -3584,14 +3587,14 @@ views:
                 - name: "Floor lamp"
                   entity: light.sonoff_floor_lamp
                   type: custom:button-card
-                  template: base
+                  template: light
                   icon: mdi:floor-lamp
                   size: 80%
 
                 - name: "Reading light"
                   entity: light.sonoff_reading_light
                   type: custom:button-card
-                  template: base
+                  template: light
                   icon: mdi:book-open
                   size: 80%
 
@@ -3646,7 +3649,7 @@ views:
 
                 - name: "Entry"
                   type: custom:button-card
-                  template: base
+                  template: light
                   entity: light.entry
                   icon: mdi:coach-lamp
                   size: 80%
@@ -3654,7 +3657,7 @@ views:
 
                 - name: "Patio"
                   type: custom:button-card
-                  template: base
+                  template: light
                   entity: light.patio
                   icon: mdi:coach-lamp
                   size: 80%
@@ -3663,7 +3666,7 @@ views:
 
                 - name: "Pool"
                   type: custom:button-card
-                  template: base
+                  template: light
                   entity: light.pool
                   icon: mdi:coach-lamp
                   size: 80%
@@ -3730,7 +3733,7 @@ views:
 
                 - name: "Left"
                   type: custom:button-card
-                  template: base
+                  template: light
                   entity: light.master_bedroom_left
                   icon: mdi:bed
                   size: 80%
@@ -3739,7 +3742,7 @@ views:
 
                 - name: "Right"
                   type: custom:button-card
-                  template: base
+                  template: light
                   entity: light.master_bedroom_right
                   icon: mdi:bed
                   size: 80%
@@ -4315,7 +4318,7 @@ views:
 
                 - name: "Standing"
                   type: custom:button-card
-                  template: base
+                  template: light
                   entity: switch.sander_bedroom
                   icon: mdi:floor-lamp-torchiere
                   size: 80%
@@ -4324,7 +4327,7 @@ views:
 
                 - name: "Dresser"
                   type: custom:button-card
-                  template: base
+                  template: light
                   entity: switch.sander_dresser
                   icon: mdi:light-recessed
                   size: 80%
