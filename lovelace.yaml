@@ -6111,7 +6111,7 @@ views:
                     browser_mod:
                       service: browser_mod.popup
                       data:
-                        title: "Water for house"
+                        title: "Electric detail"
                         icon: mdi:water-outline
                         card_mod:
                           style:
