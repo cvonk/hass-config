@@ -5040,7 +5040,7 @@ views:
                         icon: mdi:waves
                         name: Particles ≤ 10 µm
 
-          - heading: "Indoor climate controls"
+          - heading: "Inside climate controls"
             type: heading
             heading_style: title
             card_mod: # ------------------------------------------------------
@@ -6644,67 +6644,15 @@ views:
             type: custom:button-card
             template:
               - connectivity
-              - overflow_reminder
             entity: binary_sensor.ping_ap1
             icon: mdi:access-point
-            tap_action:
-              action: fire-dom-event
-              browser_mod:
-                service: browser_mod.popup
-                data:
-                  title: "WiFi LAN Access Point 1"
-                  icon: mdi:wifi
-                  card_mod:
-                    style:
-                      ha-dialog: |
-                        ha-dialog-header, .content {
-                          background: linear-gradient(to right, rgba(255, 149, 0, 0.1), rgba(255, 149, 0, 0.05));
-                        }
-                  content:
-                    type: entities
-                    card_mod:
-                      style: |
-                        ha-card {
-                          background: linear-gradient(to right, rgba(255, 149, 0, 0.1), rgba(255, 149, 0, 0.05));
-                        }
-                    entities:
-                      - entity: sensor.ap1_devices_connected
-                        name: "Devices connected"
-                      - entity: sensor.ap1_last_boot
-                        name: "Last boot"
 
           - name: "LAN AP2" # ------------------------------------------------
             type: custom:button-card
             template:
               - connectivity
-              - overflow_reminder
             entity: binary_sensor.ping_ap2
             icon: mdi:access-point
-            tap_action:
-              action: fire-dom-event
-              browser_mod:
-                service: browser_mod.popup
-                data:
-                  title: "WiFi LAN Access Point 2"
-                  icon: mdi:wifi
-                  card_mod:
-                    style:
-                      ha-dialog: |
-                        ha-dialog-header, .content {
-                          background: linear-gradient(to right, rgba(255, 149, 0, 0.1), rgba(255, 149, 0, 0.05));
-                        }
-                  content:
-                    type: entities
-                    card_mod:
-                      style: |
-                        ha-card {
-                          background: linear-gradient(to right, rgba(255, 149, 0, 0.1), rgba(255, 149, 0, 0.05));
-                        }
-                    entities:
-                      - entity: sensor.ap2_cpu_utilization
-                        name: "CPU usage"
-                      - entity: sensor.ap2_memory_utilization
-                        name: "Memory usage"
 
           - name: "GUEST AP1" # ----------------------------------------------
             type: custom:button-card
