@@ -3,6 +3,38 @@
 # individual devices are named ending "etl" (Energy TotaL).  E.g. the energy
 # of a light ends in "_lightetl".
 
+# so that Energy Config recognizes these as energy sensors
+# prevent: "The unit of measurement `kWh` is not valid together with device class `power` when processing MQTT discovery message topic"
+
+# Error 'The unit of measurement `kWh` is not valid together with
+# device class  `power`' when processing MQTT discovery message
+# topic: homeassistant/sensor/A977C1_ENERGY_Total/config',
+# message: '{
+#   'availability_topic': 'sonoff/s31-12/tele/LWT',
+#   'name': 'sonoff-s31-12 ENERGY Total',
+#   'device_class': 'power',
+#   'state_topic': 'sonoff/s31-12/tele/SENSOR',
+#   'force_update': True,
+#   'value_template': "{{value_json['ENERGY']['Total']}}",
+#   'unit_of_measurement': 'kWh',
+#   'payload_available': 'Online',
+#   'payload_not_available': 'Offline',
+#   'unique_id': 'A977C1_ENERGY_Total',
+#   'device': {'identifiers': ['A977C1']}
+# }'
+
+homeassistant:
+  customize_glob:
+    sensor.sonoff*_energy:
+      unit_of_measurement: kWh
+      device_class: energy
+      state_class: total_increasing
+      #last_reset: "1970-01-01T00:00:00+00:00"
+    sensor.sonoff*_etl:
+      unit_of_measurement: kWh
+      device_class: energy
+      state_class: total_increasing
+
 sensor:
   # energy = power integrated over time
 
@@ -65,6 +97,7 @@ template:
         name: "Light Energy"
         device_class: energy
         unit_of_measurement: "kWh"
+        state_class: total_increasing
         state: >-
           {{
               states.sensor | 
@@ -77,6 +110,7 @@ template:
         name: "Computer Energy"
         device_class: energy
         unit_of_measurement: "kWh"
+        state_class: total_increasing
         state: >-
           {{
               states.sensor | 
@@ -89,6 +123,7 @@ template:
         name: "HVAC Energy"
         device_class: energy
         unit_of_measurement: "kWh"
+        state_class: total_increasing
         state: >-
           {{
               states.sensor | 
@@ -101,6 +136,7 @@ template:
         name: "Fridge Energy"
         device_class: energy
         unit_of_measurement: "kWh"
+        state_class: total_increasing
         state: >-
           {{
               states.sensor | 
@@ -108,13 +144,3 @@ template:
               map(attribute='state') | 
               map('float', 0) | sum
           }}
-
-# so that Energy Config recognizes these as energy sensors
-# prevent: "Error 'The unit of measurement `kWh` is not valid together with device class `power`' when processing MQTT discovery message topic"
-homeassistant:
-  customize_glob:
-    sensor.*_energy:
-      unit_of_measurement: kWh
-      device_class: energy
-      state_class: total_increasing
-      last_reset: "1970-01-01T00:00:00+00:00"
