@@ -1,9 +1,52 @@
 notify:
-  - name: all_devices
+  - name: "Mobile App All"
+    unique_id: mobile_app_all
     platform: group
     services:
-      - service: mobile_app_coert_s_phone
-      - service: mobile_app_barrie_s_phone
+      - service: mobile_app_coert_phone
+      - service: mobile_app_barrie_phone
+
+  - name: "Email Coert"
+    unique_id: email_coert
+    platform: smtp
+    encryption: starttls
+    server: "smtp.gmail.com"
+    port: 587
+    timeout: 15
+    sender: !secret gmail_uname
+    username: !secret gmail_uname
+    password: !secret gmail_passwd
+    sender_name: "Home Assistant"
+    recipient: !secret gmail_coert
+
+  - name: "Email Barrie"
+    unique_id: email_barrie
+    platform: smtp
+    encryption: starttls
+    server: "smtp.gmail.com"
+    port: 587
+    timeout: 15
+    sender: !secret gmail_uname
+    username: !secret gmail_uname
+    password: !secret gmail_passwd
+    sender_name: "Home Assistant"
+    recipient: !secret gmail_barrie
+
+  - name: "Email All"
+    unique_id: email_all
+    platform: smtp
+    encryption: starttls
+    server: "smtp.gmail.com"
+    port: 587
+    timeout: 15
+    sender: !secret gmail_uname
+    username: !secret gmail_uname
+    password: !secret gmail_passwd
+    sender_name: "Home Assistant"
+    recipient:
+      - !secret gmail_coert
+      - !secret gmail_barrie
+#
 #automation:
 #  - alias: toast
 #    id: "3161036041566"
