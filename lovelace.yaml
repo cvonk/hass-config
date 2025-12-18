@@ -110,19 +110,19 @@ navbar-templates:
             ]]]
         selected_color: "#007aff"
 
-      - label: "Alarm" # ------------------------------------------------------
-        url: /lovelace-ui/alarm
+      - label: "Fire" # ------------------------------------------------------
+        url: /lovelace-ui/fire
         icon: mdi:fire
         badge:
           show: >-
             [[[
-              let id = states['sensor.nr_of_alarm_problems'];
+              let id = states['sensor.nr_of_fire_alarm_problems'];
               if (id) return parseInt(id.state) > 0;
               return 0;
             ]]]
           count: >-
             [[[
-              let id = states['sensor.nr_of_alarm_problems'];
+              let id = states['sensor.nr_of_fire_alarm_problems'];
               if (id) return parseInt(id.state);
               return 0;
             ]]]
@@ -146,19 +146,19 @@ navbar-templates:
             ]]]
         selected_color: "#007aff"
 
-      - label: "Cameras" # ---------------------------------------------------
-        url: /lovelace-ui/cameras
-        icon: mdi:camera
+      - label: "Intrusion" # ---------------------------------------------------
+        url: /lovelace-ui/intrusion
+        icon: mdi:police-badge
         badge:
           show: >-
             [[[
-              let id = states['sensor.nr_of_cameras_active'];
+              let id = states['sensor.nr_of_intrusion_alarm_problems'];
               if (id) return parseInt(id.state) > 0;
               return 0;
             ]]]
           count: >-
             [[[
-              let id = states['sensor.nr_of_cameras_active'];
+              let id = states['sensor.nr_of_intrusion_alarm_problems'];
               if (id) return parseInt(id.state);
               return 0;
             ]]]
@@ -5125,13 +5125,13 @@ views:
 
   #################################################
   #                                               #
-  #               CAMERAS VIEW                    #
+  #              INTRUSION VIEW                   #
   #                                               #
   #################################################
 
-  - title: "Cameras"
-    path: cameras
-    icon: mdi:camera
+  - title: "Intrusion"
+    path: intrusion
+    icon: mdi:police-badge
     background: linear-gradient(to right, rgba(76, 217, 100, 0.2), rgba(76, 217, 100, 0.1)), url(/local/media/bg.jpg)
 
     type: custom:layout-card
@@ -5140,7 +5140,7 @@ views:
       margin: 2vw 2vw 0 0 /* when sidebar is hidden, it still uses a cell in the grid */
       padding: 0;
       grid-gap: 2vw
-      grid-template-columns: minmax(260px, 20%) 1fr
+      grid-template-columns: minmax(120px, 20%) 1fr
       grid-template-rows: 1fr 60px  /* leave space for navbar */
       grid-template-areas: |
         "graphic cards"
@@ -5179,8 +5179,111 @@ views:
           margin: 0
           padding: 0;
           grid-gap: 1vw
-          grid-template-columns: repeat(auto-fit, minmax(500px, 1fr))
+          grid-template-columns: repeat(auto-fit, minmax(360px, 1fr))
         cards:
+          - heading: "Intrusion alarm" # -------------------------------------
+            type: heading
+            heading_style: title
+            card_mod:
+              style: |
+                :host {
+                  grid-column: 1 / -1;
+                }
+                ha-card .content.title p {
+                  padding: 0 0 4px 0;
+                  text-align: var(--ha-stack-title-text-align, start);
+                  color: var(--ha-card-header-color, var(--primary-text-color));
+                  font-family: var(--ha-card-header-font-family, inherit);  
+                  letter-spacing: -0.012em;              
+                  font-size: max(2.0vw, 12pt) !important;
+                  line-height: 30px;                  
+                  font-weight: 400;
+                }
+
+          - name: "Intrusion Alarm" # ---------------------------------------------
+            type: custom:button-card
+            template: base
+            aspect_ratio: 3/1
+            entity: alarm_control_panel.intrusion_alarm
+            triggers_update:
+              - alarm_control_panel.intrusion_alarm
+              - sensor.intrusion_status
+            label: >-
+              [[[
+                  const id = states['sensor.intrusion_status']; 
+                  return id?.state ? id.state : '';
+                  // workaround not updating https://github.com/thomasloven/hass-browser_mod/issues/981
+                  //let template = "[[[ const id = states['sensor.intrusion_status']; return id?.state ? id.state : ''; ]]]";
+                  //return template;
+              ]]]
+            show_label: true
+            tap_action:
+              action: call-service
+              service: script.toggle_intrusion_alarm
+            styles:
+              grid:
+                - align-items: start #
+                - grid-template-areas: |
+                    "n"
+                    "."
+                    "s"
+                    "."
+                    "l"
+                - grid-template-columns: 1fr
+                - grid-template-rows: min-content 1vw min-content 1vw min-content
+              name:
+                - justify-self: start # align to the left in the grid area
+                - line-height: 121%
+                - font-size: 30px
+              state:
+                - justify-self: start
+                - line-height: 115%
+                - font-size: 20px
+              label:
+                - justify-self: start
+                - line-height: 115%
+                - font-size: 20px
+
+          - type: custom:layout-card # sensors -------------------------------
+            layout_type: grid-layout
+            layout:
+              grid-gap: 1vw
+              grid-template-columns: 1fr
+            cards:
+              - type: custom:auto-entities
+                show_empty: false
+                filter:
+                  include:
+                    - domain: binary_sensor
+                      entity_id: /kc868ai_.*/
+                      state: "on"
+                      options:
+                        icon: mdi:window-open-variant
+                        type: custom:multiple-entity-row
+                        show_state: true
+                        secondary_info: last-changed
+                    - domain: binary_sensor
+                      entity_id: /ecobee_.*/
+                      state: "on"
+                      options:
+                        icon: mdi:home-thermometer-outline
+                        type: custom:multiple-entity-row
+                        show_state: true
+                        secondary_info: last-changed
+                    - domain: binary_sensor
+                      entity_id: /nest_protect_.*_occupancy/
+                      state: "on"
+                      options:
+                        icon: mdi:smoke-detector-variant
+                        type: custom:multiple-entity-row
+                        show_state: true
+                        secondary_info: last-changed
+                  exclude:
+                    - domain: binary_sensor
+                      entity_id: /kc868ai_.*unknown.*/
+                    - domain: binary_sensor
+                      entity_id: /kc868ai_.*unused.*/
+
           - heading: "Outside cameras" # -------------------------------------
             type: heading
             heading_style: title
@@ -6859,13 +6962,13 @@ views:
 
   #################################################
   #                                               #
-  #                ALARM VIEW                     #
+  #                 FIRE VIEW                     #
   #                                               #
   #################################################
 
-  - title: "Alarm"
-    path: alarm
-    icon: mdi:alarm
+  - title: "Fire Alarm"
+    path: fire
+    icon: mdi:fire
     background: linear-gradient(to right, rgba(255, 59, 48, 0.2), rgba(255, 59, 48, 0.1)), url(/local/media/bg.jpg)
 
     type: custom:layout-card
@@ -6910,7 +7013,7 @@ views:
           margin: 0
           padding: 0;
           grid-gap: 1vw
-          grid-template-columns: repeat(auto-fit, minmax(240px, 1fr))
+          grid-template-columns: repeat(auto-fit, minmax(360px, 1fr))
         cards:
           - heading: "Fire alarm" # ------------------------------------------
             type: heading
@@ -6934,7 +7037,7 @@ views:
           - name: "Fire Alarm" # ---------------------------------------------
             type: custom:button-card
             template: base
-            aspect_ratio: 1/1
+            aspect_ratio: 3/1
             entity: alarm_control_panel.fire_alarm
             triggers_update:
               - alarm_control_panel.fire_alarm
@@ -6993,65 +7096,6 @@ views:
                         type: custom:multiple-entity-row
                         show_state: true
                         secondary_info: last-changed
-
-          - heading: "Intrusion alarm" # -------------------------------------
-            type: heading
-            heading_style: title
-            card_mod:
-              style: |
-                :host {
-                  grid-column: 1 / -1;
-                }
-                ha-card .content.title p {
-                  padding: 0 0 4px 0;
-                  text-align: var(--ha-stack-title-text-align, start);
-                  color: var(--ha-card-header-color, var(--primary-text-color));
-                  font-family: var(--ha-card-header-font-family, inherit);  
-                  letter-spacing: -0.012em;              
-                  font-size: max(2.0vw, 12pt) !important;
-                  line-height: 30px;                  
-                  font-weight: 400;
-                }
-
-          - type: custom:layout-card # sensors -------------------------------
-            layout_type: grid-layout
-            layout:
-              grid-gap: 2vw
-              grid-template-columns: repeat(1, 1fr)
-            cards:
-              - type: custom:auto-entities
-                show_empty: false
-                filter:
-                  include:
-                    - domain: binary_sensor
-                      entity_id: /kc868ai_.*/
-                      state: "on"
-                      options:
-                        icon: mdi:window-open-variant
-                        type: custom:multiple-entity-row
-                        show_state: true
-                        secondary_info: last-changed
-                    - domain: binary_sensor
-                      entity_id: /ecobee_.*/
-                      state: "on"
-                      options:
-                        icon: mdi:home-thermometer-outline
-                        type: custom:multiple-entity-row
-                        show_state: true
-                        secondary_info: last-changed
-                    - domain: binary_sensor
-                      entity_id: /nest_protect_.*_occupancy/
-                      state: "on"
-                      options:
-                        icon: mdi:smoke-detector-variant
-                        type: custom:multiple-entity-row
-                        show_state: true
-                        secondary_info: last-changed
-                  exclude:
-                    - domain: binary_sensor
-                      entity_id: /kc868ai_.*unknown.*/
-                    - domain: binary_sensor
-                      entity_id: /kc868ai_.*unused.*/
 
 background:
   opacity: 100

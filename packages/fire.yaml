@@ -37,7 +37,7 @@ script:
     alias: "Disarm Fire Alarm"
     description: "Disarm Fire Alarm"
 
-# sensor.fire_status, sensor.intrusion_status are set in Node Red
+# sensor.fire_status is set in Node Red
 
 template:
   - sensor:
@@ -49,33 +49,6 @@ template:
             states.binary_sensor | 
             selectattr('entity_id', 'match', 'binary_sensor\.nest_protect_.*_status') |
             selectattr('state', 'eq', 'on') | list | count | int
-          }}
-
-  - sensor:
-      - unique_id: nr_of_intrusion_alarm_problems
-        name: "Nr of Intrusion Alarm Problems"
-        icon: mdi:police-badge
-        state: |
-          {% set open_windows = states.binary_sensor | 
-                        selectattr('entity_id', 'match', 'binary_sensor\.kc868ai_.*') |
-                        rejectattr('entity_id', 'search', '(unused|unknown)') |
-                        selectattr('state', 'eq', 'on') | list | count %}
-          {% set nest_protect_occupancy = states.binary_sensor | 
-                        selectattr('entity_id', 'match', 'binary_sensor\.nest_protect_.*_occupancy') |
-                        selectattr('state', 'eq', 'on') | list | count %}
-          {% set ecobee_occupancy = states.binary_sensor | 
-                        selectattr('entity_id', 'match', 'binary_sensor\.ecobee_.*_occupancy') |
-                        selectattr('state', 'eq', 'on') | list | count %}
-          {{ open_windows + nest_protect_occupancy + ecobee_occupancy }}
-
-  - sensor:
-      - unique_id: nr_of_alarm_problems
-        name: "Nr of Alarm Problems"
-        icon: mdi:fire
-        state: |
-          {{
-            states('sensor.nr_of_fire_alarm_problems') +
-            states('sensor.nr_of_intrusion_alarm_problems')
           }}
 
 google_assistant:

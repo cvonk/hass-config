@@ -1,0 +1,68 @@
+alarm_control_panel:
+  - unique_id: intrusion_alarm
+    name: "Intrusion Alarm"
+    platform: manual
+    code_arm_required: false
+    trigger_time: 120 # alarm fires for 2 minutes
+    disarm_after_trigger: false # stay triggered until manually cleared or times out
+    arming_time: 0 # arm immediately
+    delay_time: 35 # 35 seconds in 'pending' state until alarm is firing
+    disarmed:
+      trigger_time: 0
+
+script:
+  toggle_intrusion_alarm:
+    sequence:
+      - action: >-
+          {% set value = states('alarm_control_panel.intrusion_alarm')  %}
+          {% if value == 'disarmed' %} 
+          {{     'alarm_control_panel.alarm_arm_home' }}
+          {% else %} 
+          {{     'alarm_control_panel.alarm_disarm' }}
+          {% endif %}
+        metadata: {}
+        data: {}
+        target:
+          entity_id: alarm_control_panel.intrusion_alarm
+    alias: "Toggle Intrusion Alarm"
+    description: "Toggle Intrusion Alarm"
+
+  disarm_intrusion_alarm:
+    sequence:
+      - action: alarm_control_panel.alarm_disarm
+        metadata: {}
+        data: {}
+        target:
+          entity_id: alarm_control_panel.intrusion_alarm
+    alias: "Disarm intrusion Alarm"
+    description: "Disarm intrusion Alarm"
+
+template:
+  - sensor:
+      - unique_id: nr_of_cameras_active
+        name: "Nr of Cameras Active"
+        icon: mdi:camera
+        state: >-
+          {{
+            states.binary_sensor | 
+            selectattr('entity_id', 'match', 'binary_sensor\.aarlo_motion.*') |
+            selectattr('state', 'eq', 'on') | list | count | int
+          }}
+
+      # sensor.intrusion_status is set in Node Red
+
+      - unique_id: nr_of_intrusion_alarm_problems
+        name: "Nr of Intrusion Alarm Problems"
+        icon: mdi:police-badge
+        state: |
+          {% set open_windows_and_doors = states.binary_sensor | 
+                        selectattr('entity_id', 'match', 'binary_sensor\.kc868ai_.*') |
+                        rejectattr('entity_id', 'search', '(unused|unknown)') |
+                        selectattr('state', 'eq', 'on') | list | count %}
+          {% set nest_protect_occupancy = states.binary_sensor | 
+                        selectattr('entity_id', 'match', 'binary_sensor\.nest_protect_.*_occupancy') |
+                        selectattr('state', 'eq', 'on') | list | count %}
+          {% set ecobee_occupancy = states.binary_sensor | 
+                        selectattr('entity_id', 'match', 'binary_sensor\.ecobee_.*_occupancy') |
+                        selectattr('state', 'eq', 'on') | list | count %}
+          {{ open_windows_and_doors + nest_protect_occupancy + ecobee_occupancy }}
