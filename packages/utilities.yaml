@@ -39,36 +39,3 @@ template:
           {% else %}
           {{     value }}
           {% endif %}
-
-  - binary_sensor:
-      - name: "Utilities Status"
-        icon: mdi:alert
-        device_class: problem
-        state: >-
-          {{
-              states('sensor.nr_of_utilities_problems') | int > 0
-          }}
-
-      - unique_id: total_power_has_a_value
-        name: "Total Power has a value"
-        state: >-
-          {% set value = states('sensor.current_bill_gas_usage_to_date') %}
-          {{ value != 'unavailable' and value != 'unknown' }}
-
-      - unique_id: flo_shutoff_water_flow_rate_has_a_value
-        name: "Flo Shutoff Water Flow Rate has a value"
-        state: >-
-          {% set value = states('sensor.current_bill_gas_usage_to_date') %}
-          {{ value != 'unavailable' and value != 'unknown' }}
-
-      - unique_id: current_bill_electric_usage_to_date_has_a_value
-        name: "Current Bill Electric Usage to Date has a value"
-        state: >-
-          {% set value = states('sensor.current_bill_gas_usage_to_date') %}
-          {{ value != 'unavailable' and value != 'unknown' }}
-
-      - unique_id: current_bill_gas_usage_to_date_has_a_value
-        name: "Current Bill Gas Usage to Date has a value"
-        state: >-
-          {% set value = states('sensor.current_bill_gas_usage_to_date') %}
-          {{ value != 'unavailable' and value != 'unknown' }}

@@ -110,19 +110,19 @@ navbar-templates:
             ]]]
         selected_color: "#007aff"
 
-      - label: "Fire" # ------------------------------------------------------
-        url: /lovelace-ui/fire
+      - label: "Alarm" # ------------------------------------------------------
+        url: /lovelace-ui/alarm
         icon: mdi:fire
         badge:
           show: >-
             [[[
-              let id = states['sensor.nr_of_fire_problems'];
+              let id = states['sensor.nr_of_alarm_problems'];
               if (id) return parseInt(id.state) > 0;
               return 0;
             ]]]
           count: >-
             [[[
-              let id = states['sensor.nr_of_fire_problems'];
+              let id = states['sensor.nr_of_alarm_problems'];
               if (id) return parseInt(id.state);
               return 0;
             ]]]
@@ -6859,13 +6859,13 @@ views:
 
   #################################################
   #                                               #
-  #                 FIRE VIEW                     #
+  #                ALARM VIEW                     #
   #                                               #
   #################################################
 
-  - title: "Fire"
-    path: fire
-    icon: mdi:fire
+  - title: "Alarm"
+    path: alarm
+    icon: mdi:alarm
     background: linear-gradient(to right, rgba(255, 59, 48, 0.2), rgba(255, 59, 48, 0.1)), url(/local/media/bg.jpg)
 
     type: custom:layout-card
@@ -6993,6 +6993,65 @@ views:
                         type: custom:multiple-entity-row
                         show_state: true
                         secondary_info: last-changed
+
+          - heading: "Intrusion alarm" # -------------------------------------
+            type: heading
+            heading_style: title
+            card_mod:
+              style: |
+                :host {
+                  grid-column: 1 / -1;
+                }
+                ha-card .content.title p {
+                  padding: 0 0 4px 0;
+                  text-align: var(--ha-stack-title-text-align, start);
+                  color: var(--ha-card-header-color, var(--primary-text-color));
+                  font-family: var(--ha-card-header-font-family, inherit);  
+                  letter-spacing: -0.012em;              
+                  font-size: max(2.0vw, 12pt) !important;
+                  line-height: 30px;                  
+                  font-weight: 400;
+                }
+
+          - type: custom:layout-card # sensors -------------------------------
+            layout_type: grid-layout
+            layout:
+              grid-gap: 2vw
+              grid-template-columns: repeat(1, 1fr)
+            cards:
+              - type: custom:auto-entities
+                show_empty: false
+                filter:
+                  include:
+                    - domain: binary_sensor
+                      entity_id: /kc868ai_.*/
+                      state: "on"
+                      options:
+                        icon: mdi:window-open-variant
+                        type: custom:multiple-entity-row
+                        show_state: true
+                        secondary_info: last-changed
+                    - domain: binary_sensor
+                      entity_id: /ecobee_.*/
+                      state: "on"
+                      options:
+                        icon: mdi:home-thermometer-outline
+                        type: custom:multiple-entity-row
+                        show_state: true
+                        secondary_info: last-changed
+                    - domain: binary_sensor
+                      entity_id: /nest_protect_.*_occupancy/
+                      state: "on"
+                      options:
+                        icon: mdi:smoke-detector-variant
+                        type: custom:multiple-entity-row
+                        show_state: true
+                        secondary_info: last-changed
+                  exclude:
+                    - domain: binary_sensor
+                      entity_id: /kc868ai_.*unknown.*/
+                    - domain: binary_sensor
+                      entity_id: /kc868ai_.*unused.*/
 
 background:
   opacity: 100
