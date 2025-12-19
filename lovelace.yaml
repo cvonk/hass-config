@@ -5062,7 +5062,7 @@ views:
                   font-weight: 400;
                 }
 
-          - entity: climate.main_floor # -------------------------------------
+          - entity: climate.ecobee_main_floor # -------------------------------------
             type: thermostat
             show_current_as_primary: false
             features:
@@ -5073,7 +5073,7 @@ views:
                   background: rgba(0,0,0, 0.3);
                 }
 
-          - entity: climate.upstairs_floor # ---------------------------------
+          - entity: climate.ecobee_upstairs_floor # ---------------------------------
             type: thermostat
             features:
               - type: climate-hvac-modes
