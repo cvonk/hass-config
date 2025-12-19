@@ -87,3 +87,10 @@ logger:
   default: warning
   logs:
     custom_components.appname: debug
+
+notify_events:
+  token: !secret notify_token
+
+notify:
+  - name: events
+    platform: notify_events
