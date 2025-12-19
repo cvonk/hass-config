@@ -44,7 +44,7 @@
     below: 50
   conditions: []
   actions:
-  - action: notify.all_devices
+  - action: notify.mobile_app_all
     metadata: {}
     data:
       message: Inside temperature dropped below 50 °F
