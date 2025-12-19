@@ -39,8 +39,8 @@
   triggers:
   - trigger: numeric_state
     entity_id:
-    - sensor.main_floor_temperature
-    - sensor.upstairs_floor_temperature
+    - sensor.ecobee_main_floor_temperature
+    - sensor.ecobee_upstairs_floor_temperature
     below: 50
   conditions: []
   actions:
@@ -48,28 +48,6 @@
     metadata: {}
     data:
       message: Inside temperature dropped below 50 °F
-  mode: single
-- id: '1763962535318'
-  alias: Entry Light on motion
-  description: https://community.home-assistant.io/t/time-to-leave-the-light-on-after-last-motion-is-detected-problem/762956/8
-  triggers:
-  - trigger: state
-    entity_id: binary_sensor.aarlo_motion_entry
-    from: 'off'
-    to: 'on'
-  - trigger: state
-    entity_id: binary_sensor.aarlo_motion_entry
-    from: 'on'
-    to: 'off'
-    for:
-      minutes: 2
-  conditions:
-  - condition: sun
-    after: sunset
-  actions:
-  - action: light.turn_{{ trigger.to_state.state }}
-    target:
-      entity_id: light.entry
   mode: single
 - id: '1763962564570'
   alias: Automatically refresh browser on lovelace update
@@ -87,3 +65,49 @@
       duration: 1
   mode: single
   max_exceeded: silent
+- id: '1766116034025'
+  alias: Turn entry light on when somebody comes home after sunset
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - device_tracker.rtr_barrie_phone
+    from:
+    - not_home
+    to:
+    - home
+  - trigger: state
+    entity_id:
+    - device_tracker.rtr_coert_phone
+    from:
+    - not_home
+    to:
+    - home
+  - trigger: state
+    entity_id:
+    - device_tracker.rtr_sander_phone
+    from:
+    - not_home
+    to:
+    - home
+  conditions:
+  - condition: sun
+    before: sunrise
+    after: sunset
+  actions:
+  - action: light.turn_on
+    metadata: {}
+    target:
+      entity_id: light.entry
+    data: {}
+  - delay:
+      hours: 0
+      minutes: 3
+      seconds: 0
+      milliseconds: 0
+  - action: light.turn_off
+    metadata: {}
+    target:
+      entity_id: light.entry
+    data: {}
+  mode: single
