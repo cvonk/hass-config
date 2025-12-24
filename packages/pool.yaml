@@ -6,6 +6,7 @@ homeassistant:
       friendly_name: "Pool pump"
       icon: mdi:pump
       unique_id: opnpool_pump_power
+      device_class: power
 
 template:
   - sensor:
@@ -89,7 +90,7 @@ template:
         name: "OPNpool Chorinator Salt Problem"
         device_class: problem
         icon: mdi:alert
-        state: '{{ (states("sensor.opnpool_chlor_salt")|float(0) < 2700) or (states("sensor.opnpool_chlor_salt")|float(0) > 4500)  }}'
+        state: '{{ states(binary_sensor.opnpool_pump_running) and ((states("sensor.opnpool_chlor_salt")|float(0) < 2700) or (states("sensor.opnpool_chlor_salt")|float(0) > 4500)) }}'
 
       - unique_id: opnpool_pump_status_problem
         name: "OPNpool Pump Status Problem"
