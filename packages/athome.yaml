@@ -13,13 +13,13 @@ person:
   - name: "Coert"
     id: "coert"
     device_trackers:
-      - device_tracker.app_coert_phone
+      #- device_tracker.app_coert_phone
       - device_tracker.rtr_coert_phone
 
   - name: "Barrie"
     id: "barrie"
     device_trackers:
-      - device_tracker.app_barrie_phone
+      #- device_tracker.app_barrie_phone
       - device_tracker.rtr_barrie_phone
 
   - name: "Sander"
