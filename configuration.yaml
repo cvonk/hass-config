@@ -25,7 +25,7 @@ sensor:
       - date
 
 # when reinstalling, remember to unlink/link the automation from the Google Home App (on phone)
-# coert / xf64n3EmCdmYYYe1
+# https://community.home-assistant.io/t/how-to-configure-lets-encrypt-ssl-certificates-for-home-assistant-completely-100-free-updated-for-2022-2023/508329
 google_assistant:
   project_id: !secret google_project_id
   service_account: !include service_account.json
@@ -39,6 +39,7 @@ http:
   use_x_forwarded_for: true
   trusted_proxies:
     - 10.0.1.1
+    - 10.1.1.1
   cors_allowed_origins:
     - https://google.com
     - https://www.home-assistant.io
@@ -50,6 +51,9 @@ tts:
   - platform: google_translate
 
 notify:
+  - name: events
+    platform: notify_events
+
   - platform: group
     name: all_devices
     services:
@@ -90,7 +94,3 @@ logger:
 
 notify_events:
   token: !secret notify_token
-
-notify:
-  - name: events
-    platform: notify_events
