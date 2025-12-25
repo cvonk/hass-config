@@ -40,20 +40,3 @@ reload_theme_in_current_browser:
   alias: Reload theme in current browser
   description: Make Home Assistant load the latest theme definitions from the Theme
     YAML file. Then, rRefresh the Lovelace Frontend using  Browser Mod.
-announce_dinner:
-  sequence:
-  - action: chime_tts.say
-    data:
-      chime_path: soft
-      offset: -2250
-      message: Dinner is served
-      tts_platform: google_translate
-      language: en
-      tld: com
-      volume_level: 1
-      cache: true
-    target:
-      entity_id:
-      - media_player.google_speaker_1
-  alias: Announce dinner
-  description: ''

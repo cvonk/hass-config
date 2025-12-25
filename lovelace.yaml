@@ -18,7 +18,7 @@ kiosk_mode:
       kiosk: true
 
 wallpanel:
-  enabled: true
+  enabled: flase
   fullscreen: false
   hide_toolbar: true
   idle_time: 600
@@ -206,6 +206,18 @@ navbar-templates:
         tap_action:
           action: open-popup
         popup:
+          - label: "Configuration"
+            icon: mdi:gog
+            tap_action:
+              action: call-service
+              service: browser_mod.navigate
+              data:
+                path: /config
+          - label: "Reload"
+            icon: mdi:reload
+            tap_action:
+              action: call-service
+              service: browser_mod.refresh
           - label: "Reload theme"
             icon: mdi:reload
             tap_action:
@@ -1023,8 +1035,6 @@ button_card_templates:
     show_state: true
     aspect_ratio: 1/1
     tap_action:
-      #action: call-service
-      #service: script.announce_dinner
       action: call-service
       service: chime_tts.say
       data:
@@ -1044,8 +1054,8 @@ button_card_templates:
         #announce: true
       target:
         entity_id:
-          - media_player.google_speaker_1
-          - media_player.google_speaker_2
+          - media_player.speaker_1
+          - media_player.speaker_2
   pool_circuit: # ------------------------------------------------------------
     template:
       - base
@@ -3812,7 +3822,7 @@ views:
 
                 - name: "TV"
                   type: custom:button-card
-                  entity: media_player.family_room_tv
+                  entity: media_player.family_tv
                   template:
                     - base
                     - loader
@@ -3829,7 +3839,7 @@ views:
                           type: vertical-stack
                           cards:
                             - type: custom:mini-media-player
-                              entity: media_player.family_room_tv
+                              entity: media_player.family_tv
                               icon: mdi:music
                               artwork: cover
                               group: true
@@ -3843,7 +3853,7 @@ views:
                                   cards:
                                     - type: entities
                                       entities:
-                                        - entity: remote.family_room_tv
+                                        - entity: remote.family_tv
                                     - type: grid
                                       square: true
                                       columns: 3
@@ -3862,7 +3872,7 @@ views:
                                             data:
                                               command: DPAD_UP
                                             target:
-                                              entity_id: remote.family_room_tv
+                                              entity_id: remote.family_tv
                                           hold_action:
                                             action: none
                                         - type: button
@@ -3879,7 +3889,7 @@ views:
                                             data:
                                               command: DPAD_LEFT
                                             target:
-                                              entity_id: remote.family_room_tv
+                                              entity_id: remote.family_tv
                                           hold_action:
                                             action: none
                                         - type: button
@@ -3890,7 +3900,7 @@ views:
                                             data:
                                               command: DPAD_CENTER
                                             target:
-                                              entity_id: remote.family_room_tv
+                                              entity_id: remote.family_tv
                                           hold_action:
                                             action: perform-action
                                             perform_action: remote.send_command
@@ -3898,7 +3908,7 @@ views:
                                               command: DPAD_CENTER
                                               hold_secs: 0.5
                                             target:
-                                              entity_id: remote.family_room_tv
+                                              entity_id: remote.family_tv
                                         - type: button
                                           icon: mdi:arrow-right-bold
                                           tap_action:
@@ -3907,7 +3917,7 @@ views:
                                             data:
                                               command: DPAD_RIGHT
                                             target:
-                                              entity_id: remote.family_room_tv
+                                              entity_id: remote.family_tv
                                           hold_action:
                                             action: none
                                         - type: button
@@ -3918,7 +3928,7 @@ views:
                                             data:
                                               command: BACK
                                             target:
-                                              entity_id: remote.family_room_tv
+                                              entity_id: remote.family_tv
                                           hold_action:
                                             action: perform-action
                                             perform_action: remote.send_command
@@ -3926,7 +3936,7 @@ views:
                                               command: BACK
                                               hold_secs: 0.5
                                             target:
-                                              entity_id: remote.family_room_tv
+                                              entity_id: remote.family_tv
                                         - type: button
                                           icon: mdi:arrow-down-bold
                                           tap_action:
@@ -3935,7 +3945,7 @@ views:
                                             data:
                                               command: DPAD_DOWN
                                             target:
-                                              entity_id: remote.family_room_tv
+                                              entity_id: remote.family_tv
                                           hold_action:
                                             action: none
                                         - type: button
@@ -3946,7 +3956,7 @@ views:
                                             data:
                                               command: HOME
                                             target:
-                                              entity_id: remote.family_room_tv
+                                              entity_id: remote.family_tv
                                           hold_action:
                                             action: perform-action
                                             perform_action: remote.send_command
@@ -3954,7 +3964,7 @@ views:
                                               command: HOME
                                               hold_secs: 0.5
                                             target:
-                                              entity_id: remote.family_room_tv
+                                              entity_id: remote.family_tv
                                     - type: grid
                                       square: false
                                       columns: 3
@@ -3967,14 +3977,14 @@ views:
                                             data:
                                               command: MEDIA_PREVIOUS
                                             target:
-                                              entity_id: remote.family_room_tv
+                                              entity_id: remote.family_tv
                                           hold_action:
                                             action: perform-action
                                             perform_action: remote.send_command
                                             data:
                                               command: MEDIA_REWIND
                                             target:
-                                              entity_id: remote.family_room_tv
+                                              entity_id: remote.family_tv
                                         - type: button
                                           icon: mdi:play-pause
                                           tap_action:
@@ -3983,14 +3993,14 @@ views:
                                             data:
                                               command: MEDIA_PLAY_PAUSE
                                             target:
-                                              entity_id: remote.family_room_tv
+                                              entity_id: remote.family_tv
                                           hold_action:
                                             action: perform-action
                                             perform_action: remote.send_command
                                             data:
                                               command: MEDIA_STOP
                                             target:
-                                              entity_id: remote.family_room_tv
+                                              entity_id: remote.family_tv
                                         - type: button
                                           icon: mdi:skip-next
                                           tap_action:
@@ -3999,14 +4009,14 @@ views:
                                             data:
                                               command: MEDIA_NEXT
                                             target:
-                                              entity_id: remote.family_room_tv
+                                              entity_id: remote.family_tv
                                           hold_action:
                                             action: perform-action
                                             perform_action: remote.send_command
                                             data:
                                               command: MEDIA_FAST_FORWARD
                                             target:
-                                              entity_id: remote.family_room_tv
+                                              entity_id: remote.family_tv
                                         - type: button
                                           icon: mdi:volume-off
                                           tap_action:
@@ -4015,7 +4025,7 @@ views:
                                             data:
                                               command: MUTE
                                             target:
-                                              entity_id: remote.family_room_tv
+                                              entity_id: remote.family_tv
                                           hold_action:
                                             action: none
                                         - type: button
@@ -4026,7 +4036,7 @@ views:
                                             data:
                                               command: VOLUME_DOWN
                                             target:
-                                              entity_id: remote.family_room_tv
+                                              entity_id: remote.family_tv
                                           hold_action:
                                             action: none
                                         - type: button
@@ -4037,7 +4047,7 @@ views:
                                             data:
                                               command: VOLUME_UP
                                             target:
-                                              entity_id: remote.family_room_tv
+                                              entity_id: remote.family_tv
                                           hold_action:
                                             action: none
                                     - type: grid
@@ -4052,7 +4062,7 @@ views:
                                             data:
                                               activity: https://www.youtube.com
                                             target:
-                                              entity_id: remote.family_room_tv
+                                              entity_id: remote.family_tv
                                           hold_action:
                                             action: none
                                         - type: picture
@@ -4064,7 +4074,7 @@ views:
                                             data:
                                               activity: com.amazon.amazonvideo.livingroom
                                             target:
-                                              entity_id: remote.family_room_tv
+                                              entity_id: remote.family_tv
                                           hold_action:
                                             action: none
                                         - type: picture
@@ -4076,7 +4086,7 @@ views:
                                             data:
                                               activity: com.disney.disneyplus
                                             target:
-                                              entity_id: remote.family_room_tv
+                                              entity_id: remote.family_tv
                                           hold_action:
                                             action: none
 
@@ -4086,12 +4096,12 @@ views:
                               card_mod:
                                 class: content
                               entities:
-                                - entity: media_player.family_room_tv
+                                - entity: media_player.family_tv
                                   name: Family Room TV
                                   secondary_info: last-changed
 
                                 - type: custom:more-info-card
-                                  entity: media_player.family_room_tv
+                                  entity: media_player.family_tv
                                   card_mod:
                                     style:
                                       # hide everything but ha-select
@@ -4130,7 +4140,7 @@ views:
                                 type: horizontal-stack
                                 cards:
                                   - type: custom:button-card
-                                    entity: media_player.family_room_tv
+                                    entity: media_player.family_tv
                                     icon: mdi:volume-mute
                                     tap_action:
                                       action: call-service
@@ -4143,7 +4153,7 @@ views:
                                     template: icon_only
 
                                   - type: custom:button-card
-                                    entity: media_player.family_room_tv
+                                    entity: media_player.family_tv
                                     icon: mdi:volume-minus
                                     tap_action:
                                       action: call-service
@@ -4154,7 +4164,7 @@ views:
                                     template: icon_only
 
                                   - type: custom:button-card
-                                    entity: media_player.family_room_tv
+                                    entity: media_player.family_tv
                                     icon: mdi:volume-plus
                                     tap_action:
                                       action: call-service
@@ -4189,12 +4199,12 @@ views:
                               card_mod:
                                 class: content
                               entities:
-                                - entity: media_player.family_room_tv
+                                - entity: media_player.family_tv
                                   name: Family Room TV
                                   secondary_info: last-changed
 
                                 - type: custom:more-info-card
-                                  entity: media_player.family_room_tv
+                                  entity: media_player.family_tv
                                   card_mod:
                                     style:
                                       # hide everything but ha-select
@@ -4233,7 +4243,7 @@ views:
                                 type: horizontal-stack
                                 cards:
                                   - type: custom:button-card
-                                    entity: media_player.family_room_tv
+                                    entity: media_player.family_tv
                                     icon: mdi:volume-mute
                                     tap_action:
                                       action: call-service
@@ -4246,7 +4256,7 @@ views:
                                     template: icon_only
 
                                   - type: custom:button-card
-                                    entity: media_player.family_room_tv
+                                    entity: media_player.family_tv
                                     icon: mdi:volume-minus
                                     tap_action:
                                       action: call-service
@@ -4257,7 +4267,7 @@ views:
                                     template: icon_only
 
                                   - type: custom:button-card
-                                    entity: media_player.family_room_tv
+                                    entity: media_player.family_tv
                                     icon: mdi:volume-plus
                                     tap_action:
                                       action: call-service
@@ -4849,21 +4859,21 @@ views:
 
                 - name: "Breakfast"
                   type: custom:button-card
-                  entity: media_player.google_speaker_1
+                  entity: media_player.speaker_1
                   template: announcement
                   variables:
                     message: "Breakfast is served"
 
                 - name: "Lunch"
                   type: custom:button-card
-                  entity: media_player.google_speaker_1
+                  entity: media_player.speaker_1
                   template: announcement
                   variables:
                     message: "Lunch is served"
 
                 - name: "Dinner"
                   type: custom:button-card
-                  entity: media_player.google_speaker_1
+                  entity: media_player.speaker_1
                   template: announcement
                   variables:
                     message: "Dinner is served"
@@ -6348,7 +6358,7 @@ views:
                                 variables:
                                   max_value: 2000
 
-                              - entity: sensor.dryer_power # -------------------------------------
+                              - entity: sensor.electric_meter_dryer_power # -------------------------------------
                                 type: custom:button-card
                                 template: ts_bar
                                 variables:
@@ -6599,8 +6609,8 @@ views:
                         name: "Memory usage"
                       - entity: sensor.rtr_dhcp_leases_lan
                         name: "LAN DHCP"
-                      - entity: sensor.rtr_dhcp_leases_guest
-                        name: "GUEST DHCP"
+                      - entity: sensor.rtr_dhcp_leases_iot
+                        name: "IoT DHCP"
                       - entity: sensor.rtr_interface_wan_inbytes_kilobytes_per_second
                         name: "WAN in speed"
                         icon: mdi:download
@@ -6613,11 +6623,11 @@ views:
                       - entity: sensor.rtr_interface_lan_outbytes_kilobytes_per_second
                         name: "LAN out speed"
                         icon: mdi:upload
-                      - entity: sensor.rtr_interface_guest_inbytes_kilobytes_per_second
-                        name: "GUEST in speed"
+                      - entity: sensor.rtr_interface_iot_inbytes_kilobytes_per_second
+                        name: "IoT in speed"
                         icon: mdi:download
-                      - entity: sensor.rtr_interface_guest_outbytes_kilobytes_per_second
-                        name: "GUEST out speed"
+                      - entity: sensor.rtr_interface_iot_outbytes_kilobytes_per_second
+                        name: "IoT out speed"
                         icon: mdi:upload
                       - entity: sensor.rtr_interface_homewg_inbytes_kilobytes_per_second
                         name: "HOMEWG in speed"
@@ -6760,17 +6770,17 @@ views:
             entity: binary_sensor.ping_ap2
             icon: mdi:access-point
 
-          - name: "GUEST AP1" # ----------------------------------------------
+          - name: "IoT AP1" # ----------------------------------------------
             type: custom:button-card
             template: connectivity
             icon: mdi:access-point
-            entity: binary_sensor.ping_guest_ap1
+            entity: binary_sensor.ping_iot_ap1
 
-          - name: "GUEST AP2" # ----------------------------------------------
+          - name: "IoT AP2" # ----------------------------------------------
             type: custom:button-card
             template: connectivity
             icon: mdi:access-point
-            entity: binary_sensor.ping_guest_ap2
+            entity: binary_sensor.ping_iot_ap2
 
           - heading: "Devices" # ---------------------------------------------
             type: heading

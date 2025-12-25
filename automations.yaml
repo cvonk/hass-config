@@ -39,8 +39,8 @@
   triggers:
   - trigger: numeric_state
     entity_id:
-    - sensor.ecobee_main_floor_temperature
-    - sensor.ecobee_upstairs_floor_temperature
+    - climate.ecobee_main_floor
+    - climate.ecobee_upstairs_floor
     below: 50
   conditions: []
   actions:

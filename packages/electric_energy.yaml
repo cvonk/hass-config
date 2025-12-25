@@ -41,16 +41,16 @@ sensor:
   - unique_id: dryer_energy
     name: "Dryer Energy"
     platform: integration
-    source: sensor.dryer_power
+    source: sensor.electric_meter_dryer_power
     unit_prefix: k
     round: 2
     max_sub_interval:
       minutes: 5
 
-  - unique_id: upstairs_floor_cooling_hvacetl
-    name: "Upstairs Floor Cooling HVACetl"
+  - unique_id: upstairs_floor_cooling_hvac_ene
+    name: "Upstairs Floor Cooling HVAC ene"
     platform: integration
-    source: sensor.upstairs_floor_cooling_hvacpwr
+    source: sensor.upstairs_floor_cooling_hvac_pwr
     unit_prefix: k
     round: 2
     max_sub_interval:
@@ -101,7 +101,7 @@ template:
         state: >-
           {{
               states.sensor | 
-              selectattr('entity_id', 'match', 'sensor\..*_lightetl') |
+              selectattr('entity_id', 'match', 'sensor\..*_light_daily_ene') |
               map(attribute='state') | 
               map('float', 0) | sum
           }}
@@ -114,7 +114,7 @@ template:
         state: >-
           {{
               states.sensor | 
-              selectattr('entity_id', 'match', 'sensor\..*_computeretl') |
+              selectattr('entity_id', 'match', 'sensor\..*_computer_daily_ene') |
               map(attribute='state') | 
               map('float', 0) | sum
           }}
@@ -127,7 +127,7 @@ template:
         state: >-
           {{
               states.sensor | 
-              selectattr('entity_id', 'match', 'sensor\..*_hvacetl') |
+              selectattr('entity_id', 'match', 'sensor\..*_hvac_daily_ene') |
               map(attribute='state') | 
               map('float', 0) | sum
           }}
@@ -140,7 +140,7 @@ template:
         state: >-
           {{
               states.sensor | 
-              selectattr('entity_id', 'match', 'sensor\..*_fridgeetl') |
+              selectattr('entity_id', 'match', 'sensor\..*_fridg_daily_ene') |
               map(attribute='state') | 
               map('float', 0) | sum
           }}

@@ -6,15 +6,6 @@
 # These are reflashed with Tasmota firmware, and connected through HA using
 # the Tasmota Integration.
 
-mqtt:
-  sensor:
-    - unique_id: dryer_power
-      name: "Dryer Power"
-      state_topic: "emonesp/W"
-      device_class: "power"
-      unit_of_measurement: W
-      qos: 0
-
 template:
   - sensor:
       # total house power read from PG&E (using Eagle 200)
@@ -23,6 +14,7 @@ template:
         name: "Total Power"
         device_class: power
         unit_of_measurement: W
+        state_class: measurement
         state: >-
           {% set value = states('sensor.eagle_200_meter_power_demand') %}
           {% if value != 'unavailable' and value != 'unknown' %}
@@ -37,10 +29,11 @@ template:
         name: "Light Power"
         device_class: power
         unit_of_measurement: "W"
+        state_class: measurement
         state: >-
           {{
               states.sensor | 
-              selectattr('entity_id', 'match', 'sensor\..*_lightpwr') |
+              selectattr('entity_id', 'match', 'sensor\..*_light_pwr') |
               map(attribute='state') | 
               map('float', 0) | sum
           }}
@@ -49,10 +42,11 @@ template:
         name: "Computer Power"
         device_class: power
         unit_of_measurement: "W"
+        state_class: measurement
         state: >-
           {{
               states.sensor | 
-              selectattr('entity_id', 'match', 'sensor\..*_computerpwr') |
+              selectattr('entity_id', 'match', 'sensor\..*_computer_pwr') |
               map(attribute='state') | 
               map('float', 0) | sum
           }}
@@ -61,10 +55,11 @@ template:
         name: "HVAC Power"
         device_class: power
         unit_of_measurement: "W"
+        state_class: measurement
         state: >-
           {{
               states.sensor | 
-              selectattr('entity_id', 'match', 'sensor\..*_hvacpwr') |
+              selectattr('entity_id', 'match', 'sensor\..*_hvac_pwr') |
               map(attribute='state') | 
               map('float', 0) | sum
           }}
@@ -73,18 +68,19 @@ template:
         name: "Fridge Power"
         device_class: power
         unit_of_measurement: "W"
+        state_class: measurement
         state: >-
           {{
               states.sensor | 
-              selectattr('entity_id', 'match', 'sensor\..*_fridgepwr') |
+              selectattr('entity_id', 'match', 'sensor\..*_fridge_pwr') |
               map(attribute='state') | 
               map('float', 0) | sum
           }}
 
       # estimate power power (based on cooling status)
 
-      - unique_id: upstairs_floor_cooling_hvacpwr
-        name: "Upstairs Floor Cooling HVACpwr"
+      - unique_id: upstairs_floor_cooling_hvac_pwr
+        name: "Upstairs Floor Cooling HVAC pwr"
         device_class: power
         unit_of_measurement: W
         state_class: measurement
@@ -106,6 +102,7 @@ template:
         name: "Estimated Idle Power"
         device_class: power
         unit_of_measurement: W
+        state_class: measurement
         state: "{{ 150.0 | float(0)}}"
 
       # total power minus power from classified sources = unknown power
@@ -114,10 +111,11 @@ template:
         name: "Unknown Power"
         device_class: power
         unit_of_measurement: W
+        state_class: measurement
         state: >-
           {%  set total = states('sensor.total_power') %}
           {%  set pool = states('sensor.opnpool_pump_power') %}
-          {%  set dryer = states('sensor.dryer_power') %}
+          {%  set dryer = states('sensor.electric_meter_dryer_power') %}
           {%  set hvac = states('sensor.hvac_power') %}
           {%  set network = states('sensor.sonoff_network_power') %} 
           {%  set washer = states('sensor.sonoff_washer_power') %}
@@ -136,9 +134,8 @@ template:
           %}
           {{
                   float(total) - float(pool) - float(dryer) -
-                  float(hvac) - float(network) -
-                  float(washer) - float(media) -
-                  float(computers) - float(fridges) -
+                  float(hvac) - float(network) - float(washer) -
+                  float(media) - float(computers) - float(fridges) -
                   float(lights) - float(espresso) - float(idle)
           }}
           {% else %}
