@@ -47,10 +47,10 @@ sensor:
     max_sub_interval:
       minutes: 5
 
-  - unique_id: upstairs_floor_cooling_hvac_ene
-    name: "Upstairs Floor Cooling HVAC ene"
+  - unique_id: upstairs_hallway_cooling_hvac_ene
+    name: "Upstairs Hallway Cooling HVAC ene"
     platform: integration
-    source: sensor.upstairs_floor_cooling_hvac_pwr
+    source: sensor.upstairs_hallway_cooling_hvac_pwr
     unit_prefix: k
     round: 2
     max_sub_interval:
@@ -127,7 +127,7 @@ template:
         state: >-
           {{
               states.sensor | 
-              selectattr('entity_id', 'match', 'sensor\..*_hvac_daily_ene') |
+              selectattr('entity_id', 'match', 'sensor\..*_hvac.*_ene') |
               map(attribute='state') | 
               map('float', 0) | sum
           }}

@@ -36,8 +36,8 @@ automation: # work around ping integration limitation
 
 template:
   - binary_sensor:
-      - unique_id: network_ping_rtr_problem
-        name: "Network Ping rtr Problem"
+      - unique_id: network_ping_rtr_warning
+        name: "Network ping rtr warning"
         icon: mdi:alert
         device_class: problem
         state: >-
@@ -48,8 +48,8 @@ template:
           {{     value }}
           {% endif %}
 
-      - unique_id: network_ping_modem_problem
-        name: "Network Ping modem Problem"
+      - unique_id: network_ping_modem_warning
+        name: "Network ping modem warning"
         icon: mdi:alert
         device_class: problem
         state: >-
@@ -60,8 +60,8 @@ template:
           {{     value }}
           {% endif %}
 
-      - unique_id: network_ping_dns_problem
-        name: "Network Ping DNS Problem"
+      - unique_id: network_ping_dns_warning
+        name: "Network ping DNS warning"
         icon: mdi:alert
         device_class: problem
         state: >-
@@ -72,8 +72,8 @@ template:
           {{     value }}
           {% endif %}
 
-      - unique_id: network_ping_google_problem
-        name: "Network Ping Google Problem"
+      - unique_id: network_ping_google_warning
+        name: "Network ping Google warning"
         icon: mdi:alert
         device_class: problem
         state: >-
@@ -84,8 +84,8 @@ template:
           {{     value }}
           {% endif %}
 
-      - unique_id: network_ups_problem
-        name: "Network UPS Problem"
+      - unique_id: network_ups_warning
+        name: "Network UPS warning"
         icon: mdi:alert
         device_class: problem
         state: >-
@@ -96,8 +96,8 @@ template:
           {{     value }}
           {% endif %}
 
-      - unique_id: network_nas_problem
-        name: "Network NAS Problem"
+      - unique_id: network_nas_warning
+        name: "Network NAS warning"
         icon: mdi:alert
         device_class: problem
         state: >-
@@ -108,8 +108,8 @@ template:
           {{     value }}
           {% endif %}
 
-      - unique_id: network_backup_problem
-        name: "Network Backup Problem"
+      - unique_id: network_backup_warning
+        name: "Network backup warning"
         icon: mdi:alert
         device_class: problem
         state: >-
@@ -121,7 +121,7 @@ template:
           {% endif %}
 
       - unique_id: ups_online
-        name: "Network UPS Online"
+        name: "Network UPS online"
         device_class: connectivity
         state: >-
           {% set value = states('sensor.ups_status') %}
@@ -143,18 +143,18 @@ template:
           {% endif %}
 
   - sensor:
-      - unique_id: nr_of_network_problems
-        name: "Nr of Network Problems"
+      - unique_id: nr_of_network_warnings
+        name: "Nr of network warnings"
         icon: mdi:alert
         state: >-
           {{
               states.binary_sensor | 
-              selectattr('entity_id', 'match', 'binary_sensor\.network_.*_problem') |
+              selectattr('entity_id', 'match', 'binary_sensor\.network_.*_warning') |
               selectattr('state', 'eq', 'on') | list | count
           }}
 
       - unique_id: cable_modem_mean_s_n
-        name: "Cable Modem Mean S/N"
+        name: "Cable modem mean S/N"
         icon: mdi:signal
         state: >-
           {% set data_list = states.sensor | 
@@ -172,7 +172,7 @@ template:
           {{ (mean | round(1) | string) + " dBmV" + ", σ=" + (std_dev | round(1) | string) }}
 
       - unique_id: cable_modem_worst_freq
-        name: "Cable Modem Worst Freq"
+        name: "Cable modem worst freq"
         device_class: frequency
         unit_of_measurement: "MHz"
         state: >-

@@ -51,8 +51,8 @@ template:
 
       # sensor.intrusion_status is set in Node Red
 
-      - unique_id: nr_of_intrusion_alarm_problems
-        name: "Nr of Intrusion Alarm Problems"
+      - unique_id: nr_of_intrusion_alarm_warnings
+        name: "Nr of intrusion alarm warnings"
         icon: mdi:police-badge
         state: |
           {% set open_windows_and_doors = states.binary_sensor | 

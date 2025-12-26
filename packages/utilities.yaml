@@ -1,6 +1,6 @@
 template:
   - binary_sensor:
-      - name: "Utilities Flo Shutoff Problem"
+      - name: "Utilities Flo shutoff warning"
         state: >-
           {% set value = states('binary_sensor.flo_shutoff_pending_system_alerts') %}
           {% if value != 'unavailable' and value != 'unknown' %}
@@ -9,7 +9,7 @@ template:
           {{     value }}
           {% endif %}
 
-      - name: "Utilities Eagle 200 Problem"
+      - name: "Utilities Eagle 200 warning"
         state: >-
           {% set value = states('sensor.eagle_200_meter_power_demand') %}
           {% if value != 'unavailable' and value != 'unknown' %}
@@ -19,17 +19,17 @@ template:
           {% endif %}
 
   - sensor:
-      - name: "Nr of Utilities Problems"
+      - name: "Nr of utilities warnings"
         icon: mdi:alert
         state: >-
           {{
               states.binary_sensor | 
-              selectattr('entity_id', 'match', 'binary_sensor\.utilities_.*_problem') |
+              selectattr('entity_id', 'match', 'binary_sensor\.utilities_.*_warning') |
               selectattr('state', 'eq', 'on') | list | count
           }}
 
-      - unique_id: flo_shutoff_water_flow_rate_per_hour
-        name: "Flo Shutoff Water Flow Rate per hour"
+      - unique_id: flo_valve_inside_water_flow_rate_per_hour
+        name: "Flo valve inside water flow rate per hour"
         device_class: volume_flow_rate
         unit_of_measurement: "gal/h"
         state: >-

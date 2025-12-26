@@ -41,8 +41,8 @@ script:
 
 template:
   - sensor:
-      - unique_id: nr_of_fire_alarm_problems
-        name: "Nr of Fire Alarm Problems"
+      - unique_id: nr_of_fire_alarm_warnings
+        name: "Nr of fire alarm warnings"
         icon: mdi:fire
         state: |
           {{

@@ -7,22 +7,22 @@ light:
     password: !secret decora_passwd
 
   - platform: group
-    name: "Outside Group"
+    name: "Outside group"
     entities:
       - light.entry
-      - light.patio
+      - light.garden
       - light.pool
       #- switch.opnpool_aux2_circuit
 
   - platform: group
-    name: "MBR Group"
+    name: "MBR group"
     entities:
       - light.master_bedroom_dimmer
       - light.master_bedroom_left
       - light.master_bedroom_right
 
   - platform: group
-    name: "Living Room Group"
+    name: "Living room group"
     entities:
       - light.living_room_dimmer
       - light.sonoff_reading_light
@@ -32,13 +32,13 @@ switch:
   - platform: group
     name: "Sander"
     entities:
-      - switch.sander_bedroom
-      - switch.sander_dresser
+      - light.sander_standing_lamp
+      - light.sander_recessed
 
 template:
   - sensor:
       - unique_id: dining_room_dimmer_light_pwr # purposely use pwr instead of power
-        name: "Dining Room Dimmer Light Pwr"
+        name: "Dining room dimmer light pwr"
         state: >-
           {% set id = 'light.dining_room_dimmer' %}
           {% set value = states(id) %}
@@ -55,7 +55,7 @@ template:
           {% endif %}
 
       - unique_id: family_room_dimmer_light_pwr
-        name: "Family Room Dimmer Light Pwr"
+        name: "Family room dimmer light pwr"
         state: >-
           {% set id = 'light.family_room_dimmer' %}
           {% set value = states(id) %}
@@ -72,7 +72,7 @@ template:
           {% endif %}
 
       - unique_id: living_room_dimmer_light_pwr
-        name: "Living Room Dimmer Light Pwr"
+        name: "Living room dimmer light pwr"
         state: >-
           {% set id = 'light.living_room_dimmer' %}
           {% set value = states(id) %}
@@ -89,7 +89,7 @@ template:
           {% endif %}
 
       - unique_id: master_bedroom_dimmer_light_pwr
-        name: "Master Bedroom Dimmer Light_Pwr"
+        name: "Master bedroom dimmer light pwr"
         state: >-
           {% set id = 'light.master_bedroom_dimmer' %}
           {% set value = states(id) %}
@@ -106,7 +106,7 @@ template:
           {% endif %}
 
       - unique_id: master_bedroom_left_light_pwr
-        name: "Master Bedroom Left Light Pwr"
+        name: "Master bedroom left light pwr"
         state: >-
           {% set id = 'light.master_bedroom_left' %}
           {% set value = states(id) %}
@@ -122,7 +122,7 @@ template:
           {% endif %}
 
       - unique_id: master_bedroom_right_light_pwr
-        name: "Master Bedroom Right Light Pwr"
+        name: "Master bedroom right light pwr"
         state: >-
           {% set id = 'light.master_bedroom_right' %}
           {% set value = states(id) %}
@@ -138,7 +138,7 @@ template:
           {% endif %}
 
       - unique_id: stairs_dimmer_light_pwr
-        name: "Stairs Dimmer Light Pwr"
+        name: "Stairs dimmer light pwr"
         state: >-
           {% set id = 'light.stairs_dimmer' %}
           {% set value = states(id) %}
@@ -155,7 +155,7 @@ template:
           {% endif %}
 
       - unique_id: entry_light_pwr
-        name: "Entry Light Pwr"
+        name: "Entry light pwr"
         state: >-
           {% set id = 'light.entry' %}
           {% set value = states(id) %}
@@ -170,10 +170,10 @@ template:
           {{     value }}
           {% endif %}
 
-      - unique_id: patio_light_pwr
-        name: "Patio Light Pwr"
+      - unique_id: garden_light_pwr
+        name: "Garden light pwr"
         state: >-
-          {% set id = 'light.patio' %}
+          {% set id = 'light.garden' %}
           {% set value = states(id) %}
           {% set max_power = 2 * 9.0 %}
           {% if value != 'unavailable' and value != 'unknown' %}
@@ -187,7 +187,7 @@ template:
           {% endif %}
 
       - unique_id: pool_light_pwr
-        name: "Pool Light Pwr"
+        name: "Pool light pwr"
         state: >-
           {% set id = 'light.pool' %}
           {% set value = states(id) %}
@@ -203,7 +203,7 @@ template:
           {% endif %}
 
       - unique_id: pool_underwater_light_pwr
-        name: "Pool Underwater Light Pwr"
+        name: "Pool underwater light pwr"
         state: >-
           {% set id = 'switch.opnpool_aux2_circuit' %}
           {% set value = states(id) %}

@@ -79,13 +79,13 @@ template:
 
       # estimate power power (based on cooling status)
 
-      - unique_id: upstairs_floor_cooling_hvac_pwr
-        name: "Upstairs Floor Cooling HVAC pwr"
+      - unique_id: upstairs_hallway_cooling_hvac_pwr
+        name: "Upstairs Hallway Cooling HVAC pwr"
         device_class: power
         unit_of_measurement: W
         state_class: measurement
         state: >-
-          {% set value = states('binary_sensor.upstairs_floor_cooling_status') %}
+          {% set value = states('binary_sensor.upstairs_hallway_cooling_status') %}
           {% if value != 'unavailable' and value != 'unknown' %}
           {%     if value == "on" %}
           {{         float(value) * 2700.0 }}

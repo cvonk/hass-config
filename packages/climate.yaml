@@ -130,48 +130,48 @@ template:
             undefined
           {% endif %}
 
-      - unique_id: nr_of_climate_problems
-        name: "Nr of Climate Problems"
+      - unique_id: nr_of_climate_warnings
+        name: "Nr of climate warnings"
         icon: mdi:alert
         state: |
           {{
             states.binary_sensor | 
-            selectattr('entity_id', 'match', 'binary_sensor\.climate_.*_problem') |
+            selectattr('entity_id', 'match', 'binary_sensor\.climate_.*_warning') |
             selectattr('state', 'eq', 'on') | list | count
           }}
 
   - binary_sensor:
-      - unique_id: climate_main_floor_temp_problem
-        name: "Climate Main Floor Temp Problem"
+      - unique_id: climate_downstairs_hallway_temperature_warning
+        name: "Climate downstairs hallway temperature warning"
         state: >-
-          {% set value = states('sensor.main_floor_temperature') %}
+          {% set value = states('sensor.downstairs_hallway_temperature') %}
           {% if value | is_number %}
           {{    float(value) <= 50.0 }}
           {% else %}
           {{     value }}
           {% endif %}
 
-      - unique_id: climate_upstairs_floor_temp_problem
-        name: "Climate Upstairs Floor Temp Problem"
+      - unique_id: climate_upstairs_hallway_temperature_warning
+        name: "Climate upstairs hallway temperature warning"
         state: >-
-          {% set value = states('sensor.upstairs_floor_temperature') %}
+          {% set value = states('sensor.upstairs_hallway_temperature') %}
           {% if value | is_number %}
           {{    float(value) <= 50.0 }}
           {% else %}
           {{     value }}
           {% endif %}
 
-      - unique_id: upstairs_floor_cooling_status
-        name: "Upstairs Floor Cooling Status"
+      - unique_id: upstairs_hallway_cooling_status
+        name: "Upstairs Hallway Cooling Status"
         state: >-
-          {% set value = state_attr('climate.upstairs_floor', 'hvac_action') %}
+          {% set value = state_attr('climate.upstairs_hallway', 'hvac_action') %}
           {% if value != "unavailable" and value != "unknown" %}
           {{     value == 'cooling' }}
           {% else %}
           {{     value }}
           {%- endif %}
         icon: >-
-          {% set value = state_attr('climate.upstairs_floor', 'hvac_action') %}
+          {% set value = state_attr('climate.upstairs_hallway', 'hvac_action') %}
           {% if value != "unavailable" and value != "unknown" %}
           {%     if value == 'cooling' %}
                   mdi:snowflake
@@ -182,8 +182,8 @@ template:
                   mdi:help
           {%- endif %}
 
-      - unique_id: climate_aqi_problem
-        name: "Climate AQI Problem"
+      - unique_id: climate_aqi_warning
+        name: "Climate AQI warning"
         device_class: problem
         icon: mdi:alert
         state: >
@@ -194,8 +194,8 @@ template:
           {{     value }}
           {% endif %}
 
-      - unique_id: climate_temp_problem
-        name: "Climate Temp Problem"
+      - unique_id: climate_temperature_warning
+        name: "Climate temperature warning"
         device_class: problem
         icon: mdi:alert
         state: >-
@@ -206,8 +206,8 @@ template:
           {{     value }}
           {% endif %}
 
-      - unique_id: climate_humidity_problem
-        name: "Climate Humidity Problem"
+      - unique_id: climate_humidity_warning
+        name: "Climate humidity warning"
         device_class: problem
         icon: mdi:alert
         state: >-

@@ -59,13 +59,13 @@ template:
           {{   0 }}
           {% endif %}
 
-      - unique_id: nr_of_pool_problems
-        name: "Nr of Pool Problems"
+      - unique_id: nr_of_pool_warnings
+        name: "Nr of pool warnings"
         icon: mdi:alert
         state: |
           {{
             states.binary_sensor | 
-            selectattr('entity_id', 'match', 'binary_sensor\.opnpool_.*_problem') |
+            selectattr('entity_id', 'match', 'binary_sensor\.opnpool_.*_warning') |
             selectattr('state', 'eq', 'on') | list | count
           }}
 
@@ -80,32 +80,32 @@ template:
           }}
 
   - binary_sensor:
-      - unique_id: opnpool_chlor_status_problem
-        name: "OPNpool Chorinator Status Problem"
+      - unique_id: opnpool_chlor_status_warning
+        name: "OPNpool chorinator status warning"
         device_class: problem
         icon: mdi:alert
         state: '{{ states("sensor.opnpool_chlor_status") != "OK" }}'
 
-      - unique_id: opnpool_chlor_salt_problem
-        name: "OPNpool Chorinator Salt Problem"
+      - unique_id: opnpool_chlor_salt_warning
+        name: "OPNpool chorinator salt warning"
         device_class: problem
         icon: mdi:alert
         state: '{{ states(binary_sensor.opnpool_pump_running) and ((states("sensor.opnpool_chlor_salt")|float(0) < 2700) or (states("sensor.opnpool_chlor_salt")|float(0) > 4500)) }}'
 
-      - unique_id: opnpool_pump_status_problem
-        name: "OPNpool Pump Status Problem"
+      - unique_id: opnpool_pump_status_warning
+        name: "OPNpool pump status problem"
         device_class: problem
         icon: mdi:alert
         state: '{{ states("sensor.opnpool_pump_status") != "OK" }}'
 
-      - unique_id: opnpool_pump_error_problem
-        name: "OPNpool Pump Error Problem"
+      - unique_id: opnpool_pump_error_warning
+        name: "OPNpool pump error warning"
         device_class: problem
         icon: mdi:alert
         state: '{{ states("sensor.opnpool_pump_error")|float(0) != 0 }}'
 
       - unique_id: pool_chemistry
-        name: "Pool Chemistry"
+        name: "Pool chemistry"
         device_class: problem
         icon: mdi:ph
         state: '{{ states("sensor.pool_ph") != "unavailable" }}'

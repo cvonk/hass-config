@@ -1,7 +1,7 @@
 template:
   - sensor:
       - unique_id: nr_of_irrigation_valves_active
-        name: "Nr of Irrigation Valves Active"
+        name: "Nr of irrigation valves active"
         icon: mdi:sprinkler-variant
         state: |
           {{

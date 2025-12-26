@@ -80,13 +80,13 @@ navbar-templates:
         badge:
           show: >-
             [[[
-              let id = states['sensor.nr_of_climate_problems'];
+              let id = states['sensor.nr_of_climate_warnings'];
               if (id) return parseInt(id.state) > 0;
               return 0;
             ]]]
           count: >-
             [[[
-              let id = states['sensor.nr_of_climate_problems'];
+              let id = states['sensor.nr_of_climate_warnings'];
               if (id) return parseInt(id.state);
               return 0;
             ]]]
@@ -98,13 +98,13 @@ navbar-templates:
         badge:
           show: >-
             [[[
-              let id = states['sensor.nr_of_network_problems'];
+              let id = states['sensor.nr_of_network_warnings'];
               if (id) return parseInt(id.state) > 0;
               return 0;
             ]]]
           count: >-
             [[[
-              let id = states['sensor.nr_of_network_problems'];
+              let id = states['sensor.nr_of_network_warnings'];
               if (id) return parseInt(id.state);
               return 0;
             ]]]
@@ -116,13 +116,13 @@ navbar-templates:
         badge:
           show: >-
             [[[
-              let id = states['sensor.nr_of_fire_alarm_problems'];
+              let id = states['sensor.nr_of_fire_alarm_warnings'];
               if (id) return parseInt(id.state) > 0;
               return 0;
             ]]]
           count: >-
             [[[
-              let id = states['sensor.nr_of_fire_alarm_problems'];
+              let id = states['sensor.nr_of_fire_alarm_warnings'];
               if (id) return parseInt(id.state);
               return 0;
             ]]]
@@ -134,13 +134,13 @@ navbar-templates:
         badge:
           show: >-
             [[[
-              let id = states['sensor.nr_of_pool_problems'];
+              let id = states['sensor.nr_of_pool_warnings'];
               if (id) return parseInt(id.state) > 0;
               return 0;
             ]]]
           count: >-
             [[[
-              let id = states['sensor.nr_of_pool_problems'];
+              let id = states['sensor.nr_of_pool_warnings'];
               if (id) return parseInt(id.state);
               return 0;
             ]]]
@@ -152,13 +152,13 @@ navbar-templates:
         badge:
           show: >-
             [[[
-              let id = states['sensor.nr_of_intrusion_alarm_problems'];
+              let id = states['sensor.nr_of_intrusion_alarm_warnings'];
               if (id) return parseInt(id.state) > 0;
               return 0;
             ]]]
           count: >-
             [[[
-              let id = states['sensor.nr_of_intrusion_alarm_problems'];
+              let id = states['sensor.nr_of_intrusion_alarm_warnings'];
               if (id) return parseInt(id.state);
               return 0;
             ]]]
@@ -188,13 +188,13 @@ navbar-templates:
         badge:
           show: >-
             [[[
-              let id = states['sensor.nr_of_utilities_problems'];
+              let id = states['sensor.nr_of_utilities_warnings'];
               if (id) return parseInt(id.state) > 0;
               return 0;
             ]]]
           count: >-
             [[[
-              let id = states['sensor.nr_of_utilities_problems'];
+              let id = states['sensor.nr_of_utilities_warnings'];
               if (id) return parseInt(id.state);
               return 0;
             ]]]
@@ -3665,10 +3665,10 @@ views:
                   size: 80%
                   show_state: true
 
-                - name: "Patio"
+                - name: "Garden"
                   type: custom:button-card
                   template: light
-                  entity: light.patio
+                  entity: light.garden
                   icon: mdi:coach-lamp
                   size: 80%
                   show_state: true
@@ -4326,19 +4326,19 @@ views:
                         font-weight: 400;
                       }
 
-                - name: "Standing"
+                - name: "Standing lamp"
                   type: custom:button-card
                   template: light
-                  entity: switch.sander_bedroom
+                  entity: light.sander_standing_lamp
                   icon: mdi:floor-lamp-torchiere
                   size: 80%
                   show_state: true
                   aspect_ratio: 1/1
 
-                - name: "Dresser"
+                - name: "Recessed"
                   type: custom:button-card
                   template: light
-                  entity: switch.sander_dresser
+                  entity: light.sander_recessed
                   icon: mdi:light-recessed
                   size: 80%
                   show_state: true
@@ -5072,7 +5072,7 @@ views:
                   font-weight: 400;
                 }
 
-          - entity: climate.ecobee_main_floor # -------------------------------------
+          - entity: climate.ecobee_downstairs_hallway # -------------------------------------
             type: thermostat
             show_current_as_primary: false
             features:
@@ -5083,7 +5083,7 @@ views:
                   background: rgba(0,0,0, 0.3);
                 }
 
-          - entity: climate.ecobee_upstairs_floor # ---------------------------------
+          - entity: climate.ecobee_upstairs_hallway # ---------------------------------
             type: thermostat
             features:
               - type: climate-hvac-modes
@@ -5135,11 +5135,11 @@ views:
 
   #################################################
   #                                               #
-  #              INTRUSION VIEW                   #
+  #                ALARM VIEW                     #
   #                                               #
   #################################################
 
-  - title: "Intrusion"
+  - title: "Alarm"
     path: intrusion
     icon: mdi:police-badge
     background: linear-gradient(to right, rgba(76, 217, 100, 0.2), rgba(76, 217, 100, 0.1)), url(/local/media/bg.jpg)
@@ -6297,7 +6297,7 @@ views:
                                       background: none;
                                     }
                                 entities:
-                                  - entity: binary_sensor.utilities_eagle_200_problem
+                                  - entity: binary_sensor.utilities_eagle_200_warning
                                     name: "Problem"
                                   - entity: sensor.eagle_200_meter_power_demand
                                     name: "Power demand"
@@ -6345,12 +6345,6 @@ views:
                                       line-height: 30px;                  
                                       font-weight: 400;
                                     }
-
-                              - entity: sensor.sonoff_christmas_tree_power # ---------------------
-                                type: custom:button-card
-                                template: ts_bar
-                                variables:
-                                  max_value: 2000
 
                               - entity: sensor.computer_power # ----------------------------------
                                 type: custom:button-card
@@ -6424,7 +6418,7 @@ views:
                                 variables:
                                   max_value: 2000
 
-                - entity: sensor.flo_shutoff_water_flow_rate_per_hour # ------------
+                - entity: sensor.flo_valve_inside_water_flow_rate_per_hour # ------------
                   type: custom:button-card
                   template:
                     - base
@@ -6435,7 +6429,7 @@ views:
                     browser_mod:
                       service: browser_mod.popup
                       data:
-                        title: "Water for house"
+                        title: "Inside water usage"
                         icon: mdi:water-outline
                         card_mod:
                           style:
@@ -6451,17 +6445,17 @@ views:
                                 background: none;
                               }
                           entities:
-                            - entity: sensor.flo_shutoff_current_system_mode
+                            - entity: sensor.flo_valve_inside_current_system_mode
                               name: "Mode"
-                            - entity: binary_sensor.flo_shutoff_pending_system_alerts
+                            - entity: binary_sensor.flo_valve_inside_pending_system_alerts
                               name: "Pending system alert"
-                            - entity: sensor.flo_shutoff_today_s_water_usage
+                            - entity: sensor.flo_valve_inside_today_s_water_usage
                               name: "Today's water usage"
-                            - entity: sensor.flo_shutoff_water_flow_rate
+                            - entity: sensor.flo_valve_inside_water_flow_rate
                               name: "Water flow rate"
-                            - entity: sensor.flo_shutoff_water_pressure
+                            - entity: sensor.flo_valve_inside_water_pressure
                               name: "Water pressure"
-                            - entity: sensor.flo_shutoff_water_temperature
+                            - entity: sensor.flo_valve_inside_water_temperature
                               name: "Water temperature"
 
           - heading: "Historic usage" # ---------------------------------------

@@ -4,11 +4,9 @@
   triggers:
   - trigger: state
     entity_id:
-    - binary_sensor.fire_problem
+    - sensor.nr_of_rire_alarm_warnings
     from:
-    - 'off'
-    to:
-    - 'on'
+    - '0'
   conditions: []
   actions:
   - action: system_log.write
@@ -39,8 +37,8 @@
   triggers:
   - trigger: numeric_state
     entity_id:
-    - climate.ecobee_main_floor
-    - climate.ecobee_upstairs_floor
+    - climate.ecobee_downstairs_hallway
+    - climate.ecobee_upstairs_hallway
     below: 50
   conditions: []
   actions:
