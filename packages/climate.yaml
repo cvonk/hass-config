@@ -26,16 +26,16 @@ homeassistant:
       icon: mdi:waves
 
 sensor:
-  - unique_id: opnpool_min_air_temp
-    name: "OPNpool Min Air Temperature"
+  - unique_id: opnpool_min_air_temperature
+    name: "OPNpool min air temperature"
     platform: statistics
     state_characteristic: value_min
     entity_id: sensor.opnpool_air_temp
     max_age:
       hours: 24
 
-  - unique_id: opnpool_max_air_temp
-    name: "OPNpool Max Air Temperature"
+  - unique_id: opnpool_max_air_temperature
+    name: "OPNpool max air temperature"
     platform: statistics
     state_characteristic: value_max
     entity_id: sensor.opnpool_air_temp
@@ -50,7 +50,7 @@ input_boolean:
 
 climate:
   - unique_id: opnpool_outside_air
-    name: "OPNpool Outside_Air"
+    name: "OPNpool outside air"
     platform: generic_thermostat
     heater: input_boolean.fake_heater
     target_sensor: sensor.opnpool_last_air_temp
@@ -60,7 +60,7 @@ climate:
 template:
   - sensor:
       - unique_id: opnpool_last_air_temp
-        name: "OPNpool Last Air Temp"
+        name: "OPNpool last air temp"
         state: >-
           {% set value = trigger.to_state.state %}
           {% if value | is_number %}
@@ -162,7 +162,7 @@ template:
           {% endif %}
 
       - unique_id: upstairs_hallway_cooling_status
-        name: "Upstairs Hallway Cooling Status"
+        name: "Upstairs hallway cooling status"
         state: >-
           {% set value = state_attr('climate.upstairs_hallway', 'hvac_action') %}
           {% if value != "unavailable" and value != "unknown" %}

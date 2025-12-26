@@ -207,12 +207,13 @@ navbar-templates:
           action: open-popup
         popup:
           - label: "Configuration"
-            icon: mdi:gog
+            icon: mdi:cog
             tap_action:
               action: call-service
               service: browser_mod.navigate
               data:
                 path: /config
+                browser_id: THIS
           - label: "Reload"
             icon: mdi:reload
             tap_action:
