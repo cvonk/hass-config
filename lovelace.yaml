@@ -18,26 +18,26 @@ kiosk_mode:
       kiosk: true
 
 wallpanel:
-  enabled: flase
+  enabled: false
   fullscreen: false
   hide_toolbar: true
   idle_time: 600
   # screensaver_entity: input_boolean.panel_screensaver # switch created in UI
   profiles:
-    device.browser_mod_panel_m11:
+    device.browser_mod_panel_1:
       enabled: true
       views: []
       fullscreen: true
       hide_toolbar: true
-      hide_sidebar: true
+      hide_sidebar: false
       cards:
         - entity: weather.pirateweather
           type: custom:weather-chart-card
-    device.browser_mod_panel_m11_2:
+    device.browser_mod_panel_2:
       enabled: true
       views: []
       hide_toolbar: true
-      hide_sidebar: true
+      hide_sidebar: false
       fullscreen: true
       cards:
         - entity: weather.pirateweather
