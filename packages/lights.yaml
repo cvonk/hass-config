@@ -28,7 +28,6 @@ light:
       - light.sonoff_reading_light
       - light.sonoff_floor_lamp
 
-switch:
   - platform: group
     name: "Sander"
     entities:

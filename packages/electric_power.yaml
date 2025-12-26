@@ -11,7 +11,7 @@ template:
       # total house power read from PG&E (using Eagle 200)
 
       - unique_id: total_power
-        name: "Total Power"
+        name: "Total power"
         device_class: power
         unit_of_measurement: W
         state_class: measurement
@@ -26,7 +26,7 @@ template:
       # group individual devices together (each enitty ends in "pwr")
 
       - unique_id: light_power
-        name: "Light Power"
+        name: "Light power"
         device_class: power
         unit_of_measurement: "W"
         state_class: measurement
@@ -39,7 +39,7 @@ template:
           }}
 
       - unique_id: computer_power
-        name: "Computer Power"
+        name: "Computer power"
         device_class: power
         unit_of_measurement: "W"
         state_class: measurement
@@ -52,7 +52,7 @@ template:
           }}
 
       - unique_id: hvac_power
-        name: "HVAC Power"
+        name: "HVAC power"
         device_class: power
         unit_of_measurement: "W"
         state_class: measurement
@@ -65,7 +65,7 @@ template:
           }}
 
       - unique_id: fridge_power
-        name: "Fridge Power"
+        name: "Fridge power"
         device_class: power
         unit_of_measurement: "W"
         state_class: measurement
@@ -80,7 +80,7 @@ template:
       # estimate power power (based on cooling status)
 
       - unique_id: upstairs_hallway_cooling_hvac_pwr
-        name: "Upstairs Hallway Cooling HVAC pwr"
+        name: "Upstairs hallway cooling HVAC pwr"
         device_class: power
         unit_of_measurement: W
         state_class: measurement
@@ -99,7 +99,7 @@ template:
       # estimated idle power
 
       - unique_id: estimated_idle_power
-        name: "Estimated Idle Power"
+        name: "Estimated idle power"
         device_class: power
         unit_of_measurement: W
         state_class: measurement
@@ -108,7 +108,7 @@ template:
       # total power minus power from classified sources = unknown power
 
       - unique_id: unknown_power
-        name: "Unknown Power"
+        name: "Unknown power"
         device_class: power
         unit_of_measurement: W
         state_class: measurement

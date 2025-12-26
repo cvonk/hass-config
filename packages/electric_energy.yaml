@@ -3,43 +3,11 @@
 # individual devices are named ending "etl" (Energy TotaL).  E.g. the energy
 # of a light ends in "_lightetl".
 
-# so that Energy Config recognizes these as energy sensors
-# prevent: "The unit of measurement `kWh` is not valid together with device class `power` when processing MQTT discovery message topic"
-
-# Error 'The unit of measurement `kWh` is not valid together with
-# device class  `power`' when processing MQTT discovery message
-# topic: homeassistant/sensor/A977C1_ENERGY_Total/config',
-# message: '{
-#   'availability_topic': 'sonoff/s31-12/tele/LWT',
-#   'name': 'sonoff-s31-12 ENERGY Total',
-#   'device_class': 'power',
-#   'state_topic': 'sonoff/s31-12/tele/SENSOR',
-#   'force_update': True,
-#   'value_template': "{{value_json['ENERGY']['Total']}}",
-#   'unit_of_measurement': 'kWh',
-#   'payload_available': 'Online',
-#   'payload_not_available': 'Offline',
-#   'unique_id': 'A977C1_ENERGY_Total',
-#   'device': {'identifiers': ['A977C1']}
-# }'
-
-homeassistant:
-  customize_glob:
-    sensor.sonoff*_energy:
-      unit_of_measurement: kWh
-      device_class: energy
-      state_class: total_increasing
-      #last_reset: "1970-01-01T00:00:00+00:00"
-    sensor.sonoff*_etl:
-      unit_of_measurement: kWh
-      device_class: energy
-      state_class: total_increasing
-
 sensor:
   # energy = power integrated over time
 
   - unique_id: dryer_energy
-    name: "Dryer Energy"
+    name: "Dryer energy"
     platform: integration
     source: sensor.electric_meter_dryer_power
     unit_prefix: k
@@ -48,7 +16,7 @@ sensor:
       minutes: 5
 
   - unique_id: upstairs_hallway_cooling_hvac_ene
-    name: "Upstairs Hallway Cooling HVAC ene"
+    name: "Upstairs hallway cooling HVAC ene"
     platform: integration
     source: sensor.upstairs_hallway_cooling_hvac_pwr
     unit_prefix: k
@@ -57,7 +25,7 @@ sensor:
       minutes: 5
 
   - unique_id: estimated_idle_energy
-    name: "Estimated Idle Energy"
+    name: "Estimated idle energy"
     platform: integration
     source: sensor.estimated_idle_power
     unit_prefix: k
@@ -66,7 +34,7 @@ sensor:
       minutes: 5
 
   - unique_id: opnpool_pump_energy
-    name: "OPNpool Pump Energy"
+    name: "OPNpool pump energy"
     platform: integration
     source: sensor.opnpool_pump_power
     unit_prefix: k
@@ -79,7 +47,7 @@ template:
       # total house energy (read from PG&E using Eagle 200)
 
       - unique_id: total_energy
-        name: "Total Energy"
+        name: "Total energy"
         device_class: energy
         unit_of_measurement: kWh
         state_class: total_increasing
@@ -94,7 +62,7 @@ template:
       # group individual devices together (each entity ends in "etl")
 
       - unique_id: light_energy # from the Leviton switches/dimmers
-        name: "Light Energy"
+        name: "Light energy"
         device_class: energy
         unit_of_measurement: "kWh"
         state_class: total_increasing
@@ -107,7 +75,7 @@ template:
           }}
 
       - unique_id: computer_energy # from the sonoff/tamota
-        name: "Computer Energy"
+        name: "Computer energy"
         device_class: energy
         unit_of_measurement: "kWh"
         state_class: total_increasing
@@ -120,7 +88,7 @@ template:
           }}
 
       - unique_id: hvac_energy
-        name: "HVAC Energy"
+        name: "HVAC energy"
         device_class: energy
         unit_of_measurement: "kWh"
         state_class: total_increasing
@@ -133,7 +101,7 @@ template:
           }}
 
       - unique_id: fridge_energy # from the sonoff/tamota
-        name: "Fridge Energy"
+        name: "Fridge energy"
         device_class: energy
         unit_of_measurement: "kWh"
         state_class: total_increasing
