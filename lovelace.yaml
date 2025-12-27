@@ -80,13 +80,13 @@ navbar-templates:
         badge:
           show: >-
             [[[
-              let id = states['sensor.nr_of_climate_warnings'];
+              let id = states['number.climate_warnings'];
               if (id) return parseInt(id.state) > 0;
               return 0;
             ]]]
           count: >-
             [[[
-              let id = states['sensor.nr_of_climate_warnings'];
+              let id = states['number.climate_warnings'];
               if (id) return parseInt(id.state);
               return 0;
             ]]]
@@ -98,13 +98,13 @@ navbar-templates:
         badge:
           show: >-
             [[[
-              let id = states['sensor.nr_of_network_warnings'];
+              let id = states['number.network_warnings'];
               if (id) return parseInt(id.state) > 0;
               return 0;
             ]]]
           count: >-
             [[[
-              let id = states['sensor.nr_of_network_warnings'];
+              let id = states['number.network_warnings'];
               if (id) return parseInt(id.state);
               return 0;
             ]]]
@@ -116,13 +116,13 @@ navbar-templates:
         badge:
           show: >-
             [[[
-              let id = states['sensor.nr_of_fire_alarm_warnings'];
+              let id = states['number.fire_warnings'];
               if (id) return parseInt(id.state) > 0;
               return 0;
             ]]]
           count: >-
             [[[
-              let id = states['sensor.nr_of_fire_alarm_warnings'];
+              let id = states['number.fire_warnings'];
               if (id) return parseInt(id.state);
               return 0;
             ]]]
@@ -134,13 +134,13 @@ navbar-templates:
         badge:
           show: >-
             [[[
-              let id = states['sensor.nr_of_pool_warnings'];
+              let id = states['number.pool_warnings'];
               if (id) return parseInt(id.state) > 0;
               return 0;
             ]]]
           count: >-
             [[[
-              let id = states['sensor.nr_of_pool_warnings'];
+              let id = states['number.pool_warnings'];
               if (id) return parseInt(id.state);
               return 0;
             ]]]
@@ -152,13 +152,13 @@ navbar-templates:
         badge:
           show: >-
             [[[
-              let id = states['sensor.nr_of_intrusion_alarm_warnings'];
+              let id = states['number.intrusion_alarm_warnings'];
               if (id) return parseInt(id.state) > 0;
               return 0;
             ]]]
           count: >-
             [[[
-              let id = states['sensor.nr_of_intrusion_alarm_warnings'];
+              let id = states['number.intrusion_alarm_warnings'];
               if (id) return parseInt(id.state);
               return 0;
             ]]]
@@ -170,13 +170,13 @@ navbar-templates:
         badge:
           show: >-
             [[[
-              let id = states['sensor.nr_of_irrigation_valves_active"'];
+              let id = states['number.irrigation_valves_active"'];
               if (id) return parseInt(id.state) > 0;
               return 0;
             ]]]
           count: >-
             [[[
-              let id = states['sensor.nr_of_irrigation_valves_active"'];
+              let id = states['number.irrigation_valves_active"'];
               if (id) return parseInt(id.state);
               return 0;
             ]]]
@@ -188,13 +188,13 @@ navbar-templates:
         badge:
           show: >-
             [[[
-              let id = states['sensor.nr_of_utilities_warnings'];
+              let id = states['number.utilities_warnings'];
               if (id) return parseInt(id.state) > 0;
               return 0;
             ]]]
           count: >-
             [[[
-              let id = states['sensor.nr_of_utilities_warnings'];
+              let id = states['number.utilities_warnings'];
               if (id) return parseInt(id.state);
               return 0;
             ]]]
@@ -3678,7 +3678,7 @@ views:
                 - name: "Pool"
                   type: custom:button-card
                   template: light
-                  entity: light.pool
+                  entity: light.pool_sidelights
                   icon: mdi:coach-lamp
                   size: 80%
                   show_state: true
@@ -3736,7 +3736,7 @@ views:
                 - name: "Recessed"
                   type: custom:button-card
                   template: light
-                  entity: light.master_bedroom_dimmer
+                  entity: light.master_bedroom_recessed_light
                   icon: mdi:light-recessed
                   size: 80%
                   show_state: true
@@ -3745,7 +3745,7 @@ views:
                 - name: "Left"
                   type: custom:button-card
                   template: light
-                  entity: light.master_bedroom_left
+                  entity: light.master_bedroom_left_light
                   icon: mdi:bed
                   size: 80%
                   show_state: true
@@ -3754,7 +3754,7 @@ views:
                 - name: "Right"
                   type: custom:button-card
                   template: light
-                  entity: light.master_bedroom_right
+                  entity: light.master_bedroom_right_light
                   icon: mdi:bed
                   size: 80%
                   show_state: true
@@ -3815,7 +3815,7 @@ views:
                 - name: "Recessed"
                   type: custom:button-card
                   template: light
-                  entity: light.family_room_dimmer
+                  entity: light.family_room_recessed_lights
                   icon: mdi:light-recessed
                   size: 80%
                   show_state: true
@@ -4397,7 +4397,7 @@ views:
                 - name: "Dining"
                   type: custom:button-card
                   template: light
-                  entity: light.dining_room_dimmer
+                  entity: light.dining_room_chandelier
                   icon: mdi:chandelier
                   size: 80%
                   show_state: true
@@ -4406,7 +4406,7 @@ views:
                 - name: "Stairs"
                   type: custom:button-card
                   template: light
-                  entity: light.stairs_dimmer
+                  entity: light.stairs_chandelier
                   icon: mdi:stairs
                   size: 80%
                   show_state: true
@@ -4971,11 +4971,11 @@ views:
             entities:
               - name: max temp
                 aggregate_func: max
-                entity: sensor.opnpool_last_air_temp
+                entity: sensor.opnpool_last_air_temperature
                 color: brown
               - name: min temp
                 aggregate_func: min
-                entity: sensor.opnpool_last_air_temp
+                entity: sensor.opnpool_last_air_temperature
                 color: cornflowerblue
             card_mod:
               style: |
@@ -5073,7 +5073,7 @@ views:
                   font-weight: 400;
                 }
 
-          - entity: climate.ecobee_downstairs_hallway # -------------------------------------
+          - entity: climate.ecobee_downstairs # -------------------------------------
             type: thermostat
             show_current_as_primary: false
             features:
@@ -5084,7 +5084,7 @@ views:
                   background: rgba(0,0,0, 0.3);
                 }
 
-          - entity: climate.ecobee_upstairs_hallway # ---------------------------------
+          - entity: climate.ecobee_upstairs # ---------------------------------
             type: thermostat
             features:
               - type: climate-hvac-modes
@@ -6218,11 +6218,12 @@ views:
                         font-weight: 400;
                       }
 
-                - entity: sensor.total_power # -------------------------------------
+                - entity: sensor.eagle_200_meter_power_demand # ---------------
                   type: custom:button-card
                   template:
                     - base
                     - overflow_reminder
+                  name: "Electric"
                   tap_action:
                     action: fire-dom-event
                     browser_mod:
@@ -6424,6 +6425,7 @@ views:
                   template:
                     - base
                     - overflow_reminder
+                  name: "Water house"
                   icon: mdi:water-outline
                   tap_action:
                     action: fire-dom-event
@@ -6636,7 +6638,7 @@ views:
             template:
               - base
               - overflow_reminder
-            entity: binary_sensor.cable_modem_online
+            entity: binary_sensor.network_modem_online
             icon: mdi:router-network
             tap_action:
               action: fire-dom-event
@@ -6682,7 +6684,7 @@ views:
                       - entity: sensor.cable_modem_mean_s_n
                         name: "Mean S/N ratio"
                         icon: mdi:signal
-                      - entity: sensor.cable_modem_worst_freq
+                      - entity: sensor.cable_modem_worst_frequency
                         name: "Frequency with most errors"
 
           - name: "DNS" # ----------------------------------------------------

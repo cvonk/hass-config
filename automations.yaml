@@ -37,8 +37,8 @@
   triggers:
   - trigger: numeric_state
     entity_id:
-    - climate.ecobee_downstairs_hallway
-    - climate.ecobee_upstairs_hallway
+    - sensor.ecobee_downstairs_temperature
+    - sensor.ecobee_upstairs_temperature
     below: 50
   conditions: []
   actions:
@@ -96,7 +96,8 @@
   - action: light.turn_on
     metadata: {}
     target:
-      entity_id: light.entry
+      entity_id:
+      - light.entry_sidelights
     data: {}
   - delay:
       hours: 0
@@ -105,7 +106,7 @@
       milliseconds: 0
   - action: light.turn_off
     metadata: {}
-    target:
-      entity_id: light.entry
     data: {}
+    target:
+      entity_id: light.entry_sidelights
   mode: single

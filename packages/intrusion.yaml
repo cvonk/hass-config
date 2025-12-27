@@ -1,6 +1,6 @@
 alarm_control_panel:
   - unique_id: intrusion_alarm
-    name: "Intrusion Alarm"
+    name: "Intrusion alarm"
     platform: manual
     code_arm_required: false
     trigger_time: 120 # alarm fires for 2 minutes
@@ -24,8 +24,8 @@ script:
         data: {}
         target:
           entity_id: alarm_control_panel.intrusion_alarm
-    alias: "Toggle Intrusion Alarm"
-    description: "Toggle Intrusion Alarm"
+    alias: "Toggle intrusion alarm"
+    description: "Toggle intrusion alarm"
 
   disarm_intrusion_alarm:
     sequence:
@@ -37,32 +37,4 @@ script:
     alias: "Disarm intrusion Alarm"
     description: "Disarm intrusion Alarm"
 
-template:
-  - sensor:
-      - unique_id: nr_of_cameras_active
-        name: "Nr of Cameras Active"
-        icon: mdi:camera
-        state: >-
-          {{
-            states.binary_sensor | 
-            selectattr('entity_id', 'match', 'binary_sensor\.aarlo_motion.*') |
-            selectattr('state', 'eq', 'on') | list | count | int
-          }}
-
-      # sensor.intrusion_status is set in Node Red
-
-      - unique_id: nr_of_intrusion_alarm_warnings
-        name: "Nr of intrusion alarm warnings"
-        icon: mdi:police-badge
-        state: |
-          {% set open_windows_and_doors = states.binary_sensor | 
-                        selectattr('entity_id', 'match', 'binary_sensor\.kc868ai_.*') |
-                        rejectattr('entity_id', 'search', '(unused|unknown)') |
-                        selectattr('state', 'eq', 'on') | list | count %}
-          {% set nest_protect_occupancy = states.binary_sensor | 
-                        selectattr('entity_id', 'match', 'binary_sensor\.nest_protect_.*_occupancy') |
-                        selectattr('state', 'eq', 'on') | list | count %}
-          {% set ecobee_occupancy = states.binary_sensor | 
-                        selectattr('entity_id', 'match', 'binary_sensor\.ecobee_.*_occupancy') |
-                        selectattr('state', 'eq', 'on') | list | count %}
-          {{ open_windows_and_doors + nest_protect_occupancy + ecobee_occupancy }}
+# sensor.intrusion_status is set in Node Red

@@ -1,0 +1,85 @@
+wemo:
+  discovery: true
+
+light:
+  - platform: decora_wifi # can't be setup through the UI
+    username: !secret decora_uname
+    password: !secret decora_passwd
+
+#name: "Outside group"
+#name: "Sander group"
+
+template:
+  - sensor:
+      - unique_id: lights_power
+        name: "Lights power"
+        device_class: power
+        unit_of_measurement: "W"
+        state_class: measurement
+        state: >
+          {{
+            states.sensor | 
+              selectattr('entity_id', 'match', 'sensor\..*_(light|sidelight|chandelier)(s|)_power') |
+              map(attribute='state') | 
+              map('float', 0) | sum
+          }}
+
+      - unique_id: computers_power
+        name: "Computers power"
+        device_class: power
+        unit_of_measurement: "W"
+        state_class: measurement
+        state: >
+          {% set coert = states('sensor.coert_computer_power') | float %}
+          {% set barrie = states('sensor.barrie_computer_power') | float %}
+          {{ (coert + barrie) | round(0, default = 0) }}
+
+      - unique_id: computers_total_energy
+        name: "Computers total energy"
+        unit_of_measurement: "kWh"
+        device_class: "energy"
+        state_class: total_increasing
+        state: >
+          {% set coert = states('sensor.coert_computer_total_energy') | float %}
+          {% set barrie = states('sensor.barrie_computer_total_energy') | float %}
+          {{ (coert + barrie) | round(0, default = 0) }}
+
+      - unique_id: fridges_power
+        name: "Fridges power"
+        device_class: power
+        unit_of_measurement: "W"
+        state_class: measurement
+        state: >
+          {% set downstairs = states('sensor.downstairs_fridge_power') | float %}
+          {% set upstairs = states('sensor.upstairs_fridge_power') | float %}
+          {{ (downstairs + upstairs) | round(0, default = 0) }}
+
+      - unique_id: fridges_total_energy
+        name: "Fridges total energy"
+        unit_of_measurement: "kWh"
+        device_class: "energy"
+        state_class: total_increasing
+        state: >
+          {% set downstairs = states('sensor.downstairs_fridge_total_energy') | float %}
+          {% set upstairs = states('sensor.upstairs_fridge_total_energy') | float %}
+          {{ (downstairs + upstairs) | round(0, default = 0) }}
+
+      - unique_id: heating_power
+        name: "Heating power"
+        device_class: power
+        unit_of_measurement: "W"
+        state_class: measurement
+        state: >
+          {% set downstairs = states('sensor.downstairs_heating_power') | float %}
+          {% set upstairs = states('sensor.upstairs_heating_power') | float %}
+          {{ (downstairs + upstairs) | round(0, default = 0) }}
+
+      - unique_id: heating_total_energy
+        name: "Heating total energy"
+        unit_of_measurement: "kWh"
+        device_class: "energy"
+        state_class: total_increasing
+        state: >
+          {% set downstairs = states('sensor.downstairs_heating_daily_energy') | float %}
+          {% set upstairs = states('sensor.upstairs_heating_daily_energy') | float %}
+          {{ (downstairs + upstairs) | round(0, default = 0) }}

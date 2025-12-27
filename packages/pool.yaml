@@ -7,11 +7,17 @@ homeassistant:
       icon: mdi:pump
       unique_id: opnpool_pump_power
       device_class: power
+      unit_of_measurement: "W"
+      state_class: measurement
+    sensor.opnpool_pump_gpm:
+      device_class: volume_flow_rate
+      unit_of_measurement: "gal/min"
+      state_class: measurement
 
 template:
   - sensor:
-      - unique_id: opnpool_last_water_temp
-        name: "OPNpool Last Water Temp"
+      - unique_id: opnpool_last_water_temperature
+        name: "OPNpool last water temperature"
         state: "{{ trigger.to_state.state | int }}"
         device_class: "temperature"
         unit_of_measurement: "°F"
@@ -26,89 +32,34 @@ template:
           - "unavailable"
 
   - sensor:
-      - unique_id: opnpool_pump_estimated_flow
-        name: "OPNpool Pump Estimated Flow"
-        device_class: volume_flow_rate
-        unit_of_measurement: "gal/min"
-        icon: mdi:waves-arrow-right
-        state: |
-          {% set pump_power = states('sensor.opnpool_pump_power') | float(0) %}
-          {% set pump_speed = states("sensor.opnpool_pump_speed") | float(0) %}
-          {% if pump_speed > 0 %}
-          {{   ((pump_power - (1377 * ((pump_speed)/3450)**3) - 75.3) / (12.5 * ((pump_speed)/3450)**2)) | round(0) }}
+      - unique_id: opnpool_last_air_temperature
+        name: "OPNpool last air temperature"
+        state: >-
+          {% set value = trigger.to_state.state %}
+          {% if value | is_number %}
+          {{    int(value) }}
           {% else %}
-          {{   0 }}
+          {{     value }}
           {% endif %}
+        device_class: "temperature"
+        unit_of_measurement: "°F"
+        attributes:
+          source_sensor: "sensor.opnpool_air_temp"
+    trigger:
+      - trigger: state
+        entity_id: sensor.opnpool_air_temp
+        not_to:
+          - "unknown"
+          - "unavailable"
 
-      - unique_id: opnpool_pump_estimated_volume
-        name: "OPNpool Estimated Volume"
-        device_class: volume
-        unit_of_measurement: "gal"
-        icon: mdi:cup
-        state: !secret opnpool_estimated_volume
-
-      - unique_id: opnpool_recommended_runtime
-        name: "OPNpool Recommended Runtime"
-        unit_of_measurement: h
-        icon: mdi:clock-outline
-        state: |
-          {% set water_temp = states("sensor.opnpool_water_temp") | float(0) %}
-          {% if water_temp > 0 %}
-          {{   (water_temp / 10) | round(0) }}
-          {% else %}
-          {{   0 }}
-          {% endif %}
-
-      - unique_id: nr_of_pool_warnings
-        name: "Nr of pool warnings"
-        icon: mdi:alert
-        state: |
-          {{
-            states.binary_sensor | 
-            selectattr('entity_id', 'match', 'binary_sensor\.opnpool_.*_warning') |
-            selectattr('state', 'eq', 'on') | list | count
-          }}
-
-      - unique_id: nr_of_pool_circuits_active
-        name: "Nr of Pool Circuits Active"
-        icon: mdi:circle-outline
-        state: |
-          {{ 
-              states.switch | 
-              selectattr('entity_id', 'match', '^switch\.opnpool_.*_circuit') |
-              selectattr('state', 'eq', 'on') | list | count
-          }}
-
-  - binary_sensor:
-      - unique_id: opnpool_chlor_status_warning
-        name: "OPNpool chorinator status warning"
-        device_class: problem
-        icon: mdi:alert
-        state: '{{ states("sensor.opnpool_chlor_status") != "OK" }}'
-
-      - unique_id: opnpool_chlor_salt_warning
-        name: "OPNpool chorinator salt warning"
-        device_class: problem
-        icon: mdi:alert
-        state: '{{ states(binary_sensor.opnpool_pump_running) and ((states("sensor.opnpool_chlor_salt")|float(0) < 2700) or (states("sensor.opnpool_chlor_salt")|float(0) > 4500)) }}'
-
-      - unique_id: opnpool_pump_status_warning
-        name: "OPNpool pump status problem"
-        device_class: problem
-        icon: mdi:alert
-        state: '{{ states("sensor.opnpool_pump_status") != "OK" }}'
-
-      - unique_id: opnpool_pump_error_warning
-        name: "OPNpool pump error warning"
-        device_class: problem
-        icon: mdi:alert
-        state: '{{ states("sensor.opnpool_pump_error")|float(0) != 0 }}'
-
-      - unique_id: pool_chemistry
-        name: "Pool chemistry"
-        device_class: problem
-        icon: mdi:ph
-        state: '{{ states("sensor.pool_ph") != "unavailable" }}'
+climate:
+  - unique_id: opnpool_last_air_temperature
+    name: "OPNpool outside air"
+    platform: generic_thermostat
+    heater: input_boolean.fake_heater
+    target_sensor: sensor.opnpool_last_air_temperature
+    min_temp: 20
+    max_temp: 120
 
 input_boolean:
   # you need to create the corresponding scripts for the logic using 'Toggle switch_entity, with support for spinner' blueprint
@@ -125,22 +76,7 @@ input_boolean:
     name: OPNpool AUX2 circuit pending
     initial: false
 
-google_assistant:
-  entity_config:
-    switch.opnpool_pool_circuit:
-      name: Circuit
-      room: Pool
-    switch.opnpool_spa_circuit:
-      name: Circuit
-      room: Pool
-      aliases:
-        - Spa
-    switch.opnpool_aux1_circuit:
-      name: Pump
-      room: Pool
-    switch.opnpool_aux2_circuit:
-      name: Light
-      room: Pool
-    climate.opnpool_pool_heater:
-      name: water
-      room: Pool
+  fake_heater: # fake heater so Google Assistant can read the outside temperature
+    name: fake_heater
+    icon: mdi:toggle-switch-off
+    initial: false

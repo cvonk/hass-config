@@ -1,6 +1,6 @@
 alarm_control_panel:
   - unique_id: fire_alarm
-    name: "Fire Alarm"
+    name: "Fire alarm"
     platform: manual
     code_arm_required: false
     trigger_time: 120 # alarm fires for 2 minutes
@@ -24,8 +24,8 @@ script:
         data: {}
         target:
           entity_id: alarm_control_panel.fire_alarm
-    alias: "Toggle Fire Alarm"
-    description: "Toggle Fire Alarm"
+    alias: "Toggle fire alarm"
+    description: "Toggle fire alarm"
 
   disarm_fire_alarm:
     sequence:
@@ -34,26 +34,7 @@ script:
         data: {}
         target:
           entity_id: alarm_control_panel.fire_alarm
-    alias: "Disarm Fire Alarm"
-    description: "Disarm Fire Alarm"
-
+    alias: "Disarm fire alarm"
+    description: "Disarm fire alarm"
 # sensor.fire_status is set in Node Red
 
-template:
-  - sensor:
-      - unique_id: nr_of_fire_alarm_warnings
-        name: "Nr of fire alarm warnings"
-        icon: mdi:fire
-        state: |
-          {{
-            states.binary_sensor | 
-            selectattr('entity_id', 'match', 'binary_sensor\.nest_protect_.*_status') |
-            selectattr('state', 'eq', 'on') | list | count | int
-          }}
-
-google_assistant:
-  entity_config:
-    script.disarm_fire_alarm:
-      expose: true
-      name: "Disarm Fire Alarm"
-      room: "Home"
