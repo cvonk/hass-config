@@ -4983,7 +4983,7 @@ views:
                   background: rgba(0,0,0, 0.3);
                 }
 
-          - name: "Air Quality Index" # --------------------------------------------
+          - name: "Air Quality Index" # --------------------------------------
             type: custom:mini-graph-card
             entities:
               - entity: sensor.los_altos_country_club_aqi
@@ -5073,7 +5073,7 @@ views:
                   font-weight: 400;
                 }
 
-          - entity: climate.ecobee_downstairs # -------------------------------------
+          - entity: climate.ecobee_downstairs # ------------------------------
             type: thermostat
             show_current_as_primary: false
             features:
@@ -5133,6 +5133,25 @@ views:
               - name: 100%
                 icon: mdi:circle-slice-8
                 percentage: 100
+
+          - type: custom:layout-card # Warnings ------------------------------
+            layout_type: grid-layout
+            layout:
+              grid-gap: 2vw
+              grid-template-columns: repeat(1, 1fr)
+            cards:
+              - type: custom:auto-entities
+                show_empty: false
+                filter:
+                  include:
+                    - domain: binary_sensor
+                      entity_id: /climate_.*_warning/
+                      state: "on"
+                      options:
+                        icon: mdi:alert
+                        type: custom:multiple-entity-row
+                        show_state: true
+                        secondary_info: last-changed
 
   #################################################
   #                                               #
@@ -5844,6 +5863,25 @@ views:
                             border-radius: 10px !important;
                           }
 
+          - type: custom:layout-card # Warnings ------------------------------
+            layout_type: grid-layout
+            layout:
+              grid-gap: 2vw
+              grid-template-columns: repeat(1, 1fr)
+            cards:
+              - type: custom:auto-entities
+                show_empty: false
+                filter:
+                  include:
+                    - domain: binary_sensor
+                      entity_id: /pool_.*_warning/
+                      state: "on"
+                      options:
+                        icon: mdi:alert
+                        type: custom:multiple-entity-row
+                        show_state: true
+                        secondary_info: last-changed
+
   #################################################
   #                                               #
   #             IRRIGATION VIEW                   #
@@ -6108,6 +6146,25 @@ views:
                         name: "Type"
                       - entity: number.drip_interval_days
                         name: "Interval days"
+
+          - type: custom:layout-card # Warnings ------------------------------
+            layout_type: grid-layout
+            layout:
+              grid-gap: 2vw
+              grid-template-columns: repeat(1, 1fr)
+            cards:
+              - type: custom:auto-entities
+                show_empty: false
+                filter:
+                  include:
+                    - domain: binary_sensor
+                      entity_id: /irrigation_.*_warning/
+                      state: "on"
+                      options:
+                        icon: mdi:alert
+                        type: custom:multiple-entity-row
+                        show_state: true
+                        secondary_info: last-changed
 
   #################################################
   #                                               #
@@ -6487,6 +6544,25 @@ views:
           - type: energy-water-graph
 
           - type: energy-gas-graph
+
+          - type: custom:layout-card # Warnings ------------------------------
+            layout_type: grid-layout
+            layout:
+              grid-gap: 2vw
+              grid-template-columns: repeat(1, 1fr)
+            cards:
+              - type: custom:auto-entities
+                show_empty: false
+                filter:
+                  include:
+                    - domain: binary_sensor
+                      entity_id: /utility_.*_warning/
+                      state: "on"
+                      options:
+                        icon: mdi:alert
+                        type: custom:multiple-entity-row
+                        show_state: true
+                        secondary_info: last-changed
 
   #################################################
   #                                               #
@@ -6922,50 +6998,24 @@ views:
                       - entity: binary_sensor.backup_drive_2_exceeded_max_bad_sectors
                         name: "Drive 2 exceeded max bad sectors"
 
-          #- name: "Printer" # ------------------------------------------------
-          #  type: custom:button-card
-          #  template:
-          #    - connectivity
-          #    - overflow_reminder
-          #  entity: binary_sensor.ping_printer
-          #  icon: mdi:printer
-          #  tap_action:
-          #    action: fire-dom-event
-          #    browser_mod:
-          #      service: browser_mod.popup
-          #      data:
-          #        title: "Laser printer"
-          #        icon: mdi:printer
-          #        card_mod:
-          #          style:
-          #            ha-dialog: |
-          #              ha-dialog-header, .content {
-          #                background: linear-gradient(to right, rgba(255, 149, 0, 0.1), rgba(255, 149, 0, 0.05));
-          #              }
-          #        content:
-          #          type: entities
-          #          card_mod:
-          #            style: |
-          #              ha-card {
-          #                background: linear-gradient(to right, rgba(255, 149, 0, 0.1), rgba(255, 149, 0, 0.05));
-          #              }
-          #          entities:
-          #            - entity: sensor.printer_page_count
-          #              name: "Page count"
-          #            - entity: sensor.printer_black
-          #              name: "Toner"
-          #            - entity: sensor.printer_fuser_life
-          #              name: "Fuser life"
-          #            - entity: sensor.printer_imaging_unit
-          #              name: "Imaging unit"
-          #            - entity: sensor.printer_pick_up_roller
-          #              name: "Pick up roller"
-          #            - entity: sensor.printer_transfer_roller
-          #              name: "Transfer roller"
-          #            - entity: sensor.printer_tray1_forward_roller
-          #              name: "Tray forward roller"
-          #            - entity: sensor.printer_tray1_retard_roller
-          #              name: "Tray retard roller"
+          - type: custom:layout-card # Warnings ------------------------------
+            layout_type: grid-layout
+            layout:
+              grid-gap: 2vw
+              grid-template-columns: repeat(1, 1fr)
+            cards:
+              - type: custom:auto-entities
+                show_empty: false
+                filter:
+                  include:
+                    - domain: binary_sensor
+                      entity_id: /network_.*_warning/
+                      state: "on"
+                      options:
+                        icon: mdi:alert
+                        type: custom:multiple-entity-row
+                        show_state: true
+                        secondary_info: last-changed
 
   #################################################
   #                                               #
