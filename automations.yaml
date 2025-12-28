@@ -4,7 +4,7 @@
   triggers:
   - trigger: state
     entity_id:
-    - sensor.nr_of_rire_alarm_warnings
+    - number.fire_warnings
     from:
     - '0'
   conditions: []

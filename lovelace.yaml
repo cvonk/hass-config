@@ -20,7 +20,8 @@ kiosk_mode:
 wallpanel:
   enabled: false
   fullscreen: false
-  hide_toolbar: true
+  hide_toolbar: false
+  hide_sidebar: false
   idle_time: 600
   # screensaver_entity: input_boolean.panel_screensaver # switch created in UI
   profiles:
@@ -28,16 +29,12 @@ wallpanel:
       enabled: true
       views: []
       fullscreen: true
-      hide_toolbar: true
-      hide_sidebar: false
       cards:
         - entity: weather.pirateweather
           type: custom:weather-chart-card
     device.browser_mod_panel_2:
       enabled: true
       views: []
-      hide_toolbar: true
-      hide_sidebar: false
       fullscreen: true
       cards:
         - entity: weather.pirateweather
@@ -3596,14 +3593,14 @@ views:
                   size: 80%
 
                 - name: "Floor lamp"
-                  entity: light.sonoff_floor_lamp
+                  entity: light.floor_lamp
                   type: custom:button-card
                   template: light
                   icon: mdi:floor-lamp
                   size: 80%
 
                 - name: "Reading light"
-                  entity: light.sonoff_reading_light
+                  entity: light.reading_light
                   type: custom:button-card
                   template: light
                   icon: mdi:book-open
@@ -4415,7 +4412,7 @@ views:
                 - name: "Tree"
                   type: custom:button-card
                   template: base
-                  entity: light.sonoff_christmas_tree
+                  entity: light.christmas_tree
                   icon: mdi:string-lights
                   size: 80%
                   show_state: true
@@ -6405,49 +6402,55 @@ views:
                                       font-weight: 400;
                                     }
 
-                              - entity: sensor.computer_power # ----------------------------------
+                              - entity: sensor.computers_power # ----------------------------------
                                 type: custom:button-card
                                 template: ts_bar
                                 variables:
                                   max_value: 2000
 
-                              - entity: sensor.electric_meter_dryer_power # -------------------------------------
+                              - entity: sensor.dryer_power # -------------------------------------
                                 type: custom:button-card
                                 template: ts_bar
                                 variables:
                                   max_value: 2000
 
-                              - entity: sensor.sonoff_espresso_machine_power # -------------------
+                              - entity: sensor.espresso_machine_power # -------------------
                                 type: custom:button-card
                                 template: ts_bar
                                 variables:
                                   max_value: 2000
 
-                              - entity: sensor.fridge_power # ------------------------------------
+                              - entity: sensor.fridges_power # ------------------------------------
                                 type: custom:button-card
                                 template: ts_bar
                                 variables:
                                   max_value: 2000
 
-                              - entity: sensor.hvac_power # --------------------------------------
+                              - entity: sensor.heating_power # --------------------------------------
                                 type: custom:button-card
                                 template: ts_bar
                                 variables:
                                   max_value: 2000
 
-                              - entity: sensor.light_power # -------------------------------------
+                              - entity: sensor.upstairs_cooling_power # --------------------------------------
                                 type: custom:button-card
                                 template: ts_bar
                                 variables:
                                   max_value: 2000
 
-                              - entity: sensor.sonoff_media_power # ------------------------------
+                              - entity: sensor.lights_power # -------------------------------------
                                 type: custom:button-card
                                 template: ts_bar
                                 variables:
                                   max_value: 2000
 
-                              - entity: sensor.sonoff_network_power # ----------------------------
+                              - entity: sensor.media_center_power # ------------------------------
+                                type: custom:button-card
+                                template: ts_bar
+                                variables:
+                                  max_value: 2000
+
+                              - entity: sensor.network_power # ----------------------------
                                 type: custom:button-card
                                 template: ts_bar
                                 variables:
@@ -6459,19 +6462,13 @@ views:
                                 variables:
                                   max_value: 2000
 
-                              - entity: sensor.sonoff_washer_power # -----------------------------
+                              - entity: sensor.washer_power # -----------------------------
                                 type: custom:button-card
                                 template: ts_bar
                                 variables:
                                   max_value: 2000
 
                               - entity: sensor.estimated_idle_power # ----------------------------
-                                type: custom:button-card
-                                template: ts_bar
-                                variables:
-                                  max_value: 2000
-
-                              - entity: sensor.unknown_power # -----------------------------------
                                 type: custom:button-card
                                 template: ts_bar
                                 variables:
