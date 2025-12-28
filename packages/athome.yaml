@@ -1,104 +1,55 @@
-homeassistant:
-  customize:
-    person.coert:
-      entity_picture: /local/media/coert.png
-    person.barrie:
-      entity_picture: /local/media/barrie.png
-    person.sander:
-      entity_picture: /local/media/sander.png
-    person.johan:
-      entity_picture: /local/media/johan.png
+#homeassistant:
+#  customize:
+#    person.coert_vonk:
+#      entity_picture: /local/media/coert.png
+#    person.barrie_levinson:
+#      entity_picture: /local/media/barrie.png
+#    person.sander_vonk:
+#      entity_picture: /local/media/sander.png
+#    person.johan_vonk:
+#      entity_picture: /local/media/johan.png
 
 person:
-  - name: "Coert"
-    id: "coert"
-    device_trackers:
-      #- device_tracker.app_coert_phone
-      - device_tracker.rtr_coert_phone
-
-  - name: "Barrie"
-    id: "barrie"
-    device_trackers:
-      #- device_tracker.app_barrie_phone
-      - device_tracker.rtr_barrie_phone
-
-  - name: "Sander"
-    id: "sander"
-    device_trackers:
-      - device_tracker.rtr_sander_phone
-
-  - name: "Johan"
-    id: "johan"
+  - name: "Johan Vonk"
+    id: johan_vonk
     device_trackers:
       - device_tracker.rtr_johan_phone
-#mqtt:
-#  sensor:
-#    - name: coert_last_changed
-#      state_topic: homeassistant/persistence/coert
-#      value_template: >
-#        {{ value | replace(' ', 'T') }}
-#
-#    - name: barrie_last_changed
-#      state_topic: homeassistant/persistence/barrie
-#      value_template: >
-#        {{ value | replace(' ', 'T') }}
-#
-#automation:
-#  - alias: person_home
-#    id: "8423590985012"
-#    mode: parallel
-#    trigger:
-#      trigger: state
-#      entity_id:
-#        - person.coert
-#        - person.barrie
-#      from:
-#        - home
-#        - not_home
-#      to:
-#        - home
-#        - not_home
-#    action:
-#      action: mqtt.publish
-#      data:
-#        topic: >
-#          homeassistant/persistence/{{ trigger.to_state.name | lower }}
-#        payload: >
-#          {{ now() }}
-#        retain: true
 
-#script:
-#  home_arrive:
-#    alias: Hemma
-#    sequence:
-#      - if:
-#          condition: state
-#          entity_id: sun.sun
-#          state: below_horizon
-#        then:
-#          action: scene.turn_on
-#          target:
-#            entity_id: scene.home_below_horizon
-#        else:
-#          action: scene.turn_on
-#          target:
-#            entity_id: scene.home_above_horizon
-#      - delay:
-#          seconds: 4
-#
-#  home_leave:
-#    alias: Stäng allt
-#    sequence:
-#      - action: homeassistant.turn_off
-#        target:
-#          entity_id:
-#            - light.all_group_exclude_hall
-#            - climate.ac
-#            - media_player.sony_bravia_tv
-#            - media_player.samsung
-#            - switch.gosund_fan_switch
-#            - switch.gosund_monitors_switch
-#            - switch.imac
-#            - switch.deltaco_sh_p01_socket
-#      - delay:
-#          seconds: 4
+automation lights:
+  - alias: "Light on in the evening if anybody is home between 16:00-23:00"
+    triggers:
+      - trigger: sun
+        event: sunset
+        offset: "-01:00:00"
+      - trigger: state
+        entity_id: all
+        to: "home"
+    conditions:
+      - condition: state
+        entity_id:
+          - person.barrie
+          - person.coert
+          - person.johan
+          - person.sander
+        state: "home"
+      - condition: time
+        after: "16:00:00"
+        before: "23:00:00"
+    actions:
+      - action: homeassistant.turn_on
+        target:
+          entity_id: light.dining_room_chandelier
+
+  - alias: "Lights off when everybody leaves"
+    triggers:
+      - trigger: state
+        entity_id:
+          - person.barrie_levinson
+          - person.coert_vonk
+          - person.johan_vonk
+          - person.sander_vonk
+        to: "not_home"
+    actions:
+      - action: light.turn_off
+        target:
+          entity_id: all
