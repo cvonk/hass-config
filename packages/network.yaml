@@ -31,5 +31,5 @@ automation: # work around ping integration limitation
             #- binary_sensor.ping_printer
             - binary_sensor.ping_ap1
             - binary_sensor.ping_ap2
-            - binary_sensor.ping_iot_ap1
-            - binary_sensor.ping_iot_ap2
+            - binary_sensor.ping_ap1_iot
+            - binary_sensor.ping_ap2_iot

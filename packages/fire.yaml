@@ -1,3 +1,6 @@
+# reauthenticate Google Nest Smoke Detectors
+# https://github.com/iMicknl/ha-nest-protect/#retrieving-issue_token-and-cookies
+
 alarm_control_panel:
   - unique_id: fire_alarm
     name: "Fire alarm"

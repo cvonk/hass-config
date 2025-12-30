@@ -40,4 +40,4 @@ simple2.yaml
 www/network.psd
 www/tahoe_dark.jpg
 esphome/archive/
-service_account.json
+packages/service_account.json

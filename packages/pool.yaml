@@ -18,12 +18,13 @@ template:
   - sensor:
       - unique_id: opnpool_last_water_temperature
         name: "OPNpool last water temperature"
-        state: "{{ trigger.to_state.state | int }}"
+        icon: mdi:thermometer-water
+        state: "{{ states('sensor.opnpool_water_temp') | int }}"
         device_class: "temperature"
         unit_of_measurement: "°F"
-        icon: mdi:thermometer-water
-        attributes:
-          source_sensor: sensor.opnpool_water_temp
+        state_class: measurement
+        #attributes:
+        #  source_sensor: sensor.opnpool_water_temp
     trigger:
       - trigger: state
         entity_id: sensor.opnpool_water_temp
@@ -35,7 +36,7 @@ template:
       - unique_id: opnpool_last_air_temperature
         name: "OPNpool last air temperature"
         state: >-
-          {% set value = trigger.to_state.state %}
+          {% set value = states('sensor.opnpool_air_temp') %}
           {% if value | is_number %}
           {{    int(value) }}
           {% else %}
@@ -43,8 +44,9 @@ template:
           {% endif %}
         device_class: "temperature"
         unit_of_measurement: "°F"
-        attributes:
-          source_sensor: "sensor.opnpool_air_temp"
+        state_class: measurement
+        #attributes:
+        #  source_sensor: sensor.opnpool_air_temp
     trigger:
       - trigger: state
         entity_id: sensor.opnpool_air_temp
@@ -52,17 +54,8 @@ template:
           - "unknown"
           - "unavailable"
 
-climate:
-  - unique_id: opnpool_last_air_temperature
-    name: "OPNpool outside air"
-    platform: generic_thermostat
-    heater: input_boolean.fake_heater
-    target_sensor: sensor.opnpool_last_air_temperature
-    min_temp: 20
-    max_temp: 120
-
 input_boolean:
-  # you need to create the corresponding scripts for the logic using 'Toggle switch_entity, with support for spinner' blueprint
+  # requires corresponding scripts for the logic using 'Toggle switch_entity, with support for spinner' blueprint
   opnpool_pool_circuit_pending:
     name: OPNpool POOL circuit pending
     initial: false
@@ -80,3 +73,12 @@ input_boolean:
     name: fake_heater
     icon: mdi:toggle-switch-off
     initial: false
+
+climate:
+  - unique_id: opnpool_last_air_temperature
+    name: "OPNpool outside air"
+    platform: generic_thermostat
+    heater: input_boolean.fake_heater
+    target_sensor: sensor.opnpool_last_air_temperature
+    min_temp: 20
+    max_temp: 120

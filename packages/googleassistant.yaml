@@ -1,57 +1,51 @@
+# when reinstalling, remember to unlink/link the automation from the Google Home App (on phone)
+# https://community.home-assistant.io/t/how-to-configure-lets-encrypt-ssl-certificates-for-home-assistant-completely-100-free-updated-for-2022-2023/508329
 google_assistant:
-  entity_config:
-    # lights
+  project_id: !secret google_project_id
+  service_account: !include service_account.json
+  report_state: true # enable “OK Google, sync my devices”
+  expose_by_default: false
 
-    light.living_room_recessed_lights:
-      name: "Living room light"
-      room: "Living room"
-    switch.sonoff_standing_lamp:
-      name: "Standing lamp"
-      room: "Living room"
-      aliases:
-        - "Floor lamp"
-    switch.sonoff_reading_light:
-      name: "Reading light"
-      room: "Living room"
-    light.sonoff_christmas_tree:
+  exposed_domains:
+    - light
+    - switch
+
+  entity_config:
+    light.christmas_tree:
       name: "Christmas tree"
       room: "Living room"
-    light.dining_room_chandelier:
-      name: "Dining light"
-      room: "Dining room"
 
     # OPNpool
-
     switch.opnpool_pool_circuit:
-      name: Circuit
-      room: Pool
+      name: "Circuit"
+      room: "Pool"
     switch.opnpool_spa_circuit:
-      name: Circuit
-      room: Pool
+      name: "Circuit"
+      room: "Pool"
       aliases:
-        - Spa
+        - "Spa"
     switch.opnpool_aux1_circuit:
-      name: Pump
-      room: Pool
+      name: "Vacuum"
+      room: "Pool"
     switch.opnpool_aux2_circuit:
-      name: Light
-      room: Pool
+      name: "Light"
+      room: "Pool"
     climate.opnpool_pool_heater:
-      name: water
-      room: Pool
+      name: "water"
+      room: "Pool"
 
     # fire alarm
-
     script.disarm_fire_alarm:
       expose: true
       name: "Disarm Fire Alarm"
       room: "Home"
+      aliases:
+        - "Disarm Alarm"
 
     # climate
-
-    sensor.opnpool_last_outside_air_temperature:
-      name: temperature
-      room: Outside
+    sensor.opnpool_last_air_temperature:
+      name: "temperature"
+      room: "Outside"
     sensor.los_altos_country_club_aqi:
-      name: air quality
-      room: Outside
+      name: "air quality"
+      room: "Outside"

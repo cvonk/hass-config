@@ -1,20 +1,3 @@
-#homeassistant:
-#  customize:
-#    person.coert_vonk:
-#      entity_picture: /local/media/coert.png
-#    person.barrie_levinson:
-#      entity_picture: /local/media/barrie.png
-#    person.sander_vonk:
-#      entity_picture: /local/media/sander.png
-#    person.johan_vonk:
-#      entity_picture: /local/media/johan.png
-
-person:
-  - name: "Johan Vonk"
-    id: johan_vonk
-    device_trackers:
-      - device_tracker.rtr_johan_phone
-
 automation lights:
   - alias: "Light on in the evening if anybody is home between 16:00-23:00"
     triggers:
@@ -22,7 +5,11 @@ automation lights:
         event: sunset
         offset: "-01:00:00"
       - trigger: state
-        entity_id: all
+        entity_id:
+          - person.coert_vonk
+          - person.barrie_levinson
+          - person.sander_vonk
+          - person.johan_vonk
         to: "home"
     conditions:
       - condition: state
@@ -52,4 +39,4 @@ automation lights:
     actions:
       - action: light.turn_off
         target:
-          entity_id: all
+          entity_id: light.dining_room_chandelier

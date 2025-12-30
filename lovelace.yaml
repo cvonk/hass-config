@@ -4471,7 +4471,7 @@ views:
                   type: custom:button-card
                   template:
                     - person
-                  entity: person.coert
+                  entity: person.coert_vonk
                   variables:
                     retain: sensor.coert_last_changed
                   triggers_update:
@@ -4491,7 +4491,7 @@ views:
                               card_mod:
                                 class: content
                               entities:
-                                - entity: person.coert
+                                - entity: person.coert_vonk
                                   secondary_info: last-changed
 
                             - type: history-graph
@@ -4501,7 +4501,7 @@ views:
                                     padding: 0 2em 1em 1.6em !important;
                                   }
                               entities:
-                                - entity: person.coert
+                                - entity: person.coert_vonk
 
                             - type: glance
                               card_mod:
@@ -4526,6 +4526,15 @@ views:
                                   icon: mdi:cellphone
                                   card_mod:
                                     style: *state
+
+                                - entity: sensor.bermuda_coert_phone_area
+                                  name: "Area"
+                                  icon: mdi:sofa
+                                  card_mod:
+                                    style: |
+                                      state-badge {
+                                        color: {{ is_state(config.entity, 'Away') | iif('#3c3f3f', '#3182b7') }};
+                                      }
 
                             - name: "Play sound on phone"
                               type: custom:button-card
@@ -4591,7 +4600,7 @@ views:
                   type: custom:button-card
                   template:
                     - person
-                  entity: person.barrie
+                  entity: person.barrie_levinson
                   variables:
                     retain: sensor.barrie_last_changed
                   triggers_update:
@@ -4611,7 +4620,7 @@ views:
                               card_mod:
                                 class: content
                               entities:
-                                - entity: person.barrie
+                                - entity: person.barrie_levinson
                                   secondary_info: last-changed
 
                             - type: history-graph
@@ -4621,7 +4630,7 @@ views:
                                     padding: 0 2em 1em 1.6em !important;
                                   }
                               entities:
-                                - entity: person.barrie
+                                - entity: person.barrie_levinson
 
                             - type: glance
                               card_mod:
@@ -4664,7 +4673,7 @@ views:
                   type: custom:button-card
                   template:
                     - person
-                  entity: person.sander
+                  entity: person.sander_vonk
                   variables:
                     retain: sensor.sander_last_changed
                   triggers_update:
@@ -4684,7 +4693,7 @@ views:
                               card_mod:
                                 class: content
                               entities:
-                                - entity: person.sander
+                                - entity: person.sander_vonk
                                   secondary_info: last-changed
 
                             - type: history-graph
@@ -4694,7 +4703,7 @@ views:
                                     padding: 0 2em 1em 1.6em !important;
                                   }
                               entities:
-                                - entity: person.sander
+                                - entity: person.sander_vonk
 
                             - type: glance
                               card_mod:
@@ -4710,11 +4719,11 @@ views:
                                   card_mod:
                                     style: *state
 
-                                - entity: device_tracker.app_sander_phone
-                                  name: Position
-                                  icon: mdi:cellphone
-                                  card_mod:
-                                    style: *state
+                                #- entity: device_tracker.app_sander_phone
+                                #  name: Position
+                                #  icon: mdi:cellphone
+                                #  card_mod:
+                                #    style: *state
 
                             - name: "Play sound on phone"
                               type: custom:button-card
@@ -4737,7 +4746,7 @@ views:
                   type: custom:button-card
                   template:
                     - person
-                  entity: person.johan
+                  entity: person.johan_vonk
                   variables:
                     retain: sensor.johan_last_changed
                   triggers_update:
@@ -4757,7 +4766,7 @@ views:
                               card_mod:
                                 class: content
                               entities:
-                                - entity: person.johan
+                                - entity: person.johan_vonk
                                   secondary_info: last-changed
 
                             - type: history-graph
@@ -4783,11 +4792,20 @@ views:
                                   card_mod:
                                     style: *state
 
-                                - entity: device_tracker.app_johan_phone
-                                  name: Position
-                                  icon: mdi:cellphone
+                                #- entity: device_tracker.app_johan_phone
+                                #  name: Position
+                                #  icon: mdi:cellphone
+                                #  card_mod:
+                                #    style: *state
+
+                                - entity: sensor.bermuda_johan_phone_area
+                                  name: "Area"
+                                  icon: mdi:sofa
                                   card_mod:
-                                    style: *state
+                                    style: |
+                                      state-badge {
+                                        color: {{ is_state(config.entity, 'Away') | iif('#3c3f3f', '#3182b7') }};
+                                      }
 
                             - name: "Play sound on phone"
                               type: custom:button-card
@@ -4857,24 +4875,24 @@ views:
 
                 - name: "Breakfast"
                   type: custom:button-card
-                  entity: media_player.speaker_1
                   template: announcement
                   variables:
                     message: "Breakfast is served"
+                  entity: media_player.speaker_group
 
                 - name: "Lunch"
                   type: custom:button-card
-                  entity: media_player.speaker_1
                   template: announcement
                   variables:
                     message: "Lunch is served"
+                  entity: media_player.speaker_group
 
                 - name: "Dinner"
                   type: custom:button-card
-                  entity: media_player.speaker_1
                   template: announcement
                   variables:
                     message: "Dinner is served"
+                  entity: media_player.speaker_group
 
   #################################################
   #                                               #
@@ -6844,13 +6862,13 @@ views:
             type: custom:button-card
             template: connectivity
             icon: mdi:access-point
-            entity: binary_sensor.ping_iot_ap1
+            entity: binary_sensor.ping_ap1_iot
 
           - name: "IoT AP2" # ----------------------------------------------
             type: custom:button-card
             template: connectivity
             icon: mdi:access-point
-            entity: binary_sensor.ping_iot_ap2
+            entity: binary_sensor.ping_ap2_iot
 
           - heading: "Devices" # ---------------------------------------------
             type: heading

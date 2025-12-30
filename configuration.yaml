@@ -24,14 +24,6 @@ sensor:
       - time
       - date
 
-# when reinstalling, remember to unlink/link the automation from the Google Home App (on phone)
-# https://community.home-assistant.io/t/how-to-configure-lets-encrypt-ssl-certificates-for-home-assistant-completely-100-free-updated-for-2022-2023/508329
-google_assistant:
-  project_id: !secret google_project_id
-  service_account: !include service_account.json
-  report_state: true
-  expose_by_default: false
-
 http:
   server_port: 8123
   ssl_certificate: /ssl/fullchain.pem
